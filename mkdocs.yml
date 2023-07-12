@@ -29,6 +29,8 @@ theme:
 
 nav:
   - Home: index.md
+  - "Lessons Learnt 11/23":
+    - Overview: lessonslearnt-202311xx/index.md
      
 plugins:
   # show revision date at bottom of each page
