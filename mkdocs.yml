@@ -4,6 +4,7 @@ site_url: https://klust.github.io/LUMI-BE-training-materials
 theme:
   name: material
   greetings: Welcome to the LUMI-BE training materials"
+  #custom_dir: site_customisations_LUMI
   custom_dir: site_customisations
   language: en
   features:
@@ -17,11 +18,9 @@ theme:
   #favicon: assets/favicon-LUMI.png
   font: false
   palette:
-    scheme: default
-    primary: lumi
-    accent: lumi
+    scheme: lumi-be
   icon:
-    #logo: logo
+    logo: logo
     admonition:
       demo: fontawesome/solid/computer-mouse
       exercise: fontawesome/solid/screwdriver-wrench
@@ -30,8 +29,7 @@ theme:
 
 nav:
   - Home: index.md
-
-
+     
 plugins:
   # show revision date at bottom of each page
   # - git-revision-date-localized
