@@ -1,0 +1,82 @@
+site_name: "LUMI-BE training materials"
+site_url: https://klust.github.io/LUMI-BE-training-materials
+
+theme:
+  name: material
+  greetings: Welcome to the LUMI-BE training materials"
+  custom_dir: site_customisations
+  language: en
+  features:
+    - navigation.instant
+    - navigation.tracking
+    #- navigation.tabs
+    - navigation.top
+    - navigation.indexes
+    - header.autohide
+    - toc.follow
+  #favicon: assets/favicon-LUMI.png
+  font: false
+  palette:
+    scheme: default
+    primary: lumi
+    accent: lumi
+  icon:
+    #logo: logo
+    admonition:
+      demo: fontawesome/solid/computer-mouse
+      exercise: fontawesome/solid/screwdriver-wrench
+      remark: fontawesome/solid/comment-dots
+      solution: fontawesome/solid/wand-magic-sparkles
+
+nav:
+  - Home: index.md
+
+
+plugins:
+  # show revision date at bottom of each page
+  # - git-revision-date-localized
+  # necessary for search to work
+  - search
+  # redirects to avoid broken URLs in original version of the tutorial (June 2020)
+  #- redirects:
+  #    redirect_maps:
+  #        practical_information.md: 2020-06-isc20/practical_information.md
+
+markdown_extensions:
+  # Attributes (e.g., for lazy loading)
+  - attr_list
+  # Markdown in HTML
+  - md_in_html
+  # notes, warnings, hints, ...
+  - admonition
+  # code blocks with syntax highlighting, graphs
+  - pymdownx.superfences:
+        custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  # clickable details
+  - pymdownx.details
+  # tabbed contents
+  - pymdownx.tabbed
+  - toc:
+      permalink: true
+
+extra_css:
+  - stylesheets/extra.css
+ 
+#extra:
+  # add links in bottom right
+  #social:
+      #- type: github
+      #icon: octicons/logo-github
+      #link: https://github.com/easybuilders
+    #- icon: fontawesome/brands/youtube
+    #  link: https://www.youtube.com/channel/UCb31KOJ6Wqu0sRpIRi_k8Mw
+    #  name: LUMI on YouTube
+    #- icon: fontawesome/brands/linkedin
+    #  link: https://www.linkedin.com/company/lumi-supercomputer
+    #  name: LUMI on LinkedIn
+    #- icon: fontawesome/brands/twitter
+    #  link: https://twitter.com/LUMIhpc
+    #  name: LUMI on Twitter
