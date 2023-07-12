@@ -36,7 +36,6 @@ theme:
 
 nav:
   - Home: index.md
-  #- "LUMI Intro 10/23":
   - "LUMI Intro":
     - Overview: intro-202310xx/index.md
     #- Schedule: intro-202310xx/schedule.md
@@ -55,6 +54,8 @@ nav:
     - Support: intro-202310xx/12_Support
     - A1 Slurm issues: intro-202310xx/A01_Slurm_issues.md
     - A2 Documentation: intro-202310xx/A02_Documentation.md
+  - "Lessons Learnt XX/24":
+    - Overview: lessonslearnt-202311xx/index.md
      
 plugins:
   # show revision date at bottom of each page
