@@ -154,3 +154,18 @@
     -webkit-mask-image: var(--md-admonition-icon--solution);
             mask-image: var(--md-admonition-icon--solution);
 }
+/* admonition lumi-be */
+.md-typeset .admonition.lumi-be,
+.md-typeset details.lumi-be {
+    border-color: rgb(240, 220, 3);
+}
+.md-typeset .lumi-be > .admonition-title,
+.md-typeset .lumi-be > summary {
+    background-color: rgba(240, 220, 3, 0.1);
+}
+.md-typeset .lumi-be > .admonition-title::before,
+.md-typeset .lumi-be > summary::before {
+    background-color: rgb(240, 220, 3);
+    -webkit-mask-image: var(--md-admonition-icon--lumi-be);
+            mask-image: var(--md-admonition-icon--lumi-be);
+}
