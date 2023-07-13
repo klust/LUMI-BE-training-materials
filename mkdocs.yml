@@ -26,6 +26,7 @@ theme:
       exercise: fontawesome/solid/screwdriver-wrench
       remark: fontawesome/solid/comment-dots
       solution: fontawesome/solid/wand-magic-sparkles
+      lumi-be: fontawesome/solid/building-flag
 
 nav:
   - Home: index.md
