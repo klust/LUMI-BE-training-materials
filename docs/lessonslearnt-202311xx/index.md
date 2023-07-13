@@ -1,6 +1,8 @@
 # Lessons Learnt from the first two years of LUMI operation
 
 
+[Brainstorm](brainstorm.md)
+
 ## Course materials
 
 | Presentation | Slides | Notes |
