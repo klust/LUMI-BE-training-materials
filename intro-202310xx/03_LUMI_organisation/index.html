@@ -1,0 +1,744 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-202310xx/03_LUMI_organisation/">
+      
+      
+        <link rel="prev" href="../02_CPE/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.1">
+    
+    
+      
+        <title>Organisation - LUMI-BE training materials</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.402914a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+  
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+  
+  <style>:root{--md-admonition-icon--demo:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M0 192h176V0h-16C71.6 0 0 71.6 0 160v32zm0 32v128c0 88.4 71.6 160 160 160h64c88.4 0 160-71.6 160-160V224H0zm384-32v-32C384 71.6 312.4 0 224 0h-16v192h176z"/></svg>');--md-admonition-icon--exercise:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M78.6 5c-9.5-7.4-23-6.5-31.6 2L7 47c-8.5 8.5-9.4 22-2.1 31.6l80 104c4.5 5.9 11.6 9.4 19 9.4H158l109 109c-14.7 29-10 65.4 14.3 89.6l112 112c12.5 12.5 32.8 12.5 45.3 0l64-64c12.5-12.5 12.5-32.8 0-45.3l-112-112c-24.2-24.2-60.6-29-89.6-14.3L192 158v-54c0-7.5-3.5-14.5-9.4-19L78.6 5zM19.9 396.1C7.2 408.8 0 426.1 0 444.1 0 481.6 30.4 512 67.9 512c18 0 35.3-7.2 48-19.9l117.8-117.8c-7.8-20.9-9-43.6-3.6-65.1l-61.7-61.7L19.9 396.1zM512 144c0-10.5-1.1-20.7-3.2-30.5-2.4-11.2-16.1-14.1-24.2-6l-63.9 63.9c-3 3-7.1 4.7-11.3 4.7H352c-8.8 0-16-7.2-16-16v-57.5c0-4.2 1.7-8.3 4.7-11.3l63.9-63.9c8.1-8.1 5.2-21.8-6-24.2C388.7 1.1 378.5 0 368 0c-79.5 0-144 64.5-144 144v.8l85.3 85.3c36-9.1 75.8.5 104 28.7l15.7 15.7c49-23 83-72.8 83-130.5zM56 432a24 24 0 1 1 48 0 24 24 0 1 1-48 0z"/></svg>');--md-admonition-icon--remark:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M256 448c141.4 0 256-93.1 256-208S397.4 32 256 32 0 125.1 0 240c0 45.1 17.7 86.8 47.7 120.9-1.9 24.5-11.4 46.3-21.4 62.9-5.5 9.2-11.1 16.6-15.2 21.6-2.1 2.5-3.7 4.4-4.9 5.7-.6.6-1 1.1-1.3 1.4l-.3.3c-4.6 4.6-5.9 11.4-3.4 17.4 2.5 6 8.3 9.9 14.8 9.9 28.7 0 57.6-8.9 81.6-19.3 22.9-10 42.4-21.9 54.3-30.6 31.8 11.5 67 17.9 104.1 17.9zM128 208a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm128 0a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm96 32a32 32 0 1 1 64 0 32 32 0 1 1-64 0z"/></svg>');--md-admonition-icon--solution:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M234.7 42.7 197 56.8c-3 1.1-5 4-5 7.2s2 6.1 5 7.2l37.7 14.1 14.1 37.7c1.1 3 4 5 7.2 5s6.1-2 7.2-5l14.1-37.7L315 71.2c3-1.1 5-4 5-7.2s-2-6.1-5-7.2l-37.7-14.1L263.2 5c-1.1-3-4-5-7.2-5s-6.1 2-7.2 5l-14.1 37.7zM46.1 395.4c-18.7 18.7-18.7 49.1 0 67.9l34.6 34.6c18.7 18.7 49.1 18.7 67.9 0l381.3-381.4c18.7-18.7 18.7-49.1 0-67.9l-34.6-34.5c-18.7-18.7-49.1-18.7-67.9 0L46.1 395.4zM484.6 82.6l-105 105-23.3-23.3 105-105 23.3 23.3zM7.5 117.2C3 118.9 0 123.2 0 128s3 9.1 7.5 10.8L64 160l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L128 160l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L128 96l-21.2-56.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1 3-10.8 7.5L64 96 7.5 117.2zm352 256c-4.5 1.7-7.5 6-7.5 10.8s3 9.1 7.5 10.8L416 416l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L480 416l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L480 352l-21.2-56.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1 3-10.8 7.5L416 352l-56.5 21.2z"/></svg>');--md-admonition-icon--technical:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M160 96a96 96 0 1 1 192 0 96 96 0 1 1-192 0zm80 152v264l-48.4-24.2c-20.9-10.4-43.5-17-66.8-19.3l-96-9.6C12.5 457.2 0 443.5 0 427V224c0-17.7 14.3-32 32-32h30.3c63.6 0 125.6 19.6 177.7 56zm32 264V248c52.1-36.4 114.1-56 177.7-56H480c17.7 0 32 14.3 32 32v203c0 16.4-12.5 30.2-28.8 31.8l-96 9.6c-23.2 2.3-45.9 8.9-66.8 19.3L272 512z"/></svg>');--md-admonition-icon--lumi-be:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M48 0C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h96v-80c0-26.5 21.5-48 48-48s48 21.5 48 48v80h96c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48H48zm16 240c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16v-32zm112-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16h-32c-8.8 0-16-7.2-16-16v-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16h-32c-8.8 0-16-7.2-16-16v-32zM80 96h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16v-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16h-32c-8.8 0-16-7.2-16-16v-32zm112-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16h-32c-8.8 0-16-7.2-16-16v-32c0-8.8 7.2-16 16-16zM448 0c-17.7 0-32 14.3-32 32v480h64V192h144c8.8 0 16-7.2 16-16V48c0-8.8-7.2-16-16-16H480c0-17.7-14.3-32-32-32z"/></svg>');}</style>
+
+
+    
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="lumi-be" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lumi-organisation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="LUMI-BE training materials" class="md-header__button md-logo" aria-label="LUMI-BE training materials" data-md-component="logo">
+      
+  
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="800"
+   height="220"
+   viewBox="0 0 211.66666 58.208333"
+   version="1.1"
+   id="svg1706"
+   inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
+   sodipodi:docname="logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1708"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.914906"
+     inkscape:cx="372.16938"
+     inkscape:cy="24.046186"
+     inkscape:window-width="2400"
+     inkscape:window-height="988"
+     inkscape:window-x="767"
+     inkscape:window-y="174"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1703" />
+  <g
+     inkscape:label="Laag 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       aria-label="LUMI-BE"
+       id="text4785"
+       style="font-size:50.8px;line-height:1.25;-inkscape-font-specification:'sans-serif, Normal';fill:#f2f2f2;stroke-width:0.264583">
+      <path
+         d="M 23.366015,48.011253 H -7.4505806e-8 V 11.077074 H 4.911328 v 32.568554 h 18.454687 z"
+         id="path6569" />
+      <path
+         d="m 56.083398,33.17805 q 0,4.01836 -0.892969,7.019727 -0.868164,2.976562 -2.877343,4.960937 -1.909961,1.885157 -4.464844,2.753321 -2.554883,0.868164 -5.953125,0.868164 -3.472656,0 -6.052344,-0.917774 -2.579687,-0.917773 -4.34082,-2.703711 -2.00918,-2.033984 -2.902148,-4.911328 -0.868164,-2.877343 -0.868164,-7.069336 V 11.077074 h 4.911328 v 22.349023 q 0,3.001367 0.396875,4.737696 0.421679,1.736328 1.389062,3.150195 1.091406,1.612304 2.951758,2.430859 1.885156,0.818555 4.514453,0.818555 2.654101,0 4.514453,-0.79375 1.860352,-0.818555 2.976562,-2.455664 0.967383,-1.413867 1.364258,-3.224609 0.42168,-1.835547 0.42168,-4.539258 V 11.077074 h 4.911328 z"
+         id="path6571" />
+      <path
+         d="M 98.350579,48.011253 H 93.439251 V 16.18684 L 83.170111,37.841332 H 80.243158 L 70.048431,16.18684 V 48.011253 H 65.459564 V 11.077074 h 6.697266 l 9.84746,20.563086 9.525,-20.563086 h 6.821289 z"
+         id="path6573" />
+      <path
+         d="m 121.29492,48.011253 h -14.58515 v -3.770312 h 4.83691 V 14.847387 h -4.83691 v -3.770313 h 14.58515 v 3.770313 h -4.83691 v 29.393554 h 4.83691 z"
+         id="path6575" />
+      <path
+         d="m 143.22226,34.095824 h -15.47812 v -4.489648 h 15.47812 z"
+         id="path6577" />
+      <path
+         d="m 179.83398,36.650707 q 0,2.75332 -1.0418,4.861718 -1.04179,2.108399 -2.80293,3.472657 -2.08359,1.637109 -4.58886,2.33164 -2.48047,0.694531 -6.3252,0.694531 H 151.97832 V 11.077074 h 10.93886 q 4.04317,0 6.05235,0.297656 2.00918,0.297657 3.84472,1.240235 2.03399,1.066601 2.95176,2.75332 0.91778,1.661914 0.91778,3.993555 0,2.629297 -1.33946,4.489648 -1.33945,1.835547 -3.57187,2.951758 v 0.198437 q 3.74551,0.768946 5.90351,3.299024 2.15801,2.505273 2.15801,6.35 z m -8.25996,-16.643945 q 0,-1.339454 -0.44648,-2.257227 -0.44649,-0.917773 -1.43868,-1.488281 -1.16582,-0.669727 -2.82773,-0.818555 -1.66191,-0.173633 -4.11758,-0.173633 h -5.8539 v 10.666016 h 6.35 q 2.30683,0 3.67109,-0.223242 1.36426,-0.248047 2.53008,-0.992188 1.16582,-0.74414 1.63711,-1.909961 0.49609,-1.190625 0.49609,-2.802929 z m 3.1502,16.842382 q 0,-2.232422 -0.66973,-3.54707 -0.66973,-1.314649 -2.43086,-2.232422 -1.19063,-0.620117 -2.90215,-0.79375 -1.68672,-0.198437 -4.11758,-0.198437 h -7.71425 v 13.741796 h 6.49882 q 3.22461,0 5.2834,-0.322461 2.05879,-0.347265 3.37344,-1.240234 1.38906,-0.967383 2.03398,-2.207617 0.64493,-1.240235 0.64493,-3.199805 z"
+         id="path6579" />
+      <path
+         d="m 211.13749,48.011253 h -24.3334 V 11.077074 h 24.3334 v 4.365625 h -19.42207 v 10.120313 h 19.42207 v 4.365624 h -19.42207 v 13.716992 h 19.42207 z"
+         id="path6581" />
+    </g>
+    <rect
+       style="fill:#f2f2f2;stroke:none;stroke-width:0.988271;fill-opacity:1"
+       id="rect4936"
+       width="211.66667"
+       height="3.175"
+       x="0"
+       y="0" />
+    <rect
+       style="fill:#f2f2f2;stroke:none;stroke-width:0.988271;fill-opacity:1"
+       id="rect4936-7"
+       width="211.66667"
+       height="3.175"
+       x="-8.3049135e-06"
+       y="55.033333" />
+  </g>
+</svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LUMI-BE training materials
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Organisation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="LUMI-BE training materials" class="md-nav__button md-logo" aria-label="LUMI-BE training materials" data-md-component="logo">
+      
+  
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="800"
+   height="220"
+   viewBox="0 0 211.66666 58.208333"
+   version="1.1"
+   id="svg1706"
+   inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
+   sodipodi:docname="logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1708"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.914906"
+     inkscape:cx="372.16938"
+     inkscape:cy="24.046186"
+     inkscape:window-width="2400"
+     inkscape:window-height="988"
+     inkscape:window-x="767"
+     inkscape:window-y="174"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1703" />
+  <g
+     inkscape:label="Laag 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       aria-label="LUMI-BE"
+       id="text4785"
+       style="font-size:50.8px;line-height:1.25;-inkscape-font-specification:'sans-serif, Normal';fill:#f2f2f2;stroke-width:0.264583">
+      <path
+         d="M 23.366015,48.011253 H -7.4505806e-8 V 11.077074 H 4.911328 v 32.568554 h 18.454687 z"
+         id="path6569" />
+      <path
+         d="m 56.083398,33.17805 q 0,4.01836 -0.892969,7.019727 -0.868164,2.976562 -2.877343,4.960937 -1.909961,1.885157 -4.464844,2.753321 -2.554883,0.868164 -5.953125,0.868164 -3.472656,0 -6.052344,-0.917774 -2.579687,-0.917773 -4.34082,-2.703711 -2.00918,-2.033984 -2.902148,-4.911328 -0.868164,-2.877343 -0.868164,-7.069336 V 11.077074 h 4.911328 v 22.349023 q 0,3.001367 0.396875,4.737696 0.421679,1.736328 1.389062,3.150195 1.091406,1.612304 2.951758,2.430859 1.885156,0.818555 4.514453,0.818555 2.654101,0 4.514453,-0.79375 1.860352,-0.818555 2.976562,-2.455664 0.967383,-1.413867 1.364258,-3.224609 0.42168,-1.835547 0.42168,-4.539258 V 11.077074 h 4.911328 z"
+         id="path6571" />
+      <path
+         d="M 98.350579,48.011253 H 93.439251 V 16.18684 L 83.170111,37.841332 H 80.243158 L 70.048431,16.18684 V 48.011253 H 65.459564 V 11.077074 h 6.697266 l 9.84746,20.563086 9.525,-20.563086 h 6.821289 z"
+         id="path6573" />
+      <path
+         d="m 121.29492,48.011253 h -14.58515 v -3.770312 h 4.83691 V 14.847387 h -4.83691 v -3.770313 h 14.58515 v 3.770313 h -4.83691 v 29.393554 h 4.83691 z"
+         id="path6575" />
+      <path
+         d="m 143.22226,34.095824 h -15.47812 v -4.489648 h 15.47812 z"
+         id="path6577" />
+      <path
+         d="m 179.83398,36.650707 q 0,2.75332 -1.0418,4.861718 -1.04179,2.108399 -2.80293,3.472657 -2.08359,1.637109 -4.58886,2.33164 -2.48047,0.694531 -6.3252,0.694531 H 151.97832 V 11.077074 h 10.93886 q 4.04317,0 6.05235,0.297656 2.00918,0.297657 3.84472,1.240235 2.03399,1.066601 2.95176,2.75332 0.91778,1.661914 0.91778,3.993555 0,2.629297 -1.33946,4.489648 -1.33945,1.835547 -3.57187,2.951758 v 0.198437 q 3.74551,0.768946 5.90351,3.299024 2.15801,2.505273 2.15801,6.35 z m -8.25996,-16.643945 q 0,-1.339454 -0.44648,-2.257227 -0.44649,-0.917773 -1.43868,-1.488281 -1.16582,-0.669727 -2.82773,-0.818555 -1.66191,-0.173633 -4.11758,-0.173633 h -5.8539 v 10.666016 h 6.35 q 2.30683,0 3.67109,-0.223242 1.36426,-0.248047 2.53008,-0.992188 1.16582,-0.74414 1.63711,-1.909961 0.49609,-1.190625 0.49609,-2.802929 z m 3.1502,16.842382 q 0,-2.232422 -0.66973,-3.54707 -0.66973,-1.314649 -2.43086,-2.232422 -1.19063,-0.620117 -2.90215,-0.79375 -1.68672,-0.198437 -4.11758,-0.198437 h -7.71425 v 13.741796 h 6.49882 q 3.22461,0 5.2834,-0.322461 2.05879,-0.347265 3.37344,-1.240234 1.38906,-0.967383 2.03398,-2.207617 0.64493,-1.240235 0.64493,-3.199805 z"
+         id="path6579" />
+      <path
+         d="m 211.13749,48.011253 h -24.3334 V 11.077074 h 24.3334 v 4.365625 h -19.42207 v 10.120313 h 19.42207 v 4.365624 h -19.42207 v 13.716992 h 19.42207 z"
+         id="path6581" />
+    </g>
+    <rect
+       style="fill:#f2f2f2;stroke:none;stroke-width:0.988271;fill-opacity:1"
+       id="rect4936"
+       width="211.66667"
+       height="3.175"
+       x="0"
+       y="0" />
+    <rect
+       style="fill:#f2f2f2;stroke:none;stroke-width:0.988271;fill-opacity:1"
+       id="rect4936-7"
+       width="211.66667"
+       height="3.175"
+       x="-8.3049135e-06"
+       y="55.033333" />
+  </g>
+</svg>
+
+    </a>
+    LUMI-BE training materials
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../">LUMI Intro 10/23</a>
+          
+            <label for="__nav_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          LUMI Intro 10/23
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedule/" class="md-nav__link">
+        Schedule
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_Architecture/" class="md-nav__link">
+        Architecture
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_CPE/" class="md-nav__link">
+        Programming Environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Organisation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Organisation
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#who-pays-the-bills" class="md-nav__link">
+    Who pays the bills?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#users-and-projects" class="md-nav__link">
+    Users and projects
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-management" class="md-nav__link">
+    Project management
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-spaces" class="md-nav__link">
+    File spaces
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access" class="md-nav__link">
+    Access
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-transfer" class="md-nav__link">
+    Data transfer
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#who-pays-the-bills" class="md-nav__link">
+    Who pays the bills?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#users-and-projects" class="md-nav__link">
+    Users and projects
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-management" class="md-nav__link">
+    Project management
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-spaces" class="md-nav__link">
+    File spaces
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access" class="md-nav__link">
+    Access
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-transfer" class="md-nav__link">
+    Data transfer
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="lumi-organisation">LUMI organisation<a class="headerlink" href="#lumi-organisation" title="Permanent link">&para;</a></h1>
+<h2 id="who-pays-the-bills">Who pays the bills?<a class="headerlink" href="#who-pays-the-bills" title="Permanent link">&para;</a></h2>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide Who pays the bills" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-organisation/WhoPays.png" /></p>
+</figure>
+<h2 id="users-and-projects">Users and projects<a class="headerlink" href="#users-and-projects" title="Permanent link">&para;</a></h2>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide Projects and users 1" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-organisation/ProjectsUsers_1.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide Projects and users 2" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-organisation/ProjectsUers_2.png" /></p>
+</figure>
+<h2 id="project-management">Project management<a class="headerlink" href="#project-management" title="Permanent link">&para;</a></h2>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide Project Management" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-organisation/ProjectManagement.png" /></p>
+</figure>
+<p>Tell something about Puhuri.</p>
+<h2 id="file-spaces">File spaces<a class="headerlink" href="#file-spaces" title="Permanent link">&para;</a></h2>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide File spaces 1" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-organisation/FileSpaces_1.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide File spaces 1" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-organisation/FileSpaces_2.png" /></p>
+</figure>
+<h2 id="access">Access<a class="headerlink" href="#access" title="Permanent link">&para;</a></h2>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide Access" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-organisation/Access.png" /></p>
+</figure>
+<h2 id="data-transfer">Data transfer<a class="headerlink" href="#data-transfer" title="Permanent link">&para;</a></h2>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide Access" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-organisation/DataTransfer.png" /></p>
+</figure>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        
+
+<footer class="md-footer">
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+          <img alt="Creative Commons License" 
+              style="border-width:0" 
+              src="https://i.creativecommons.org/l/by/4.0/80x15.png"
+          />
+        </a>
+        This work is licensed under a&nbsp;
+        <a rel="license" 
+          href="http://creativecommons.org/licenses/by/4.0/"
+        >
+          Creative Commons Attribution 4.0 International License
+        </a>
+      </div>      
+      <div class="md-social">
+  
+</div>
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "navigation.indexes", "header.autohide", "toc.follow"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.b78d2936.min.js"></script>
+      
+    
+  </body>
+</html>
