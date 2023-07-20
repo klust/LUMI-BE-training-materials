@@ -154,6 +154,21 @@
     -webkit-mask-image: var(--md-admonition-icon--solution);
             mask-image: var(--md-admonition-icon--solution);
 }
+/* admonition technical */
+.md-typeset .admonition.technical,
+.md-typeset details.technical {
+    border-color: rgb(255, 32, 32);
+}
+.md-typeset .technical > .admonition-title,
+.md-typeset .technical > summary {
+    background-color: rgba(255, 32, 32, 0.1);
+}
+.md-typeset .technical > .admonition-title::before,
+.md-typeset .technical > summary::before {
+    background-color: rgb(255, 32, 32);
+    -webkit-mask-image: var(--md-admonition-icon--technical);
+            mask-image: var(--md-admonition-icon--technical);
+}
 /* admonition lumi-be */
 .md-typeset .admonition.lumi-be,
 .md-typeset details.lumi-be {
