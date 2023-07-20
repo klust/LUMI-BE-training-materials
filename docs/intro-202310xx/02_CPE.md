@@ -1,8 +1,9 @@
 # The HPE Cray Programming Environment
 
-Every user needs to know the basics about the programming environment as after all
-most software is installed through the programming environment, and to some extent
-it also determines how programs should be run.
+In this session we discuss some of the basics of the operating system and
+programming environment on LUMI. Whether you like it or not, every user
+of a supercomputer like LUMI gets confronted with these elements at some
+point.
 
 ## Why do I need to know this?
 
@@ -32,6 +33,21 @@ Even when installing software from prebuild binaries some modules might still be
 as you may want to inject an optimised MPI library as we shall see in the container section
 of this course.
 
+!!! lumi-be "Clusters in Belgium"
+
+    There are differences in the setup of the operating system on LUMI compared
+    to the VSC, CÉCI and Cenearo clusters in Belgium.
+
+    Lucia, the Cenaero cluster and Walloon tier-1 system, has a programming
+    environment which is similar to LUMI. But all other Belgian systems have 
+    a programming environment that is more inspired on the GNU and other 
+    Open Source software approach. (I don't want to say "a more traditional" 
+    programming environment as in fact the HPE Cray PE goes back in its approach
+    to the environment on UNIX workstations and supercomputers in the '90s, so is
+    in fact the more traditional one. It's just that we have forgotten those 
+    traditions...)
+
+
 
 ## The operating system on LUMI
 
@@ -55,6 +71,20 @@ Large HPC clusters also have a small system image, so don't expect all the bells
 from a Linux workstation to be present on a large supercomputer.
 Since LUMI compute nodes are diskless, the system image actually occupies RAM which is another
 reason to keep it small.
+
+??? technical "Some missing pieces"
+
+    Compute nodes don't run a per-user dbus daemon, so some if not all DBUS functionality
+    is missing. And D-Bus may sometimes show up in places where you don't expect it...
+    It may come from freedesktop.org but is is not only used for desktop software.
+
+    Compute nodes on a Cray system have Lustre as the main file system. They do not import
+    any networked file system like NFS, GPFS or CernVM-FS (the latter used by, e.g., Cern for 
+    distributing software for the Large Haedron Collider and the
+    [EESSI](https://www.eessi-hpc.org/eessi-architecture/) project). Instead these file
+    systems are mounted on external servers in the admin section of the cluster and
+    the Cray Data Virtualisation Service (DVS) is then used to access those file systems
+    from the compute nodes over the high-speed interconnect.
 
 
 ## Programming models
@@ -112,7 +142,7 @@ Long ago, Cray designed its own processors and hence had to develop their own
 compilers. They kept doing so, also when they moved to using more standard components,
 and had a lot of expertise in that field, especially when it comes to the needs of 
 scientific codes, programming models that are almost only used in scientific computing
-or stem from such projects, and as they develop their own interconnects, it does make sense
+or stem from such projects. As they develop their own interconnects, it does make sense
 to also develop an MPI implementation that can use the interconnect in an optimal way.
 They also have a long tradition in developing performance measurement and analysis tools 
 and debugging tools that work in the context of HPC.
@@ -150,6 +180,16 @@ ROCm stack are also available on the system while some others can be user-instal
 Furthermore there are some third party tools available on LUMI,
 including [Linaro Forge](https://www.linaroforge.com/) (previously ARM Forge) and
 [Vampir](https://vampir.eu/) and some open source profiling tools.
+
+Specifically **not** on LUMI are the Intel and NVIDIA programming environments, nor is the
+regular Intel oneAPI HPC Toolkit. The classic Intel compilers pose problems on AMD CPUs
+as `-xHost` cannot be relied on, but it appears that the new compilers that are based on
+Clang and an LLVM backend behave better. Various MKL versions are also troublesome, with
+different workarounds for different versions, though here also it seems that Intel now has 
+code that works well on AMD for many MKL routines. We have experienced problems with Intel 
+MPI when testing it on LUMI though in principle it should be possible to use Cray MPICH as
+they are derived from the same version of MPICH. The NVIDIA programming environment doesn't make sense on an AMD GPU system, but it could have been usefull for some visualisation software on the 
+visualisation nodes.
 
 We will now discuss some of these components in a little bit more detail, but refer
 to the 4-day trainings that we organise three times a year with HPE for more material.
@@ -193,7 +233,8 @@ Information is available via
 man intro_openacc
 ```
 AMD and HPE Cray still recommend moving to OpenMP which is a much broader supported standard.
-There are no plans to also support OpenACC in the C/C++ compiler.
+There are no plans to also support OpenACC in the Cray C/C++ compiler, nor are there any 
+plans for support by AMD in the ROCm stack.
 
 The CCE compilers also offer support for some PGAS (Partitioned Global Address Space) languages.
 UPC 1.2 is supported, as is Fortran 2008 coarray support. These implementations do not require a
@@ -230,8 +271,8 @@ of a double precision result with nearly a factor of two for those problems that
 iterative refinement. If you are familiar with numerical analysis, you probably know that the matrix should
 not be too ill-conditioned for that.
 
-There is also a GPU-optimized version of LibSci, called LibSCi_ACC, which contains a subset of the
-routines of LibSci. We don't have much experience in the support team with this library though.
+There is also a GPU-optimized version of LibSci, called LibSci_ACC, which contains a subset of the
+routines of LibSci. We or the LUMI USer Support Team don't have much experience with this library though.
 It can be compared with what Intel is doing with oneAPI MKL which also offers GPU versions of some of
 the traditional MKL routines.
 
@@ -242,6 +283,10 @@ optimized versions for all CPU architectures supported by recent HPE Cray machin
 Finally, the scientific and math libraries also contain HDF5 and netCDF libraries
 in sequential and parallel versions.
 
+Cray used to offer more pre-installed third party libraries for which the only added value
+was that they compiled the binaries. Instead they now offer
+[build scripts in a GitHub repository](https://github.com/Cray/pe-scripts).
+
 
 ## Cray MPI
 
@@ -250,7 +295,7 @@ in sequential and parallel versions.
 </figure>
 
 HPE Cray build their own MPI library with optimisations for their own interconnects.
-The Cray MPI library is derived from the ANL MPICH 3.4 code base and fully support the 
+The Cray MPI library is derived from the ANL MPICH 3.4 code base and fully supports the 
 ABI (Application Binary Interface) of that application which implies that in principle
 it should be possible to swap the MPI library of applications build with that ABI with
 the Cray MPICH library. Or in other words, if you can only get a binary distribution of
@@ -325,6 +370,16 @@ The advantage of a hierarchical module system is that one can support multiple c
 while all configurations can have the same name and version. This is not fully exploited on LUMI, but it 
 is used a lot in the HPE Cray PE. E.g., the MPI libraries for the various compilers on the system all have
 the same name and version yet make different binaries available depending on the compiler that is being used.
+
+!!! lumi-be "Different configurations on some Belgian clusters"
+    Depending on the configuration Lmod can behave rather differently on different
+    systems. Some clusters in Belgium have Lmod configured to mimic the original
+    Tcl module system better rather than exposing the full power of Lmod.
+
+    E.g., on LUMI, `module swap` isn't really needed as the auto-swap feature of Lmod is 
+    enabled. Automatically unloading a module if another module with the same name is 
+    loaded, is also enabled. Both features make with a hierarchical scheme much more powerful
+    and using the HPE Cray PE with these features disabled would be very difficult.
 
 
 ## Compiler wrappers
@@ -638,6 +693,14 @@ the `CRAY_ADD_RPATH`environment variable:
 ```
 export CRAY_ADD_RPATH=yes
 ```
+
+However, there is also a good side to the standard Cray PE behaviour. Updates of the underlying
+operating system or network software stack may break older versions of the MPI library. By letting
+the applications use the default libraries and updating the defaults to a newer version, most
+applications will still run while they would fail if any of the two tricks to force the use
+of the intended library version are used. This has actually happened after a big LUMI update in
+March 2023, when all software that used rpath-linking had to be rebuild as the MPICH library
+that was present before the update did not longer work.
 
 
 ## Warning 2: Order matters
