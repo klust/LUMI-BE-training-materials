@@ -49,3 +49,20 @@ THIS TEXT ALREADY ASSUMES A TRAINING PROJECT WHICH DOES NOT YET EXIST.
 | Introduction to Lustre and Best Practices | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-08-Lustre-intro.pdf) | / | / |
 | LUMI User Support | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-09-Lumi-support.pdf) | / | / |
 
+
+## Web links
+
+-   LUMI documentation
+
+    -   [Main documentation](https://docs.lumi-supercomputer.eu/)
+
+    -   [Shortcut to the LUMI Software Library](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/)
+
+-   Clusters in Belgium
+
+    -   [VSC documentation](https://docs.vscentrum.be/en/latest/)
+
+    -   [CÉCI documentation](https://support.ceci-hpc.be/doc/index.html)
+
+    -   [Lucia@Cenaero documentation](https://doc.lucia.cenaero.be/)
+
