@@ -26,6 +26,7 @@ theme:
       exercise: fontawesome/solid/screwdriver-wrench
       remark: fontawesome/solid/comment-dots
       solution: fontawesome/solid/wand-magic-sparkles
+      technical: fontawesome/solid/book-open-reader
       lumi-be: fontawesome/solid/building-flag
 
 nav:
@@ -33,6 +34,8 @@ nav:
   - "LUMI Intro 10/23":
     - Overview: intro-202310xx/index.md
     - Schedule: intro-202310xx/schedule.md
+    - Architecture: intro-202310xx/01_Architecture.md
+    - Programming Environment: intro-202310xx/02_CPE.md
      
 plugins:
   # show revision date at bottom of each page
