@@ -41,8 +41,9 @@ THIS TEXT ALREADY ASSUMES A TRAINING PROJECT WHICH DOES NOT YET EXIST.
 | Introduction | / | / | / |
 | LUMI Architecture | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-01-architecture.pdf) | [notes](01_Architecture.md) | / |
 | HPE Cray Programming Environment | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-02-CPE.pdf) | [notes](02_CPE.md) | / |
-| Modules on LUMI | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-03-modules.pdf) | [notes](03_Modules.md) | / |
-| LUMI Software Stacks | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-04-software.pdf) | [notes](04_Software_stacks.md) | / |
+| LUMI Organisation | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-03-organisation.pdf) | [notes](03_LUMI_organisation.md) | / |
+| Modules on LUMI | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-04-modules.pdf) | [notes](04_Modules.md) | / |
+| LUMI Software Stacks | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-05-software.pdf) | [notes](05_Software_stacks.md) | / |
 | Exercises 1 | / | [notes](05_Exercises_1.md) | / |
 | Running Jobs on LUMI | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-06-running_jobs.pdf) | / | / |
 | Exercises 2 | / | [notes](07_Exercises_2.md) | / |

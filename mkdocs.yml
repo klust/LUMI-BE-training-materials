@@ -36,6 +36,7 @@ nav:
     - Schedule: intro-202310xx/schedule.md
     - Architecture: intro-202310xx/01_Architecture.md
     - Programming Environment: intro-202310xx/02_CPE.md
+    - Organisation: intro-202310xx/03_LUMI_organisation.md
      
 plugins:
   # show revision date at bottom of each page
