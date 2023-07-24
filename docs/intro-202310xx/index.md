@@ -25,11 +25,11 @@ THIS TEXT ALREADY ASSUMES A TRAINING PROJECT WHICH DOES NOT YET EXIST.
 -   Now download the exercises and un-tar:
 
     ```
-    wget https://465000095.lumidata.eu/1day-20230509/files/exercises-202310xx.tar.gz
+    wget https://465000095.lumidata.eu/intro-202310xx/files/exercises-202310xx.tar.gz
     tar -xf exercises-20230509.tar.gz
     ```
 
-    [Link to the tar-file with the exercises](https://465000095.lumidata.eu/1day-20230509/files/exercises-20230509.tar.gz)
+    [Link to the tar-file with the exercises](https://465000095.lumidata.eu/intro-202310xx/files/exercises-20230509.tar.gz)
 
 -   You're all set to go!
 
@@ -39,16 +39,16 @@ THIS TEXT ALREADY ASSUMES A TRAINING PROJECT WHICH DOES NOT YET EXIST.
 | Presentation | Slides | Notes | recording |
 |:-------------|:-------|:------|:----------|
 | Introduction | / | / | / |
-| LUMI Architecture | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-01-architecture.pdf) | [notes](01_Architecture.md) | / |
-| HPE Cray Programming Environment | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-02-CPE.pdf) | [notes](02_CPE.md) | / |
-| Getting access to LUMI | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-03-access.pdf) | [notes](03_LUMI_access.md) | / |
-| Modules on LUMI | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-04-modules.pdf) | [notes](04_Modules.md) | / |
-| LUMI Software Stacks | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-05-software.pdf) | [notes](05_Software_stacks.md) | / |
+| LUMI Architecture | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-01-architecture.pdf) | [notes](01_Architecture.md) | / |
+| HPE Cray Programming Environment | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-02-CPE.pdf) | [notes](02_CPE.md) | / |
+| Getting access to LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-03-access.pdf) | [notes](03_LUMI_access.md) | / |
+| Modules on LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-04-modules.pdf) | [notes](04_Modules.md) | / |
+| LUMI Software Stacks | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-05-software.pdf) | [notes](05_Software_stacks.md) | / |
 | Exercises 1 | / | [notes](05_Exercises_1.md) | / |
-| Running Jobs on LUMI | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-06-running_jobs.pdf) | / | / |
+| Running Jobs on LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-06-running_jobs.pdf) | / | / |
 | Exercises 2 | / | [notes](07_Exercises_2.md) | / |
-| Introduction to Lustre and Best Practices | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-08-Lustre-intro.pdf) | / | / |
-| LUMI User Support | [slides](https://465000095.lumidata.eu/1day-20230509/files/LUMI-1day-20230509-09-Lumi-support.pdf) | / | / |
+| Introduction to Lustre and Best Practices | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-08-Lustre-intro.pdf) | / | / |
+| LUMI User Support | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-09-Lumi-support.pdf) | / | / |
 
 
 ## Web links
