@@ -1,4 +1,4 @@
-# LUMI organisation
+# Getting Access to LUMI
 
 ## Who pays the bills?
 
