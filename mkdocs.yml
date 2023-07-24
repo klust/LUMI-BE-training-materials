@@ -38,6 +38,7 @@ nav:
     - Programming Environment: intro-202310xx/02_CPE.md
     - Getting access: intro-202310xx/03_LUMI_access.md
     - Modules: intro-202310xx/04_Modules.md
+    - Software stacks: intro-202310xx/05_Software_stacks.md
      
 plugins:
   # show revision date at bottom of each page

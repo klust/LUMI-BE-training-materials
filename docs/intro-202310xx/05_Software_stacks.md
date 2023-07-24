@@ -10,7 +10,7 @@ In this section we discuss
 ### Design considerations
 
 <figure markdown style="border: 1px solid #000">
-  ![Software stack design considerations](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/SoftwareStacksDesignConsiderations.png){ loading=lazy }
+  ![Software stack design considerations](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksDesignConsiderations.png){ loading=lazy }
 </figure>
 
 -   LUMI is a **very leading edge** and also an **inhomogeneous machine**. Leading edge often implies
@@ -20,7 +20,7 @@ In this section we discuss
         and that interconnect has a different software stack of your typical Mellanox InfiniBand cluster. 
     2.  It also uses a **relatively new GPU architecture**, AMD CDNA2, with an immature software ecosystem. 
         The GPU nodes are really **GPU-first**, with the **interconnect cards connected directly to the GPU packages** 
-        and only one CPU socket, and another feature which is relatively new: the option to use a **coherent unified memory**
+        and only one CPU socket, and another feature which is relatively new: the option to use a **partly coherent fully unified memory**
         space between the CPU and GPUs, though of course very NUMA. This is a feature that has previously
         only been seen in some clusters with NVIDIA P100 and V100 GPUs and IBM Power 8 and 9 CPUs used
         for some USA pre-exascale systems, and of course in Apple Silicon M-series but then without the NUMA character
@@ -36,7 +36,7 @@ In this section we discuss
 
 -   Users also come to LUMI from **11 different channels**, not counting subchannels as some countries have
     multiple organisations managing allocations, and those channels all have different expectations about
-    what LUMI should be and what kind of users should be served. For our major stakeholder, the EuroHPC JU,
+    what LUMI should be and what kind of users should be served. For the major LUMI stakeholder, the EuroHPC JU,
     LUMI is a pre-exascale system meant to prepare users and applications to make use of future even large
     systems, while some of the LUMI consortium countries see LUMI more as an extension of their tier-1 or
     even tier-2 machines.
@@ -59,7 +59,7 @@ In this section we discuss
     stack, and it also works differently with its **universal compiler wrappers** that are typically configured
     through modules. 
 
--   We also see an increasing **need for customised setups**. Everybody wants a central stack as long as their
+-   There is an increasing **need for customised setups**. Everybody wants a central stack as long as their
     software is in there but not much more as otherwise it is hard to find, and as long as software is 
     configured in the way they are used to. And everybody would like LUMI to look as much as possible 
     as their home system. But this is of course impossible. Moreover, there are more and more conflicts
@@ -71,77 +71,87 @@ In this section we discuss
 ### The LUMI solution
 
 <figure markdown style="border: 1px solid #000">
-  ![The LUMI solution](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/SoftwareStacksTheLUMISolution.png){ loading=lazy }
+  ![The LUMI solution](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksTheLUMISolution.png){ loading=lazy }
 </figure>
 
-We tried to take all these considerations into account and came up with a solution that may look **a
-little unconventional** to many users.
+The LUMI User Support Team (LUST) tried to take all these considerations into account 
+and came up with a solution that may look **a little unconventional** to many users.
 
 In principle there should be a high degree of compatibility between releases of the HPE Cray Programming
-Environment but we decided not to take the risk and **build our software for a specific release of the 
+Environment but LUST decided not to take the risk and **build our software for a specific release of the 
 programming environment**, which is also a better fit with the typical tools used to manage a scientific 
 software stack such as EasyBuild and Spack as they also prefer precise versions for all dependencies and
-compilers etc. We also made the stack very easy to extend. So we have **many base libraries and some packages
-already pre-installed** but also provide an **easy and very transparent way to install additional packages in
-your project space in exactly the same way as we do for the central stack**, with the same performance but the
+compilers etc. The stack is also made very easy to extend. So LUMI has **many base libraries and some packages
+already pre-installed** but also provides an **easy and very transparent way to install additional packages in
+your project space in exactly the same way as is done for the central stack**, with the same performance but the
 benefit that the installation can be customised more easily to the needs of your project. Not everybody needs
 the same configuration of GROMACS or LAMMPS or other big packages, and in fact a one-configuration-that-works-for-everybody
 may even be completely impossible due to conflicting options that cannot be used together.
 
-For the **module system** we could chose between two systems supported by HPE Cray. They support 
+For the **module system** a choice had to be made between two systems supported by HPE Cray. They support 
 Environment Modules with module files based on the TCL scripting language, but only the old version
 that is no longer really developed and not the newer versions 4 and 5 developed in France, and Lmod,
 a module system based on the LUA scripting language that also support many TCL module files through a
-translation layer. **We chose to go with Lmod** as LUA is an easier and more modern language to work with
+translation layer. **LUMI chose to go with Lmod** as LUA is an easier and more modern language to work with
 and as Lmod is much more powerful than Environment Modules 3, certainly for **searching modules**.
 
-To manage the software installations we could chose between EasyBuild, which is mostly developed in
+To manage the software installations there was a choice between EasyBuild, which is mostly developed in
 Europe and hence a good match with a EuroHPC project as EuroHPC wants to develop a European HPC technology stack
 from hardware to application software, and Spack, a package developed in the USA national labs.
-We chose to go with **EasyBuild as our primary tool** for which we also do some development. 
-However, as we shall see, our EasyBuild installation is not your typical EasyBuild installation
+Both have their own strengths and weaknesses.
+LUMI chose to go with **EasyBuild as the primary tool** for which the LUST also do some development. 
+However, as we shall see, the EasyBuild installation is not your typical EasyBuild installation
 that you may be accustomed with from clusters at your home institution. **It uses toolchains
-specifically for the HPE Cray programming environment** so recipes need to be adapted. We do offer an
+specifically for the HPE Cray programming environment** so recipes need to be adapted. LUMI does offer a
 **growing library of Cray-specific installation recipes** though.
 The whole setup of EasyBuild is done such that you can build on top of the central software stack
 and such that **your modules appear in your module view** without having to add directories by hand
 to environment variables etc. You only need to point to the place where you want to install software
-for your project as we cannot automatically determine a suitable place. **We do offer some help so set up
-Spack also but it is mostly offered "as is" an we will not do bug-fixing or development in Spack
-package files.**
+for your project as LUMI cannot automatically determine a suitable place. 
+
+**The LUST does offer some help so set up
+Spack also but it is mostly offered "as is" and LUST will not do bug-fixing or development in Spack
+package files.** Spack is very attractive for users who want to set up a personal environment with
+fully customised versions of the software rather than the rather fixed versions provided by EasyBuild
+for every version of the software stack. It is possible to specify versions for the main packages
+that you need and then let Spack figure out a minimal compatible set of dependencies to install 
+those packages.
 
 
 ### Software policies
 
 <figure markdown style="border: 1px solid #000">
-  ![Policies](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/SoftwareStacksPolicies.png){ loading=lazy }
+  ![Policies](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksPolicies.png){ loading=lazy }
 </figure>
 
-As any site, we also have a number of policies about software installation, and we're still further
-developing them as we gain experience in what we can do with the amount of people we have and what we
-cannot do.
+As any site, LUMI also has a number of policies about software installation, and these policies
+are further developed as the LUMI team gains experience in what they can do with the amount of people 
+in LUST and what they cannot do.
 
 LUMI uses a **bring-your-on-license model except for a selection of tools that are useful to a larger
 community**. 
 
--   This is partly caused by the **distributed user management** as we do not even have the necessary
-    information to determine if a particular user can use a particular license, so we must shift that 
-    responsibility to people who have that information, which is often the PI of your project.
+-   This is partly caused by the **distributed user management** as the LUST does not even have the necessary
+    information to determine if a particular user can use a particular license, so that 
+    responsibility must be shifted to people who have that information, which is often the PI of your project.
 -   You also have to take into account that **up to 20% of LUMI is reserved for industry** use which makes 
-    negotiations with software vendors rather difficult as they will want to push us onto the industrial
-    rather than academic pricing as they have no guarantee that we will obey to the academic license
-    restrictions. 
--   And lastly, **we don't have an infinite budget**. There was a questionnaire send out to 
+    negotiations with software vendors rather difficult as they will want to push LUMI onto the industrial
+    rather than academic pricing as they have no guarantee that LUMI operations will obey 
+    to the academic license restrictions. 
+-   And lastly, **the LUMI project doesn't have an infinite budget**. 
+    There was a questionnaire sent out to 
     some groups even before the support team was assembled and that contained a number of packages that
-    by themselves would likely consume our whole software budget for a single package if I look at the 
+    by themselves would likely consume the whole LUMI software budget for a single package if I look at the 
     size of the company that produces the package and the potential size of their industrial market. 
-    So we'd have to make choices and with any choice for a very specialised package you favour a few 
-    groups. And there is also a political problem as without doubt the EuroHPC JU would prefer that we
-    invest in packages that are developed by European companies or at least have large development
+    So LUMI has to make choices and with any choice for a very specialised package you favour a few 
+    groups. And there is also a political problem as without doubt the EuroHPC JU would prefer that LUMI
+    invests in packages that are developed by European companies or at least have large development
     teams in Europe.
 
 The LUMI User Support Team **tries to help with installations of recent software** but **porting or bug
-correction in software is not our task**. As a user, you have to realise that **not all Linux or even
+correction in software is not their task**. In Flanders some help is possible by the VSC Tier-0 support team
+but do not expect that they will port your whole application.
+As a user, you have to realise that **not all Linux or even
 supercomputer software will work on LUMI**. This holds even more for software that comes only as
 a binary. The **biggest problems are the GPU and anything that uses distributed memory** and requires
 high performance from the interconnect. For example,
@@ -153,7 +163,7 @@ high performance from the interconnect. For example,
 -   The LUMI interconnect requires **libfabric**
     using a specific provider for the NIC used on LUMI, the so-called Cassini provider, 
     so any software compiled with an MPI library that
-    requires UCX, or any other distributed memory model build on top of UCX, will not work on LUMI, or at
+    requires UCX, or any other distributed memory model built on top of UCX, will not work on LUMI, or at
     least not work efficiently as there might be a fallback path to TCP communications. 
 -   Even intra-node interprocess communication can already cause problems as there are three different kernel extensions
     that provide more efficient interprocess messaging than the standard Linux mechanism. Many clusters
@@ -171,50 +181,53 @@ high performance from the interconnect. For example,
     optimised Linux version called COS or Cray Operating System on the compute nodes. It is optimised to
     reduce OS jitter and hence to enhance scalability of applications as that is after all the primary
     goal of a pre-exascale machine. But that implies that certain Linux daemons that your software may 
-    expect to find are not present on the compute nodes. D-bus comes to mind.
+    expect to find are not present on the compute nodes. D-Bus comes to mind.
 
-Also, the LUMI user support team is **too small to do all software installations** which is why we currently
-state in our policy that a LUMI user should be capable of installing their software themselves or have
-another support channel. We cannot install every single piece of often badly documented research-quality
-code that was never meant to be used by people who don't understand the code.
+Also, the LUMI user support team is **too small to do all software installations** which is why LUMI currently
+states in its policy that a LUMI user should be capable of installing their software themselves or have
+another support channel. The LUST cannot install every single piece of often badly documented research-quality
+code that was never meant to be used by people who don't understand the code. Again some help is possible 
+at the Belgian level but our resources are also limited.
 
 Another soft compatibility problem that I did not yet mention is that software that **accesses tens
 of thousands of small files and abuses the file system as a database** rather than using structured
-data formats designed to organise data on supercomputers is not welcome on LUMI. For that reason we
-also require to **containerize conda and Python installations**. We do offer a container-based wrapper
+data formats designed to organise data on supercomputers is not welcome on LUMI. For that reason LUMI
+also requires to **containerize conda and Python installations**. The LUST does offer a container-based wrapper
 that offers a way to install conda packages or to install Python packages with pip on top of 
 the Python provided by the `cray-python` module. On LUMI the tool is called
 [lumi-container-wrapper](https://docs.lumi-supercomputer.eu/software/installing/container_wrapper/)
 but it may by some from CSC also be known as Tykky.
 
+
 ### Organisation of the software in software stacks
 
 <figure markdown style="border: 1px solid #000">
-  ![Organisation"Software Stacks](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/SoftwareStacksOrganisation.png){ loading=lazy }
+  ![Organisation"Software Stacks](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksOrganisation.png){ loading=lazy }
 </figure>
 
-On LUMI we have several software stacks.
+LUMI offers several software stacks:
 
-**CrayEnv** is the software stack for users who only need the **Cray Programming Environment** but want a **more
+**CrayEnv** is the minimal software stack for users who only need the **Cray Programming Environment** but want a **more
 recent set of build tools etc** than the OS provides. We also take care of a few issues that we will discuss
 on the next slide that are present right after login on LUMI.
 
 Next we have the **stacks called "LUMI"**. Each one corresponds to a **particular release of the HPE Cray
-Programming Environment**. It is the stack in which we install software using that programming environment
+Programming Environment**. It is the stack in which the LUST installs software using that programming environment
 and mostly EasyBuild. **The Cray Programming Environment modules are still used, but they are accessed through
-a replacement for the PrgEnv modules that is managed by EasyBuild**. We have **tuned versions for the 3 types
+a replacement for the PrgEnv modules that is managed by EasyBuild**. There are **tuned versions for the 3 types
 of hardware in the regular LUMI system**: zen2 CPUs in the login nodes and large memory nodes, zen3 for the 
 LUMI-C compute nodes and zen3 + MI250X for
-the LUMI-G partition. We were also planning to have a fourth version for the visualisation nodes with 
-zen2 CPUs combined with NVIDIA GPUs, but that may never materialise and we may manage those differently.
+the LUMI-G partition. IF the need would arrise, a fourth partition could be created for the visualisation nodes
+with zen2 CPUs and NVIDIA GPUs.
 
-In the far future we will also look at **a stack based on the common EasyBuild toolchains as-is**, but we do expect
-problems with MPI that will make this difficult to implement, and the common toolchains also do not yet support
-the AMD GPU ecosystem, so we make no promises whatsoever about a time frame for this development.
+In the far future the LUST will also look at **a stack based on the common EasyBuild toolchains as-is**, 
+but problems are expected with MPI
+that will make this difficult to implement, and the common toolchains also do not yet support
+the AMD GPU ecosystem, so no promises whatsoever are made about a time frame for this development.
 
-We also have an extensible software stack based on **Spack** which has been pre-configured to use the compilers
-from the Cray PE. This stack is offered as-is for users who know how to use Spack, but we don't offer much
-support nor do we do any bugfixing in Spack.
+LUMI also offers an extensible software stack based on **Spack** which has been pre-configured to use the compilers
+from the Cray PE. This stack is offered as-is for users who know how to use Spack, but support is limited and
+no bug-fixing in Spack is done.
 
 
 ### 3 ways to access the Cray Programming environment on LUMI.
@@ -222,13 +235,13 @@ support nor do we do any bugfixing in Spack.
 #### Bare environment and CrayEnv
 
 <figure markdown style="border: 1px solid #000">
-  ![Accessing the Cray PE on LUMI slide 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/SoftwareStacksAccessingCrayPE_1.png){ loading=lazy }
+  ![Accessing the Cray PE on LUMI slide 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksAccessingCrayPE_1.png){ loading=lazy }
 </figure>
 
 Right after login you have a **very bare environment available with the Cray Programming Environment
 with the PrgEnv-cray module loaded**. It gives you basically **what you can expect on a typical Cray system**.
 There aren't many tools available, basically **mostly only the tools in the base OS image and some tools that
-we are sure will not impact software installed in one of the software stacks**.
+will not impact software installed in one of the software stacks**.
 The set of target modules loaded is the one for the login nodes and not tuned to any particular node type.
 **As a user you're fully responsible for managing the target modules**, reloading them when needed or loading the
 appropriate set for the hardware you're using or want to cross-compile for.
@@ -238,12 +251,14 @@ offers an **"enriched" version of the Cray environment**. It **takes care of the
 CrayEnv will reload an optimal set of target modules for the node you're on. It also provides **some additional 
 tools** like newer build tools than provided with the OS. They are offered here and not in the bare environment to be
 sure that those tools don't create conflicts with software in other stacks. But otherwise the Cray Programming 
-Environment **works exactly as you'd expect from this course**.
+Environment **works exactly as you'd expect from this course or the 4-day comprehensive courses
+that LUST organises**.
+
 
 #### LUMI stack
 
 <figure markdown style="border: 1px solid #000">
-  ![Accessing the Cray PE on LUMI slide 2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/SoftwareStacksAccessingCrayPE_2.png){ loading=lazy }
+  ![Accessing the Cray PE on LUMI slide 2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksAccessingCrayPE_2.png){ loading=lazy }
 </figure>
 
 The **third way** to access the Cray Programming Environment is through the **LUMI software stacks**, where each stack
@@ -260,27 +275,32 @@ toolchains** instead as indicated by the following table:
 | `PrgEnv-amd`  | `cpeAMD`       | AMD ROCm GPU compilers (LUMI-G only)            |
 
 The cpeCray etc modules also load the MPI libraries and Cray LibSci just as the PrgEnv modules do.
-And we sometimes use this to work around problems in Cray-provided modules that we cannot change. 
+And they are sometimes used to work around problems in Cray-provided modules that cannot changed
+easily due to the way system administration on a Cray system is done. 
 
-This is also the environment in which we install most software, and from the name of the modules you can see which
-compilers we used.
+This is also the environment in which the LUST installs most software, 
+and from the name of the modules you can see which compilers we used.
+
 
 #### LUMI stack module organisation
 
 <figure markdown style="border: 1px solid #000">
-  ![Accessing the Cray PE on LUMI slide 3](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/SoftwareStacksAccessingCrayPE_3.png){ loading=lazy }
+  ![Accessing the Cray PE on LUMI slide 3](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksAccessingCrayPE_3.png){ loading=lazy }
 </figure>
 
 To manage the heterogeneity in the hardware, the LUMI software stack uses **two levels of modules**
 
-First there are the **LUMI/22.08, LUMI/22.12 and LUMI/23.03 modules**. Each of the LUMI modules loads a particular
-version of the LUMI stack.
+First there are the **LUMI/22.08, LUMI/22.12 and LUMI/23.03 modules**. 
+Each of the LUMI modules loads a particular version of the LUMI stack.
 
-The **second level consists of partition modules**. There is partition/L for the login and large memory nodes,
-partition/C for the regular compute nodes and partition/G for the AMD GPU nodes.
-We may have a separate partition for the visualisation nodes in the future but that is not clear yet.
+The **second level consists of partition modules**. 
+There is partition/L for the login and large memory nodes,
+partition/C for the regular compute nodes and 
+partition/G for the AMD GPU nodes.
+There may be a separate partition for the visualisation nodes in the future 
+but that is not clear yet.
 
-There is also a **hidden partition/common module** in which we install software that is available everywhere, 
+There is also a **hidden partition/common module** in which software is installed that is available everywhere, 
 but we advise you to be careful to install software in there in your own installs as it is risky to rely on
 software in one of the regular partitions, and impossible in our EasyBuild setup.
 
@@ -303,7 +323,7 @@ explicitly load the partition/L module.
 ### Installing software on HPC systems
 
 <figure markdown style="border: 1px solid #000">
-  ![Installing software on HPC systems](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildInstallingSoftwareHPC.png){ loading=lazy }
+  ![Installing software on HPC systems](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildInstallingSoftwareHPC.png){ loading=lazy }
 </figure>
 
 Software on HPC systems is **rarely installed from RPMs** for various reasons.
@@ -313,10 +333,11 @@ hard to even impossible.
 Secondly generic RPMs **might not even work with the specific LUMI environment**. They may not fully
 support the SlingShot interconnect and hence run at reduced speed, or they may need particular
 kernel modules or daemons that are not present on the system or they may not work well with
-the resource manager on the system. We expect this to happen especially with packages that 
-require specific MPI versions.
+the resource manager on the system. 
+This is expected to happen especially with packages that require specific MPI versions
+or implementations.
 Moreover, LUMI is a **multi-user system** so there is usually **no "one version fits all"**.
-And we need a **small system image as nodes are diskless** which means that RPMs need to be
+And LUMI needs a **small system image as nodes are diskless** which means that RPMs need to be
 relocatable so that they can be installed elsewhere.
 
 Spack and EasyBuild are the two most popular HPC-specific software build and installation
@@ -333,10 +354,11 @@ And they do **take care of dependency handling** in a way that is compatible wit
 ### Extending the LUMI stack with EasyBuild
 
 <figure markdown style="border: 1px solid #000">
-  ![Extending the LUMI stack with EasyBuild](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildExtendingLUMIStack.png){ loading=lazy }
+  ![Extending the LUMI stack with EasyBuild](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildExtendingLUMIStack.png){ loading=lazy }
 </figure>
 
-On LUMI EasyBuild is our primary software installation tool. We selected this as there is
+On LUMI EasyBuild is the primary software installation tool. 
+EasyBuild was selected this as there is
 already a lot of experience with EasyBuild in several LUMI consortium countries and as
 it is also a tool developed in Europe which makes it a nice fit with EuroHPC's goal of
 creating a fully European HPC ecosystem.
@@ -353,25 +375,28 @@ or in your personal or project stack.
 Note however that the **build-in easyconfig files that come with EasyBuild do not work on LUMI** at
 the moment.
 
--   For the GNU toolchain we would have problems with MPI. EasyBuild uses Open MPI and that
+-   For the GNU toolchain there would be problems with MPI. EasyBuild uses Open MPI and that
     needs to be configured differently to work well on LUMI, and there are also still issues with
     getting it to collaborate with the resource manager as it is installed on LUMI.
 -   The Intel-based toolchains have their problems also. At the moment, the Intel compilers with the
     AMD CPUs are a problematic cocktail. There have recently been performance and correctness problems 
     with the MKL math library and also failures with some versions of Intel MPI, 
     and you need to be careful selecting compiler options and not use `-xHost`
-    or the Intel compiler will simply optimize for a two decades old CPU.
+    or the classic Intel compilers will simply optimize for a two decades old CPU.
+    The situation is better with the new LLVM-based compilers though, and it looks like
+    very recent versions of MKL are less AMD-hostile. Problems have also been reported
+    with Intel MPI running on LUMI.
 
-Instead we make our **own EasyBuild build recipes** that we also make available in the 
+Instead LUMI has its **own EasyBuild build recipes** that are also made available in the 
 [LUMI-EasyBuild-contrib GitHub repository](https://github.com/Lumi-supercomputer/LUMI-EasyBuild-contrib).
 The EasyBuild configuration done by the EasyBuild-user module will find a copy of that repository
 on the system or in your own install directory. The latter is useful if you always want the very
-latest, before we deploy it on the system. 
+latest, before it is even deployed on the system. 
 
-We also have the
+LUMI also offers the
 [LUMI Software Library](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/)
-which documents all software for which we have EasyBuild recipes available. 
-This includes both the pre-installed software and the software for which we provide recipes in the
+which documents all software for which there are LUMI-specific EasyBuild recipes available. 
+This includes both the pre-installed software and the software for which recipes are provided in the
 [LUMI-EasyBuild-contrib GitHub repository](https://github.com/Lumi-supercomputer/LUMI-EasyBuild-contrib),
 and even instructions for some software that is not suitable for installation through EasyBuild or
 Spack, e.g., because it likes to write in its own directories while running.
@@ -380,7 +405,7 @@ Spack, e.g., because it likes to write in its own directories while running.
 ### EasyBuild recipes - easyconfigs
 
 <figure markdown style="border: 1px solid #000">
-  ![EasyBuild recipes - easyconfigs](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildEasyConfig.png){ loading=lazy }
+  ![EasyBuild recipes - easyconfigs](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildEasyConfig.png){ loading=lazy }
 </figure>
 
 EasyBuild uses a build recipe for each individual package, or better said, each individual module
@@ -406,7 +431,7 @@ Most or all of these steps can be influenced by parameters in the easyconfig.
 ### The toolchain concept
 
 <figure markdown style="border: 1px solid #000">
-  ![The toolchain concept](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildToolchain_1.png){ loading=lazy }
+  ![The toolchain concept](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildToolchain_1.png){ loading=lazy }
 </figure>
 
 EasyBuild uses the toolchain concept. A toolchain consists of compilers, an MPI implementation
@@ -417,7 +442,7 @@ several implementations exist. All these components also have in common that it 
 pieces of code compiled with different sets of such libraries and compilers because there can
 be conflicts in names in the libraries.
 
-On LUMI we don't use the standard EasyBuild toolchains but our own toolchains specifically for Cray
+LUMI doesn't use the standard EasyBuild toolchains but its own toolchains specifically for Cray
 and these are precisely the `cpeCray`, `cpeGNU`, `cpeAOCC` and `cpeAMD` modules already mentioned 
 before.
 
@@ -430,14 +455,14 @@ before.
 
 
 <figure markdown style="border: 1px solid #000">
-  ![The toolchain concept 2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildToolchain_2.png){ loading=lazy }
+  ![The toolchain concept 2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildToolchain_2.png){ loading=lazy }
 </figure>
 
 There is also a special toolchain called the SYSTEM toolchain that uses the compiler
 provided by the operating system. This toolchain does not fully function in the same way as the other
 toolchains when it comes to handling dependencies of a package and is therefore a bit harder to use.
 The EasyBuild designers had in mind that this compiler would only be used to bootstrap an
-EasyBuild-managed software stack, but we do use it for a bit more on LUMI as it offers us a
+EasyBuild-managed software stack, but on LUMI it is used for a bit more as it offers a
 relatively easy way to compile some packages also for the CrayEnv stack and do this in a way
 that they interact as little as possible with other software.
 
@@ -446,18 +471,19 @@ This is an EasyBuild restriction, because mixing libraries compiled with differe
 does not always work. This could happen, e.g., if a package compiled with the Cray Compiling
 Environment and one compiled with the GNU compiler collection would both use a particular 
 library, as these would have the same name and hence the last loaded one would be used
-by both executables (we don't use rpath or runpath linking in EasyBuild for those familiar
+by both executables (LUMI doesn't use rpath or runpath linking in EasyBuild for those familiar
 with that technique).
 
-However, as we did not implement a hierarchy in the Lmod implementation of our software stack
+However, as LUMI does not use hierarchy in the Lmod implementation of the software stack
 at the toolchain level, the module system will not protect you from these mistakes. 
-When we set up the software stack, most people in the support team considered it too misleading
+When the LUST set up the software stack, most people in the support team considered it too misleading
 and difficult to ask users to first select the toolchain they want to use and then see the 
 software for that toolchain.
 
 It is however possible to combine packages compiled with one CPE-based toolchain with packages
-compiled with teh system toolchain, but we do avoid mixing those when linking as that may cause
-problems. The reason is that we try to use as much as possible static linking in the SYSTEM
+compiled with the system toolchain, but you should avoid mixing those when linking as that may cause
+problems. The reason that it works when running software is because static linking
+is used as much as possible in the SYSTEM
 toolchain so that these packages are as independent as possible.
 
 And with some tricks it might also be possible to combine packages from the LUMI software stack
@@ -469,7 +495,7 @@ this may work.
 ### EasyConfig names and module names
 
 <figure markdown style="border: 1px solid #000">
-  ![easyconfig names and module names](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyConfigModuleNames.png){ loading=lazy }
+  ![easyconfig names and module names](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyConfigModuleNames.png){ loading=lazy }
 </figure>
 
 There is a convention for the naming of an EasyConfig as shown on the slide. This is not
@@ -511,7 +537,7 @@ Hence this easyconfig file will generate the module
 #### Step 1: Where to install
 
 <figure markdown style="border: 1px solid #000">
-  ![Installing: Where to install](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildInstallingStep1.png){ loading=lazy }
+  ![Installing: Where to install](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildInstallingStep1.png){ loading=lazy }
 </figure>
 
 Let's now discuss how you can extend the central LUMI software stack with packages that you
@@ -542,7 +568,7 @@ who want to use the software should set that variable.
 #### Step 2: Configure the environment
 
 <figure markdown style="border: 1px solid #000">
-  ![Installing: Configure the environment](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildInstallingStep2_1.png){ loading=lazy }
+  ![Installing: Configure the environment](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildInstallingStep2_1.png){ loading=lazy }
 </figure>
 
 The next step is to configure your environment. First load the proper version of the LUMI
@@ -559,7 +585,10 @@ for the new stack and new partition.
 Cross-compilation which is installing software for a different partition than the one you're
 working on does not always work since there is so much software around with installation scripts
 that don't follow good practices, but when it works it is easy to do on LUMI by simply loading
-a different partition module than the one that is auto-loaded by the `LUMI` module.
+a different partition module than the one that is auto-loaded by the `LUMI` module. It works 
+correctly for a lot of CPU-only software, but fails more frequently for GPU software as the
+installation scripts will try to run scripts that detect which GPU is present, or try to run
+tests on the GPU, even if you tell which GPU type to use, which does not work on the login nodes.
 
 **Note that the `EasyBuild-user` module is only needed for the installation process. For using
 the software that is installed that way it is sufficient to ensure that `EBU_USER_PREFIX` has
@@ -569,18 +598,18 @@ the proper value before loading the `LUMI` module.**
 #### Step 3: Install the software.
 
 <figure markdown style="border: 1px solid #000">
-  ![Installing: Install the software](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildInstallingStep3.png){ loading=lazy }
+  ![Installing: Install the software](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildInstallingStep3.png){ loading=lazy }
 </figure>
 
 Let's look at GROMACS as an example. I will not try to do this completely live though as the 
 installation takes 15 or 20 minutes.
-First we need to figure out for which versions of GROMACS we already have support.
-At the moment we have to use `eb -S` or `eb --search` for that. So in our example this is
+First we need to figure out for which versions of GROMACS there is already support on LUMI.
+One can use `eb -S` or `eb --search` for that. So in our example this is
 ``` bash
 eb --search GROMACS
 ```
-We now also have the [LUMI Software Library](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/)
-which lists all software that we manage via EasyBuild and make available either pre-installed on
+LUMI now also provides the [LUMI Software Library](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/)
+which lists all software that is managed via EasyBuild and made available either pre-installed on
 the system or as an EasyBuild recipe for user installation.
 
 !!! Note "Output of the search commands:"
@@ -588,13 +617,13 @@ the system or as an EasyBuild recipe for user installation.
     `eb --search GROMACS` produces:
 
     <figure markdown style="border: 1px solid #000">
-      ![eb --search GROMACS](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildGROMACSSearch_1.png){ loading=lazy }
+      ![eb --search GROMACS](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACSSearch_1.png){ loading=lazy }
     </figure>
 
     while `eb -S GROMACS` produces:
 
     <figure markdown style="border: 1px solid #000">
-      ![eb -S GROMACS](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildGROMACSSearch_2.png){ loading=lazy }
+      ![eb -S GROMACS](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACSSearch_2.png){ loading=lazy }
     </figure>
 
     The information provided by both variants of the search command is the same, but `-S` presents the information in a more
@@ -604,8 +633,8 @@ Now let's take the variant `GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb`.
 This is GROMACS 2021.4 with the PLUMED 2.8.0 plugin, build with the Cray compilers
 from `LUMI/22.08`, and a build meant for CPU-only systems. The `-CPU` extension is not
 always added for CPU-only system, but in case of GROMACS there already is a GPU version
-for AMD GPUs in active development so even before LUMI-G was active we chose to ensure
-that we could distinguish between GPU and CPU-only versions.
+for AMD GPUs in active development so even before LUMI-G was active the developers of this
+EasyConfig chose to ensure that one could distinguish between GPU and CPU-only versions.
 To install it, we first run 
 ```bash
 eb –r GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb –D
@@ -619,11 +648,11 @@ it can be turned on.
 The output of this command looks like:
 
 <figure markdown style="border: 1px solid #000">
-  ![eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb –D](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildGROMACS_01.png){ loading=lazy }
+  ![eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb –D](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_01.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb –D (2)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildGROMACS_02.png){ loading=lazy }
+  ![eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb –D (2)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_02.png){ loading=lazy }
 </figure>
 
 
@@ -634,27 +663,27 @@ eb –r GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb
 ```
 
 <figure markdown style="border: 1px solid #000">
-  ![eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildGROMACS_03.png){ loading=lazy }
+  ![eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_03.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (2)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildGROMACS_04.png){ loading=lazy }
+  ![eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (2)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_04.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (3)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildGROMACS_05.png){ loading=lazy }
+  ![eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (3)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_05.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (4)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildGROMACS_06.png){ loading=lazy }
+  ![eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (4)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_06.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (5)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildGROMACS_07.png){ loading=lazy }
+  ![eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (5)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_07.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (6)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildGROMACS_08.png){ loading=lazy }
+  ![eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (6)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_08.png){ loading=lazy }
 </figure>
 
 This takes too long to wait for, but once it finished the software should be available
@@ -667,20 +696,8 @@ module avail
 #### Step 3: Install the software - Note
 
 <figure markdown style="border: 1px solid #000">
-  ![Installing: Install the software](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildInstallingStep3Note.png){ loading=lazy }
+  ![Installing: Install the software](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildInstallingStep3Note.png){ loading=lazy }
 </figure>
-
-There is a little problem though that you may run into. Sometimes the module does not
-show up immediately. This is because Lmod keeps a cache when it feels that Lmod searches
-become too slow and often fails to detect that the cache is outdated.
-The easy solution is then to simply remove the cache which is in `$HOME/.lmod.d/.cache`, 
-which you can do with 
-```bash
-rm -rf $HOME/.lmod.d/.cache
-```
-And we have seen some very rare cases where even that did not help likely because some
-internal data structures in Lmod where corrupt. The easiest way to solve this is to simply
-log out and log in again and rebuild your environment.
 
 Installing software this way is **100% equivalent to an installation in the central software
 tree**. The application is compiled in exactly the same way as we would do and served from the
@@ -693,11 +710,24 @@ confused if they all of a sudden find different binaries. However, have this in 
 extension and you can update whenever it suits your project best or even not update at all if 
 you figure out that the problem we discovered has no influence on your work.
 
+Lmod does keep a user cache of modules. EasyBuild will try to erase that cache after a
+software installation to ensure that the newly installed module(s) show up immediately.
+We have seen some very rare cases where clearing the cache did not help likely because some
+internal data structures in Lmod where corrupt. The easiest way to solve this is to simply
+log out and log in again and rebuild your environment.
+
+In case you see strange behaviour using modules you can also try to manually
+remove the Lmod user cache which is in `$HOME/.lmod.d/.cache`.
+You can do this with 
+```bash
+rm -rf $HOME/.lmod.d/.cache
+```
+
 
 ### More advanced work
 
 <figure markdown style="border: 1px solid #000">
-  ![More advanced work](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildAdvanced_1.png){ loading=lazy }
+  ![More advanced work](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildAdvanced_1.png){ loading=lazy }
 </figure>
 
 You can also install some EasyBuild recipes that you got from support. For this it is best to
@@ -713,14 +743,16 @@ home directory but in a subdirectory that only contains those files.
 
 In some cases you will have to download sources by hand as packages don't allow to download 
 software unless you sign in to their web site first. This is the case for a lot of licensed software,
-for instance, for VASP. We'd likely be in violation of the license if we would put the download somewhere
-where EasyBuild can find it, and it is also a way for us to ensure that you have a license for VASP.
+for instance, for VASP. LUMI would likely be in violation of the license if it would 
+offer the download somewhere
+where EasyBuild can find it, and it is also a way to ensure that you have a license for VASP.
 For instance, 
 ```bash
 eb --search VASP
 ```
-will tell you for which versions of VASP we already have build instructions, but you will still have
-to download the file that the EasyBuild recipe expects. Put it somewhere in a directory, and then from that
+will tell you for which versions of VASP LUMI provides EasyBuild recipes, but you will still have
+to download the source file that the EasyBuild recipe expects. 
+Put it somewhere in a directory, and then from that
 directory run EasyBuild, for instance for VASP 6.3.0 with the GNU compilers:
 ```bash
 eb VASP-6.3.0-cpeGNU-22.08.eb –r . 
@@ -729,7 +761,7 @@ eb VASP-6.3.0-cpeGNU-22.08.eb –r .
 ### More advanced work (2): Repositories
 
 <figure markdown style="border: 1px solid #000">
-  ![More advanced work (2): Repositories](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildAdvanced_2.png){ loading=lazy }
+  ![More advanced work (2): Repositories](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildAdvanced_2.png){ loading=lazy }
 </figure>
 
 It is also possible to have your own clone of the `LUMI-EasyBuild-contrib` GitHub repository
@@ -747,19 +779,21 @@ the subdirectory should be called `UserRepo`, but that doesn't stop you from usi
 a different name for the repository on GitHub. After cloning your GitHub version you
 can always change the name of the directory.
 The structure should also be compatible with the structure that EasyBuild uses, so
-easyconfig files go in `$EBU_USER_PREFIX/easybuild/easyconfigs`.
+easyconfig files go in `$EBU_USER_PREFIX/UserRepo/easybuild/easyconfigs`.
 
 
 ### More advanced work (3): Reproducibility
 
 <figure markdown style="border: 1px solid #000">
-  ![More advanced work (3): Reproducibility](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildAdvanced_3.png){ loading=lazy }
+  ![More advanced work (3): Reproducibility](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildAdvanced_3.png){ loading=lazy }
 </figure>
 
 EasyBuild also takes care of a **high level of reproducibility of installations**.
 
 It will **keep a copy of all the downloaded sources** in the `$EBU_USER_PREFIX/sources`
-subdirectory, and use that source file again rather than downloading it again. Of course
+subdirectory (unless the sources are already available elswhere where EasyBuild can find them,
+e.g., in the system EasyBuild sources directory), 
+and use that source file again rather than downloading it again. Of course
 in some cases those "sources" could be downloaded tar files with binaries instead
 as EasyBuild can install downloaded binaries or relocatable RPMs.
 And if you know the structure of those directories, this is also a place where
@@ -786,7 +820,7 @@ Moreover, EasyBuild also keeps **copies of all installed easyconfig files in two
 ### EasyBuild tips and tricks
 
 <figure markdown style="border: 1px solid #000">
-  ![EasyBuild tips and tricks](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildTipsTricks.png){ loading=lazy }
+  ![EasyBuild tips and tricks](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildTipsTricks.png){ loading=lazy }
 </figure>
 
 Updating the version of a package often requires only trivial changes in the easyconfig file.
@@ -797,12 +831,12 @@ Should the checksum sit in the way, you can always disable it by using
 `--ignore-checksums` with the `eb` command.
 
 Updating an existing recipe to a new toolchain might be a bit more involving as you also have
-to make build recipes for all dependencies. When we update a toolchain on the system, we
-often bump the versions of all installed libraries to one of the latest versions to have
+to make build recipes for all dependencies. When a toolchain is updated on the system, 
+the versions of all installed libraries are often also bumped to one of the latest versions to have
 most bug fixes and security patches in the software stack, so you need to check for those
 versions also to avoid installing yet another unneeded version of a library.
 
-We provide documentation on the available software that is either pre-installed or can be
+LUMI provides documentation on the available software that is either pre-installed or can be
 user-installed with EasyBuild in the 
 [LUMI Software Library](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/).
 For most packages this documentation does also contain information about the license.
@@ -810,13 +844,13 @@ The user documentation for some packages gives more information about how to use
 package on LUMI, or sometimes also about things that do not work.
 The documentation also shows all EasyBuild recipes, and for many packages there is 
 also some technical documentation that is more geared towards users who want to
-build or modify recipes. It sometimes also tells why we did things in a particular way.
+build or modify recipes. It sometimes also tells why things are done in a particular way.
 
 
 ### EasyBuild training for advanced users and developers
 
 <figure markdown style="border: 1px solid #000">
-  ![EasyBuild training](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-software/EasyBuildTraining.png){ loading=lazy }
+  ![EasyBuild training](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildTraining.png){ loading=lazy }
 </figure>
 
 Pointers to all information about EasyBuild can be found on the EasyBuild web site 
