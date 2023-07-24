@@ -6,24 +6,32 @@
     section assumes that the reader is already familiar with a module environment
     but not necessarily the one used on LUMI.
 
+    However, even if you are very familiar with Lmod it makes sense to go through
+    these notes as not every Lmod configuration is the same.
+
 
 ## Module environments
 
 <figure markdown style="border: 1px solid #000">
-  ![Module environments](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ModuleEnvironments.png)
+  ![Module environments](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleEnvironments.png)
 </figure>
 
-Modules are commonly used on HPC systems to enable users to create 
+An HPC cluster is a multi-user machine. Different users may need different 
+versions of the same application, and each user has their own preferences for
+the environment. Hence there is no "one size fits all" for HPC and mechanisms
+are needed to support the diverse requirements of multiple users on a single machine.
+This is where modules play an important role.
+They are commonly used on HPC systems to enable users to create 
 custom environments and select between multiple versions of applications.
 Note that this also implies that applications on HPC systems are often not
 installed in the regular directories one would expect from the documentation
 of some packages, as that location may not even always support proper multi-version
-installations and as one prefers to have a software stack which is as isolated as
+installations and as system administrators prefer to have a software stack which is as isolated as
 possible from the system installation to keep the image that has to be loaded
 on the compute nodes small.
 
 Another use of modules not mentioned on the slide is to configure the programs
-that is being activated. E.g., some packages expect certain additional environment
+that are being activated. E.g., some packages expect certain additional environment
 variables to be set and modules can often take care of that also.
 
 There are 3 systems in use for module management.
@@ -66,7 +74,7 @@ information for search and help information.
 ## Exploring modules with Lmod
 
 <figure markdown style="border: 1px solid #000">
-  ![Exploring modules with Lmod](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ExploringWithLmod.png)
+  ![Exploring modules with Lmod](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ExploringWithLmod.png)
 </figure>
 
 Contrary to some other module systems, or even some other Lmod installations, **not all modules are
@@ -101,7 +109,7 @@ Lmod has **several tools to search for modules**.
 ## Benefits of a hierarchy
 
 <figure markdown style="border: 1px solid #000">
-  ![Benefits of a hierarchy](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/BenefitsHierarchy.png)
+  ![Benefits of a hierarchy](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/BenefitsHierarchy.png)
 </figure>
 
 When the hierarchy is well designed, you get some protection from loading modules that do
@@ -125,7 +133,11 @@ $ module load PrgEnv-aocc
 which results in
 
 <!-- Used window size 23x95 -->
-![module load PrgEnv-aocc](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ml_PrgEnvAOCC_1.png)
+![module load PrgEnv-aocc](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_BenefitsHierarchyDemo.png)
+<!-- <figure markdown style="border: 1px solid #000">
+  ![module load PrgEnv-aocc](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/BenefitsHierarchyDemo.png)
+</figure> -->
+
 
 The first two lines of output are due to to other mechanisms that are at work here, 
 and the order of the lines may seem strange but that has to do with the way Lmod works
@@ -151,7 +163,7 @@ the `aocc/3.2.0` compiler.
 ## About module names and families
 
 <figure markdown style="border: 1px solid #000">
-  ![Module names and families](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ModuleNamesFamilies.png)
+  ![Module names and families](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleNamesFamilies.png)
 </figure>
 
 In Lmod you cannot have two modules with the same name loaded at the same time.
@@ -173,6 +185,7 @@ The family property is something that is defined in the module file. It is commo
 used on systems with multiple compilers and multiple MPI implementations to ensure 
 that each compiler and each MPI implementation can have a logical name without 
 encoding that name in the version string (like needing to have `compiler/gcc-11.2.0`
+or `compiler/gcc/11.2.0`
 rather than `gcc/11.2.0`), while still having an easy way to avoid having two 
 compilers or MPI implementations loaded at the same time. 
 On LUMI, the conflicting module of the same family will be unloaded automatically
@@ -194,7 +207,7 @@ when loading `PrgEnv-gnu` and that then unloaded `cce/14.0.1` when the
 ## Extensions
 
 <figure markdown style="border: 1px solid #000">
-  ![Extensions](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ModuleExtensions.png)
+  ![Extensions](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleExtensions.png)
 </figure>
 
 It would not make sense to have a separate module for each of the hundreds of R
@@ -210,7 +223,7 @@ Now you may wonder: If a module cannot be simply named after the package it cont
 it contains several ones, how can I then find the appropriate module to load?
 Lmod has a solution for that through the so-called **extension** mechanism. An Lmod module
 can define extensions, and some of the search commands for modules will also search in the extensions
-of a module. Unfortunately, the HP{E Cray PE cray-python and cray-R modules do not provide that 
+of a module. Unfortunately, the HPE Cray PE cray-python and cray-R modules do not provide that 
 information at the moment as they too contain several packages that may benefit from linking
 to optimised math libraries.
 
@@ -218,7 +231,7 @@ to optimised math libraries.
 ## Searching for modules: the module spider command
 
 <figure markdown style="border: 1px solid #000">
-  ![module spider](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ModuleSpider.png)
+  ![module spider](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleSpider.png)
 </figure>
 
 There are three ways to use `module spider`, discovering software in more and more detail.
@@ -252,11 +265,25 @@ There are three ways to use `module spider`, discovering software in more and mo
 Let's first run the `module spider` command. The output varies over time, but at the time of writing,
 and leaving out a lot of the output, one would have gotten:
 
-![module spider 1](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_1.png)
+![module spider 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_1.png)
 
-![module spider 1](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_2.png)
+![module spider 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_2.png)
 
-![module spider 1](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_3.png)
+![module spider 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_3.png)
+
+<!-- 
+<figure markdown style="border: 1px solid #000">
+  ![module spider 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_1.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module spider 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_2.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module spider 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_3.png)
+</figure>
+-->
 
 On the second screen we see, e.g., the ARMForge module which was available in just a single version
 at that time, and then Autoconf where the version is in blue and followed by `(E)`. This denotes
@@ -277,7 +304,13 @@ $ module spider FFTW
 
 produces
 
-![module spider FFTW](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_FFTW_1.png)
+![module spider FFTW](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTW.png)
+
+<!--
+<figure markdown style="border: 1px solid #000">
+  ![module spider FFTW](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTW.png)
+</figure>
+-->
 
 This shows that the FFTW library is actually provided by the `cray-fftw` module and was at the time
 that this was tested available in 3 versions. 
@@ -293,9 +326,19 @@ $ module spider cray-fftw/3.3.10.3
 
 This produces:
 
-![module spider cray-fftw/3.3.10.3](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_FFTW_version_1.png)
+![module spider cray-fftw/3.3.10.3](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTWVersion_1.png)
 
-![module spider cray-fftw/3.3.10.3](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_FFTW_version_2.png)
+![module spider cray-fftw/3.3.10.3](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTWVersion_2.png)
+
+<!--
+<figure markdown style="border: 1px solid #000">
+  ![module spider cray-fftw/3.3.10.3](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTWVersion_1.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module spider cray-fftw/3.3.10.3](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTWVersion_2.png)
+</figure>
+-->
 
 We now get a long list of possible combinations of modules that would enable us to load this module.
 What these modules are will be explained in the next session of this course. However, it does show
@@ -311,7 +354,7 @@ next two examples will show.
 ### Example 3: Searching for GNUplot
 
 <figure markdown style="border: 1px solid #000">
-  ![module spider for a regular package](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ModuleSpiderRegular.png)
+  ![module spider for a regular package](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleSpiderRegular.png)
 </figure>
 
 To see if GNUplot is available, we'd first search for the name of the package:
@@ -322,13 +365,23 @@ $ module spider GNUplot
 
 This produces:
 
-![module spider GNUplot](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_gnuplot_1.png)
+![module spider GNUplot](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplot_1.png)
 
-![module spider GNUplot](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_gnuplot_2.png)
+![module spider GNUplot](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplot_2.png)
+
+<!--
+<figure markdown style="border: 1px solid #000">
+  ![module spider GNUplot](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplot_1.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module spider GNUplot](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplot_2.png)
+</figure>
+-->
 
 The output again shows that the search is not case sensitive which is fortunate as uppercase and lowercase
 letters are not always used in the same way on different clusters. Some management tools for scientific software
-stacks will only use lowercase letters, while the package we use on LUMI often uses both.
+stacks will only use lowercase letters, while the package we use for the LUMI software stacks often uses both.
 
 We see that there are a lot of versions installed on the system and that the version actually contains more 
 information (e.g., `-cpeGNU-22.12`) that we will explain in the next part of this course. But you might of
@@ -347,9 +400,19 @@ $ module spider gnuplot/5.4.6-cpeGNU-22.12
 
 This produces:
 
-![module spider gnuplot/5.4.6-cpeGNU-22.12](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_gnuplot_version_1.png)
+![module spider gnuplot/5.4.6-cpeGNU-22.12](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplotVersion_1.png)
 
-![module spider gnuplot/5.4.6-cpeGNU-22.12](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_gnuplot_version_2.png)
+![module spider gnuplot/5.4.6-cpeGNU-22.12](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplotVersion_2.png)
+
+<!--
+<figure markdown style="border: 1px solid #000">
+  ![module spider gnuplot/5.4.6-cpeGNU-22.12](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplotVersion_1.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module spider gnuplot/5.4.6-cpeGNU-22.12](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplotVersion_2.png)
+</figure>
+-->
 
 In this case, this module is provided by 3 different combinations of modules that also will be explained
 in the next part of this course. Furthermore, the output of the command now also shows some help information
@@ -364,7 +427,7 @@ worth looking there also.
 ### Example 4: Searching for an extension of a module: CMake.
 
 <figure markdown style="border: 1px solid #000">
-  ![module spider for extensions](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ModuleSpiderExtensions.png)
+  ![module spider for extensions](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleSpiderExtensions.png)
 </figure>
 
 The `cmake` command on LUMI is available in the operating system image, but as is often the case with
@@ -380,7 +443,13 @@ $ module spider cmake
 
 which produces
 
-![module spider cmake](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_cmake_1.png)
+![module spider cmake](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMake.png)
+
+<!--
+<figure markdown style="border: 1px solid #000">
+  ![module spider cmake](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMake.png)
+</figure>
+-->
 
 The output above shows us that there are actually four other versions of CMake on the system, but their
 version is followed by `(E)` which says that they are extensions of other modules.
@@ -394,9 +463,19 @@ $ module spider CMake/3.25.2
 
 which produces
 
-![module spider CMake/3.25.2](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_cmake_version_1.png)
+![module spider CMake/3.25.2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMakeVersion_1.png)
 
-![module spider CMake/3.25.2](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_cmake_version_2.png)
+![module spider CMake/3.25.2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMakeVersion_2.png)
+
+<!--
+<figure markdown style="border: 1px solid #000">
+  ![module spider CMake/3.25.2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMakeVersion_1.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module spider CMake/3.25.2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMakeVersion_2.png)
+</figure>
+-->
 
 This shows us that the version is provided by a number of `buildtools` modules, and for each of those
 modules also shows us which other modules should be loaded to get access to the commands. E.g.,
@@ -424,7 +503,7 @@ to get even more information about the buildtools module, including any help inc
 ## Alternative search: the module keyword command
 
 <figure markdown style="border: 1px solid #000">
-  ![module keyword](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ModuleKeyword.png)
+  ![module keyword](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleKeyword.png)
 </figure>
 
 Lmod has a second way of searching for modules: `module keyword`, but unfortunately it does not
@@ -446,15 +525,37 @@ $ module keyword https
 
 which produces a lot of output:
 
-![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_mk_https_1.png)
+![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_1.png)
 
-![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_mk_https_2.png)
+![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_2.png)
 
-![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_mk_https_3.png)
+![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_3.png)
 
-![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_mk_https_4.png)
+![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_4.png)
 
-![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_mk_https_5.png)
+![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_5.png)
+
+<!--
+<figure markdown style="border: 1px solid #000">
+  ![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_1.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_2.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_3.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_4.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_5.png)
+</figure>
+-->
 
 The bug in the Lmod 8.3 version on LUMI is that all extensions are shown in the output while they are
 irrelevant. On the second screen though we see `cURL` and on the fourth screen `wget` which are
@@ -482,7 +583,7 @@ two tools that can be used to fetch files from the internet.
 ## Sticky modules and the module purge command
 
 <figure markdown style="border: 1px solid #000">
-  ![Sticky modules and module purge](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/StickyModules.png)
+  ![Sticky modules and module purge](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/StickyModules.png)
 </figure>
 
 On some systems you will be taught to avoid `module purge` as many HPC systems do their default user
@@ -492,7 +593,7 @@ On LUMI both are used. A default programming environment and set of target modul
 login nodes is preloaded when you log in to the system, and next the `init-lumi` module is loaded
 which in turn makes the LUMI software stacks available that we will discuss in the next session.
 
-Lmod however has a trick that help to avoid removing necessary modules and it is called sticky modules.
+Lmod however has a trick that helps to avoid removing necessary modules and it is called sticky modules.
 When issuing the `module purge` command these modules are automatically reloaded. It is very important to
 realise that those modules will not just be kept "as is" but are in fact unloaded and loaded again as
 we shall see later that this may have consequences. It is still possible to force unload all these modules
@@ -508,17 +609,43 @@ Let us look at the output of the `module avail` command, taken just after login 
 time of writing of these notes (the exact list of modules shown is a bit fluid):
 
 <!-- Use a window of 98x23 -->
-![module avail slide 1](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ma_1.png)
+![module avail slide 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_1.png)
 
-![module avail slide 2](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ma_2.png)
+![module avail slide 2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_2.png)
 
-![module avail slide 3](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ma_3.png)
+![module avail slide 3](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_3.png)
 
-![module avail slide 4](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ma_4.png)
+![module avail slide 4](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_4.png)
 
-![module avail slide 5](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ma_5.png)
+![module avail slide 5](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_5.png)
 
-![module avail slide 6](https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ma_6.png)
+![module avail slide 6](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_6.png)
+
+<!--
+<figure markdown style="border: 1px solid #000">
+  ![module avail slide 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_1.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module avail slide 2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_2.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module avail slide 3](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_3.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module avail slide 4](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_4.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module avail slide 5](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_5.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module avail slide 6](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_6.png)
+</figure>
+-->
 
 Next to the names of modules you sometimes see one or more letters.
 The `(D)` means that that is currently the default version of the module, the one that will be loaded
@@ -545,7 +672,7 @@ due to another bug in the already old version of Lmod.
 ## Changing how the module list is displayed
 
 <figure markdown style="border: 1px solid #000">
-  ![Changing how the module list is displayed](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ChangingDisplayStyle.png)
+  ![Changing how the module list is displayed](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ChangingDisplayStyle.png)
 </figure>
 
 You may have noticed in the above example that we don't show directories of module files
@@ -589,7 +716,7 @@ from regular users.
 ## Getting help with the module help command
 
 <figure markdown style="border: 1px solid #000">
-  ![Getting help](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/GettingHelp.png)
+  ![Getting help](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/GettingHelp.png)
 </figure>
 
 Lmod has the `module help` command to get help on modules
@@ -627,7 +754,7 @@ $ module whatis Subversion/1.14.2
 ## A note on caching
 
 <figure markdown style="border: 1px solid #000">
-  ![A note on caching](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/NoteCaching.png)
+  ![A note on caching](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/NoteCaching.png)
 </figure>
 
 Modules are stored as (small) files in the file system. Having a large module system with
@@ -652,7 +779,7 @@ in good shape.
 ## A note on other commands
 
 <figure markdown style="border: 1px solid #000">
-  ![A note on other commands](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/NoteOtherCommands.png)
+  ![A note on other commands](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/NoteOtherCommands.png)
 </figure>
 
 As this tutorial assumes some experience with using modules on other clusters, we haven't paid
