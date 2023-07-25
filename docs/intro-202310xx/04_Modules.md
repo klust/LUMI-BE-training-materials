@@ -835,3 +835,30 @@ so links may break over time.**
     want to design their own modules.
 -   [Information on the module environment in the LUMI documentation](https://docs.lumi-supercomputer.eu/runjobs/lumi_env/Lmod_modules/)
 
+
+## Local materials
+
+-   VSC
+   
+    -   VSC@UAntwerpen: Modules are covered in the [HPC@UAntwerp introduction](https://www.uantwerpen.be/en/research-facilities/calcua/training/)
+
+    -   VSC@VUB: Modules are covered in the [HPC Introduction course](https://hpc.vub.be/docs/slides/hpc-intro/),
+  
+        with local documentation in the ["Module System" section of the documentation](https://hpc.vub.be/docs/software/modules/)
+
+    -   VSC@UGent: Modules are briefly coverd in the "Introduction to HPC-UGent" course. The Lmod setup on the
+        clusters at UGent is more restrictive than on LUMI with several usefull features disabled.
+
+        -   [Slides](https://www.ugent.be/hpc/en/training/2023/introhpc202306) and [YouTube recording](https://www.ugent.be/hpc/en/training/introhpcugent-recording)
+            of the June 9, 2023 session.
+
+    -   VSC@KULeuven: Modules are discussed in the [Linux for HPC course](https://hpcleuven.github.io/Linux-for-HPC/)
+
+-   CÉCI: 
+
+    -   [Choosing and activating software with system modules on CÉCI clusters](https://indico.cism.ucl.ac.be/event/121/contributions/58/)
+        from the fall 2022 introductory courses.
+
+    -   [YouTube video: Modules: How to find/use software on cluster](https://www.youtube.com/watch?v=4hq8jcy2k3Q)
+        from the fall 2020 introductory courses.
+
