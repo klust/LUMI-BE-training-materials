@@ -44,11 +44,13 @@ THIS TEXT ALREADY ASSUMES A TRAINING PROJECT WHICH DOES NOT YET EXIST.
 | Getting access to LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-03-access.pdf) | [notes](03_LUMI_access.md) | / |
 | Modules on LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-04-modules.pdf) | [notes](04_Modules.md) | / |
 | LUMI Software Stacks | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-05-software.pdf) | [notes](05_Software_stacks.md) | / |
-| Exercises 1 | / | [notes](05_Exercises_1.md) | / |
-| Running Jobs on LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-06-running_jobs.pdf) | / | / |
-| Exercises 2 | / | [notes](07_Exercises_2.md) | / |
-| Introduction to Lustre and Best Practices | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-08-Lustre-intro.pdf) | / | / |
-| LUMI User Support | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-09-Lumi-support.pdf) | / | / |
+| Exercises 1 | / | [notes](06_Exercises_1.md) | / |
+| Slurm on LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-07-Slurm.pdf) | [notes](07_Slurm.md) | / |
+| Binding resources | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-Binding.pdf) | [notes](08_Binding.md) | / | 
+| Exercises 2 | / | [notes](09_Exercises_2.md) | / |
+| Using Lustre | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-10-Lustre.pdf) | [notes](10_Lustre.md) | / |
+| Containers on LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-11-Containers.pdf) | [notes](11_Containers.md) | / |
+| LUMI User Support | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-12-Support.pdf) | [notes](12_Support.md) | / |
 
 
 ## Web links
