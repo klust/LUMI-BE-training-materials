@@ -39,6 +39,13 @@ nav:
     - Getting access: intro-202310xx/03_LUMI_access.md
     - Modules: intro-202310xx/04_Modules.md
     - Software stacks: intro-202310xx/05_Software_stacks.md
+    - Exercises 1: intro-202310xx/06_Exercises_1.md
+    - Slurm on LUMI: intro-202310xx/07_Slurm.md
+    - Binding: intro-202310xx/08_Binding.md
+    - Exercises 2: intro-202310xx/09_Exercises_2.md
+    - Lustre: intro-202310xx/10_Lustre.md
+    - Containers: intro-202310xx/11_Containers.md
+    - Support: intro-202310xx/12_Support
      
 plugins:
   # show revision date at bottom of each page
