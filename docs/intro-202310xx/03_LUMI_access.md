@@ -369,3 +369,9 @@ Web links:
     -   [rclone documentation](https://rclone.org/docs/)
     -   [S3cmd tools usage](https://s3tools.org/usage)
     -   [restic documentation](https://restic.readthedocs.io/en/latest/)
+
+
+## Local trainings
+
+Any HPC introductory training in Belgium covers logging in via ssh and transferring files.
+Such a course is a prerequisite for this section.
