@@ -715,3 +715,33 @@ The total size is roughly the size of a tennis court.
     colder climate. The LUMI supercomputer is housed in Kajaani in Finland, with moderate temperature almost 
     year round, and the heat produced by the supercomputer is fed into the central heating system of the
     city, making it one of the greenest supercomputers in the world as it is also fed with renewable energy.
+
+
+## Local trainings
+
+The following trainings provide useful preliminary material for this section,
+and in one case even more details.
+
+-   VSC:
+
+    -   VSC@UAntwerpen: [Supercompters for Starters course](https://www.uantwerpen.be/en/research-facilities/calcua/training/),
+        organised twice each year.
+
+        [Almost complete course notes are available](https://klust.github.io/SupercomputersForStarters/)
+
+        This course given in 2 4 hour sessions goes into more detail about CPU architecutre, memory, storage, accelerators,
+        and the software that binds all hardware together to build a cluster.
+
+    -   The other introductory courses have a high-level overview of a cluster
+
+        -   [VSC@VUB HPC Introduction](https://hpc.vub.be/docs/slides/hpc-intro/)
+
+        -   [VSC@UGent Introduction to HPC](https://www.ugent.be/hpc/en/training/2023/introhpcugent)
+
+        -   [VSC@KULeuven HPC-intro](https://hpcleuven.github.io/HPC-intro/)
+
+-   CÉCI: The annual introductory course "Learning how to use HPC infrastructure" covers the basics 
+    of cluster architecture.
+
+    -   [2022 edition: presentation "Introduction to high-performance computing](https://indico.cism.ucl.ac.be/event/120/contributions/54/)
+

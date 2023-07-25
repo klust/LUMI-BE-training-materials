@@ -69,3 +69,36 @@ THIS TEXT ALREADY ASSUMES A TRAINING PROJECT WHICH DOES NOT YET EXIST.
 
     -   [Lucia@Cenaero documentation](https://doc.lucia.cenaero.be/)
 
+-   LUMI training resources
+
+    -   [LUMI training announcements](https://www.lumi-supercomputer.eu/events/)
+
+    -   [LUMI training materials archive](https://lumi-supercomputer.github.io/LUMI-training-materials/)
+
+-   Local (BE) trainings
+
+    -   [VSC training page](https://www.vscentrum.be/vsctraining)
+
+        -   [Local materials UAntwerpen](https://www.uantwerpen.be/en/research-facilities/calcua/training/)
+  
+        -   [Local materials VUB](https://hpc.vub.be/docs/training-material/)
+
+        -   [Local materials UGent](https://www.ugent.be/hpc/en/training)
+
+     -   [CÉCI HPC training page](https://www.ceci-hpc.be/training.html)
+
+        Training materials of previous sessions are available via the 
+        [CISM indico event management system](https://indico.cism.ucl.ac.be/category/1/). 
+        For each training, go to the "Contribution List" and then to the presentation itself,
+        and training materials are available at the bottom of the page.
+
+        Recordings of several presentations are available on the 
+        [CÉCI and CISM HPC YouTube Channel](https://www.youtube.com/@CECIandCISMHPC)
+
+    -   [EuroCC Belgium training page](https://www.enccb.be/training)
+
+-   Other course materials
+
+    -   [Archive of PRACE training materials](https://training.prace-ri.eu/) (no https unfortunately)
+
+
