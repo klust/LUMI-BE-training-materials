@@ -138,7 +138,7 @@ A **GPU** in Slurm is an accelerator and on LUMI corresponds to one GCD of an MI
 ## Slurm is first and foremost a batch scheduler
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Slurm concepts 2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/BatchScheduler.png){ loading=lazy }
+  ![Slide Slurm is first and foremost a batch scheduler](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/BatchScheduler.png){ loading=lazy }
 </figure>
 
 And LUMI is in the first place a batch processing supercomputer.
@@ -171,11 +171,59 @@ scheduler looks for small and short jobs to fill up the gaps left while the sche
 for a big job.
 
 
+## A Slurm batch script
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide A Slurm batch script](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/BatchScript.png){ loading=lazy }
+</figure>
+
+Slurm batch scripts (also called job scripts) are conceptually not that different from batch scripts for other HPC schedulers.
+A typical batch script will have 4 parts:
+
+1.  The shebang line with the shell to use. We advise to use the bash shell (`/bin/bash` or `/usr/bin/bash`)
+    If omitted, a very restricted shell will be used and some commands (e.g., related to modules)
+    may fail. In principle any shell language that uses a hashtag to denote comments can be used, but
+    we would advise against experimenting and the LUMI User Support Team and VSC support teams will only
+    support bash.
+
+2.  Specification of resources and some other instructions for the scheduler and resource manager. This part
+    is also optional as one can also pass the instructions via the command line of `sbatch`, the command to
+    submit a batch job. But again, we would advise against omitting this block as specifying all options on
+    the command line can be very tedious.
+
+3.  Building a suitable environment for the job. This part is also optional as on LUMI, Slurm will copy the
+    environment from the node from which the job was submitted. This may not be the ideal envrionment for your job,
+    and if you later resubmit the job you may do so accidentally from a different environment so it is a good practice
+    to specify the environment.
+
+4.  The commands you want to execute.
+
+Blocks 3 and 4 can of course be mixed as you may want to execute a second command in a different environment.
+
+On the following slides we will explore in particular the second block and to some extent how to start programs
+(the fourth block).
+
+!!! note "lumi-CPEtools module"
+    The [`lumi-CPEtools` module](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/l/lumi-CPEtools/)
+    will be used a lot in this session of the course and in the next one on binding. It contains among
+    other things a number of programs to quickly visualise how a serial, OpenMP, MPI or hybrid OpenMP/MPI
+    application would run on LUMI and which cores and GPUs would be used. It is a very useful tool to 
+    discover how Slurm options work without using a lot of billing units and we would advise you to 
+    use it whenever you suspect Slurm isn't doing what you meant to do.
+
+    It has its [documentation page in the LUMI Software Library](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/l/lumi-CPEtools/).
+
+
 ## Partitions
 
 <figure markdown style="border: 1px solid #000">
   ![Slide Partitions 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/Partitions_1.png){ loading=lazy }
 </figure>
+
+!!! Remark
+    Jobs run in partitions so the first thing we should wonder when setting up a job is which partition
+    to use for a job (or sometimes partitions in case of a heterogeneous job which will be discussed
+    later).
 
 Slurm partitions are possibly overlapping groups of nodes with similar resources or associated limits. 
 Each partition typically targets a particular job profile. E.g., LUMI has partitions for large multi-node jobs,
@@ -241,6 +289,13 @@ Some useful commands with respect to Slurm partitions:
     q_fiqci        up      15:00          0/1/0/1 nid002153
     ```
 
+    The fourth column shows 4 numbers: The number of nodes that are currently fully or partially allocated
+    to jobs, the number of idle nodes, the number of nodes in one of the other possible states (and not
+    user-accessible) and the total number of nodes in the partition. When these nodes were written
+    a large number of nodes were suffering from hardware problems with the Slingshot network cards and
+    we were waiting for replacement parts which explains the thigh number of CPU nodes in the "other"
+    field.
+
     Note that this overview may show partitions that are not hidden but also not accessible to everyone. E.g., 
     the `q_nordic` and `q_fiqci` partitions are used to access experimental quantum computers that are only
     available to some users of those countries that paid for those machines, which does not include Belgium.
@@ -253,15 +308,74 @@ Some useful commands with respect to Slurm partitions:
     meant for as it was introduced without informting the support. The resources in that partition are very
     limited so it is not meant for widespread use.
 
--   For technically-oriented people, some more details about a partion can be obtained with
+-   For technically-oriented people, some more details about a partition can be obtained with
     `scontrol show partition <partition-name>`.
 
+??? example "Additional example with `sinfo`"
+    Try
 
-## Fairness of queueing
+    ```
+    $ sinfo --format "%4D %10P %25f %.4c %.8m %25G %N"
+    NODE PARTITION  AVAIL_FEATURES            CPUS   MEMORY GRES                      NODELIST
+    256  standard   AMD_EPYC_7763,x1001        256   229376 (null)                    nid[001256-001511]
+    256  standard   AMD_EPYC_7763,x1002        256   229376 (null)                    nid[001512-001767]
+    256  standard   AMD_EPYC_7763,x1003        256   229376 (null)                    nid[001768-002023]
+    252  standard   AMD_EPYC_7763,x1000        256   229376 (null)                    nid[001002-001009,001012-001255]
+    244  small      AMD_EPYC_7763,x1005        256  229376+ (null)                    nid[002280-002523]
+    250  small      AMD_EPYC_7763,x1004        256   229376 (null)                    nid[002028-002060,002062-002152,002154-002279]
+    4    interactiv AMD_EPYC_7763,x1005        256   229376 (null)                    nid[002524-002527]
+    8    debug      AMD_EPYC_7763,x1005        256   229376 (null)                    nid[002528-002535]
+    8    lumid      AMD_EPYC_7742              256  2048000 gpu:a40:8,nvme:40000      nid[000016-000023]
+    8    largemem   AMD_EPYC_7742              256 4096000+ (null)                    nid[000101-000108]
+    32   eap        AMD_EPYC_7A53,x1100        128   491520 gpu:mi250:8               nid[005000-005031]
+    112  standard-g AMD_EPYC_7A53,x1401        128   491520 gpu:mi250:8               nid[007016-007127]
+    112  standard-g AMD_EPYC_7A53,x1402        128   491520 gpu:mi250:8               nid[007128-007239]
+    80   standard-g AMD_EPYC_7A53,x1100        128   491520 gpu:mi250:8               nid[005032-005111]
+    112  standard-g AMD_EPYC_7A53,x1101        128   491520 gpu:mi250:8               nid[005112-005223]
+    112  standard-g AMD_EPYC_7A53,x1102        128   491520 gpu:mi250:8               nid[005224-005335]
+    112  standard-g AMD_EPYC_7A53,x1103        128   491520 gpu:mi250:8               nid[005336-005447]
+    112  standard-g AMD_EPYC_7A53,x1104        128   491520 gpu:mi250:8               nid[005448-005559]
+    112  standard-g AMD_EPYC_7A53,x1105        128   491520 gpu:mi250:8               nid[005560-005671]
+    112  standard-g AMD_EPYC_7A53,x1200        128   491520 gpu:mi250:8               nid[005672-005783]
+    112  standard-g AMD_EPYC_7A53,x1201        128   491520 gpu:mi250:8               nid[005784-005895]
+    112  standard-g AMD_EPYC_7A53,x1202        128   491520 gpu:mi250:8               nid[005896-006007]
+    112  standard-g AMD_EPYC_7A53,x1203        128   491520 gpu:mi250:8               nid[006008-006119]
+    112  standard-g AMD_EPYC_7A53,x1204        128   491520 gpu:mi250:8               nid[006120-006231]
+    112  standard-g AMD_EPYC_7A53,x1205        128   491520 gpu:mi250:8               nid[006232-006343]
+    112  standard-g AMD_EPYC_7A53,x1300        128   491520 gpu:mi250:8               nid[006344-006455]
+    112  standard-g AMD_EPYC_7A53,x1302        128   491520 gpu:mi250:8               nid[006568-006679]
+    112  standard-g AMD_EPYC_7A53,x1303        128   491520 gpu:mi250:8               nid[006680-006791]
+    112  standard-g AMD_EPYC_7A53,x1304        128   491520 gpu:mi250:8               nid[006792-006903]
+    112  standard-g AMD_EPYC_7A53,x1305        128   491520 gpu:mi250:8               nid[006904-007015]
+    112  standard-g AMD_EPYC_7A53,x1301        128   491520 gpu:mi250:8               nid[006456-006567]
+    56   small-g    AMD_EPYC_7A53,x1405        128   491520 gpu:mi250:8               nid[007464-007519]
+    112  small-g    AMD_EPYC_7A53,x1404        128   491520 gpu:mi250:8               nid[007352-007463]
+    112  small-g    AMD_EPYC_7A53,x1403        128   491520 gpu:mi250:8               nid[007240-007351]
+    48   dev-g      AMD_EPYC_7A53,x1405        128   491520 gpu:mi250:8               nid[007520-007531,007534-007545,007548-007559,007562-007573]
+    1    q_nordiq   AMD_EPYC_7763,x1000        256   229376 (null)                    nid001001
+    1    q_fiqci    AMD_EPYC_7763,x1004        256   229376 (null)                    nid002153
+    ```
+    (Output may vary over time)
+    
+    This shows more information about the system. The `xNNNN` feature corresponds to groups in 
+    the Slingshot interconnect and may be useful if you want to try to get a job running in
+    a single group (which is too advanced for this course).
+
+    The memory size is given in megabyte (MiB, multiples of 1024). The "+" in the second group
+    of the small partition is because that partition also contains the 512 GB and 1 TB regular 
+    compute nodes. The memory reported is always 32 GB less than you would expect from the 
+    node specifications. This is because 32 GB on each node is reserved for the OS and the 
+    RAM disk it needs.
+
+
+## Queueing and fairness
 
 <figure markdown style="border: 1px solid #000">
   ![Slide Fairness of queueing](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/Fairness.png){ loading=lazy }
 </figure>
+
+!!! Remark
+    Jobs are queued until they can run so we should wonder how that system works.
 
 LUMI is a pre-exascale machine meant to foster research into exascale applications. 
 As a result the scheduler setup of LUMI favours large jobs (though some users with large
@@ -306,7 +420,328 @@ to have all nodes for the big job. This mechanism is called backfill and is the 
 short experiments of half an hour or so often start quickly on LUMI even though the queue is very long.
 
 
+## Accounting of jobs
 
+<figure markdown style="border: 1px solid #000">
+  ![Slide Accounting of jobs](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/Accounting.png){ loading=lazy }
+</figure>
+
+!!! Remark "Billing of jobs"
+    Jobs are billed against your allocation, so how does this work?
+
+The use of resources by a job is billed to projects, not users. All management is also
+done at the project level, not at the "user-in-a-project" level.
+As users can have multiple projects, the system cannot know to which project a job
+should be billed, so it is mandatory to specify a project account (of the form
+`project_46YXXXXXX`) with every command that creates an allocation.
+
+Billing on LUMI is not based on which resources you effectively use, but on the
+amount of resources that others cannot use well because of your allocation. 
+This assumes that you make proportional use of CPU cores, CPU memory and GPUs (actually GCDs).
+If you job makes a disproportionally high use of one of those resources, you will be billed
+based on that use. For the CPU nodes, the billing is based on both the number of cores you
+request in your allocation and the amount of memory compared to the amount of memory per core
+in a regular node, and the highest of the two numbers is used. For the GPU nodes, the formula
+looks at the number of cores compared to he number of cores per GPU, the amount of CPU memory compared 
+to the amount of memory per GCD (so 64 GB), and the amount of GPUs and the highest amount
+determines for how many GCDs you will be billed (with a cost of 0.5 GPU-hour per hour per GCD).
+For jobs in job-exclusive partitions you are automatically billed for the full node as no other
+job can use that node, so 128 core-hours per hour for the standard partition or
+4 GPU-hours per hour for the standard-g partition.
+
+E.g., if you would ask for only one core but 128 GB of memory, half of what a regular LUMI-C node has,
+you'd be billed for the use of 64 cores. Or assume you want to use only one GCD but want to use 16 cores
+and 256 GB of system RAM with it, then you would be billed for 4 GPUs/GCDs: 256 GB of memory makes it impossible
+for other users to use 4 GPUs/GCDs in the system, and 16 cores make it impossible to use 2 GPUs/GCDs,
+so the highest number of those is 4, which means that you will pay 2 GPU-hours per hour that you use the
+allocation (as GPU-hours are based on a full MI250x and not on a GCD which is the GPU for Slurm).
+
+!!! Remark "This billing policy is unreasonable!"
+    Users who have no experience with performance optimisation may think this way of
+    billing is unfair. After all, there may be users who need far less than 2 GB of memory
+    per core so they could still use the other cores on a node where I am using only
+    one core but 128 GB of memory, right? Well, no, and this has everything to do with
+    the very hierarchical nature of a modern compute node, with on LUMI-C 2 sockets,
+    4 NUMA domains per socket, and 2 L3 cache domains per NUMA domain. Assuming your
+    job would get the first core on the first socket (called core 0 and socket 0 as
+    computers tend to number from 0). Linux will then allocate the memory of the job
+    as close as possible to that core, so it will fill up the 4 NUMA domains of that
+    socket. It can migrate unused memory to the other socket, but let's assume your 
+    code does not only need 128 GB but also accesses bits and pieces from it everywhere
+    all the time. Another application running on socket 0 may then get part or all
+    of its memory on socket 1, and the latency to access that memory is more than 
+    3 times higher, so performance of that application will suffer. In other words,
+    the other cores in socket 0 cannot be used with full efficiency.
+
+    This is not a hypothetical scenario. The author of this text has seem benchmarks
+    run on one of the largest systems in Flanders that didn't scale at all and for
+    some core configuration ran at only 10% of the speed they should have been
+    running at...
+
+    Still, even with this billing policy Slurm oon LUMI is a far from perfect scheduler
+    and core, GPU and memory allocation on the non-exclusive partitions are far from
+    optimal. Which is why we spend a section of the course on binding applications
+    to resources.
+
+The billing is done in a postprocessing step in the system based on data from the Slurm 
+job database, but the Slurm accounting features do not produce the correct numbers. 
+E.g., Slurm counts the core hours based on the virtual cores so the numbers are double
+of what they should be. There are two ways to check the state of an allocation, though
+both work with some delay.
+
+-   The `lumi-workspaces` and `lumi-allocations` commands show the total amount of 
+    billing units consumed. In regular operation of the system these numbers are updated
+    approximately once an hour.
+
+    `lumi-workspaces` is the all-in command that intends to show all information that is 
+    useful to a regular user, while `lumi-allocations` is a specialised tool that only
+    shows billing units, but he numbers shown by both tools come from the same database
+    and are identical.
+
+-   For projects managed via Puhuri, Puhuri can show billing unit use per month, but the
+    delay is larger than with the `lumi-workspaces` command.
+
+
+
+!!! Remark "Billing unit use per user in a project"
+    The current project management system in LUMI cannot show the use of billing units
+    per person within a project.
+
+    For storage quota this would be very expensive to organise as quota are managed
+    by Lustre on a group basis. 
+
+    For CPU and GPU billing units it would in principle be possible as the Slurm
+    database contains the necessary information, but there are no plans to implement
+    such a feature. It is assumed that every PI makes sure that members of their 
+    projects use LUMI in a responsible way and ensures that they have sufficient 
+    experience to realise what they are doing.
+
+
+## Creating a Slurm job
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Creating a Slurm job](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/CreateJob.png){ loading=lazy }
+</figure>
+
+Slurm has three main commands to create jobs and job steps. 
+Remember that a job is just a request for an allocation. Your applications always have to
+run inside a job step.
+
+The `salloc` command only creates an allocation but does not create a job step.
+**The behaviour of `salloc` differs between clusters!** 
+On LUMI, `salloc` will put you in a new shell on the node from which you issued
+the `salloc` command, typically the login node. Your allocation will exist until
+you exit that shell with the `exit` command or with the CONTROL-D key combination.
+Creating an allocation with `salloc` is good for interactive work.
+
+!!! Remark "Differences in `salloc` behaviour."
+    On some systems `salloc` does not only create a job allocation but will
+    also create a job step, the so-called "interactive job step" on a node of
+    the allocation, similar to the way that the `sbatch` command discussed later
+    will create a so-called "batch job step".
+
+The main purpose of the `srun` command is to create a job step in an allocation.
+When run outside of a job (outside an allocation) it will also create a job allocation.
+However, be careful when using this command to also create the job in which the job step
+will run as some options work differently as for the commands meant to create an allocation.
+When creating a job with `salloc` you will have to use `srun` to start anything on the
+node(s) in the allocation as it is not possible to, e.g., reach the nodes with `ssh`.
+
+The `sbatch` command both creates a job and then start a job step, teh so-called batch
+job step, to run the job script on the first node of the job allocation.
+In principle it is possible to start both sequential and shared memory processes
+directly in the batch job step without creating a new job step with `srun`, 
+but keep in mind that the resources may be different from what you expect to see
+in some cases as some of the options given with the `sbatch` command will only be
+enforced when starting another job step from the batch job step. To run any
+multi-process job (e.g., MPI) you will have to use `srun` or a process starter that
+internally calls `srun` to start the job.
+**When using Cray MPICH as the MPI implementation (and it is the only one that is fully
+supported on LUMI) you will have to use `srun` as the process starter.**
+
+
+## Passing options to srun, salloc and sbatch
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Passing options to srun, salloc and sbatch](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PassingOptions.png){ loading=lazy }
+</figure>
+
+There are several ways to pass options and flags to the `srun`, `salloc` and `sbatch` command.
+
+The lowest priority way and only for the `sbatch` command is specifying the options (mostly resource-related)
+in the batch script itself on `#SBATCH` lines. These lines should not be interrupted by commands, and it is
+not possible to use environment variables to specify values of options. 
+
+Higher in priority is specifying options and flags through environment variables. 
+For the `sbatch` command this are the `SBATCH_*` environment variables, for `salloc`
+the `SALLOC_*` environment variables and for `srun` the `SLURM_*` and some `SRUN_*` environment variables.
+For the `sbatch` command this will overwrite values on the `#SBATCH` lines. You can find
+lists in the manual pages of the 
+[`sbatch`](https://slurm.schedmd.com/sbatch.html),
+[ `salloc`](https://slurm.schedmd.com/salloc.html) and
+[`srun`](https://slurm.schedmd.com/srun.html) command.
+Specifying command line options via environment variables that are hidden in your
+`.profile` or `.bashrc` file or any script that you run before starting your work,
+is not free of risks. Users often forget that they set those environment variables and
+are then surprised that the Slurm commands act differently then expected. E.g., it
+is very tempting to set the project account to use in environment variables but if you 
+then get a second project you may be running inadvertently in the wrong project.
+
+The highest priority is for flags and options given on the command line. The position of 
+those options is important though. With the `sbatch` command they have to be specified before
+the batch script as otherwise they will be passed to the batch script as command line options for 
+that script. Likewise, with `srun` they have to be specified before the command you want to execute
+as otherwise they would be passed to that command as flags and options.
+
+Several options specified to `sbatch` or `salloc` are also forwarded to `srun` via `SLURM_*` environment
+variables set in the job by these commands.
+
+
+## Specifying resources
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Specifying resources](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/SpecifyingResources.png){ loading=lazy }
+</figure>
+
+Slurm commands have way more options and flags than we can discuss in this course or even the
+4-day comprehensive course organised by the LUMI User Support Team. Moreover, if and how they work
+may depend on the specific configuration of Slurm. Slurm has so many options that no two clusters
+are the same. 
+
+Slurm command can exist in two variants:
+
+1.  The long variant, with a double dash, is of the form `--long-option=<value>` or 
+    `--long-option <value>`
+
+2.  But many popular commands also have a single letter variant, with a single dash:
+    `-S <value>` or `-S<value>`
+
+This is no different from many popular Linux commands.
+
+Slurm commands for creating allocations and job steps have many different flags for specifying
+the allocation and the organisation of tasks in that allocation. Not all combinations are valid,
+and it is not possible to sum up all possible configurations for all possible scenarios. Use 
+common sense and if something does not work, check the manual page and try something different.
+Overspecifying options is not a good idea as you may very well create conflicts, and we will see
+some examples in this section and the next section on binding. However, underspecifying is not
+a good idea either as some defaults may be used you didn't think of. Some combinations also just 
+don't make sense. E.g., if you are running in "allocatable by resource" partitions you don't 
+always know which cores on a node you will get so using options that specify specific cores for
+specific tasks will result in error messages. If you want full nodes it may just be better to use
+the standard and standard-g partitions unless you need one of the CPU nodes with more memory per 
+node. Also, keep in mind that on "allocatable by resource" partitions Slurm already needs to
+know the structure of the tasks (cores per task, GPUs per task) to be able to create a proper 
+allocation as tasks and cores may be spread out within a node or across multiple nodes of LUMI.
+Obviously a task in a job step needs all its resources (cores, memory and GPUs) in the same 
+node, and if multiple tasks are sharing GPUs then obviously these tasks must also be on the
+same node.
+
+
+## Requesting resources: CPUs and GPUs
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Requesting resources: CPUs and GPUs](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/RequestingCPUsGPUs.png){ loading=lazy }
+</figure>
+
+Slurm is very flexible in the way resources can be requested. Covering every scenario and every possible
+way to request CPUs and GPUs is impossible, so we will present a scheme that works for most users and jobs.
+
+First, you have to distinguish between two strategies for requesting resources, each with their own
+pros and cons. We'll call them "per-node allocations" and "per-core allocations":
+
+1.  **"Per-node allocations":** Request suitable nodes (number of nodes and partition) with `sbatch` or `salloc`
+    but postpone specifying the full structure of the job step (i.e., tasks, cpus per task, gpus per task, ...)
+    until you actually start the job step with `srun`.
+
+    This strategy relies on job-exclusive nodes, so works on the `standard` and `standard-g` partitions that 
+    are "allocatable-by-node" partitions, but can
+    be used on the "allocatable-by-resource" partitions also it the `--exclusive` flag is used 
+    with `sbatch` or `salloc` (on the command line or
+    with and `#SBATCH --exclusive` line for `sbatch`).
+
+    This strategy gives you the ultimate flexibility in the job as you can run multiple job steps with a different 
+    structure in the same job rather than having to submit multiple jobs with job dependencies to ensure that they
+    are started in the proper order. E.g., you could first have an initialisation step that generates input files in
+    a multi-threaded shared memory program and then run a pure MPI job with a single-threaded process per rank. 
+
+    This strategy also gives you full control over how the application is mapped onto the available hardware:
+    mapping of MPI ranks across nodes and within nodes, binding of threads to cores, and binding of GPUs to
+    MPI ranks. This will be the topic of the next section of the course and is for some applications very important
+    to get optimal performance on modern supercomputer nodes that have a strongly hierarchical architecture
+    (which in fact is not only the case for AMD processors, but will likely be an issue on some Intel Sapphire
+    Rapids processors also).
+
+    The downside is that allocations and hence billing is always per full node, so if you need only half a node 
+    you waste a lot of billing units. It shows that to exploit the full power of a supercomputer you really need
+    to have problems and applications that can at least exploit a full node.
+
+2.  **"Per-core allocations":** Specify the full job step structure when creating the job allocation and optionally
+    limit the choice fo Slurm for the resource allocation by specifying a number of nodes
+    that should be used. 
+
+    The problem is that Slurm cannot create a correct allocation on an "allocatable by resource" partition if it would
+    only know the total number of CPUs and total number of GPUs that you need. Slurm does not automatically allocate the
+    resources on the minimal number of nodes (and even then there could be problems) and cannot know how you intend to use
+    the resources to ensure that the resources are actually useful for you job. E.g., if you ask for 16 cores and Slurm would
+    spread them over two or more nodes, then they would not be useful to run a shared memory program as such a program cannot 
+    span nodes. Or if you really want to run an MPI application that needs 4 ranks and 4 cores per rank, then those cores
+    must be assigned in groups of 4 within nodes as an MPI rank cannot span nodes. The same holds for GPUs. If you would 
+    ask for 16 cores and 4 GPUs you may still be using them in different ways. Most users will probably intend to start an
+    MPI program with 4 ranks that each use 4 cores and one GPU, and in that case the allocation should be done in groups 
+    that each contain 4 cores and 1 GPU but can be spread over up to 4 nodes, but you may as well intend to run 
+    a 16-thread shared memory application that also needs 4 GPUs. 
+
+    The upside of this is that with this strategy you will only get what you really need when used in an
+    "allocatable-by-resources" partition, so 
+    if you don't need a full node, you won't be billed for a full node (assuming of course that you
+    don't request that much memory that you basically need a full node's memory). 
+
+    One downside is that you are now somewhat bound to the job structure. You can run job steps with a different structure,
+    but they may produce a warning or may not run at all if the job step cannot be mapped on the resources allocated to 
+    the job.
+
+    More importantly, most options to do binding (See the next session) cannot be used or don't make sense anyway as there
+    is no guarantee your cores will be allocated in a dense configuration.
+
+    However, if you can live with those restrictions and if your job size falls within the limits of the "allocatable per 
+    resource" partitions, and cannot fill up the minimal number of nodes that would be used, then this strategy ensures
+    you're only billed for the minimal amount of resources that are made unavailable by your job.
+
+This choice is something you need to think about in advance and there are no easy guidelines. Simply say "use the first 
+strategy if your job fills whole nodes anyway and the second one otherwise unless you'd need more than 4 nodes" doesn't
+make sense as your job may be so sensitive to its mapping to resources that it could perform very badly in the second case.
+The real problem is that there is no good way in Slurm to ask for a number of L3 cache domains (CPU chiplets), a number
+of NUMA domains or a number of sockets and also no easy way to always do the proper binding if you would get resources
+that way (but that is something that can only be understood after the next session). If a single job needs only a half 
+node and if all jobs take about the same time anyway, it might be better to bundle them by hand in jobs and do a proper
+mapping of each subjob on the available resources (e.g., in case of two jobs on a CPU node, map each on a socket).
+
+
+## Resources for per-node allocations
+
+In a per-node allocation, all you need to specify is the partition and the number of nodes needed, and in some cases,
+the amount of memory. In this scenario, one should use those Slurm options that specify resources per node
+also.
+
+The partition is specified using `--partition=<partition` or `-p <partition>`.
+
+The number of nodes is easily specified with `--nodes=<number_of_nodes>` or its short form 
+`-N <number_of_nodes>`.
+
+IF you want to use a per-node allocation on a partition which is allocatable-by-resources such as small
+and small-g, you also need to specify the `--exclusive` flag. On LUMI this flag does not have the same
+effect as running on a partition that is allocatable-by-node. The `--exclusive` flag does allocate
+all cores and GPUs on the node to your job, but the memory use is still limited by other parameters in
+the Slurm configuration. In fact, this can also be the case for allocatable-by-node partitions, but there 
+the limit is set to allow the use of all available memory. Currently the interplay between various parameters
+in the Slurm configuration results in a limit of 112 GiB of memory on the `small` partition and 64 GiB on the
+`standard` partition when running in `--exclusive` mode. It is possible to change this with the `--mem` option.
+
+TODO
+--mem=0
+--mem=480G etc.
+
+Number of GPUs: Not needed but if you insist...
 
 
 
