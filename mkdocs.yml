@@ -25,15 +25,20 @@ theme:
       demo: fontawesome/solid/computer-mouse
       exercise: fontawesome/solid/screwdriver-wrench
       remark: fontawesome/solid/comment-dots
+      audience: fontawesome/solid/people-group
       solution: fontawesome/solid/wand-magic-sparkles
       technical: fontawesome/solid/book-open-reader
+      intermediate: fontawesome/solid/graduation-cap
+      advanced: fontawesome/solid/user-graduate
       lumi-be: fontawesome/solid/building-flag
+      nice-to-know: fontawesome/regular/lightbulb
 
 nav:
   - Home: index.md
   - "LUMI Intro 10/23":
     - Overview: intro-202310xx/index.md
     - Schedule: intro-202310xx/schedule.md
+    - Intro to the notes: intro-202310xx/00_Introduction.md
     - Architecture: intro-202310xx/01_Architecture.md
     - Programming Environment: intro-202310xx/02_CPE.md
     - Getting access: intro-202310xx/03_LUMI_access.md
