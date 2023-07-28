@@ -38,7 +38,7 @@ THIS TEXT ALREADY ASSUMES A TRAINING PROJECT WHICH DOES NOT YET EXIST.
 
 | Presentation | Slides | Notes | recording |
 |:-------------|:-------|:------|:----------|
-| Introduction | / | / | / |
+| Introduction | / | [notes](00_Introduction.md)] | / |
 | LUMI Architecture | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-01-architecture.pdf) | [notes](01_Architecture.md) | / |
 | HPE Cray Programming Environment | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-02-CPE.pdf) | [notes](02_CPE.md) | / |
 | Getting access to LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-03-access.pdf) | [notes](03_LUMI_access.md) | / |
