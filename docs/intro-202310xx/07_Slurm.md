@@ -1,6 +1,6 @@
 # Slurm on LUMI
 
-!!! Remark "Who is this for?"
+!!! Audience "Who is this for?"
     We assume some familiarity with job scheduling in this section. The notes will cover
     some of the more basic aspects of Slurm also, though as this version of the notes is
     intended for Belgian users and since all but one HPC site in Belgium currently teaches
@@ -47,7 +47,7 @@ is no better option at this moment that is sufficiently mature.
     Yet it is still a lot better at it than Torque and Moab. So no, the wrappers used on
     the HPC systems managed by UGent will not be installed on LUMI.
 
-!!! remark "Nice to know..."
+!!! nice-to-know "Nice to know..."
     Lawrence Livermore National Laboratory, the USA national laboratory that 
     originally developed Slurm is now working on the 
     development of andother resource and job management framework called 
@@ -719,13 +719,17 @@ mapping of each subjob on the available resources (e.g., in case of two jobs on 
 
 ## Resources for per-node allocations
 
+<figure markdown style="border: 1px solid #000">
+  ![Slide Per-node allocations](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNode.png){ loading=lazy }
+</figure>
+
 In a per-node allocation, all you need to specify is the partition and the number of nodes needed, and in some cases,
 the amount of memory. In this scenario, one should use those Slurm options that specify resources per node
 also.
 
 The partition is specified using `--partition=<partition` or `-p <partition>`.
 
-The number of nodes is easily specified with `--nodes=<number_of_nodes>` or its short form 
+The number of nodes is specified with `--nodes=<number_of_nodes>` or its short form 
 `-N <number_of_nodes>`.
 
 IF you want to use a per-node allocation on a partition which is allocatable-by-resources such as small
@@ -734,15 +738,552 @@ effect as running on a partition that is allocatable-by-node. The `--exclusive` 
 all cores and GPUs on the node to your job, but the memory use is still limited by other parameters in
 the Slurm configuration. In fact, this can also be the case for allocatable-by-node partitions, but there 
 the limit is set to allow the use of all available memory. Currently the interplay between various parameters
-in the Slurm configuration results in a limit of 112 GiB of memory on the `small` partition and 64 GiB on the
+in the Slurm configuration results in a limit of 112 GB of memory on the `small` partition and 64 GB on the
 `standard` partition when running in `--exclusive` mode. It is possible to change this with the `--mem` option.
 
-TODO
---mem=0
---mem=480G etc.
+<!-- 
 
-Number of GPUs: Not needed but if you insist...
+!!! technical "Where do these memory limits come from?"
+    Checking the limits:
 
+    -   On `small` the amount of memory available is the result of the `DefMemPerCPU` parameter in the
+        Slurm config file. (Check with `scontrol show config | grep DefMemPerCPU`).
+        Multiplied with 128, the number of cores, this gives 112 GB.
+
+        This takes precedence over the `DefMemPerNode=UNLIMITED` that you see in the settings of the
+        partition (`scontrol show partition small`).
+
+    -   On `small-g` the amount of memory is restricted by the `DefMemPerNode` parameter in the
+        settings of the partition ()`scontrol show partition small-g`). The fact that a concrete value is
+        given seems to overwrite the effect of `DefMemPerCPU` in the Slurm config.
+
+    To check the amount of memory available on a node to the Slurm job, one can check the CPUset
+    that Slurm creates for the job:
+
+    ```
+    cat /sys/fs/cgroup/system.slice/slurmstepd.scope/job_$SLURM_JOB_ID/memory.max
+    ```
+
+    gives the amount of memory in bytes. This was used to verify the numbers obtained above.
+-->
+
+You can request all memory on a node by using `--mem=0`. This is currently the default behaviour on nodes in
+the `standard` and `standard-g` partition so not really needed there. It is needed on all of the partitions
+that are allocatable-by-resource.
+
+We've experienced that it may be a better option to actually specify the maximum amount of useable memory on
+a node which is the memory capacity of the node you want minus 32 GB, so you can use
+`--mem=224G` for a regular CPU node or `--mem=480G` for a GPU node. In the past we have had memory leaks on
+compute nodes that were not detected by the node health checks, resulting in users getting nodes with less
+available memory than expected, but specifying these amounts protected them against getting such nodes.
+(And similarly you could use `--mem=480G` and `--mem=992G` for the 512 GB and 1 TB compute nodes in the small 
+partition, but note that running on these nodes is expensive!)
+
+??? Example "Example jobscript (click to expand)"
+    The following job script runs a shared memory program in the batch job step, which shows that
+    it has access to all hardware threads and all GPUs in a node at that moment:
+
+    ``` bash
+    #! /usr/bin/bash
+    #SBATCH --job-name=slurm-perNode-minimal-small-g
+    #SBATCH --partition=small-g
+    #SBATCH --exclusive
+    #SBATCH --nodes=1
+    #SBATCH --mem=480G
+    #SBATCH --time=2:00
+    #SBATCH --output=%x-%j.txt
+    #SBATCH --account=project_46YXXXXXX
+
+    module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+
+    gpu_check
+
+    echo -e "\nsacct for the job:\n$(sacct -j $SLURM_JOB_ID)\n"
+    ```
+
+    As we are using small-g here instead of standard-g, we added the `#SBATCH --exclusive` and `#SBATCH --mem=480G` lines.
+
+    A similar job script for a CPU-node in LIUMI-C and now in the standard partition would look like:
+
+    ``` bash
+    #! /usr/bin/bash
+    #SBATCH --job-name=slurm-perNode-minimal-standard
+    #SBATCH --partition=standard
+    #SBATCH --nodes=1
+    #SBATCH --time=2:00
+    #SBATCH --output=%x-%j.txt
+    #SBATCH --account=project_46YXXXXXX
+
+    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeCray-22.12
+
+    omp_check
+
+    echo -e "\nsacct for the job:\n$(sacct -j $SLURM_JOB_ID)\n"
+    ```
+
+    `gpu_check` and `omp_check` are two programs provided by the `lmi-CPEtools` modules to check
+    the allocations. Try `man lumi-CPEtools` after loading the module. The programs will be used
+    extensively in the next section on binding also, and are written to check how your program
+    would behave in the allocation without burning through tons of billing units.
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Per-node allocations: CPUs](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeCPU.png){ loading=lazy }
+</figure>
+
+By default you will get all the CPUs in each node that is allocated in a per-node allocation.
+The Slurm options to request CPUs on a per-node basis are not really useful on LUMI, but might be on clusters
+with multiple node types in a single partition as they enable you to specify the minimum number of
+sockets, cores and hardware threads a node should have.
+
+**We advise against using the options to request CPUs on LUMI** 
+because it is more likely to cause problems due to user
+error than to solve problems. Some of these options also conflict with options that will be used
+later in the course.
+
+There is no direct way to specify the number of cores per node. Instead one has to specify the number
+sockets and then the number of cores per socket and one can specify even the number of hardware threads
+per core, though we will favour another mechanism later in these course notes.
+
+The two options are:
+
+1.  Specify `--sockets-per-node=<sockets` and `--cores-per-socket=<cores>` and maybe even `--threads-per-core=<threads>`.
+    For LUMI-C the maximal specification is 
+
+    ```
+    --sockets-per-node=2 --cores-per-socket-64
+    ```
+
+    and for LUMI-G
+
+    ```
+    --sockets-per-node=1 --cores-per-socket=63
+    ```
+
+    Note that on LUMI-G, nodes have 64 cores but one core is reserved for the operating system and drivers to 
+    reduce OS jitter that limits the scalability of large jobs. Requesting 64 cores will lead to error messages
+    or jobs getting stuck.
+
+2.  There is a shorthand for those parameters: `--extra-node-info=<sockets>[:cores]` or
+    `-B --extra-node-info=<sockets>[:cores]` where the second and third number are optional.
+    The full maximal specification for LUMI-C would be `--extra-node-info=2:64` and for LUMI-G
+    `--extra-node-info=1:63`.
+
+??? intermediate "What about `--threads-per-core`?"
+    Slurm also has a `--threads-per-core` (or a third number with `--extra-node-info`)
+    which is a somewhat misleading name. On LUMI, as hyperthreading
+    is turned on, you would expect that you can use `--threads-per-core=2` but if you try, you will see
+    that your job is not accepted. This because on LUMI, the smallest allocatable processor resource 
+    (called the CPU in Slurm) is a core and not a hardware thread (or virtual core as they are also 
+    called). There is another mechanism to enable or disable hyperthreading in regular job steps that we will
+    discuss later.
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Per-node allocations: GPUs](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeGPU.png){ loading=lazy }
+</figure>
+
+By default you will get all the GPUs in each node that is allocated in a per-node allocation. The Slurm options
+to request GPUs on a per-node basis are not really useful on LUMI, but might be on clusters with multiple
+types of GPUs in a single partition as they enable you to specify which type of node you want.
+If you insist, slurm has several options to specify the number of GPUs for this scenario:
+
+1.  The most logical one to use for a per-node allocation is `--gpus-per-node=8` to request 8 GPUs per node.
+    You can use a lower value, but this doesn't make much sense as you will be billed for the full node anyway.
+
+    It also has an option to also specify the type of the GPU but that doesn't really make sense on LUMI. 
+    On LUMI, you could in principle use `--gpus-per-node=mi250:8`.
+
+2.  `--gpus=<number>` or `-G <number>` specifies the total number of GPUs needed for the job. In our opinion
+    this is a dangerous option to use as when you change the number of nodes, you likely also want to change
+    the number of GPUs for the job and you may overlook this. Here again it is possible to specify the type of
+    the GPU also.
+
+3.  A GPU belongs to the family of "generic consumable resources" (or GRES) in Slurm and there is an option to request
+    any type of GRES that can also be used. Now you also need to specify the type of the GRES. The number you 
+    have to specify if on a per-node basis, so on LUMI you can use  `--gres=gpu:8` or `--gres=gpu:mi250:8`.
+
+
+## Per-node allocations: Starting a job step
+
+TODO: The slides...
+
+Serial or shared-memory multithreaded programs in a batch script can in principle be run in 
+the batch job step. As we shall see though the effect may be different from what you expect. 
+However, if you are working interactively via `salloc` you are in a shell on the node on which
+you called `salloc`, typically a login node, and to run anything on the compute nodes you 
+will have to start a job step.
+
+The command to start a new job step is `srun`. But it needs a number of arguments in most
+cases. After all, a job step consists of a number of equal-sized tasks (considering only
+homogeneous job steps at the moment, the typical case for most users) that each need a number
+of cores or hardware threads and, in case of GPU compute, access to a number of GPUs.
+
+There are several ways telling Slurm how many tasks should be created and what the 
+resources are for each individual task, but this scheme is an easy scheme:
+
+1.  Specifying the number of tasks: You can specify per node or the total number:
+
+    1.  Specifying on a per node basis: `--ntasks-per-node=<ntasks>` which is a logical
+        thing to do in a per node allocation.
+
+    2.  Specifying the total number of tasks: `--ntasks=<ntasks` or `-n ntasks`.
+        There is a risk associated to this approach which is the same as when specifying the
+        total number of GPUs for a job: IF you change the number of nodes, then you should
+        change the total number of tasks also. However, it is also very useful in certain cases.
+        Sometimes the number of tasks cannot be easily adapted and does not fit perfectly into
+        your allocation (cannot be divided by the number of nodes). In that case, specifying the
+        total number of nodes makes perfect sense.
+
+2.  Specifying the number of CPUs (cores on LUMI) for each task. The easiest way to do this is by
+    using `--cpus-per-task=<number_CPUs>` or `-c <number_CPUs>`.
+
+3.  Specifying the number of GPUs per task. The easiest way here is:
+
+    1.  Use `--gpus-per-task=>number_GPUs>` to bind one or more GPUs to each task.
+        This is probably the most used option in this scheme.
+
+    2.  If however you want multiple tasks to share a GPU, then you should use 
+        `--ntasks-per-gpu=<number_of_tasks>`. There are use cases where this makes sense.
+
+Note however that the allocation in this simple scheme is not always efficient. Slurm has various
+strategies to assign tasks to nodes, and there is an option which we will discuss in the next session
+of the course (binding) to change that. Moreover, not all clusters use the same default setting for this
+strategy. Cores and CPUs are assigned in order and this is not always the best order.
+
+It is particularly difficult to get a good distribution on the GPU nodes because of the single core
+reserved for low noise mode, which leaves the system in a very asymmetric state: There is one L3 cache
+domain with 7 available cores (the first one) and 7 with 8 available cores. Assume you want to use one
+task per GPU then there is no easy way to get each task bound to its own L3 cache domain. Any
+strategy trying this with 8 cores per task will fail as there are no 64 cores available, while using
+7 cores per task will set the first task on the first cache domain, the second task on the second cache 
+domain, but the third task will already start on the last core of the second cache domain.
+There are solutions to this problem which we will discuss in the session on binding.
+
+
+## Turning simultaneous multithreading on or off
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Turnig simultaneous multithreading on or off: GPUs](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeMultithreading.png){ loading=lazy }
+</figure>
+
+Hardware threads are enabled by default at the operating system level. In Slurm however, regular
+job steps start by default with hardware threads disabled. This is not true though for the 
+batch job step as the example below will show.
+
+Hardware threading for a regular job step can be turned on explicitly with
+`--hint=multhithread` and turned off explicitly with `--hint=nomultithread`, 
+with the latter the default on LUMI. The hint should be given as an option to
+`sbatch`(e.g., as a line `#SBATCH --hint=multithread`) and not as an option of
+`srun`. 
+
+The way it works is a bit confusing though.
+We've always told, and that is also what the Slurm manual tells, that a CPU is the 
+smallest allocatable unit and that on LUMI, Slurm is set to use the core as the smallest
+allocatable unit. So you would expect that `srun --cpus-per-task=4` combined with `#SBATCH --hint=multithread`
+would give you 4 cores with in total 8 threads, but instead you will get 2 cores with 4 hardware
+threads. In other words, it looks like (at least with the settings on LUMI) `#SBATCH --hint=multithread`
+changes the meaning of CPU in the context of an `srun` command to a hardware thread instead of a 
+core. This is illustrated with the example below.
+
+??? example "Use of `--hint=(no)multithread` (click to expand)"
+    We consider the job script 
+
+    ``` bash
+    #! /usr/bin/bash
+    #SBATCH --job-name=slurm-HWT-standard-multithread
+    #SBATCH --partition=standard
+    #SBATCH --nodes=1
+    #SBATCH --hint=multithread
+    #SBATCH --time=2:00
+    #SBATCH --output=%x-%j.txt
+    #SBATCH --account=project_46YXXXXXX
+
+    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeGNU-22.12
+
+    echo -e "Job script:\n$(cat $0)\n"
+
+    set -x
+    srun -n 1 -c 4 omp_check -r
+    set +x
+    echo -e "\nsacct for the job:\n$(sacct -j $SLURM_JOB_ID)\n"
+    ```
+
+    We consider three variants of this script:
+
+    1.  Without the `#SBATCH --hint=multithread` line to see the default behaviour of Slurm on LUMI.
+        The relevant lines of the output are:
+
+        ```
+        + srun -n 1 -c 4 omp_check -r
+
+        Running 4 threads in a single process
+
+        ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001847 mask 0-3
+        ++ omp_check: OpenMP thread   1/4   on cpu   1/256 of nid001847 mask 0-3
+        ++ omp_check: OpenMP thread   2/4   on cpu   2/256 of nid001847 mask 0-3
+        ++ omp_check: OpenMP thread   3/4   on cpu   3/256 of nid001847 mask 0-3
+
+        + set +x
+
+        sacct for the job:
+        JobID           JobName  Partition    Account  AllocCPUS      State ExitCode 
+        ------------ ---------- ---------- ---------- ---------- ---------- -------- 
+        4238727      slurm-HWT+   standard project_4+        256    RUNNING      0:0 
+        4238727.bat+      batch            project_4+        256    RUNNING      0:0 
+        4238727.0     omp_check            project_4+          8    RUNNING      0:0 
+        ```
+
+        The `omp_check` program detects that it should run 4 threads (we didn't even need to
+        help by setting `OMP_NUM_THREADS`) and uses cores 0 till 3 which are the first 4
+        physical cores on the processor.
+
+        The output of the `sacct` command claims that the job (which is the first line of
+        the table) got allocated 256 CPUs. This is a confusing feature of `sacct`: it shows 
+        the number of hardware threads even though the Slurm CPU on LUMI is defined as a core.
+        The next line shows the batch job step which actually does see all hardware threads of
+        all cores (and in general, all hardware threads of all allocated cores of the first node
+        of the job). The final line, with the '.0' job step, shows that that core was using 8
+        hardware threads, even though `omp_check` only saw 4. This is because the default 
+        behaviour (as the next test will confirm) is `--hint=nomultithread`.
+
+        Note that `sacct` shows the last job step as running even though it has finished. This is
+        because `sacct` gets the information not from the compute node but from a database, and it 
+        looks like the full information has not yet derived in the database. A short sleep before the
+        `sacct` call would cure this problem.
+
+    2.  Now replace the `#SBATCH --hint=multithread`  with `#SBATCH --hint=nomultithread`.
+        The relevant lines of the output are now
+
+        ```
+        + srun -n 1 -c 4 omp_check -r
+
+        Running 4 threads in a single process
+
+        ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001847 mask 0-3
+        ++ omp_check: OpenMP thread   1/4   on cpu   1/256 of nid001847 mask 0-3
+        ++ omp_check: OpenMP thread   2/4   on cpu   2/256 of nid001847 mask 0-3
+        ++ omp_check: OpenMP thread   3/4   on cpu   3/256 of nid001847 mask 0-3
+
+        + set +x
+
+        sacct for the job:
+        JobID           JobName  Partition    Account  AllocCPUS      State ExitCode 
+        ------------ ---------- ---------- ---------- ---------- ---------- -------- 
+        4238730      slurm-HWT+   standard project_4+        256    RUNNING      0:0 
+        4238730.bat+      batch            project_4+        256    RUNNING      0:0 
+        4238730.0     omp_check            project_4+          8    RUNNING      0:0 
+        ```
+
+        The output is no different from the previous case which confirms that this is the
+        default behaviour.
+
+    3.  Lastly, we run the above script unmodified, i.e., with `#SBATCH --hint=multithread` 
+        Now the relevant lines of the output are:
+
+        ```
+        + srun -n 1 -c 4 omp_check -r
+
+        Running 4 threads in a single process
+
+        ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001847 mask 0-1, 128-129
+        ++ omp_check: OpenMP thread   1/4   on cpu   1/256 of nid001847 mask 0-1, 128-129
+        ++ omp_check: OpenMP thread   2/4   on cpu 128/256 of nid001847 mask 0-1, 128-129
+        ++ omp_check: OpenMP thread   3/4   on cpu 129/256 of nid001847 mask 0-1, 128-129
+
+        + set +x
+
+        sacct for the job:
+        JobID           JobName  Partition    Account  AllocCPUS      State ExitCode 
+        ------------ ---------- ---------- ---------- ---------- ---------- -------- 
+        4238728      slurm-HWT+   standard project_4+        256    RUNNING      0:0 
+        4238728.bat+      batch            project_4+        256    RUNNING      0:0 
+        4238728.0     omp_check            project_4+          4  COMPLETED      0:0 
+        ```
+
+        The `omp_check` program again detects only 4 threads but now runs them on the first two
+        physical cores and the corresponding second hardware thread for these cores. 
+        The output of `sacct` now shows 4 in the "AllocCPUS" command for the `.0` job step,
+        which confirms that indeed only 2 cores with both hardware threads were allocated instead
+        of 4 cores.
+
+??? Warning "Buggy behaviour when used with `srun`"
+    Consider the following job script:
+
+    ``` bash
+    #! /usr/bin/bash
+    #SBATCH --job-name=slurm-HWT-standard-bug2
+    #SBATCH --partition=standard
+    #SBATCH --nodes=1
+    #SBATCH --time=2:00
+    #SBATCH --output=%x-%j.txt
+    #SBATCH --hint=multithread
+    #SBATCH --account=project_46YXXXXXX
+
+    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeGNU-22.12
+
+    set -x
+    srun -n 1 -c 4 --hint=nomultithread omp_check -r
+
+    srun -n 1 -c 4 --hint=multithread omp_check -r
+
+    OMP_NUM_THREADS=8 srun -n 1 -c 4 --hint=multithread omp_check -r
+
+    srun -n 1 -c 4 omp_check -r
+    set +x
+    echo -e "\nsacct for the job:\n$(sacct -j $SLURM_JOB_ID)\n"
+
+    set -x
+    srun -n 1 -c 256 --hint=multithread omp_check -r
+    ```
+
+    The relevant lines of the output are:
+
+    ```
+    + srun -n 1 -c 4 --hint=nomultithread omp_check -r
+
+    Running 4 threads in a single process
+
+    ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001246 mask 0-3
+    ++ omp_check: OpenMP thread   1/4   on cpu   1/256 of nid001246 mask 0-3
+    ++ omp_check: OpenMP thread   2/4   on cpu   2/256 of nid001246 mask 0-3
+    ++ omp_check: OpenMP thread   3/4   on cpu   3/256 of nid001246 mask 0-3
+
+    + srun -n 1 -c 4 --hint=multithread omp_check -r
+
+    Running 4 threads in a single process
+
+    ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001246 mask 0-1, 128-129
+    ++ omp_check: OpenMP thread   1/4   on cpu 129/256 of nid001246 mask 0-1, 128-129
+    ++ omp_check: OpenMP thread   2/4   on cpu 128/256 of nid001246 mask 0-1, 128-129
+    ++ omp_check: OpenMP thread   3/4   on cpu   1/256 of nid001246 mask 0-1, 128-129
+
+    + OMP_NUM_THREADS=8
+    + srun -n 1 -c 4 --hint=multithread omp_check -r
+
+    Running 8 threads in a single process
+
+    ++ omp_check: OpenMP thread   0/8   on cpu   0/256 of nid001246 mask 0-1, 128-129
+    ++ omp_check: OpenMP thread   1/8   on cpu 128/256 of nid001246 mask 0-1, 128-129
+    ++ omp_check: OpenMP thread   2/8   on cpu   0/256 of nid001246 mask 0-1, 128-129
+    ++ omp_check: OpenMP thread   3/8   on cpu   1/256 of nid001246 mask 0-1, 128-129
+    ++ omp_check: OpenMP thread   4/8   on cpu 129/256 of nid001246 mask 0-1, 128-129
+    ++ omp_check: OpenMP thread   5/8   on cpu 128/256 of nid001246 mask 0-1, 128-129
+    ++ omp_check: OpenMP thread   6/8   on cpu 129/256 of nid001246 mask 0-1, 128-129
+    ++ omp_check: OpenMP thread   7/8   on cpu   1/256 of nid001246 mask 0-1, 128-129
+
+    + srun -n 1 -c 4 omp_check -r
+
+    Running 4 threads in a single process
+
+    ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001246 mask 0-3
+    ++ omp_check: OpenMP thread   1/4   on cpu   1/256 of nid001246 mask 0-3
+    ++ omp_check: OpenMP thread   2/4   on cpu   2/256 of nid001246 mask 0-3
+    ++ omp_check: OpenMP thread   3/4   on cpu   3/256 of nid001246 mask 0-3
+
+    + set +x
+
+    sacct for the job:
+    JobID           JobName  Partition    Account  AllocCPUS      State ExitCode 
+    ------------ ---------- ---------- ---------- ---------- ---------- -------- 
+    4238801      slurm-HWT+   standard project_4+        256    RUNNING      0:0 
+    4238801.bat+      batch            project_4+        256    RUNNING      0:0 
+    4238801.0     omp_check            project_4+          8  COMPLETED      0:0 
+    4238801.1     omp_check            project_4+          8  COMPLETED      0:0 
+    4238801.2     omp_check            project_4+          8  COMPLETED      0:0 
+    4238801.3     omp_check            project_4+          8  COMPLETED      0:0 
+
+    + srun -n 1 -c 256 --hint=multithread omp_check -r
+    srun: error: Unable to create step for job 4238919: More processors requested than permitted
+    ```
+
+    The first `omp_check` runs as expected. The seocnd one uses only 2 cores but all
+    4 hyperthreads on those cores. This is also not unexpected. In the third case
+    we force the use of 8 threads, and they all land on the 4 hardware threads of
+    2 cores. Again, this is not unexpected. And neither is the output of the last 
+    run of `omp_cehck` which is again with multithreading disabled as requested in
+    the `#SBATCH` lines. What is surprising though is the output of `sacct`: 
+    It claims there were 8 hardware threads, so 4 cores, allocated to the second 
+    (the `.1`) and third (the `.2`) job step while whatever we tried, `omp_check`
+    could only see 2 cores and 4 hardware threads. Indeed, if we would try to run
+    with `-c 256` then `srun` will fail.
+
+    But now try the reverse: we turn multithreading on in the `#SBATCH` lines
+    and try to turn it off again with `srun`:
+
+    ``` bash
+    #! /usr/bin/bash
+    #SBATCH --job-name=slurm-HWT-standard-bug2
+    #SBATCH --partition=standard
+    #SBATCH --nodes=1
+    #SBATCH --time=2:00
+    #SBATCH --output=%x-%j.txt
+    #SBATCH --hint=multithread
+    #SBATCH --account=project_46YXXXXXX
+
+    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeGNU-22.12
+
+    set -x
+    srun -n 1 -c 4 --hint=nomultithread omp_check -r
+
+    srun -n 1 -c 4 --hint=multithread omp_check -r
+
+    srun -n 1 -c 4 omp_check -r
+    set +x
+    echo -e "\nsacct for the job:\n$(sacct -j $SLURM_JOB_ID)\n"
+    ```
+
+    The relevant part of the output is now
+
+    ```
+    + srun -n 1 -c 4 --hint=nomultithread omp_check -r
+
+    Running 4 threads in a single process
+
+    ++ omp_check: OpenMP thread   0/4   on cpu   1/256 of nid001460 mask 0-3
+    ++ omp_check: OpenMP thread   1/4   on cpu   2/256 of nid001460 mask 0-3
+    ++ omp_check: OpenMP thread   2/4   on cpu   3/256 of nid001460 mask 0-3
+    ++ omp_check: OpenMP thread   3/4   on cpu   0/256 of nid001460 mask 0-3
+
+    + srun -n 1 -c 4 --hint=multithread omp_check -r
+
+    Running 4 threads in a single process
+
+    ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001460 mask 0-1, 128-129
+    ++ omp_check: OpenMP thread   1/4   on cpu 129/256 of nid001460 mask 0-1, 128-129
+    ++ omp_check: OpenMP thread   2/4   on cpu 128/256 of nid001460 mask 0-1, 128-129
+    ++ omp_check: OpenMP thread   3/4   on cpu   1/256 of nid001460 mask 0-1, 128-129
+
+    ++ srun -n 1 -c 4 omp_check -r
+
+    Running 4 threads in a single process
+
+    ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001460 mask 0-1, 128-129
+    ++ omp_check: OpenMP thread   1/4   on cpu 129/256 of nid001460 mask 0-1, 128-129
+    ++ omp_check: OpenMP thread   2/4   on cpu 128/256 of nid001460 mask 0-1, 128-129
+    ++ omp_check: OpenMP thread   3/4   on cpu   1/256 of nid001460 mask 0-1, 128-129
+
+    + set +x
+
+    sacct for the job:
+    JobID           JobName  Partition    Account  AllocCPUS      State ExitCode 
+    ------------ ---------- ---------- ---------- ---------- ---------- -------- 
+    4238802      slurm-HWT+   standard project_4+        256    RUNNING      0:0 
+    4238802.bat+      batch            project_4+        256    RUNNING      0:0 
+    4238802.0     omp_check            project_4+          8  COMPLETED      0:0 
+    4238802.1     omp_check            project_4+          4  COMPLETED      0:0 
+    4238802.2     omp_check            project_4+          4  COMPLETED      0:0 
+    ```
+
+    And this is fully as expected. The first `srun` does not use hardware threads
+    as requested by `srun`, the second run does use hardware threads and only 2 cores
+    which is also what we requested with the `srun` command, and the last one also uses
+    hardware threads. The output of `sacct` (and in particular the `AllocCPUS` comumn)
+    not fully confirms that indeed there were only 2 cores allocated to the second and
+    third run.
+
+    So turning hardware threads on in the `#SBATCH` lines and then off again with `srun`
+    works as expected, but the opposite, explicitly turning it off in the `#SBATCH` lines
+    (or relying on the default which is off) and then trying to turn it on again, does not
+    work.
 
 
 
