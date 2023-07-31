@@ -597,10 +597,10 @@ Several options specified to `sbatch` or `salloc` are also forwarded to `srun` v
 variables set in the job by these commands.
 
 
-## Specifying resources
+## Specifying options
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Specifying resources](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/SpecifyingResources.png){ loading=lazy }
+  ![Slide Specifying options](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/SpecifyingOptions.png){ loading=lazy }
 </figure>
 
 Slurm commands have way more options and flags than we can discuss in this course or even the
@@ -625,7 +625,10 @@ common sense and if something does not work, check the manual page and try somet
 Overspecifying options is not a good idea as you may very well create conflicts, and we will see
 some examples in this section and the next section on binding. However, underspecifying is not
 a good idea either as some defaults may be used you didn't think of. Some combinations also just 
-don't make sense. E.g., if you are running in "allocatable by resource" partitions you don't 
+don't make sense, and we will warn for some on the following slides and try to bring some 
+structure in the wealth of options.
+<!-- 
+E.g., if you are running in "allocatable by resource" partitions you don't 
 always know which cores on a node you will get so using options that specify specific cores for
 specific tasks will result in error messages. If you want full nodes it may just be better to use
 the standard and standard-g partitions unless you need one of the CPU nodes with more memory per 
@@ -635,6 +638,71 @@ allocation as tasks and cores may be spread out within a node or across multiple
 Obviously a task in a job step needs all its resources (cores, memory and GPUs) in the same 
 node, and if multiple tasks are sharing GPUs then obviously these tasks must also be on the
 same node.
+-->
+
+## Some common options to all partitions
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Some common options to all partitions](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/SpecifyingCommonOptions.png){ loading=lazy }
+</figure>
+
+For CPU and GPU requests, a different strategy should be used for "allocatable by node" and "allocatable by resource" partitions,
+and this will be discussed later. A number of options however are common to both strategies and will be discussed first.
+All are typically used on `#SBATCH` lines in job scripts, but can also be used on the command line and the first three are
+certainly needed with `salloc` also.
+
+-   Specify the account to which the job should be billed with `--account=project_46YXXXXXX` or `-A project_46YXXXXXX`.
+    This is mandatory; without this your job will not run.
+
+-   Specify the partition: `--partition=<partition>  or `-p <partition>`. This option is also necessary
+    on LUMI as there is currently no default partition.
+
+-   Specify the wall time for the job: `--time=<timespec>` or `-t <timespec>`. There are multiple formats for
+    the time specifications, but the most common ones are minutes (one number), minutes:seconds (two numbers separated
+    by a colon) and hours:minutes:seconds (three numbers separated by a column). If not specified, the partition-dependent
+    default time is used.
+
+    It does make sense to make a reasonable estimate for the wall time needed. It does protect you a bit in case
+    your application hangs for some reason, and short jobs that also don't need too many nodes have a high chance of
+    running quicker as they can be used as backfill while the scheduler is gathering nodes for a big job.
+
+-   Completely optional: Specify a name for the job with `--job-name=<name>` or `-J <name>`. Short but clear
+    job names help to make the output of `squeue` easier to interpret, and the name can be used to generate 
+    a name for the output file that captures output to stdout and stderr also.
+
+-   Slurm also has options to send mail to a given address when a job starts or ends or some other job-related
+    events occur, but this is currently not configured on LUMI.
+
+
+## Redirecting output 
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Redirecting output](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/SpecifyingOutput.png){ loading=lazy }
+</figure>
+
+Slurm has two options to redirect stdout and stderr respectively: `--output=<template>` or `-o <template>` for stdout
+and `--error=<template>` or `-e <template>` for stderr. They work together in the following way:
+
+-   If neither `--output` not `--error` is specified, then stdout and stderr are merged and redirected to the file `slurm-<jobid>.out`.
+
+-   If `--output` is specified but `--error` is not, then stdout and stderr are merged and redirected to the file given with `--output`.
+
+-   If `--output` is not specified but `--error`, then stdout will still be redirected to `slurm-<jobid>.out`, but
+    stderr will be redirected to the file indicated by the `--error` option.
+
+-   If both `--output` and `--error` are specified, then stdout is redirected to the file given by `--output` and
+    stderr is redirected to the file given by `--error`.
+
+It is possible to insert codes in the filename that will be replaced at runtime with the corresponding Slurm 
+information. Examples are `%x` which will be replaced with the name of the job (that you can then best set with
+`--job-name`) and `%j`` which will be replaced with the job ID (job number). It is recommended to always include 
+the latter in the template for the filename as this ensures unique names if the same job script would be run a 
+few times with different input files. Discussing all patterns that can be used for the filename is outside the
+scope of this tutorial, but you can find them all in the [sbatch manual page](https://slurm.schedmd.com/sbatch.html)
+in the ["filename pattern" section](https://slurm.schedmd.com/sbatch.html#SECTION_%3CB%3Efilename-pattern%3C/B%3E).
+
+
+
 
 
 ## Requesting resources: CPUs and GPUs
@@ -1376,6 +1444,18 @@ mostly the same options that we have discussed on the slides "Per-node allocatio
 
     2.  If however you want multiple tasks to share a GPU, then you should use 
         `--ntasks-per-gpu=<number_of_tasks>`. There are use cases where this makes sense.
+
+4.  CPU memory. By default you get less than the memory per core on the node type. To change:
+
+    1.  Against the logic there is **no** `--mem-per-task=<number>`, instead memory needs to be specified in
+        function of the other allocated resources.
+
+    2.  Use `--mem-per-cpu=<number>` to request memory per CPU (use k, m, g to specify kilobytes, megabytes or gigabytes)
+
+    3.  Alternatively on a GPU allocation `--mem-per-gpu=<number>`.
+        **This is still CPU memory and not GPU memory!**
+
+    4.  Specifying memory per node with `--mem` doesn't make much sense unless the number of nodes is fixed.
 
 <figure markdown style="border: 1px solid #000">
   ![Slide Per core allocations: Warning: Allocations per socket?](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreWarningSocket.png){ loading=lazy }
