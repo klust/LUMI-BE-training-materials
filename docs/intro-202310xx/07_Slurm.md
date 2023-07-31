@@ -904,7 +904,9 @@ If you insist, slurm has several options to specify the number of GPUs for this 
 
 ## Per-node allocations: Starting a job step
 
-TODO: The slides...
+<figure markdown style="border: 1px solid #000">
+  ![Slide Per-node allocations: Starting a job step](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeJobStep_1.png){ loading=lazy }
+</figure>
 
 Serial or shared-memory multithreaded programs in a batch script can in principle be run in 
 the batch job step. As we shall see though the effect may be different from what you expect. 
@@ -916,6 +918,10 @@ The command to start a new job step is `srun`. But it needs a number of argument
 cases. After all, a job step consists of a number of equal-sized tasks (considering only
 homogeneous job steps at the moment, the typical case for most users) that each need a number
 of cores or hardware threads and, in case of GPU compute, access to a number of GPUs.
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Per-node allocations: Starting a job step (2)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeJobStep_2.png){ loading=lazy }
+</figure>
 
 There are several ways telling Slurm how many tasks should be created and what the 
 resources are for each individual task, but this scheme is an easy scheme:
@@ -958,11 +964,20 @@ strategy trying this with 8 cores per task will fail as there are no 64 cores av
 domain, but the third task will already start on the last core of the second cache domain.
 There are solutions to this problem which we will discuss in the session on binding.
 
+It is also possible to specify these options already on `#SBATCH` lines. Slurm will transform those
+options into `SLURM_*` environment variables that will then be picked up by `srun`. However, this 
+behaviour has changed in more recent versions of Slurm. E.g., `--cpus-per-task` is no longer 
+automatically picked up by `srun` as there were side effects with some MPI implementations on some
+clusters. CSC has modified the configuration to again forward that option (now via an `SRUN_*` 
+environment variable) but certain use cases beyond the basic one described above are not covered.
+And take into account that not all cluster operators will do that as there are also good reasons not
+to do so. Otherwise the developers of Slurm wouldn't have changed that behaviour in the first place.
+
 
 ## Turning simultaneous multithreading on or off
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Turnig simultaneous multithreading on or off: GPUs](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeMultithreading.png){ loading=lazy }
+  ![Slide Turning hardware threading on or off](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeHardwareThreading.png){ loading=lazy }
 </figure>
 
 Hardware threads are enabled by default at the operating system level. In Slurm however, regular
@@ -1286,6 +1301,404 @@ core. This is illustrated with the example below.
     work.
 
 
+## Per-core allocations
+
+### When to use?
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Per core allocations: When to use?](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreWhenUse.png){ loading=lazy }
+</figure>
+
+Not all jobs can use entire nodes efficiently, and therefore the LUMI setup does provide some
+partitions that enable users to define jobs that use only a part of a node. This scheme enables
+the user to only request the resources that are really needed for the job (and only get billed for
+those at least if they are proportional to the resources that a node provides), but also comes
+with the disadvantage that it is not possible to control how cores and GPUs are allocated
+within a node. Codes that depend on proper mapping of threads and processes on L3 cache domains,
+NUMA domains or sockets, or on shortest paths between cores in a task and the associated GPU(s) 
+may see an unpredictable performance lossas (a) the mapping will rarely be optimal unless you are
+very lucky (and always be suboptimal for GPUs in the current LUMI setup) and (b) will also depend
+on other jobs already running on the set of nodes assigned to your job.
+
+Unfortunately, 
+
+1.  Slurm does not seem to fully understand the GPU topology on LUMI and cannot take that properly into
+    account when assigning resources to a job or task in a job, and
+
+2.   Slurm does not support the hierarchy in the compute nodes of LUMI. There is no way to specifically
+     request all cores in a socket, NUMA domain or L3 cache domain. It is only possible on a per-node level
+     which is the case that we already discussed.
+
+Instead, you have to specify the task structure in the `#SBATCH` lines of a job script or as the command line
+arguments of `sbatch` and `salloc` that you will need to run the job.
+
+
+### Resource request
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Per core allocations: Resource request (1)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreResources_1.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Per core allocations: Resource request (2)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreResources_2.png){ loading=lazy }
+</figure>
+
+To request an allocation, you have to specify the task structure of the job step you want to run using
+mostly the same options that we have discussed on the slides "Per-node allocations: Starting a job step": 
+
+1.  Now you should specify just the total amount of tasks needed using
+    `--ntasks=<number>` or `-n <number>`. As the number of nodes is not fixed
+    in this allocation type, `--ntasks-per-node=<ntasks>` does not make much sense.
+
+    It is possible to request a number of nodes using `--nodes`, and it can even take
+    two arguments: `--nodes=<min>-<max>` to specify the minimum and maximum number of
+    nodes that Slurm should use rather than the exact number (and there are even more options), 
+    but really the only case where
+    it makes sense to use `--nodes` with `--ntasks-per-node` in this case, is if all tasks
+    would fit on a single node and you also want to force them on a single node so that all
+    MPI communications are done through shared memory rather than via the Slingshot interconnect.
+
+    Restricting the choice of resources for the scheduler may increase your waiting time
+    in the queue though.
+
+2.  Specifying the number of CPUs (cores on LUMI) for each task. The easiest way to do this is by
+    using `--cpus-per-task=<number>` or `-c <number`.
+
+    Note that as has been discussed before, the standard behaviour of recent versions of Slurm is to
+    no longer forward `--cpus-per-task` from the `sbatch` or `salloc` level to the `srun` level
+    though CSC has made a configuration change in Slurm that will still try to do this though with
+    some limitations.
+
+3.  Specifying the number of GPUs per task. The easiest way here is:
+
+    1.  Use `--gpus-per-task=>number_GPUs>` to bind one or more GPUs to each task.
+        This is probably the most used option in this scheme.
+
+    2.  If however you want multiple tasks to share a GPU, then you should use 
+        `--ntasks-per-gpu=<number_of_tasks>`. There are use cases where this makes sense.
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Per core allocations: Warning: Allocations per socket?](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreWarningSocket.png){ loading=lazy }
+</figure>
+
+!!! Warning "`--sockets-per-node` and `--ntasks-per-socket`"
+    If you don't read the manual pages of Slurm carefully enough you may have the impression that
+    you can use parameters like `--sockets-per-node` and `--ntasks-per-socket` to force all tasks
+    on a single socket (and get a single socket), but these options will not work as you expect.
+
+    The `--sockets-per-node` option is not used to request an exact resource, but to specify a 
+    type of node by specifying the *minimal* number of sockets a node should have.It is an irrelevant
+    option on LUMI as each partition does have only a single node type.
+
+    If you read the manual carefully, you will also see that there is a subtle difference between
+    `--ntasks-per-node` and `--ntasks-per-socket`: With `--ntasks-per-node` you specify the
+    *exact* number of tasks for each node while with `--tasks-per-socket` you specify the 
+    *maximum* number of tasks for each socket. So all hope that something like
+
+    ```
+    --ntasks=8 --ntasks-per-socket=8 --cpus-per-task=8
+    ```
+
+    would always ensure that you get a socket for yourself with each task nicely assigned to
+    a single L3 cache domain, is futile.
+
+
+### Different job steps in a single job
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Per core allocations: Different job steps (1)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreJobstep_1.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Per core allocations: Different job steps (2)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreJobstep_2.png){ loading=lazy }
+</figure>
+
+It is possible to have an `srun` command with a different task structure in your job script.
+This will work if no task requires more CPUs or GPUs than in the original request, and if there are
+either not more tasks either or if an entire number of tasks in the new structure fits in a task
+in the structure from the allocation and the total number of tasks does not exceed the original number
+multiplied with that entire number. Other cases may work randomly, depending on how Slurm did the
+actual allocation. In fact, this may even be abused to ensure that all tasks are allocated to a single
+node, though this is done more elegantly by just specifying `--nodes=1`.
+
+??? Example "Some examples that work and don't work (click to expand)"
+    Consider the job script:
+
+    ``` bash
+    #! /usr/bin/bash
+    #SBATCH --job-name=slurm-small-multiple-srun
+    #SBATCH --partition=small
+    #SBATCH --ntasks=4
+    #SBATCH --cpus-per-task=4
+    #SBATCH --hint=nomultithread
+    #SBATCH --time=5:00
+    #SBATCH --output %x-%j.txt
+    #SBATCH --acount=project_46YXXXXXX
+
+    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeCray-22.12
+
+    echo "Running on $SLURM_JOB_NODELIST"
+
+    set -x
+
+    omp_check
+
+    srun --ntasks=1 --cpus-per-task=3 omp_check
+
+    srun --ntasks=2 --cpus-per-task=4 hybrid_check
+
+    srun --ntasks=4 --cpus-per-task=1 mpi_check
+
+    srun --ntasks=16 --cpus-per-task=1 mpi_check
+
+    srun --ntasks=1 --cpus-per-task=16 omp_check
+
+    set +x
+    echo -e "\nsacct for the job:\n$(sacct -j $SLURM_JOB_ID)\n"
+    ```
+
+    In the first output example (with lots of output deleted) we got the full
+    allocation of 16 cores on a single node, and in fact, even 16 consecutive cores
+    though spread across 3 L3 cache domains. We'll go over the output in steps:
+
+    ```
+    Running on nid002154
+
+    + omp_check
+
+    Running 32 threads in a single process
+
+    ++ omp_check: OpenMP thread   0/32  on cpu  20/256 of nid002154
+    ++ omp_check: OpenMP thread   1/32  on cpu 148/256 of nid002154
+    ...
+    ```
+
+    The first `omp_check` command was started without using `srun` and hence ran on all
+    hardware cores allocated to the job. This is why hardware threading is enabled and why
+    the executable sees 32 cores.
+
+    ```
+    + srun --ntasks=1 --cpus-per-task=3 omp_check
+
+    Running 3 threads in a single process
+
+    ++ omp_check: OpenMP thread   0/3   on cpu  20/256 of nid002154
+    ++ omp_check: OpenMP thread   1/3   on cpu  21/256 of nid002154
+    ++ omp_check: OpenMP thread   2/3   on cpu  22/256 of nid002154
+    ```
+
+    Next `omp_check` was started via `srun --ntasks=1 --cpus-per-task=3 `. One task instead of 4,
+    and the task is also smaller in terms of number of nodes as the tasks requested in `SBATCH`
+    lines, and Slurm starts the executable without problems. It runs on three cores, correctly
+    detects that number, and also correctly does not use hardware threading.
+
+    ```
+    + srun --ntasks=2 --cpus-per-task=4 hybrid_check
+
+    Running 2 MPI ranks with 4 threads each (total number of threads: 8).
+
+    ++ hybrid_check: MPI rank   0/2   OpenMP thread   0/4   on cpu  23/256 of nid002154
+    ++ hybrid_check: MPI rank   0/2   OpenMP thread   1/4   on cpu  24/256 of nid002154
+    ++ hybrid_check: MPI rank   0/2   OpenMP thread   2/4   on cpu  25/256 of nid002154
+    ++ hybrid_check: MPI rank   0/2   OpenMP thread   3/4   on cpu  26/256 of nid002154
+    ++ hybrid_check: MPI rank   1/2   OpenMP thread   0/4   on cpu  27/256 of nid002154
+    ++ hybrid_check: MPI rank   1/2   OpenMP thread   1/4   on cpu  28/256 of nid002154
+    ++ hybrid_check: MPI rank   1/2   OpenMP thread   2/4   on cpu  29/256 of nid002154
+    ++ hybrid_check: MPI rank   1/2   OpenMP thread   3/4   on cpu  30/256 of nid002154
+    ```
+
+    Next we tried to start 2 instead of 4 MPI processes with 4 cores each which also works without
+    problems. The allocation now starts on core 23 but that is because Slurm was still finishing
+    the job step on cores 20 till 22 from the previous `srun` command. This may or may not happen
+    and is also related to a remark we made before about using `sacct` at the end of the job where
+    the last job step may still be shown as running instead of completed.
+
+    ```
+    + srun --ntasks=4 --cpus-per-task=1 mpi_check
+
+    Running 4 single-threaded MPI ranks.
+
+    ++ mpi_check: MPI rank   0/4   on cpu  20/256 of nid002154
+    ++ mpi_check: MPI rank   1/4   on cpu  21/256 of nid002154
+    ++ mpi_check: MPI rank   2/4   on cpu  22/256 of nid002154
+    ++ mpi_check: MPI rank   3/4   on cpu  23/256 of nid002154
+    ```
+
+    Now we tried to start 4 tasks with 1 core each. This time we were lucky and the system 
+    considered the previous `srun` completely finished and gave us the first 4 cores of the 
+    allocation.
+
+    ```
+    + srun --ntasks=16 --cpus-per-task=1 mpi_check
+    srun: Job 4268529 step creation temporarily disabled, retrying (Requested nodes are busy)
+    srun: Step created for job 4268529
+
+    Running 16 single-threaded MPI ranks.
+
+    ++ mpi_check: MPI rank   0/16  on cpu  20/256 of nid002154
+    ++ mpi_check: MPI rank   1/16  on cpu  21/256 of nid002154
+    ++ mpi_check: MPI rank   2/16  on cpu  22/256 of nid002154
+    ++ mpi_check: MPI rank   3/16  on cpu  23/256 of nid002154
+    ++ mpi_check: MPI rank   4/16  on cpu  24/256 of nid002154
+    ++ mpi_check: MPI rank   5/16  on cpu  25/256 of nid002154
+    ...
+    ```
+
+    With the above `srun` command we try to start 16 single-threaded MPI processes. This fits 
+    perfectly in the allocation as it simply needs to put 4 of these tasks in the space reserved 
+    for one task in the `#SBATCH` request. The warning at the start may or may not happen. Basically
+    Slurm was still freeing up the cores from the previous run and therefore the new `srun` dind't 
+    have enough resources the first time it tried to, but it automatically tried a second time.
+
+    ```
+    + srun --ntasks=1 --cpus-per-task=16 omp_check
+    srun: Job step's --cpus-per-task value exceeds that of job (16 > 4). Job step may never run.
+    srun: Job 4268529 step creation temporarily disabled, retrying (Requested nodes are busy)
+    srun: Step created for job 4268529
+
+    Running 16 threads in a single process
+
+    ++ omp_check: OpenMP thread   0/16  on cpu  20/256 of nid002154
+    ++ omp_check: OpenMP thread   1/16  on cpu  21/256 of nid002154
+    ++ omp_check: OpenMP thread   2/16  on cpu  22/256 of nid002154
+    ...
+    ```
+
+    In the final `srun` command we try to run a single 16-core OpenMP run. This time Slurm produces
+    a warning as it would be impossible to fit a 16-cpre shared memory run in the space of 4 4-core 
+    tasks if the resources for those tasks would have been spread across multiple nodes. The next
+    warning is again for the same reason as in the previous case, but ultimately the command does run
+    on all 16 cores allocated and without using hardware threading.
+
+    ```
+    + set +x
+
+    sacct for the job:
+    JobID           JobName  Partition    Account  AllocCPUS      State ExitCode 
+    ------------ ---------- ---------- ---------- ---------- ---------- -------- 
+    4268529      slurm-sma+      small project_4+         32    RUNNING      0:0 
+    4268529.bat+      batch            project_4+         32    RUNNING      0:0 
+    4268529.0     omp_check            project_4+          6  COMPLETED      0:0 
+    4268529.1    hybrid_ch+            project_4+         16  COMPLETED      0:0 
+    4268529.2     mpi_check            project_4+          8  COMPLETED      0:0 
+    4268529.3     mpi_check            project_4+         32  COMPLETED      0:0 
+    4268529.4     omp_check            project_4+         32    RUNNING      0:0 
+    ```
+
+    The output of `sacct` confirms what we have been seeing. The first `omp_check`
+    was run without srun and ran in the original batch step which had all hardware threads
+    of all 16 allocated cores available. The next `omp_check` ran on 3 cores but 6 is
+    shwon in this scheme which is normal as the "other" hardware thread on each core is
+    implicitly also reserved. And the same holds for all other numbers in that column.
+
+    At another time I was less lucky and got the tasks spread out across 4 nodes, each 
+    running a single 4-core task. Let's go through the output again:
+
+    ```
+    Running on nid[002154,002195,002206,002476]
+
+    + omp_check
+
+    Running 8 threads in a single process
+
+    ++ omp_check: OpenMP thread   0/8   on cpu  36/256 of nid002154
+    ++ omp_check: OpenMP thread   1/8   on cpu 164/256 of nid002154
+    ++ omp_check: OpenMP thread   2/8   on cpu  37/256 of nid002154
+    ++ omp_check: OpenMP thread   3/8   on cpu 165/256 of nid002154
+    ++ omp_check: OpenMP thread   4/8   on cpu  38/256 of nid002154
+    ++ omp_check: OpenMP thread   5/8   on cpu 166/256 of nid002154
+    ++ omp_check: OpenMP thread   6/8   on cpu  39/256 of nid002154
+    ++ omp_check: OpenMP thread   7/8   on cpu 167/256 of nid002154
+    ```
+
+    The first `omp_check` now uses all hardware threads of the 4 cores allocated
+    in the first node of the job (while using 16 cores/32 threads in the configuration
+    where all cores were allocated on a single node).
+
+    ```
+    + srun --ntasks=1 --cpus-per-task=3 omp_check
+
+    Running 3 threads in a single process
+
+    ++ omp_check: OpenMP thread   0/3   on cpu  36/256 of nid002154
+    ++ omp_check: OpenMP thread   1/3   on cpu  37/256 of nid002154
+    ++ omp_check: OpenMP thread   2/3   on cpu  38/256 of nid002154
+    ```
+
+    Running a three core OpenMP job goes without problems as it nicely fits within the
+    space of a single task of the `#SBATCH` allocation.
+
+    ```
+    + srun --ntasks=2 --cpus-per-task=4 hybrid_check
+
+    Running 2 MPI ranks with 4 threads each (total number of threads: 8).
+
+    ++ hybrid_check: MPI rank   0/2   OpenMP thread   0/4   on cpu  36/256 of nid002195
+    ++ hybrid_check: MPI rank   0/2   OpenMP thread   1/4   on cpu  37/256 of nid002195
+    ++ hybrid_check: MPI rank   0/2   OpenMP thread   2/4   on cpu  38/256 of nid002195
+    ++ hybrid_check: MPI rank   0/2   OpenMP thread   3/4   on cpu  39/256 of nid002195
+    ++ hybrid_check: MPI rank   1/2   OpenMP thread   0/4   on cpu  46/256 of nid002206
+    ++ hybrid_check: MPI rank   1/2   OpenMP thread   1/4   on cpu  47/256 of nid002206
+    ++ hybrid_check: MPI rank   1/2   OpenMP thread   2/4   on cpu  48/256 of nid002206
+    ++ hybrid_check: MPI rank   1/2   OpenMP thread   3/4   on cpu  49/256 of nid002206
+    ```
+
+    Running 2 4-thread MPI processes also goes without problems. In this case we got the second and third
+    task from the original allocation, likely because Slurm was still freeing up the first node
+    after the previous `srun` command.
+
+    ```
+    + srun --ntasks=4 --cpus-per-task=1 mpi_check
+    srun: Job 4268614 step creation temporarily disabled, retrying (Requested nodes are busy)
+    srun: Step created for job 4268614
+
+    Running 4 single-threaded MPI ranks.
+
+    ++ mpi_check: MPI rank   0/4   on cpu  36/256 of nid002154
+    ++ mpi_check: MPI rank   1/4   on cpu  36/256 of nid002195
+    ++ mpi_check: MPI rank   2/4   on cpu  46/256 of nid002206
+    ++ mpi_check: MPI rank   3/4   on cpu   0/256 of nid002476
+    ```
+
+    Running 4 single threaded processes also goes without problems (but the fact that they are
+    scheduled on 4 different nodes here is likely an artifact of the way we had to force to get
+    more than one node as the small partition on LUMI was not very busy at that time).
+
+    ```
+    + srun --ntasks=16 --cpus-per-task=1 mpi_check
+
+    Running 16 single-threaded MPI ranks.
+
+    ++ mpi_check: MPI rank   0/16  on cpu  36/256 of nid002154
+    ++ mpi_check: MPI rank   1/16  on cpu  37/256 of nid002154
+    ++ mpi_check: MPI rank   2/16  on cpu  38/256 of nid002154
+    ++ mpi_check: MPI rank   3/16  on cpu  39/256 of nid002154
+    ++ mpi_check: MPI rank   4/16  on cpu  36/256 of nid002195
+    ++ mpi_check: MPI rank   5/16  on cpu  37/256 of nid002195
+    ++ mpi_check: MPI rank   6/16  on cpu  38/256 of nid002195
+    ++ mpi_check: MPI rank   7/16  on cpu  39/256 of nid002195
+    ++ mpi_check: MPI rank   8/16  on cpu  46/256 of nid002206
+    ++ mpi_check: MPI rank   9/16  on cpu  47/256 of nid002206
+    ++ mpi_check: MPI rank  10/16  on cpu  48/256 of nid002206
+    ++ mpi_check: MPI rank  11/16  on cpu  49/256 of nid002206
+    ++ mpi_check: MPI rank  12/16  on cpu   0/256 of nid002476
+    ++ mpi_check: MPI rank  13/16  on cpu   1/256 of nid002476
+    ++ mpi_check: MPI rank  14/16  on cpu   2/256 of nid002476
+    ++ mpi_check: MPI rank  15/16  on cpu   3/256 of nid002476
+    ```
+
+    16 single threaded MPI processes also works without problems.
+
+    ```
+    + srun --ntasks=1 --cpus-per-task=16 omp_check
+    srun: Job step's --cpus-per-task value exceeds that of job (16 > 4). Job step may never run.
+    srun: Warning: can't run 1 processes on 4 nodes, setting nnodes to 1
+    srun: error: Unable to create step for job 4268614: More processors requested than permitted
+    ...
+    ```
+
+    However, trying to run a single 16-thread process now fails. Slurm first warns us that it might fail,
+    then tries and lets it fail.
 
 
 
