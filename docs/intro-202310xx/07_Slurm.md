@@ -517,6 +517,41 @@ both work with some delay.
     experience to realise what they are doing.
 
 
+## Managing Slurm jobs
+
+Before experimenting with jobs on LUMI, it is good to discuss how to manage those jobs.
+We will not discuss the commands in detail and instead refer to the pretty decent manual pages
+that in fact can also be found on the web (though the links are to the latest version rather
+than the current version on LUMI):
+
+Remember that each job is identified by a unique job ID, a number that will be shown when you
+submit a job and is also shown in the output of `squeue`.  This job ID will be used to
+manage jobs.
+
+-   To delete a job, use [`scancel <jobID>`](https://slurm.schedmd.com/scancel.html)
+
+-   An important command to manage jobs while they are running is 
+    [`sstat -j <jobID>`](https://slurm.schedmd.com/sstat.html).
+    This command display real-time information directly gathered from the resource manager
+    component of Slurm and can also be used to show information about individual job steps using
+    the job step identifier (which is in most case `<jobID>.0` for the first rebular job step and so on).
+    The `sstat` command can display a lot more information than is shown by default. The output can
+    be adapted via the [`--format` or `-o` command line option](https://slurm.schedmd.com/sstat.html#OPT_format)
+    with a list of options in the ["Job status fields" section of the manual page](https://slurm.schedmd.com/sstat.html#SECTION_Job-Status-Fields).
+
+-   The [`sacct -j <jobID>` command](https://slurm.schedmd.com/sacct.html) can be used both while the
+    job is running and when the job has finished. It is the main command to get information about a job
+    after the job has finished. All information comes from a database, also while the job is running, so 
+    the information is available with some delay compared to the information obtained with `sstat` for
+    a running job. It will also produce information about individual job steps. Just as with `sstat`, the
+    fields to display can be selected via the
+    [`--format` or `-o` command line option](https://slurm.schedmd.com/sacct.html#OPT_format) with an even
+    longer list in the ["Job accounting fields" section of the manual page](https://slurm.schedmd.com/sacct.html#SECTION_Job-Accounting-Fields).
+
+The `sacct` command will also be used in various examples in this section of the tutorial to investigate
+the behaviour of Slurm.
+
+
 ## Creating a Slurm job
 
 <figure markdown style="border: 1px solid #000">
@@ -1999,20 +2034,203 @@ job that then further start subjobs.
   ![Slide Heterogeneous jobs](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/HeterogeneousJobs.png){ loading=lazy }
 </figure>
 
+A heterogeneous job is one in which multiple executables run in a single `MPI_COMM_WORLD`, or a single
+executable runs in different combinations (e.g., some multithreaded and some single-threaded MPI ranks where
+the latter take a different code path from the former and do a different task). Onme example is large 
+simulation codes that use separate I/O servers to take care of the parallel IO ot the file system.
+
+There are two ways to start such a job:
+
+1.  Create groups in the `SBATCH` lines, separated by `#SBATCH hetjob` lines, and then recall these groups with
+    `srun`. This is the most powerful mechanism as in principle one could use nodes in different partitions
+    for different parts of the heterogeneous job.
+
+2.  Request the total number of nodes needed with the `#SBATCH` lines and then do the rest entirely with
+    `srun`, when starting the heterogeneous job step. The different blocks in `srun` are separated by a colon.
+    In this case we can only use a single partition.
+
+The Slurm support for heterogeneous jobs is not very good and problems to often occur, or new
+bugs are being introduced.
+
+-   The different parts of heterogeneous jobs in the first way of specifying them, are treated as different
+    jobs which may give problems with the scheduling.
+
+-   When using the `srun` method, these are still separate job steps and it looks like a second job is created
+    internally to run these, and on a separate set of nodes.
+
 
 <figure markdown style="border: 1px solid #000">
   ![Slide Heterogeneous jobs: Example with #SBATCH](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/HeterogeneousJobsExampleSBATCH.png){ loading=lazy }
 </figure>
 
-
-
 <figure markdown style="border: 1px solid #000">
   ![Slide Heterogeneous jobs: Example with srun](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/HeterogeneousJobsExampleSrun.png){ loading=lazy }
 </figure>
 
+??? Example "Let's show with an example (worked out more in the text than in the slides)"
 
+    Consider the following case of a 2-component job:
 
-TODO: Slide about job management: sacct, scancel, sstat
+    -   Part 1: Application A on 1 node with 32 tasks with 4 OpenMP threads each
+
+    -   Part 2: Application B on 2 nodes with 4 tasks per node with 32 OpenMP threads each
+
+    We will simulate this case with the `hybrid_check` program from the `lumi-CPEtools` module 
+    that we have used in earlier examples also.
+
+    The job script for the first method would look like:
+
+    ```sbatch
+    #! /usr/bin/bash
+    #SBATCH --job-name=slurm-herterogeneous-sbatch
+    #SBATCH --time=5:00
+    #SBATCH --output %x-%j.txt
+    #SBATCH --partition=standard
+    #SBATCH --nodes=1
+    #SBATCH --ntasks-per-node=32
+    #SBATCH --cpus-per-task=4
+    #SBATCH hetjob
+    #SBATCH --partition=standard
+    #SBATCH --nodes=2
+    #SBATCH --ntasks-per-node=4
+    #SBATCH --cpus-per-task=32
+
+    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeCray-22.12
+
+    srun --het-group=0 --cpus-per-task=$SLURM_CPUS_PER_TASK_HET_GROUP_0 --export=ALL,OMP_NUM_THREADS=4  hybrid_check -l app_A : \
+         --het-group=1 --cpus-per-task=$SLURM_CPUS_PER_TASK_HET_GROUP_1 --export=ALL,OMP_NUM_THREADS=32 hybrid_check -l app_B
+
+    srun --het-group=0 --cpus-per-task=$SLURM_CPUS_PER_TASK_HET_GROUP_0 hybrid_check -l hybrid_check -l app_A : \
+         --het-group=1 --cpus-per-task=$SLURM_CPUS_PER_TASK_HET_GROUP_1 hybrid_check -l hybrid_check -l app_B
+
+    echo -e "\nsacct for the job:\n$(sacct -j $SLURM_JOB_ID)\n"
+    ```
+
+    There is a single `srun` command. `--het-group=0` tells `srun` to pick up the settings for the first
+    heterogeneous group (before the `#SBATCH hetjob` line), and use that to start the `hybrid_check` program
+    with the command line arguments `-l app_A`.  Next we have the column to tell `srun` that we start with the 
+    second group, which is done in the same way. Note that since recent versions of Slurm do no longer 
+    propagate the value for `--cpus-per-task`, we need to specify the value here explicitly which we can do
+    via an environment variable. This is one of the cases where the patch to work around this new behaviour on
+    LUMI does not work.
+
+    This job script shows also demonstrates how a different value of a variable can be passed to each
+    component using `--export`, even though this was not needed as the second case would show.
+
+    The output of this job script would look lik (with a lot omitted):
+
+    ```
+    srun: Job step's --cpus-per-task value exceeds that of job (32 > 4). Job step may never run.
+
+    Running 40 MPI ranks with between 4 and 32 threads each (total number of threads: 384).
+
+    ++ app_A: MPI rank   0/40  OpenMP thread   0/4   on cpu   0/256 of nid001083
+    ++ app_A: MPI rank   0/40  OpenMP thread   1/4   on cpu   1/256 of nid001083
+    ...
+    ++ app_A: MPI rank  31/40  OpenMP thread   2/4   on cpu 126/256 of nid001083
+    ++ app_A: MPI rank  31/40  OpenMP thread   3/4   on cpu 127/256 of nid001083
+    ++ app_B: MPI rank  32/40  OpenMP thread   0/32  on cpu   0/256 of nid001544
+    ++ app_B: MPI rank  32/40  OpenMP thread   1/32  on cpu   1/256 of nid001544
+    ...
+    ++ app_B: MPI rank  35/40  OpenMP thread  30/32  on cpu 126/256 of nid001544
+    ++ app_B: MPI rank  35/40  OpenMP thread  31/32  on cpu 127/256 of nid001544
+    ++ app_B: MPI rank  36/40  OpenMP thread   0/32  on cpu   0/256 of nid001545
+    ++ app_B: MPI rank  36/40  OpenMP thread   1/32  on cpu   1/256 of nid001545
+    ...
+    ++ app_B: MPI rank  39/40  OpenMP thread  30/32  on cpu 126/256 of nid001545
+    ++ app_B: MPI rank  39/40  OpenMP thread  31/32  on cpu 127/256 of nid001545
+    ... (second run produces identical output)
+
+    sacct for the job:
+    JobID           JobName  Partition    Account  AllocCPUS      State ExitCode 
+    ------------ ---------- ---------- ---------- ---------- ---------- -------- 
+    4285795+0    slurm-her+   standard project_4+        256    RUNNING      0:0 
+    4285795+0.b+      batch            project_4+        256    RUNNING      0:0 
+    4285795+0.0  hybrid_ch+            project_4+        256  COMPLETED      0:0 
+    4285795+0.1  hybrid_ch+            project_4+        256  COMPLETED      0:0 
+    4285795+1    slurm-her+   standard project_4+        512    RUNNING      0:0 
+    4285795+1.0  hybrid_ch+            project_4+        512  COMPLETED      0:0 
+    4285795+1.1  hybrid_ch+            project_4+        512  COMPLETED      0:0 
+    ```
+
+    The warning at the start can be safely ignored. It jsut shows how heterogeneous job
+    were an afterthought in Slurm and likely implemented in a very dirty way. We see that
+    we get what we expected: 32 MPI ranks on the first node of the allocation, then 4 on 
+    each of the other two nodes.
+
+    The output of `sacct` is somewhat surprising. Slurm has essnetially started two jobs,
+    with jobIDs that end with `+0` and `+1`, and it first shows all job steps for the first
+    job, which is the batch job step and the first group of both `srun` commands, and then
+    shows the second job and its job steps, again indicating that heterogeneous jobs are
+    not really treated as a single job.
+
+    The same example can also be done by just allocating 3 nodes and then using more arguments
+    with `srun` to start the application:
+
+    ``` sbatch
+    #! /usr/bin/bash
+    #SBATCH --job-name=slurm-herterogeneous-srun
+    #SBATCH --time=5:00
+    #SBATCH --output %x-%j.txt
+    #SBATCH --partition=standard
+    #SBATCH --nodes=3
+
+    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeCray-22.12
+
+    srun --ntasks=32 --cpus-per-task=4  --export=ALL,OMP_NUM_THREADS=4  hybrid_check -l app_A : \
+         --ntasks=8  --cpus-per-task=32 --export=ALL,OMP_NUM_THREADS=32 hybrid_check -l app_B
+        
+    srun --ntasks=32 --cpus-per-task=4  hybrid_check -l app_A : \
+         --ntasks=8  --cpus-per-task=32 hybrid_check -l app_B
+        
+    echo -e "\nsacct for the job:\n$(sacct -j $SLURM_JOB_ID)\n"
+    ```
+
+    The output of the two `srun` commands is essentially the same as before, but the output 
+    of `sacct` is different:
+
+    ```
+    sacct for the job:
+    JobID           JobName  Partition    Account  AllocCPUS      State ExitCode 
+    ------------ ---------- ---------- ---------- ---------- ---------- -------- 
+    4284021      slurm-her+   standard project_4+        768    RUNNING      0:0 
+    4284021.bat+      batch            project_4+        256    RUNNING      0:0 
+    4284021.0+0  hybrid_ch+            project_4+        256  COMPLETED      0:0 
+    4284021.0+1  hybrid_ch+            project_4+        512  COMPLETED      0:0 
+    4284021.1+0  hybrid_ch+            project_4+        256  COMPLETED      0:0 
+    4284021.1+1  hybrid_ch+            project_4+        512  COMPLETED      0:0 
+    ```
+
+    We now get a single job ID but the job step for each of the `srun` commands is split 
+    in two separate job steps, a `+0` and a `+1`. 
+
+!!! Warning "Erratic behaviour of `--nnodes=<X> --ntasks-per-node=<Y>` "
+    One can wonder if in the second case we could still specify resources on a per-node
+    basis in the `srun` command:
+
+    ``` sbatch
+    #! /usr/bin/bash
+    #SBATCH --job-name=slurm-herterogeneous-srun
+    #SBATCH --time=5:00
+    #SBATCH --output %x-%j.txt
+    #SBATCH --partition=standard
+    #SBATCH --nodes=3
+
+    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeCray-22.12
+
+    srun --nodes=1 --ntasks-per-node=32 --cpus-per-task=4  hybrid_check -l hybrid_check -l app_A : \
+         --nodes=2 --ntasks-per-node=4  --cpus-per-task=32 hybrid_check -l hybrid_check -l app_B
+    ```
+
+    It turns out that this does not work at all. Both components get the wrong number of tasks.
+    For some reason only 3 copies were started of the first application on the first node of the
+    allocation, the 2 32-thread processes on the second node and one 32-thread process on the third
+    node, also with an unexpected thread distribution.
+
+    This shows that before starting a big application it may make sense to check with the
+    tools from the `lumi-CPEtools` module if the allocation would be what you expect as Slurm
+    is definitely not free of problems when it comes to hetereogeneous jobs.
+
 
 
 ## Local trainings and materials
