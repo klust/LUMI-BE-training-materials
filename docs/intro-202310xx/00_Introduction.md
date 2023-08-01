@@ -42,6 +42,9 @@ Colour coding and boxes in the material:
 !!! solution
     The solution to the exercise. You will have to click on the box to see the solution.
 
+!!! bug
+    This is a discussion about a bug.
+
 !!! nice-to-know
     This is a little fact which is nice-to-know but not necessary to understand the
     material.

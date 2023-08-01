@@ -25,6 +25,7 @@ theme:
       demo: fontawesome/solid/computer-mouse
       exercise: fontawesome/solid/screwdriver-wrench
       remark: fontawesome/solid/comment-dots
+      bug: fontawesome/solid/robot
       audience: fontawesome/solid/people-group
       solution: fontawesome/solid/wand-magic-sparkles
       technical: fontawesome/solid/book-open-reader
