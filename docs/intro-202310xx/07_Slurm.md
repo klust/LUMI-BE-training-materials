@@ -670,6 +670,15 @@ certainly needed with `salloc` also.
     job names help to make the output of `squeue` easier to interpret, and the name can be used to generate 
     a name for the output file that captures output to stdout and stderr also.
 
+-   For courses or other special opportunities such as the "hero runs" (a system for projects that want to test
+    extreme scalability beyond the limits of the regular partitions), reservations are used. You can specify the
+    reservation (or even multiple reservations as a comma-separated list) with `--reservation=<name>`.
+
+    In principle no reservations are given to regular users for regular work as this is unfair to other users. It would
+    not be possible to do all work in reservations and bypass the scheduler as the scheduling would be extremely
+    complicated and the administration enormous. And empty reservations do not lead to efficient machine use.
+    Schedulers have been developed for a reason.
+
 -   Slurm also has options to send mail to a given address when a job starts or ends or some other job-related
     events occur, but this is currently not configured on LUMI.
 
@@ -700,9 +709,6 @@ the latter in the template for the filename as this ensures unique names if the 
 few times with different input files. Discussing all patterns that can be used for the filename is outside the
 scope of this tutorial, but you can find them all in the [sbatch manual page](https://slurm.schedmd.com/sbatch.html)
 in the ["filename pattern" section](https://slurm.schedmd.com/sbatch.html#SECTION_%3CB%3Efilename-pattern%3C/B%3E).
-
-
-
 
 
 ## Requesting resources: CPUs and GPUs
@@ -1780,6 +1786,233 @@ node, though this is done more elegantly by just specifying `--nodes=1`.
     However, trying to run a single 16-thread process now fails. Slurm first warns us that it might fail,
     then tries and lets it fail.
 
+
+## The job environment
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Job environment](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobEnvironment.png){ loading=lazy }
+</figure>
+
+On LUMI, `sbatch`, `salloc` and `srun` will all by default copy the environment in which they run to the
+job step they start (the batch job step for `sbatch`, an interactive job step for `salloc` and a regular
+job step for `srun`). For `salloc` this is normal behaviour as it also starts an interactive shell on the
+login nodes (and it cannot be changed with a command line parameter). For `srun`, any other behaviour
+would be a pain as each job step would need to set up an environment. But for `sbatch` this may be
+surprising to some as the environment on the login nodes may not be the best environment for the
+compute nodes. Indeed, we do recommend to reload, e.g., the LUMI modules to use software optimised
+specifically for the compute nodes or to have full support of ROCm.
+
+It is possible to change this behaviour or to define extra environment variables with
+`sbatch` and `srun` using the command line option `--export`: 
+
+-   `--export=NONE` will start the job (step) in a clean environment. The environment will not be inherited,
+    but Slurm will attempt to re-create the user environment even if no login shell is called or used in
+    the batch script. (`--export=NIL` would give you a truly empty environment.)
+
+-   To define extra environment variables, use `--export=ALL,VAR1=VALUE1` which would pass all existing 
+    environment variables and define a new one, `VAR1`, with the value `VALUE1`. It is of course also possible
+    to define more environment variables using a comma-separated list (without spaces). 
+    With `sbatch`, specifying `--export` on the command line that way is a way to parameterise a batch script.
+    With `srun` it can be very useful with heterogeneous jobs if different parts of the job need a different 
+    setting for an environment variable (e.g., `OMP_NUM_THREADS`).
+
+    Note however that `ALL` in the above `--export` option is essential as otherwise only the environment 
+    variable `VAR1` would be defined.
+
+    It is in fact possible to pass only select environment variables by listing them without assigning a new 
+    value and omitting the `ALL` but we see no practical use of that on LUMI as the list of environment variables
+    that is needed to have a job script in which you can work more or less normally is rather long.
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Passing arguments](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PassingArguments.png){ loading=lazy }
+</figure>
+
+!!! Note "Passing argumetns to a batch script"
+    With the Slurm `sbatch` command, any argument passed after the name of the job script is passed to the
+    job script as an argument, so you can use regular bash shell argument processing to pass arguments to
+    the bash script and do not necessarily need to use `--export`. Consider the following job script to
+    demonstrate both options:
+
+    ``` bash
+    ! /usr/bin/bash
+    #SBATCH --job-name=slurm-small-parameters
+    #SBATCH --partition=small
+    #SBATCH --ntasks=1
+    #SBATCH --cpus-per-task=1
+    #SBATCH --hint=nomultithread
+    #SBATCH --time=5:00
+    #SBATCH --output %x-%j.txt
+    #SBATCH --account=project_46YXXXXXX
+
+    echo "Batch script parameter 0: $0"
+    echo "Batch script parameter 1: $1"
+    echo "Environment variable PAR1: $PAR1"
+    ```
+
+    Now start this with (assuming the job script is saved as `slurm-small-parameters.slurm`)
+
+    ```
+    $ sbatch --export=ALL,PAR1="Hello" slurm-small-parameters.slurm 'Waw, this works!'
+    ```
+
+    and check the output file when the job is completed:
+
+    ```
+    Batch script parameter 0: /var/spool/slurmd/job4278998/slurm_script
+    Batch script parameter 1: Waw, this works!
+    Environment variable PAR1: Hello
+    ```
+
+    You see that you do not get the path to the job script as it was submitted (which you may expect 
+    to be the value of `$0`). Instead the job script is buffered when you execute `sbatch` and started
+    from a different directory. `$1` works as expected, and `PAR1` is also defined.
+
+    In fact, passing arguments through command line arguments of the bash script is a more robust
+    mechanism than using `--export` as can be seen from the bug discussed below...
+
+!!! Bug "Fragile behaviour of `--export`"
+    One of the problems with `--export` is that you cannot really assign any variable to a new
+    environment variable the way you would do it on the bash command line. It is not clear what
+    internal processing is going on, but the value is not always what you would expect. 
+    In particular, problems can be expected when the value of the variable contains a semicolon.
+
+    E.g., try the command from the previous example with `--export=ALL,PAR1='Hello, world'` 
+    and it turns out that only `Hello` is passed as the value of the variable.
+
+!!! lumi-be "Differences with some VSC systems"
+    The job environment in Slurm is different from that of some other resource managers, and in paritcular 
+    Torque which was in use on VSC clusters and whose behaviour is still emulated on some. 
+    LUMI uses the default settings of Slurm when it comes to environment management which is to start
+    a job or job step in the environment from which the Slurm command was called.
+
+
+## Automatic requeueing
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Automatic requeueing](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/AutomaticRequeueing.png){ loading=lazy }
+</figure>
+
+LUMI has the Slurm automatic requeueing of jobs upon node failure enabled. So jobs will be
+automatically resubmitted when one of the allocated nodes fails. For this an identical job ID
+is used and by default the prefious output will be truncated when the requeueed job starts.
+
+There are some options to influence this behaviour:
+
+-   Automatic requeueing can be disabled at job submission with the `--no-requeue` option
+    of the `sbatch` command.
+
+-   Truncating of the output files can be avoided by specifying `--open-mode=append`.
+
+-   It is also possible to detect in a job script if a job has been restarted or not. For this
+    Slurm sets the environment variable `SLURM_RESTART_COUNT` which is 0 the first time a job 
+    script runs and augmented by one at every restart.
+
+
+## Job dependencies
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Job dependencies](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobDependencies.png){ loading=lazy }
+</figure>
+
+The maximum wall time that a job can run on LUMI is fairly long for a Tier-0 system. Many other big systems in 
+Europe will only allow a maximum wall time of 24 hours. Despite this, this is not yet enough for some users.
+One way to deal with this is ensure that programs end in time and write the necessary restart information in
+a file, then start a new job that continues from that file. 
+
+You don't have to wait to submit that second job. Instead, it is possible to tell Slurm that the second job
+should not start before the first one has ended (and ended successfully). This is done through job dependencies.
+It would take us too far to discuss all possible cases in this tutorial.
+
+One example is
+
+```
+$ sbatch --dependency=afterok:<jobID> jobdepend.slurm 
+```
+
+With this statement, the job defined by the job script `jobdpend.slurm` will not start until the job with the
+given jobID has ended successfully (and you may have to clean up the queue if it never ends successfully). But 
+there are other possibilities also, e.g., start another job after a list of jobs has ended, or after a job has
+failed. We refer to the 
+[sbatch manual page](https://slurm.schedmd.com/sbatch.html) where you should 
+[look for `--dependency` on the page](https://slurm.schedmd.com/sbatch.html#OPT_dependency).
+
+It is also possible to automate the process of submitting a chain of dependent jobs. For this the
+`sbatch` flag [`--parsable`](https://slurm.schedmd.com/sbatch.html#OPT_parsable)
+can be used which on LUMI will only print the job number of the job being submitted. So to 
+let the job defined by `jobdepend.slurm` run after the job defined by `jobfirst.slurm` while 
+submitting both at the same time, you can use something like
+
+``` bash
+first=$(sbatch --parsable jobfirst.slurm)
+sbatch --dependency=afterok:$first jobdepend.slurm
+```
+
+
+## Job arrays
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Job arrays](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobArrays.png){ loading=lazy }
+</figure>
+
+Job arrays is a mechanism to submit a large number of related jobs with the same batch script in a
+single `sbatch` operation.
+
+As an example, consider the job script `job_array.slurm`
+
+``` bash
+#!/bin/bash
+#SBATCH --account=project_46YXXXXXX
+#SBATCH --partition=small
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem-per-cpu=1G
+#SBATCH --time=15:00
+
+INPUT_FILE="input_${SLURM_ARRAY_TASK_ID}.dat"
+OUTPUT_FILE="output_${SLURM_ARRAY_TASK_ID}.dat"
+
+./test_set -input ${INPUT_FILE} -output ${OUTPUT_FILE}
+```
+
+Note that Slurm defines the environment variable `SLURM_ARRAY_TASK_ID` which will have a unique
+value for each job of the job array, varying in the range given at job submission.
+This enables to distinguish between the different runs and can be used to generate names of
+input and output files.
+
+Submitting this job script and running it for values of `SLURM_ARRAY_TASK_ID` going from 1 to 100
+could be done with 
+
+``` bash
+$ sbatch --array 1-100 job_array.slurm
+```
+
+Note that this will count for 100 Slurm jobs so the size of your array jobs on LUMI is limited by the
+rather strict limit on job size. LUMI is made as a system for big jobs, and is a system with a lot of
+users, and there are only that many simultaneous jobs that a scheduler can deal with. Users doing 
+throughput computing should do some kind of hierarchical scheduling, running a subscheduler in the 
+job that then further start subjobs.
+
+
+## Heterogeneous jobs
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Heterogeneous jobs](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/HeterogeneousJobs.png){ loading=lazy }
+</figure>
+
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Heterogeneous jobs: Example with #SBATCH](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/HeterogeneousJobsExampleSBATCH.png){ loading=lazy }
+</figure>
+
+
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Heterogeneous jobs: Example with srun](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/HeterogeneousJobsExampleSrun.png){ loading=lazy }
+</figure>
+
+
+
+TODO: Slide about job management: sacct, scancel, sstat
 
 
 ## Local trainings and materials
