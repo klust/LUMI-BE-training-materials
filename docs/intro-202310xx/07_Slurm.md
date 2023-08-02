@@ -9,6 +9,11 @@
     Even if you have a lot of experience with Slurm, it may still be useful to have a quick
     look at this section as Slurm is not always configured in the same way.
 
+!!! Note "Links to Slurm material"
+    Links to Slurm material on this web page are all for the version on LUMI at the time of
+    the course. Links in the PDF of the slides however are to the newest version.
+
+
 ## What is Slurm
 
 <figure markdown style="border: 1px solid #000">
@@ -521,32 +526,31 @@ both work with some delay.
 
 Before experimenting with jobs on LUMI, it is good to discuss how to manage those jobs.
 We will not discuss the commands in detail and instead refer to the pretty decent manual pages
-that in fact can also be found on the web (though the links are to the latest version rather
-than the current version on LUMI):
+that in fact can also be found on the web.
 
 Remember that each job is identified by a unique job ID, a number that will be shown when you
 submit a job and is also shown in the output of `squeue`.  This job ID will be used to
 manage jobs.
 
--   To delete a job, use [`scancel <jobID>`](https://slurm.schedmd.com/scancel.html)
+-   To delete a job, use [`scancel <jobID>`](https://slurm.schedmd.com/archive/slurm-22.05.8/scancel.html)
 
 -   An important command to manage jobs while they are running is 
-    [`sstat -j <jobID>`](https://slurm.schedmd.com/sstat.html).
+    [`sstat -j <jobID>`](https://slurm.schedmd.com/archive/slurm-22.05.8/sstat.html).
     This command display real-time information directly gathered from the resource manager
     component of Slurm and can also be used to show information about individual job steps using
     the job step identifier (which is in most case `<jobID>.0` for the first rebular job step and so on).
     The `sstat` command can display a lot more information than is shown by default. The output can
-    be adapted via the [`--format` or `-o` command line option](https://slurm.schedmd.com/sstat.html#OPT_format)
-    with a list of options in the ["Job status fields" section of the manual page](https://slurm.schedmd.com/sstat.html#SECTION_Job-Status-Fields).
+    be adapted via the [`--format` or `-o` command line option](https://slurm.schedmd.com/archive/slurm-22.05.8/sstat.html#OPT_format)
+    with a list of options in the ["Job status fields" section of the manual page](https://slurm.schedmd.com/archive/slurm-22.05.8/sstat.html#SECTION_Job-Status-Fields).
 
--   The [`sacct -j <jobID>` command](https://slurm.schedmd.com/sacct.html) can be used both while the
+-   The [`sacct -j <jobID>` command](https://slurm.schedmd.com/archive/slurm-22.05.8/sacct.html) can be used both while the
     job is running and when the job has finished. It is the main command to get information about a job
     after the job has finished. All information comes from a database, also while the job is running, so 
     the information is available with some delay compared to the information obtained with `sstat` for
     a running job. It will also produce information about individual job steps. Just as with `sstat`, the
     fields to display can be selected via the
-    [`--format` or `-o` command line option](https://slurm.schedmd.com/sacct.html#OPT_format) with an even
-    longer list in the ["Job accounting fields" section of the manual page](https://slurm.schedmd.com/sacct.html#SECTION_Job-Accounting-Fields).
+    [`--format` or `-o` command line option](https://slurm.schedmd.com/archive/slurm-22.05.8/sacct.html#OPT_format) with an even
+    longer list in the ["Job accounting fields" section of the manual page](https://slurm.schedmd.com/archive/slurm-22.05.8/sacct.html#SECTION_Job-Accounting-Fields).
 
 The `sacct` command will also be used in various examples in this section of the tutorial to investigate
 the behaviour of Slurm.
@@ -612,9 +616,9 @@ For the `sbatch` command this are the `SBATCH_*` environment variables, for `sal
 the `SALLOC_*` environment variables and for `srun` the `SLURM_*` and some `SRUN_*` environment variables.
 For the `sbatch` command this will overwrite values on the `#SBATCH` lines. You can find
 lists in the manual pages of the 
-[`sbatch`](https://slurm.schedmd.com/sbatch.html),
-[ `salloc`](https://slurm.schedmd.com/salloc.html) and
-[`srun`](https://slurm.schedmd.com/srun.html) command.
+[`sbatch`](https://slurm.schedmd.com/archive/slurm-22.05.8/sbatch.html),
+[ `salloc`](https://slurm.schedmd.com/archive/slurm-22.05.8/salloc.html) and
+[`srun`](https://slurm.schedmd.com/archive/slurm-22.05.8/srun.html) command.
 Specifying command line options via environment variables that are hidden in your
 `.profile` or `.bashrc` file or any script that you run before starting your work,
 is not free of risks. Users often forget that they set those environment variables and
@@ -742,8 +746,8 @@ information. Examples are `%x` which will be replaced with the name of the job (
 `--job-name`) and `%j`` which will be replaced with the job ID (job number). It is recommended to always include 
 the latter in the template for the filename as this ensures unique names if the same job script would be run a 
 few times with different input files. Discussing all patterns that can be used for the filename is outside the
-scope of this tutorial, but you can find them all in the [sbatch manual page](https://slurm.schedmd.com/sbatch.html)
-in the ["filename pattern" section](https://slurm.schedmd.com/sbatch.html#SECTION_%3CB%3Efilename-pattern%3C/B%3E).
+scope of this tutorial, but you can find them all in the [sbatch manual page](https://slurm.schedmd.com/archive/slurm-22.05.8/sbatch.html)
+in the ["filename pattern" section](https://slurm.schedmd.com/archive/slurm-22.05.8/sbatch.html#SECTION_%3CB%3Efilename-pattern%3C/B%3E).
 
 
 ## Requesting resources: CPUs and GPUs
@@ -1968,11 +1972,11 @@ With this statement, the job defined by the job script `jobdpend.slurm` will not
 given jobID has ended successfully (and you may have to clean up the queue if it never ends successfully). But 
 there are other possibilities also, e.g., start another job after a list of jobs has ended, or after a job has
 failed. We refer to the 
-[sbatch manual page](https://slurm.schedmd.com/sbatch.html) where you should 
-[look for `--dependency` on the page](https://slurm.schedmd.com/sbatch.html#OPT_dependency).
+[sbatch manual page](https://slurm.schedmd.com/archive/slurm-22.05.8/sbatch.html) where you should 
+[look for `--dependency` on the page](https://slurm.schedmd.com/archive/slurm-22.05.8/sbatch.html#OPT_dependency).
 
 It is also possible to automate the process of submitting a chain of dependent jobs. For this the
-`sbatch` flag [`--parsable`](https://slurm.schedmd.com/sbatch.html#OPT_parsable)
+`sbatch` flag [`--parsable`](https://slurm.schedmd.com/archive/slurm-22.05.8/sbatch.html#OPT_parsable)
 can be used which on LUMI will only print the job number of the job being submitted. So to 
 let the job defined by `jobdepend.slurm` run after the job defined by `jobfirst.slurm` while 
 submitting both at the same time, you can use something like
@@ -1981,6 +1985,183 @@ submitting both at the same time, you can use something like
 first=$(sbatch --parsable jobfirst.slurm)
 sbatch --dependency=afterok:$first jobdepend.slurm
 ```
+
+
+## Interactive jobs
+
+Interactive jobs can have several goals, e.g.,
+
+1.  Simply testing a code or steps to take to get a code to run while developing a job script.
+    In this case you will likely want an allocation in which you can also easily run parallel MPI
+    jobs.
+
+2.  Compiling a code usually works better interactively, but here you only need an allocation for
+    a single task supporting multiple cores if your code supports a parallel build process.
+    Building on the compute nodes is needed if architecture-specific optimisations are desired
+    while the code building process does not support cross-compiling (e.g., because the build process
+    adds `-march=native` or a similar compiler switch even if it is told not to do so) or ie you want
+    to compile software for the GPUs that during the configure or build process needs a GPU to be 
+    present in the node to detect its features.
+
+3.  Attaching to a running job to inspect how it is doing.
+
+
+### Interactive jobs with salloc
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Interactive jobs with salloc](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobInteractiveSalloc.png){ loading=lazy }
+</figure>
+
+This is a very good way of working for the first scenario described above. 
+
+Using `salloc` will create a pool of resources reserved for interactive execution, and
+will start a new shell on the node where you called `salloc`(usually a login node).
+As such it does not take resources away from other job steps that you will create so
+the shell is a good environment to test most stuff that you would execute in the 
+batch job step of a job script.
+
+To execute any code on one of the allocated compute nodes, be it a large sequential program,
+a shared memory program, distributed memory program or hybrid code, you can use `srun` in
+the same way as we have discussed for job scripts.
+
+It is possible to obtain an interactive shell on the first allocated compute node with
+
+```
+srun --pty $SHELL
+```
+
+(which is nothing more is specified would give you a single core for the shell),
+but keep in mind that this takes away resources from other job steps so if you try to
+start further job steps from that interactive shell you will note that you have fewer 
+resources available, and will have to force overlap (with `--overlap`),
+so it is not very practical to work that way.
+
+To terminate the allocation, simply exit the shell that was created by `salloc` with `exzit` or 
+the CTRL-D key combination (and the same holds for the interactive shell in the previous
+paragraph).
+
+
+??? example "Example with `salloc` and a GPU code (click to expand)"
+    ```
+    $ salloc --account=project_46YXXXXXX --partition=standard-g --nodes=2 --time=15
+    salloc: Pending job allocation 4292946
+    salloc: job 4292946 queued and waiting for resources
+    salloc: job 4292946 has been allocated resources
+    salloc: Granted job allocation 4292946
+    $ module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+
+    ...
+
+    $ srun -n 16 -c 2 --gpus-per-task 1 gpu_check
+    MPI 000 - OMP 000 - HWT 001 - Node nid005191 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c1
+    MPI 000 - OMP 001 - HWT 002 - Node nid005191 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c1
+    MPI 001 - OMP 000 - HWT 003 - Node nid005191 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c6
+    MPI 001 - OMP 001 - HWT 004 - Node nid005191 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c6
+    MPI 002 - OMP 000 - HWT 005 - Node nid005191 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c9
+    MPI 002 - OMP 001 - HWT 006 - Node nid005191 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c9
+    MPI 003 - OMP 000 - HWT 007 - Node nid005191 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID ce
+    MPI 003 - OMP 001 - HWT 008 - Node nid005191 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID ce
+    MPI 004 - OMP 000 - HWT 009 - Node nid005191 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d1
+    MPI 004 - OMP 001 - HWT 010 - Node nid005191 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d1
+    MPI 005 - OMP 000 - HWT 011 - Node nid005191 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d6
+    MPI 005 - OMP 001 - HWT 012 - Node nid005191 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d6
+    MPI 006 - OMP 000 - HWT 013 - Node nid005191 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d9
+    MPI 006 - OMP 001 - HWT 014 - Node nid005191 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d9
+    MPI 007 - OMP 000 - HWT 015 - Node nid005191 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID dc
+    MPI 007 - OMP 001 - HWT 016 - Node nid005191 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID dc
+    MPI 008 - OMP 000 - HWT 001 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c1
+    MPI 008 - OMP 001 - HWT 002 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c1
+    MPI 009 - OMP 000 - HWT 003 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c6
+    MPI 009 - OMP 001 - HWT 004 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c6
+    MPI 010 - OMP 000 - HWT 005 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c9
+    MPI 010 - OMP 001 - HWT 006 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c9
+    MPI 011 - OMP 000 - HWT 007 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID ce
+    MPI 011 - OMP 001 - HWT 008 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID ce
+    MPI 012 - OMP 000 - HWT 009 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d1
+    MPI 012 - OMP 001 - HWT 010 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d1
+    MPI 013 - OMP 000 - HWT 011 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d6
+    MPI 013 - OMP 001 - HWT 012 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d6
+    MPI 014 - OMP 000 - HWT 013 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d9
+    MPI 014 - OMP 001 - HWT 014 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d9
+    MPI 015 - OMP 000 - HWT 015 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID dc
+    MPI 015 - OMP 001 - HWT 016 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID dc
+    ```
+
+
+### Interactive jobs with srun
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Interactive jobs with srun](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobInteractiveSrun.png){ loading=lazy }
+</figure>
+
+Starting an interactive job with `srun` is good to get an interactive shell in which you want
+to do some work without starting further job steps, e.g., for compilation on the compute nodes
+or to run an interactive shared memory program such as R. It is not ideal if you want to spawn
+further job steps with `srun` within the same allocation as the interactive shell already
+fills a task slot, so you'd have to overlap if you want to use all resources of the job in the 
+next job step. 
+
+For this kind of work you';ll rarely need a whole node so small and small-g will likely be your
+partitions of choice.
+
+To start such a job, you'd use 
+
+```
+srun --account=project_46YXXXXXX --partition=<partition> --ntasks=1 --cpus-per-task=<number> --time=<time> --pty=$SHELL
+```
+
+or with the short options
+
+```
+srun -A project_46YXXXXXX -p <partition> -n 1 -c <number> -t <time> --pty $SHELL
+```
+
+For the GPU nodes you'd also add a `--gpus-per-task=<number>` to request a number of GPUs.
+
+To end the interactive job, all you need to do is to leave the shell with `exit` or the
+CTRL-D key combination.
+
+
+
+### Inspecting a running job
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Inpecting a running job](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobInteractiveAttach.png){ loading=lazy }
+</figure>
+
+On LUMI it is not possible to use `ssh` to log on to a compute node in use by one of your jobs.
+Instead you need to use Slurm to attach a shell to an already running job. This can be done with
+`srun`, but there are two differences with the previous scenario. First, you do not need a new
+allocation but need to tell `srun` to use an existing allocation. As there is already an allocation,
+`srun` does not need your project account in this case. Second, usually the job will be using all its
+resources so there is no room in the allocation to create another job step with the interactive shell.
+This is solved by teslling `srun` that the resources should overlap with those already in use.
+
+To start an interactive shell on the first allocated node of a specific job/allocation, use
+
+```
+srun --jobid=<jobID> --overlap --pty $SHELL
+```
+
+and to start an interactive shell on another node of the jobm simply add a `-w` or `--nodelist` argument:
+
+```
+srun --jobid=<jobID> --nodelist=nid00XXXX --overlap --pty $SHELL
+srun --jobid=<jobID> -w nid00XXXX --overlap --pty $SHELL
+```
+
+<!--
+TODO: I guess you need to specify --gpus-per-task also to gain access to the GPUs should you need this?
+-->
+
+Instead of starting a shell, you could also just run a command, e.g., `top`, to inspect what the nodes are doing.
+
+Note that you can find out the nodes allocated to your job using `squeue` (probably the easiest as the nodes are
+shown by default), `sstat` or `salloc`.
+
+<!--
+TODO: Add some examples of how to use sstat or salloc for this?
+-->
 
 
 ## Job arrays
