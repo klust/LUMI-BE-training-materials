@@ -87,6 +87,33 @@ reason to keep it small.
     from the compute nodes over the high-speed interconnect.
 
 
+## Low-noise mode
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Low-noise mode](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-02-CPE/LowNoiseMode.png){ loading=lazy }
+</figure>
+
+Low-noise mode has meant different things throughout the history of Cray systems. 
+Sometimes the mode described above, using only a selection of the regular Linux daemons on the
+compute nodes, was already called low-noise mode while some Cray systems provided another mode
+in which those daemons were activated. Depending on the cluster this was then called "emulation mode"
+or "Cluster Compatibility Mode". The latter is not implemented on LUMI, and even if it would, compatibility
+would still be limited by the special requirements to use the Slingshot interconnect and to have
+GPU-aware communication over Slingshot.
+
+However, it turned out that even the noise reduction described above was not yet sufficient to
+pass some large-scale scalability tests, and therefore another form of "low-noise" mode is implemented
+on the GPU nodes of LUMI where OS processes are restricted to a reserved core, actually core 0.
+This leaves us with an asymmetric structure of the node, where the first CCD has 7 available cores
+while the other ones have 8, and as we shall see in the 
+[Process and thread distribution and binding" chapter](08_Binding.md)
+this will create some headaches when trying to get maximal efficiency for GPU applications.
+(For this reason some other clusters based on the same architecture reserve on core on each CCD.)
+
+This is actually an idea Cray has been experimenting with in the past already, ever since
+we've had nodes with 20 or more cores.
+
+
 ## Programming models
 
 <figure markdown style="border: 1px solid #000">
