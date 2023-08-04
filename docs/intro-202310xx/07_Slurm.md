@@ -1087,6 +1087,29 @@ And take into account that not all cluster operators will do that as there are a
 to do so. Otherwise the developers of Slurm wouldn't have changed that behaviour in the first place.
 
 
+### A warning for GPU applications
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Per-node allocations: A warning for GPU applications](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeJobstepWarningGPU.png){ loading=lazy }
+</figure>
+
+Allocating GPUs with `--gpus-per-task` or `--tasks-per-gpu` may seem the most logical thing to do
+when reading the Slurm manual pages. It does come with a problem though resulting of how Slurm
+currently manages the AMD GPUs. 
+
+Slurm currently uses a separate control group per task for the GPUs.
+Now control groups are a mechanism in Linux for restricting resources available to a process and its childdren.
+Putting the GPUs in a separate control group per task limits the ways in intra-node communication can be
+done between GPUs, and this in turn is incompatible with some software.
+
+The solution is to ensure that all tasks within a node see all GPUs in the node and then to
+manually perform the binding of each task to the GPUs it needs using a different mechanism more
+like affinity masks for CPUs.
+
+Unfortunately using AMD GPUs in Slurm is more complicated then it should be (and we will see even
+more problems).
+
+
 ## Turning simultaneous multithreading on or off
 
 <figure markdown style="border: 1px solid #000">
@@ -1501,6 +1524,30 @@ mostly the same options that we have discussed on the slides "Per-node allocatio
         **This is still CPU memory and not GPU memory!**
 
     4.  Specifying memory per node with `--mem` doesn't make much sense unless the number of nodes is fixed.
+
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Per-core allocations: Warning: GPU applications](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreWarningGPU.png){ loading=lazy }
+</figure>
+
+!!! Warning "GPU allocations with `--gpus-per-task` or `--tasks-per-gpu`"
+    Allocating GPUs with `--gpus-per-task` or `--tasks-per-gpu` may seem the most logical thing 
+    to do in this scenario as we do not know how Slurm will distribute the tasks over the nodes.
+
+    It does however suffer from the same problem as we have with "per-node" allocations.
+    Slurm will forward the options to `srun` and `srun` will create separate control groups
+    per task hiding all other GPUs from a task, also the other GPUs of the same job within
+    a node, and we run into the same problems with software.
+
+    If that is a problem for your application, the solution is again to do the GPU allocation
+    in a way that all GPUs in a node are visible to all tasks on that node, but now we do not
+    know how many tasks Slurm will put on each node and hence how many GPUs are available
+    to the job on each node.
+
+    We will again discuss a solution in the 
+    [Chapter "Process and thread distribution and binding"](08_Binding.md)
+
+
 
 <figure markdown style="border: 1px solid #000">
   ![Slide Per core allocations: Warning: Allocations per socket?](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreWarningSocket.png){ loading=lazy }
