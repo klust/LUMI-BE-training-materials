@@ -1055,7 +1055,8 @@ resources are for each individual task, but this scheme is an easy scheme:
 2.  Specifying the number of CPUs (cores on LUMI) for each task. The easiest way to do this is by
     using `--cpus-per-task=<number_CPUs>` or `-c <number_CPUs>`.
 
-3.  Specifying the number of GPUs per task. The easiest way here is:
+3.  Specifying the number of GPUs per task. Following the Slurm manuals, the following
+    seems the easiest way:
 
     1.  Use `--gpus-per-task=>number_GPUs>` to bind one or more GPUs to each task.
         This is probably the most used option in this scheme.
@@ -1063,7 +1064,9 @@ resources are for each individual task, but this scheme is an easy scheme:
     2.  If however you want multiple tasks to share a GPU, then you should use 
         `--ntasks-per-gpu=<number_of_tasks>`. There are use cases where this makes sense.
 
-Note however that the allocation in this simple scheme is not always efficient. Slurm has various
+    This however does not always work...
+
+The job steps created in this simple scheme do not always run the programs at optimal efficiency. Slurm has various
 strategies to assign tasks to nodes, and there is an option which we will discuss in the next session
 of the course (binding) to change that. Moreover, not all clusters use the same default setting for this
 strategy. Cores and CPUs are assigned in order and this is not always the best order.
@@ -1095,7 +1098,7 @@ to do so. Otherwise the developers of Slurm wouldn't have changed that behaviour
 
 Allocating GPUs with `--gpus-per-task` or `--tasks-per-gpu` may seem the most logical thing to do
 when reading the Slurm manual pages. It does come with a problem though resulting of how Slurm
-currently manages the AMD GPUs. 
+currently manages the AMD GPUs, and now the discussion becomes more technical.
 
 Slurm currently uses a separate control group per task for the GPUs.
 Now control groups are a mechanism in Linux for restricting resources available to a process and its childdren.
@@ -1104,7 +1107,12 @@ done between GPUs, and this in turn is incompatible with some software.
 
 The solution is to ensure that all tasks within a node see all GPUs in the node and then to
 manually perform the binding of each task to the GPUs it needs using a different mechanism more
-like affinity masks for CPUs.
+like affinity masks for CPUs. It can be tricky to do though as many options for `srun` do a
+mapping under the hood.
+
+As we need a mechanisms that are not yet discussed yet in this chapter, we refer to the
+[chapter "Process and thread distribution and binding"](08_Binding.md) for a more ellaborate
+discussion and a solution.
 
 Unfortunately using AMD GPUs in Slurm is more complicated then it should be (and we will see even
 more problems).
@@ -1479,6 +1487,10 @@ arguments of `sbatch` and `salloc` that you will need to run the job.
   ![Slide Per core allocations: Resource request (2)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreResources_2.png){ loading=lazy }
 </figure>
 
+<figure markdown style="border: 1px solid #000">
+  ![Slide Per core allocations: Resource request (3)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreResources_3.png){ loading=lazy }
+</figure>
+
 To request an allocation, you have to specify the task structure of the job step you want to run using
 mostly the same options that we have discussed on the slides "Per-node allocations: Starting a job step": 
 
@@ -1513,6 +1525,14 @@ mostly the same options that we have discussed on the slides "Per-node allocatio
     2.  If however you want multiple tasks to share a GPU, then you should use 
         `--ntasks-per-gpu=<number_of_tasks>`. There are use cases where this makes sense.
 
+    While this does ensure a proper distribution of GPUs across nodes compatible with the 
+    distrubtions of cores to run the requested tasks, we will again run into binding issues
+    when these options are propagated to `srun` to create the actual job steps, and hre this
+    is even more tricky to solve.
+
+    We will again discuss a solution in the 
+    [Chapter "Process and thread distribution and binding"](08_Binding.md)
+
 4.  CPU memory. By default you get less than the memory per core on the node type. To change:
 
     1.  Against the logic there is **no** `--mem-per-task=<number>`, instead memory needs to be specified in
@@ -1524,29 +1544,6 @@ mostly the same options that we have discussed on the slides "Per-node allocatio
         **This is still CPU memory and not GPU memory!**
 
     4.  Specifying memory per node with `--mem` doesn't make much sense unless the number of nodes is fixed.
-
-
-<figure markdown style="border: 1px solid #000">
-  ![Slide Per-core allocations: Warning: GPU applications](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreWarningGPU.png){ loading=lazy }
-</figure>
-
-!!! Warning "GPU allocations with `--gpus-per-task` or `--tasks-per-gpu`"
-    Allocating GPUs with `--gpus-per-task` or `--tasks-per-gpu` may seem the most logical thing 
-    to do in this scenario as we do not know how Slurm will distribute the tasks over the nodes.
-
-    It does however suffer from the same problem as we have with "per-node" allocations.
-    Slurm will forward the options to `srun` and `srun` will create separate control groups
-    per task hiding all other GPUs from a task, also the other GPUs of the same job within
-    a node, and we run into the same problems with software.
-
-    If that is a problem for your application, the solution is again to do the GPU allocation
-    in a way that all GPUs in a node are visible to all tasks on that node, but now we do not
-    know how many tasks Slurm will put on each node and hence how many GPUs are available
-    to the job on each node.
-
-    We will again discuss a solution in the 
-    [Chapter "Process and thread distribution and binding"](08_Binding.md)
-
 
 
 <figure markdown style="border: 1px solid #000">
@@ -1592,6 +1589,9 @@ in the structure from the allocation and the total number of tasks does not exce
 multiplied with that entire number. Other cases may work randomly, depending on how Slurm did the
 actual allocation. In fact, this may even be abused to ensure that all tasks are allocated to a single
 node, though this is done more elegantly by just specifying `--nodes=1`.
+
+With GPUs though it can become very complicated to avoid binding problems if the Slurm way of implementing
+GPU binding does not work for you.
 
 ??? Example "Some examples that work and don't work (click to expand)"
     Consider the job script:
