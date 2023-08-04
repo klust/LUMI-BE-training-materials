@@ -846,3 +846,47 @@ uses the numbering within the current control group.
 **Running GPUs in a different control group per task has consequences for the way inter-GPU
 communication within a node can be organised so the above examples are important. It is essential
 to run MPI applications with optimal efficiency.**
+
+
+
+
+## Task distribution with Slurm
+
+
+
+
+
+
+## Task CPU binding with Slurm
+
+
+
+
+
+
+## Task GPU binding with Slurm
+
+Not recommended
+
+
+
+## MPI rank redistribution with Cray MPICH
+
+
+
+
+## Refining core binding in OpenMP applications
+
+
+
+## GPU binding with ROCR_VISIBLE_DEVICES
+
+-   Non-optimal example on standard-g
+
+-   Examples on small-g )non-optimal by definition)
+
+
+## Combining Slurm task binding with ROCR_VISIBLE_DEVICES
+
+Or: How to get an optmial mapping on the GPU nodes?
+
