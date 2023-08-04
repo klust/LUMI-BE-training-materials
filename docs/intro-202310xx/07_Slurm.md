@@ -1524,6 +1524,7 @@ mostly the same options that we have discussed on the slides "Per-node allocatio
 
     2.  If however you want multiple tasks to share a GPU, then you should use 
         `--ntasks-per-gpu=<number_of_tasks>`. There are use cases where this makes sense.
+        However, at the time of writing this does not work properly.
 
     While this does ensure a proper distribution of GPUs across nodes compatible with the 
     distrubtions of cores to run the requested tasks, we will again run into binding issues
@@ -1545,6 +1546,16 @@ mostly the same options that we have discussed on the slides "Per-node allocatio
 
     4.  Specifying memory per node with `--mem` doesn't make much sense unless the number of nodes is fixed.
 
+!!! bug "`--ntasks-per-gpu=<number>` does not work"
+    At the time of writing there were several problems when using `--ntasks-per-gpu=<number>` in combination
+    with `--ntasks=<number>`. While according to the Slurm documentation this is a valid request and
+    Slurm should automatically determine the right number of GPUs to allocate, it turns out that instead
+    you need to specify the number of GPUs with `--gpus=<number>` together with `--ntasks-per-gpu=<number>`
+    and let Slurm compute the number of tasks.
+
+    Moreover, we've seen cases where the final allocation was completely wrong, with tasks ending up with the
+    wrong number of GPUs or on the wrong node (like too many tasks on one and too little on another compared
+    to the number of GPUs set aside in each of these nodes).
 
 <figure markdown style="border: 1px solid #000">
   ![Slide Per core allocations: Warning: Allocations per socket?](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreWarningSocket.png){ loading=lazy }
