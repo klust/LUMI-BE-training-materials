@@ -1,6 +1,6 @@
 # Process and thread distribution and binding
 
-Binding:
+Binding to discuss:
 
 -   Binding in Slurm:
 
@@ -69,12 +69,15 @@ In this section we will consider process and thread distribution and binding at 
 -   When creating an allocation, Slurm will already reserve resources at the node level, but this
     has been discussed already in the Slurm session of the course.
 
+    It will also already employ control groups to restrict the access to those reaources on a
+    per-node per-job basis.
+
 -   When creating a job step, Slurm will distribute the tasks over the available resources,
     bind them to CPUs and depending on how the job step was started, bind them to a subset of the
     GPUs available to the task on the node it is running on.
 
 -   With Cray MPICH, you can change the binding between MPI ranks and Slurm tasks. Normally MPI rank *i*
-    would be assigned to task *i*  in the job step, but sometimes there are reasons to change this.
+    would be assigned to task *i* in the job step, but sometimes there are reasons to change this.
     The mapping options offered by Cray MPICH are more powerful than what can be obtained with the 
     options to change the task distribution in Slurm.
 
@@ -160,6 +163,7 @@ Note that even with `--hiint=nomulthread` the hardware threads will still be tur
 OS (e.c., in `/proc/cpuinfo`). In fact, the batch job step will use them, but they will not be used by applications in job steps
 started with subsequent `srun` commands.
 
+<!-- Script cpu-numbering-demo1 -->
 ??? technical "Slurm under-the-hoods example"
     We will use the Linux `lstopo` and `taskset` commands to study how a job step sees the system
     and how task affinity is used to manage the CPUs for a task. Consider the job script:
@@ -181,13 +185,13 @@ started with subsequent `srun` commands.
     #!/bin/bash
     echo "Task \$SLURM_LOCALID"                            > output-\$SLURM_JOB_ID-\$SLURM_LOCALID
     echo "Output of lstopo:"                              >> output-\$SLURM_JOB_ID-\$SLURM_LOCALID
-    lstopo                                                >> output-\$SLURM_JOB_ID-\$SLURM_LOCALID
+    lstopo -p                                             >> output-\$SLURM_JOB_ID-\$SLURM_LOCALID
     echo "Taskset of current shell: \$(taskset -p \$\$)"  >> output-\$SLURM_JOB_ID-\$SLURM_LOCALID
     EOF
     
     chmod +x ./task_lstopo_$SLURM_JOB_ID
     
-    echo -e "\nFull lstopo output in the job:\n$(lstopo)\n\n"
+    echo -e "\nFull lstopo output in the job:\n$(lstopo -p)\n\n"
     echo -e "Taskset of the current shell: $(taskset -p $$)\n"
     
     echo "Running two tasks on 4 cores each, extracting parts from lstopo output in each:"
@@ -209,257 +213,262 @@ started with subsequent `srun` commands.
     
     Let's first look at the output of the `lstopo` and `taskset` commands run in the batch
     job step:
-    
+
     ```
     Full lstopo output in the job:
     Machine (251GB total)
-      Package L#0
-        Group0 L#0
-          NUMANode L#0 (P#0 31GB)
-        Group0 L#1
-          NUMANode L#1 (P#1 31GB)
+      Package P#0
+        Group0
+          NUMANode P#0 (31GB)
+        Group0
+          NUMANode P#1 (31GB)
           HostBridge
             PCIBridge
               PCI 41:00.0 (Ethernet)
                 Net "nmn0"
-        Group0 L#2
-          NUMANode L#2 (P#2 31GB)
+        Group0
+          NUMANode P#2 (31GB)
           HostBridge
             PCIBridge
               PCI 21:00.0 (Ethernet)
                 Net "hsn0"
-        Group0 L#3
-          NUMANode L#3 (P#3 31GB)
-      Package L#1
-        Group0 L#4
-          NUMANode L#4 (P#4 31GB)
-          L3 L#0 (32MB)
-            L2 L#0 (512KB) + L1d L#0 (32KB) + L1i L#0 (32KB) + Core L#0
-              PU L#0 (P#65)
-              PU L#1 (P#193)
-            L2 L#1 (512KB) + L1d L#1 (32KB) + L1i L#1 (32KB) + Core L#1
-              PU L#2 (P#66)
-              PU L#3 (P#194)
-            L2 L#2 (512KB) + L1d L#2 (32KB) + L1i L#2 (32KB) + Core L#2
-              PU L#4 (P#67)
-              PU L#5 (P#195)
-            L2 L#3 (512KB) + L1d L#3 (32KB) + L1i L#3 (32KB) + Core L#3
-              PU L#6 (P#68)
-              PU L#7 (P#196)
-            L2 L#4 (512KB) + L1d L#4 (32KB) + L1i L#4 (32KB) + Core L#4
-              PU L#8 (P#69)
-              PU L#9 (P#197)
-            L2 L#5 (512KB) + L1d L#5 (32KB) + L1i L#5 (32KB) + Core L#5
-              PU L#10 (P#70)
-              PU L#11 (P#198)
-            L2 L#6 (512KB) + L1d L#6 (32KB) + L1i L#6 (32KB) + Core L#6
-              PU L#12 (P#71)
-              PU L#13 (P#199)
-          L3 L#1 (32MB)
-            L2 L#7 (512KB) + L1d L#7 (32KB) + L1i L#7 (32KB) + Core L#7
-              PU L#14 (P#72)
-              PU L#15 (P#200)
-            L2 L#8 (512KB) + L1d L#8 (32KB) + L1i L#8 (32KB) + Core L#8
-              PU L#16 (P#73)
-              PU L#17 (P#201)
-            L2 L#9 (512KB) + L1d L#9 (32KB) + L1i L#9 (32KB) + Core L#9
-              PU L#18 (P#74)
-              PU L#19 (P#202)
-            L2 L#10 (512KB) + L1d L#10 (32KB) + L1i L#10 (32KB) + Core L#10
-              PU L#20 (P#75)
-              PU L#21 (P#203)
-            L2 L#11 (512KB) + L1d L#11 (32KB) + L1i L#11 (32KB) + Core L#11
-              PU L#22 (P#76)
-              PU L#23 (P#204)
-            L2 L#12 (512KB) + L1d L#12 (32KB) + L1i L#12 (32KB) + Core L#12
-              PU L#24 (P#77)
-              PU L#25 (P#205)
-            L2 L#13 (512KB) + L1d L#13 (32KB) + L1i L#13 (32KB) + Core L#13
-              PU L#26 (P#78)
-              PU L#27 (P#206)
-            L2 L#14 (512KB) + L1d L#14 (32KB) + L1i L#14 (32KB) + Core L#14
-              PU L#28 (P#79)
-              PU L#29 (P#207)
-        Group0 L#5
-          NUMANode L#5 (P#5 31GB)
-          L3 L#2 (32MB) + L2 L#15 (512KB) + L1d L#15 (32KB) + L1i L#15 (32KB) + Core L#15
-            PU L#30 (P#88)
-            PU L#31 (P#216)
-        Group0 L#6
-          NUMANode L#6 (P#6 31GB)
-        Group0 L#7
-          NUMANode L#7 (P#7 31GB)
+        Group0
+          NUMANode P#3 (31GB)
+      Package P#1
+        Group0
+          NUMANode P#4 (31GB)
+        Group0
+          NUMANode P#5 (31GB)
+        Group0
+          NUMANode P#6 (31GB)
+          L3 P#12 (32MB)
+            L2 P#100 (512KB) + L1d P#100 (32KB) + L1i P#100 (32KB) + Core P#36
+              PU P#100
+              PU P#228
+            L2 P#101 (512KB) + L1d P#101 (32KB) + L1i P#101 (32KB) + Core P#37
+              PU P#101
+              PU P#229
+            L2 P#102 (512KB) + L1d P#102 (32KB) + L1i P#102 (32KB) + Core P#38
+              PU P#102
+              PU P#230
+            L2 P#103 (512KB) + L1d P#103 (32KB) + L1i P#103 (32KB) + Core P#39
+              PU P#103
+              PU P#231
+          L3 P#13 (32MB)
+            L2 P#104 (512KB) + L1d P#104 (32KB) + L1i P#104 (32KB) + Core P#40
+              PU P#104
+              PU P#232
+            L2 P#105 (512KB) + L1d P#105 (32KB) + L1i P#105 (32KB) + Core P#41
+              PU P#105
+              PU P#233
+            L2 P#106 (512KB) + L1d P#106 (32KB) + L1i P#106 (32KB) + Core P#42
+              PU P#106
+              PU P#234
+            L2 P#107 (512KB) + L1d P#107 (32KB) + L1i P#107 (32KB) + Core P#43
+              PU P#107
+              PU P#235
+            L2 P#108 (512KB) + L1d P#108 (32KB) + L1i P#108 (32KB) + Core P#44
+              PU P#108
+              PU P#236
+            L2 P#109 (512KB) + L1d P#109 (32KB) + L1i P#109 (32KB) + Core P#45
+              PU P#109
+              PU P#237
+            L2 P#110 (512KB) + L1d P#110 (32KB) + L1i P#110 (32KB) + Core P#46
+              PU P#110
+              PU P#238
+            L2 P#111 (512KB) + L1d P#111 (32KB) + L1i P#111 (32KB) + Core P#47
+              PU P#111
+              PU P#239
+        Group0
+          NUMANode P#7 (31GB)
+          L3 P#14 (32MB)
+            L2 P#112 (512KB) + L1d P#112 (32KB) + L1i P#112 (32KB) + Core P#48
+              PU P#112
+              PU P#240
+            L2 P#113 (512KB) + L1d P#113 (32KB) + L1i P#113 (32KB) + Core P#49
+              PU P#113
+              PU P#241
+            L2 P#114 (512KB) + L1d P#114 (32KB) + L1i P#114 (32KB) + Core P#50
+              PU P#114
+              PU P#242
+            L2 P#115 (512KB) + L1d P#115 (32KB) + L1i P#115 (32KB) + Core P#51
+              PU P#115
+              PU P#243
     
-    Taskset of the current shell: pid 39383's current affinity mask: 100fffe0000000000000000000000000100fffe0000000000000000
+    Taskset of the current shell: pid 81788's current affinity mask: ffff0000000000000000000000000000ffff0000000000000000000000000
     ```
     
     Note the way the cores are represented. 
     There are 16 lines the lines `L2 ... + L1d ... + L1i ... + Core ...` that represent the
-    16 cores requested. Note that `lstopo` numbers those cores from 0. But we can already see
-    from the structure that this is not right as the 16 cores are actually spread over 3 L3 cache
-    domains or CCDs. 
-    The two `PU` lines after each core are also continuously numbered and correspond to the 
-    hardware threads. However, the regular hardware thread number is also shown as `P#` and we 
-    see that we actually got 2 hardware threads on each of the physical cores 65 till 79 and then
-    another one on core 88. So the cores assigned to the job are not only not on the minimal 
-    number of CCDs needed for 16 cores (which would be 2) but are not even consecutive cores.
-    Neither are guaranteed in a "Allocatable by resources" partition.
-    This is also reflected in the taskset, that covers both the first and second hardware thread
-    of each core (or as we could say, the physical core and its virtual counterpart).
+    16 cores requested. We have used the `-p` option of `lstopo` to ensure that `lstopo`
+    would show us the physical number as seen by the bare OS. The numbers indicated after
+    each core are within the socket but the number indicated right after `L2` is the global
+    core numbering within the node as seen by the bare OS.
+    The two `PU` lines (Processing Unit) after each core are correspond to the 
+    hardware threads and are also the numbers as seen by the bare OS.
     
+    We see that in this allocation the cores are not spread over the minimal number
+    of L3 cache domains that would be possible, but across three domains. In this particular
+    allocation the cores are still consecutive cores, but even that is not guaranteed
+    in an "Allocatable by resources" partition.
+    Despite `--hint=nomultithread` being the default behaviour, at this level we still see
+    both hardware threads for each pysical core in the taskset. 
+
     Next look at the output printed by lines 29 and 31:
-    
+
     ```
     Task 0
     Output of lstopo:
     Machine (251GB total)
-      Package L#0
-        Group0 L#0
-          NUMANode L#0 (P#0 31GB)
-        Group0 L#1
-          NUMANode L#1 (P#1 31GB)
+      Package P#0
+        Group0
+          NUMANode P#0 (31GB)
+        Group0
+          NUMANode P#1 (31GB)
           HostBridge
             PCIBridge
               PCI 41:00.0 (Ethernet)
                 Net "nmn0"
-        Group0 L#2
-          NUMANode L#2 (P#2 31GB)
+        Group0
+          NUMANode P#2 (31GB)
           HostBridge
             PCIBridge
               PCI 21:00.0 (Ethernet)
                 Net "hsn0"
-        Group0 L#3
-          NUMANode L#3 (P#3 31GB)
-      Package L#1
-        Group0 L#4
-          NUMANode L#4 (P#4 31GB)
-          L3 L#0 (32MB)
-            L2 L#0 (512KB) + L1d L#0 (32KB) + L1i L#0 (32KB) + Core L#0
-              PU L#0 (P#65)
-              PU L#1 (P#193)
-            L2 L#1 (512KB) + L1d L#1 (32KB) + L1i L#1 (32KB) + Core L#1
-              PU L#2 (P#66)
-              PU L#3 (P#194)
-            L2 L#2 (512KB) + L1d L#2 (32KB) + L1i L#2 (32KB) + Core L#2
-              PU L#4 (P#67)
-              PU L#5 (P#195)
-            L2 L#3 (512KB) + L1d L#3 (32KB) + L1i L#3 (32KB) + Core L#3
-              PU L#6 (P#68)
-              PU L#7 (P#196)
-            L2 L#4 (512KB) + L1d L#4 (32KB) + L1i L#4 (32KB) + Core L#4
-              PU L#8 (P#69)
-              PU L#9 (P#197)
-            L2 L#5 (512KB) + L1d L#5 (32KB) + L1i L#5 (32KB) + Core L#5
-              PU L#10 (P#70)
-              PU L#11 (P#198)
-            L2 L#6 (512KB) + L1d L#6 (32KB) + L1i L#6 (32KB) + Core L#6
-              PU L#12 (P#71)
-              PU L#13 (P#199)
-          L3 L#1 (32MB) + L2 L#7 (512KB) + L1d L#7 (32KB) + L1i L#7 (32KB) + Core L#7
-            PU L#14 (P#72)
-            PU L#15 (P#200)
-        Group0 L#5
-          NUMANode L#5 (P#5 31GB)
-        Group0 L#6
-          NUMANode L#6 (P#6 31GB)
-        Group0 L#7
-          NUMANode L#7 (P#7 31GB)
-    Taskset of current shell: pid 40147's current affinity mask: 1e0000000000000000
+        Group0
+          NUMANode P#3 (31GB)
+      Package P#1
+        Group0
+          NUMANode P#4 (31GB)
+        Group0
+          NUMANode P#5 (31GB)
+        Group0
+          NUMANode P#6 (31GB)
+          L3 P#12 (32MB)
+            L2 P#100 (512KB) + L1d P#100 (32KB) + L1i P#100 (32KB) + Core P#36
+              PU P#100
+              PU P#228
+            L2 P#101 (512KB) + L1d P#101 (32KB) + L1i P#101 (32KB) + Core P#37
+              PU P#101
+              PU P#229
+            L2 P#102 (512KB) + L1d P#102 (32KB) + L1i P#102 (32KB) + Core P#38
+              PU P#102
+              PU P#230
+            L2 P#103 (512KB) + L1d P#103 (32KB) + L1i P#103 (32KB) + Core P#39
+              PU P#103
+              PU P#231
+          L3 P#13 (32MB)
+            L2 P#104 (512KB) + L1d P#104 (32KB) + L1i P#104 (32KB) + Core P#40
+              PU P#104
+              PU P#232
+            L2 P#105 (512KB) + L1d P#105 (32KB) + L1i P#105 (32KB) + Core P#41
+              PU P#105
+              PU P#233
+            L2 P#106 (512KB) + L1d P#106 (32KB) + L1i P#106 (32KB) + Core P#42
+              PU P#106
+              PU P#234
+            L2 P#107 (512KB) + L1d P#107 (32KB) + L1i P#107 (32KB) + Core P#43
+              PU P#107
+              PU P#235
+        Group0
+          NUMANode P#7 (31GB)
+    Taskset of current shell: pid 82340's current affinity mask: f0000000000000000000000000
     
     Task 1
     Output of lstopo:
     Machine (251GB total)
-      Package L#0
-        Group0 L#0
-          NUMANode L#0 (P#0 31GB)
-        Group0 L#1
-          NUMANode L#1 (P#1 31GB)
+      Package P#0
+        Group0
+          NUMANode P#0 (31GB)
+        Group0
+          NUMANode P#1 (31GB)
           HostBridge
             PCIBridge
               PCI 41:00.0 (Ethernet)
                 Net "nmn0"
-        Group0 L#2
-          NUMANode L#2 (P#2 31GB)
+        Group0
+          NUMANode P#2 (31GB)
           HostBridge
             PCIBridge
               PCI 21:00.0 (Ethernet)
                 Net "hsn0"
-        Group0 L#3
-          NUMANode L#3 (P#3 31GB)
-      Package L#1
-        Group0 L#4
-          NUMANode L#4 (P#4 31GB)
-          L3 L#0 (32MB)
-            L2 L#0 (512KB) + L1d L#0 (32KB) + L1i L#0 (32KB) + Core L#0
-              PU L#0 (P#65)
-              PU L#1 (P#193)
-            L2 L#1 (512KB) + L1d L#1 (32KB) + L1i L#1 (32KB) + Core L#1
-              PU L#2 (P#66)
-              PU L#3 (P#194)
-            L2 L#2 (512KB) + L1d L#2 (32KB) + L1i L#2 (32KB) + Core L#2
-              PU L#4 (P#67)
-              PU L#5 (P#195)
-            L2 L#3 (512KB) + L1d L#3 (32KB) + L1i L#3 (32KB) + Core L#3
-              PU L#6 (P#68)
-              PU L#7 (P#196)
-            L2 L#4 (512KB) + L1d L#4 (32KB) + L1i L#4 (32KB) + Core L#4
-              PU L#8 (P#69)
-              PU L#9 (P#197)
-            L2 L#5 (512KB) + L1d L#5 (32KB) + L1i L#5 (32KB) + Core L#5
-              PU L#10 (P#70)
-              PU L#11 (P#198)
-            L2 L#6 (512KB) + L1d L#6 (32KB) + L1i L#6 (32KB) + Core L#6
-              PU L#12 (P#71)
-              PU L#13 (P#199)
-          L3 L#1 (32MB) + L2 L#7 (512KB) + L1d L#7 (32KB) + L1i L#7 (32KB) + Core L#7
-            PU L#14 (P#72)
-            PU L#15 (P#200)
-        Group0 L#5
-          NUMANode L#5 (P#5 31GB)
-        Group0 L#6
-          NUMANode L#6 (P#6 31GB)
-        Group0 L#7
-          NUMANode L#7 (P#7 31GB)
-    Taskset of current shell: pid 40148's current affinity mask: 1e00000000000000000
+        Group0
+          NUMANode P#3 (31GB)
+      Package P#1
+        Group0
+          NUMANode P#4 (31GB)
+        Group0
+          NUMANode P#5 (31GB)
+        Group0
+          NUMANode P#6 (31GB)
+          L3 P#12 (32MB)
+            L2 P#100 (512KB) + L1d P#100 (32KB) + L1i P#100 (32KB) + Core P#36
+              PU P#100
+              PU P#228
+            L2 P#101 (512KB) + L1d P#101 (32KB) + L1i P#101 (32KB) + Core P#37
+              PU P#101
+              PU P#229
+            L2 P#102 (512KB) + L1d P#102 (32KB) + L1i P#102 (32KB) + Core P#38
+              PU P#102
+              PU P#230
+            L2 P#103 (512KB) + L1d P#103 (32KB) + L1i P#103 (32KB) + Core P#39
+              PU P#103
+              PU P#231
+          L3 P#13 (32MB)
+            L2 P#104 (512KB) + L1d P#104 (32KB) + L1i P#104 (32KB) + Core P#40
+              PU P#104
+              PU P#232
+            L2 P#105 (512KB) + L1d P#105 (32KB) + L1i P#105 (32KB) + Core P#41
+              PU P#105
+              PU P#233
+            L2 P#106 (512KB) + L1d P#106 (32KB) + L1i P#106 (32KB) + Core P#42
+              PU P#106
+              PU P#234
+            L2 P#107 (512KB) + L1d P#107 (32KB) + L1i P#107 (32KB) + Core P#43
+              PU P#107
+              PU P#235
+        Group0
+          NUMANode P#7 (31GB)
+    Taskset of current shell: pid 82341's current affinity mask: f00000000000000000000000000
     ```
     
-    The output of `lstopo` is the same for both: we get the same 8 cores. This is because
+    The output of `lstopo -p` is the same for both: we get the same 8 cores. This is because
     all cores for all tasks on a node are gathered in a single control group. Instead, 
     affinity masks are used to ensure that both tasks of 4 threads are scheduled on different
     cores. If we have a look at booth taskset lines:
     
     ```
-    Taskset of current shell: pid 40147's current affinity mask: 01e0000000000000000
-    Taskset of current shell: pid 40148's current affinity mask: 1e00000000000000000
+    Taskset of current shell: pid 82340's current affinity mask: 0f0000000000000000000000000
+    Taskset of current shell: pid 82341's current affinity mask: f00000000000000000000000000
     ```
     
     we see that they are indeed different (a zero was added to the front of the first to
-    make the difference clearer). The first task got cores 65 till 68 and the second
-    task got cores 69 till 72. This also shows an important property: Tasksets are
-    defined based on the bare OS numbering of the cores, not based on the numbers used
-    on the `L2` lines that are assigned by `lstopo` based on the visible cores in the 
-    control group.
+    make the difference clearer). The first task got cores 100 till 103 and the second
+    task got cores 104 till 107. This also shows an important property: Tasksets are
+    defined based on the bare OS numbering of the cores, not based on a numbering relative
+    to the control group, with cores numbered from 0 to 15 in this example. It also implies
+    that it is not possible to set a taskset manually without knowing which physical cores
+    can be used!
     
     The output of the `srun` command on line 34 confirms this:
     
     ```
     Running 2 MPI ranks with 4 threads each (total number of threads: 8).
-    
-    ++ hybrid_check: MPI rank   0/2   OpenMP thread   0/4   on cpu  65/256 of nid002053 mask 65-68
-    ++ hybrid_check: MPI rank   0/2   OpenMP thread   1/4   on cpu  66/256 of nid002053 mask 65-68
-    ++ hybrid_check: MPI rank   0/2   OpenMP thread   2/4   on cpu  67/256 of nid002053 mask 65-68
-    ++ hybrid_check: MPI rank   0/2   OpenMP thread   3/4   on cpu  68/256 of nid002053 mask 65-68
-    ++ hybrid_check: MPI rank   1/2   OpenMP thread   0/4   on cpu  72/256 of nid002053 mask 69-72
-    ++ hybrid_check: MPI rank   1/2   OpenMP thread   1/4   on cpu  69/256 of nid002053 mask 69-72
-    ++ hybrid_check: MPI rank   1/2   OpenMP thread   2/4   on cpu  72/256 of nid002053 mask 69-72
-    ++ hybrid_check: MPI rank   1/2   OpenMP thread   3/4   on cpu  72/256 of nid002053 mask 69-72
+
+    ++ hybrid_check: MPI rank   0/2   OpenMP thread   0/4   on cpu 101/256 of nid002040 mask 100-103
+    ++ hybrid_check: MPI rank   0/2   OpenMP thread   1/4   on cpu 102/256 of nid002040 mask 100-103
+    ++ hybrid_check: MPI rank   0/2   OpenMP thread   2/4   on cpu 103/256 of nid002040 mask 100-103
+    ++ hybrid_check: MPI rank   0/2   OpenMP thread   3/4   on cpu 100/256 of nid002040 mask 100-103
+    ++ hybrid_check: MPI rank   1/2   OpenMP thread   0/4   on cpu 106/256 of nid002040 mask 104-107
+    ++ hybrid_check: MPI rank   1/2   OpenMP thread   1/4   on cpu 107/256 of nid002040 mask 104-107
+    ++ hybrid_check: MPI rank   1/2   OpenMP thread   2/4   on cpu 104/256 of nid002040 mask 104-107
+    ++ hybrid_check: MPI rank   1/2   OpenMP thread   3/4   on cpu 105/256 of nid002040 mask 104-107
     ```
     
     Note however that this output will depend on the compiler used to compile `hybrid_check`. The Cray
     compiler will produce different output as it has a different default strategy for OpenMP threads 
     and will by default pin each thread to a different hardware thread if possible.
      
-
 
 ## GPU numbering
 
@@ -486,6 +495,7 @@ Note also that Slurm does take care of setting the `ROCR_VISIBLE_DEVICES` enviro
 at the start of a batch job step giving access to all GPUs that are available in the allocation, and will also
 be set by `srun` for each task. 
 
+<!-- Script gpu-numbering-demo1 -->
 <!-- ``` {.bash linenos=true linenostart=1 .copy}  -->
 ??? technical "A more technical example demonstrating what Slurm does (click to expand)"
     We will use the Linux `lstopo`command and the `ROCR_VISIBLE_DEVICES` environment variable
@@ -496,27 +506,27 @@ be set by `srun` for each task.
     ``` bash linenums="1"
     #!/bin/bash
     #SBATCH --job-name=gpu-numbering-demo1
-    #SBATCH --partition=standard-g
+    #SBATCH --output %x-%j.txt
     #SBATCH --account=project_46YXXXXXX
+    #SBATCH --partition=standard-g
     #SBATCH --nodes=1
     #SBATCH --hint=nomultithread
     #SBATCH --time=15:00
-    #SBATCH --output %x-%j.txt
     
     module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
     
     cat << EOF > task_lstopo_$SLURM_JOB_ID
     #!/bin/bash
-    echo "Task \$SLURM_LOCALID"                                                > output-\$SLURM_JOB_ID-\$SLURM_LOCALID
-    echo "Relevant lines of lstopo:"                                          >> output-\$SLURM_JOB_ID-\$SLURM_LOCALID
-    lstopo | awk '/ PCI.*Display/ || /GPU/ || / Core / || /PU L/ {print \$0}' >> output-\$SLURM_JOB_ID-\$SLURM_LOCALID
-    echo "ROCR_VISIBLE_DEVICES: \$ROCR_VISIBLE_DEVICES"                       >> output-\$SLURM_JOB_ID-\$SLURM_LOCALID
+    echo "Task \$SLURM_LOCALID"                                                   > output-\$SLURM_JOB_ID-\$SLURM_LOCALID
+    echo "Relevant lines of lstopo:"                                             >> output-\$SLURM_JOB_ID-\$SLURM_LOCALID
+    lstopo -p | awk '/ PCI.*Display/ || /GPU/ || / Core / || /PU L/ {print \$0}' >> output-\$SLURM_JOB_ID-\$SLURM_LOCALID
+    echo "ROCR_VISIBLE_DEVICES: \$ROCR_VISIBLE_DEVICES"                          >> output-\$SLURM_JOB_ID-\$SLURM_LOCALID
     EOF
     
     chmod +x ./task_lstopo_$SLURM_JOB_ID
     
-    echo -e "\nFull lstopo output in the job:\n$(lstopo)\n\n"
-    echo -e "Extract GPU info:\n$(lstopo | awk '/ PCI.*Display/ || /GPU/ {print $0}')\n" 
+    echo -e "\nFull lstopo output in the job:\n$(lstopo -p)\n\n"
+    echo -e "Extract GPU info:\n$(lstopo -p | awk '/ PCI.*Display/ || /GPU/ {print $0}')\n" 
     echo "ROCR_VISIBLE_DEVICES at the start of the job script: $ROCR_VISIBLE_DEVICES"
     
     echo "Running two tasks, extracting parts from lstopo output in each:"
@@ -531,69 +541,69 @@ be set by `srun` for each task.
     
     /bin/rm task_lstopo_$SLURM_JOB_ID output-$SLURM_JOB_ID-0 output-$SLURM_JOB_ID-1
     ```
-    
+        
     It creates a small test program that is run on two tasks and records some information on the system.
     The output is not sent to the screen directly as it could end up mixed between the tasks which is far 
     from ideal. 
     
-    Let's first have a look at the first lines of the `lstopo` output:
-    
+    Let's first have a look at the first lines of the `lstopo -p` output:
     
     ```
-    Machine (503GB total) + Package L#0
-      Group0 L#0
-        NUMANode L#0 (P#0 125GB)
-        L3 L#0 (32MB)
-          L2 L#0 (512KB) + L1d L#0 (32KB) + L1i L#0 (32KB) + Core L#0
-            PU L#0 (P#1)
-            PU L#1 (P#65)
-          L2 L#1 (512KB) + L1d L#1 (32KB) + L1i L#1 (32KB) + Core L#1
-            PU L#2 (P#2)
-            PU L#3 (P#66)
-          L2 L#2 (512KB) + L1d L#2 (32KB) + L1i L#2 (32KB) + Core L#2
-            PU L#4 (P#3)
-            PU L#5 (P#67)
-          L2 L#3 (512KB) + L1d L#3 (32KB) + L1i L#3 (32KB) + Core L#3
-            PU L#6 (P#4)
-            PU L#7 (P#68)
-          L2 L#4 (512KB) + L1d L#4 (32KB) + L1i L#4 (32KB) + Core L#4
-            PU L#8 (P#5)
-            PU L#9 (P#69)
-          L2 L#5 (512KB) + L1d L#5 (32KB) + L1i L#5 (32KB) + Core L#5
-            PU L#10 (P#6)
-            PU L#11 (P#70)
-          L2 L#6 (512KB) + L1d L#6 (32KB) + L1i L#6 (32KB) + Core L#6
-            PU L#12 (P#7)
-            PU L#13 (P#71)
+    Full lstopo output in the job:
+    Machine (503GB total) + Package P#0
+      Group0
+        NUMANode P#0 (125GB)
+        L3 P#0 (32MB)
+          L2 P#1 (512KB) + L1d P#1 (32KB) + L1i P#1 (32KB) + Core P#1
+            PU P#1
+            PU P#65
+          L2 P#2 (512KB) + L1d P#2 (32KB) + L1i P#2 (32KB) + Core P#2
+            PU P#2
+            PU P#66
+          L2 P#3 (512KB) + L1d P#3 (32KB) + L1i P#3 (32KB) + Core P#3
+            PU P#3
+            PU P#67
+          L2 P#4 (512KB) + L1d P#4 (32KB) + L1i P#4 (32KB) + Core P#4
+            PU P#4
+            PU P#68
+          L2 P#5 (512KB) + L1d P#5 (32KB) + L1i P#5 (32KB) + Core P#5
+            PU P#5
+            PU P#69
+          L2 P#6 (512KB) + L1d P#6 (32KB) + L1i P#6 (32KB) + Core P#6
+            PU P#6
+            PU P#70
+          L2 P#7 (512KB) + L1d P#7 (32KB) + L1i P#7 (32KB) + Core P#7
+            PU P#7
+            PU P#71
           HostBridge
             PCIBridge
               PCI d1:00.0 (Display)
                 GPU(RSMI) "rsmi4"
-        L3 L#1 (32MB)
-          L2 L#7 (512KB) + L1d L#7 (32KB) + L1i L#7 (32KB) + Core L#7
-            PU L#14 (P#8)
-            PU L#15 (P#72)
-          L2 L#8 (512KB) + L1d L#8 (32KB) + L1i L#8 (32KB) + Core L#8
-            PU L#16 (P#9)
-            PU L#17 (P#73)
-          L2 L#9 (512KB) + L1d L#9 (32KB) + L1i L#9 (32KB) + Core L#9
-            PU L#18 (P#10)
-            PU L#19 (P#74)
-          L2 L#10 (512KB) + L1d L#10 (32KB) + L1i L#10 (32KB) + Core L#10
-            PU L#20 (P#11)
-            PU L#21 (P#75)
-          L2 L#11 (512KB) + L1d L#11 (32KB) + L1i L#11 (32KB) + Core L#11
-            PU L#22 (P#12)
-            PU L#23 (P#76)
-          L2 L#12 (512KB) + L1d L#12 (32KB) + L1i L#12 (32KB) + Core L#12
-            PU L#24 (P#13)
-            PU L#25 (P#77)
-          L2 L#13 (512KB) + L1d L#13 (32KB) + L1i L#13 (32KB) + Core L#13
-            PU L#26 (P#14)
-            PU L#27 (P#78)
-          L2 L#14 (512KB) + L1d L#14 (32KB) + L1i L#14 (32KB) + Core L#14
-            PU L#28 (P#15)
-            PU L#29 (P#79)
+        L3 P#1 (32MB)
+          L2 P#8 (512KB) + L1d P#8 (32KB) + L1i P#8 (32KB) + Core P#8
+            PU P#8
+            PU P#72
+          L2 P#9 (512KB) + L1d P#9 (32KB) + L1i P#9 (32KB) + Core P#9
+            PU P#9
+            PU P#73
+          L2 P#10 (512KB) + L1d P#10 (32KB) + L1i P#10 (32KB) + Core P#10
+            PU P#10
+            PU P#74
+          L2 P#11 (512KB) + L1d P#11 (32KB) + L1i P#11 (32KB) + Core P#11
+            PU P#11
+            PU P#75
+          L2 P#12 (512KB) + L1d P#12 (32KB) + L1i P#12 (32KB) + Core P#12
+            PU P#12
+            PU P#76
+          L2 P#13 (512KB) + L1d P#13 (32KB) + L1i P#13 (32KB) + Core P#13
+            PU P#13
+            PU P#77
+          L2 P#14 (512KB) + L1d P#14 (32KB) + L1i P#14 (32KB) + Core P#14
+            PU P#14
+            PU P#78
+          L2 P#15 (512KB) + L1d P#15 (32KB) + L1i P#15 (32KB) + Core P#15
+            PU P#15
+            PU P#79
           HostBridge
             PCIBridge
               PCI d5:00.0 (Ethernet)
@@ -605,14 +615,13 @@ be set by `srun` for each task.
           PCIBridge
             PCI 91:00.0 (Ethernet)
               Net "nmn0"
+    ...
     ```
-    
-    
+        
     We see only 7 cores in the first block (the lines `L2 ... + L1d ... + L1i ... + Core ...`)
-    because the first physical core is reserved for the OS. And we see the same numbering as
-    in the example in the previous "CPU numbering" section.
+    because the first physical core is reserved for the OS. 
     
-    The `lsotopo` output also clearly suggests that each GCD has a special link to a particular CCD
+    The `lstopo -p` output also clearly suggests that each GCD has a special link to a particular CCD
     
     Next check the output generated by lines 22 and 23 where we select the lines that show information
     about the GPUs and print some more information:
@@ -637,9 +646,8 @@ be set by `srun` for each task.
                 GPU(RSMI) "rsmi1"
     
     ROCR_VISIBLE_DEVICES at the start of the job script: 0,1,2,3,4,5,6,7
-    
     ```
-    
+        
     All 8 GPUs are visible and note the numbering on each line below the line with the PCIe bus ID. 
     We also notice that `ROCR_VISIBLE_DEVICSES` was set by Slurm and includes all 8 GPUs.
     
@@ -650,12 +658,8 @@ be set by `srun` for each task.
     ```
     Task 0
     Relevant lines of lstopo:
-          L2 L#0 (512KB) + L1d L#0 (32KB) + L1i L#0 (32KB) + Core L#0
-            PU L#0 (P#1)
-            PU L#1 (P#65)
-          L2 L#1 (512KB) + L1d L#1 (32KB) + L1i L#1 (32KB) + Core L#1
-            PU L#2 (P#2)
-            PU L#3 (P#66)
+          L2 P#1 (512KB) + L1d P#1 (32KB) + L1i P#1 (32KB) + Core P#1
+          L2 P#2 (512KB) + L1d P#2 (32KB) + L1i P#2 (32KB) + Core P#2
               PCI d1:00.0 (Display)
               PCI d6:00.0 (Display)
               PCI c9:00.0 (Display)
@@ -672,12 +676,8 @@ be set by `srun` for each task.
     
     Task 1
     Relevant lines of lstopo:
-          L2 L#0 (512KB) + L1d L#0 (32KB) + L1i L#0 (32KB) + Core L#0
-            PU L#0 (P#1)
-            PU L#1 (P#65)
-          L2 L#1 (512KB) + L1d L#1 (32KB) + L1i L#1 (32KB) + Core L#1
-            PU L#2 (P#2)
-            PU L#3 (P#66)
+          L2 P#1 (512KB) + L1d P#1 (32KB) + L1i P#1 (32KB) + Core P#1
+          L2 P#2 (512KB) + L1d P#2 (32KB) + L1i P#2 (32KB) + Core P#2
               PCI d1:00.0 (Display)
                 GPU(RSMI) "rsmi0"
               PCI d6:00.0 (Display)
@@ -692,7 +692,7 @@ be set by `srun` for each task.
               PCI c6:00.0 (Display)
     ROCR_VISIBLE_DEVICES: 0,1,2,3
     ```
-    
+        
     Each task sees GPUs named 'rsmi0' till 'rsmi3', but look better and you see that these are
     not the same. If you compare with the first output of `lstopo` which we ran in the batch job step,
     we notice that task 0 gets the first 4 GPUs in the node while task 1 gets the next 4, that
@@ -707,11 +707,12 @@ be set by `srun` for each task.
     and the corresponding CCD that should be used for best performance:
     
     ```
-    MPI 000 - OMP 000 - HWT 001 (CCD0) - Node nid005047 - RT_GPU_ID 0,1,2,3 - GPU_ID 0,1,2,3 - Bus_ID c1(GCD0/CCD6),c6(GCD1/CCD7),c9(GCD2/CCD2),cc(GCD3/CCD3)
-    MPI 001 - OMP 000 - HWT 002 (CCD0) - Node nid005047 - RT_GPU_ID 0,1,2,3 - GPU_ID 0,1,2,3 - Bus_ID d1(GCD4/CCD0),d6(GCD5/CCD1),d9(GCD6/CCD4),dc(GCD7/CCD5)
+    MPI 000 - OMP 000 - HWT 001 (CCD0) - Node nid005163 - RT_GPU_ID 0,1,2,3 - GPU_ID 0,1,2,3 - Bus_ID c1(GCD0/CCD6),c6(GCD1/CCD7),c9(GCD2/CCD2),cc(GCD3/CCD3)
+    MPI 001 - OMP 000 - HWT 002 (CCD0) - Node nid005163 - RT_GPU_ID 0,1,2,3 - GPU_ID 0,1,2,3 - Bus_ID d1(GCD4/CCD0),d6(GCD5/CCD1),d9(GCD6/CCD4),dc(GCD7/CCD5)
     ```
     
-    `RT_GPU_ID` is the numbering of devices used in the program itself, `GPU_ID` is essentially the value of `ROCR_VISIBLE_DEVICES`
+    `RT_GPU_ID` is the numbering of devices used in the program itself, `GPU_ID` is essentially the value of `ROCR_VISIBLE_DEVICES`,
+    the logical numbers of the GPUs in the control group
     and `Bus_ID` shows the relevant part of the PCIe bus ID.
 
 
@@ -724,18 +725,18 @@ The equivalent for GPUs would be to also use control groups at the job step leve
 is currently happening in Slurm on LUMI. Instead it is using control groups at the 
 task level. 
 
+<!-- Script gpu-numbering-demo2 -->
 ??? technical "Playing with control group and `ROCR_VISIBLE_DEVICES`"
     Consider the following (tricky and maybe not very realistic) job script.
 
     ``` bash linenums="1"
     #!/bin/bash
     #SBATCH --job-name=gpu-numbering-demo2
-    #SBATCH --account=project_46YXXXXXX
+    #SBATCH --output %x-%j.txt
     #SBATCH --partition=standard-g
     #SBATCH --nodes=1
     #SBATCH --hint=nomultithread
     #SBATCH --time=5:00
-    #SBATCH --output %x-%j.txt
     
     module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
     
@@ -749,15 +750,17 @@ task level.
     
     cat << EOF > task_lstopo_$SLURM_JOB_ID
     #!/bin/bash
-    echo "Task \$SLURM_LOCALID"                                                > output-\$SLURM_JOB_ID-\$SLURM_LOCALID
-    echo "Relevant lines of lstopo:"                                          >> output-\$SLURM_JOB_ID-\$SLURM_LOCALID
-    lstopo | awk '/ PCI.*Display/ || /GPU/ || / Core / || /PU L/ {print \$0}' >> output-\$SLURM_JOB_ID-\$SLURM_LOCALID
-    echo "ROCR_VISIBLE_DEVICES: \$ROCR_VISIBLE_DEVICES"                       >> output-\$SLURM_JOB_ID-\$SLURM_LOCALID
+    sleep \$((SLURM_LOCALID * 5))
+    echo "Task \$SLURM_LOCALID"                                                   > output-\$SLURM_JOB_ID-\$SLURM_LOCALID
+    echo "Relevant lines of lstopo:"                                             >> output-\$SLURM_JOB_ID-\$SLURM_LOCALID
+    lstopo -p | awk '/ PCI.*Display/ || /GPU/ || / Core / || /PU L/ {print \$0}' >> output-\$SLURM_JOB_ID-\$SLURM_LOCALID
+    echo "ROCR_VISIBLE_DEVICES: \$ROCR_VISIBLE_DEVICES"                          >> output-\$SLURM_JOB_ID-\$SLURM_LOCALID
     EOF
     
     chmod +x ./task_lstopo_$SLURM_JOB_ID
     
-    srun -n 1 -c 1 --gpus=2 sleep 30 &
+    srun -n 1 -c 1 --gpus=2 sleep 60 &
+    sleep 5
     
     set -x
     srun -n 4 -c 1 --gpus=4 ./task_lstopo_$SLURM_JOB_ID
@@ -773,38 +776,33 @@ task level.
     
     /bin/rm select_1gpu_$SLURM_JOB_ID task_lstopo_$SLURM_JOB_ID output-$SLURM_JOB_ID-*
     ```
-    
+        
     We create two small programs that we will use in here. The first one is used to set
     `ROCR_VISIBLE_DEVICES` to the value of `SLURM_LOCALID` which is the local task number
     within a node of a Slurm task (so always numbered starting from 0 per node). We will use
     this to tell the `gpu_check` program that we will run which GPU should be used by which task.
     The second program is one we have seen before already and just shows some relevant output
     of `lstopo` to see which GPUs are in principle available to the task and then also prints
-    the value of `ROCR_VISIBLE_DEVICES`.
+    the value of `ROCR_VISIBLE_DEVICES`. We did have to put in some task-dependent delay 
+    as it turns out that running multiple `lstopo` commands on a node together can cause
+    problems.
     
     The tricky bit is line 30. Here we start an `srun` command on the background that steals
     two GPUs. In this way, we ensure that the next `srun` command will not be able to get the
-    GCDs 0 and 1 from the regular full-node numbering.
+    GCDs 0 and 1 from the regular full-node numbering. The delay is again to ensure that the
+    next `srun` works without conflicts as internally Slurm is still finishing steps from
+    the first `srun`.
     
-    On line 33 we run our command that extracts info from `lstopo`.
+    On line 34 we run our command that extracts info from `lstopo`.
     As we already know from the more technical example above the output will be the same for each
     task so in line 36 we only look at the output of the first task:
     
     ```
-    Task 0
     Relevant lines of lstopo:
-          L2 L#0 (512KB) + L1d L#0 (32KB) + L1i L#0 (32KB) + Core L#0
-            PU L#0 (P#2)
-            PU L#1 (P#66)
-          L2 L#1 (512KB) + L1d L#1 (32KB) + L1i L#1 (32KB) + Core L#1
-            PU L#2 (P#3)
-            PU L#3 (P#67)
-          L2 L#2 (512KB) + L1d L#2 (32KB) + L1i L#2 (32KB) + Core L#2
-            PU L#4 (P#4)
-            PU L#5 (P#68)
-          L2 L#3 (512KB) + L1d L#3 (32KB) + L1i L#3 (32KB) + Core L#3
-            PU L#6 (P#5)
-            PU L#7 (P#69)
+          L2 P#2 (512KB) + L1d P#2 (32KB) + L1i P#2 (32KB) + Core P#2
+          L2 P#3 (512KB) + L1d P#3 (32KB) + L1i P#3 (32KB) + Core P#3
+          L2 P#4 (512KB) + L1d P#4 (32KB) + L1i P#4 (32KB) + Core P#4
+          L2 P#5 (512KB) + L1d P#5 (32KB) + L1i P#5 (32KB) + Core P#5
               PCI d1:00.0 (Display)
                 GPU(RSMI) "rsmi2"
               PCI d6:00.0 (Display)
@@ -819,21 +817,21 @@ task level.
               PCI c6:00.0 (Display)
     ROCR_VISIBLE_DEVICES: 0,1,2,3
     ```
-    
-    If you'd compare with output from a full-node `lstopo` shown in the previous example, you'd see that
+  
+    If you'd compare with output from a full-node `lstopo -p` shown in the previous example, you'd see that
     we actually got the GPUs with regular full node numbering 2 till 5, but they have been renumbered from 
     0 to 3. And notice that `ROCR_VISIBLE_DEVICES` now also refers to this numbering and not the 
     regular full node numbering when setting which GPUs can be used. 
     
-    The `srun` command on line 39 will now run `gpu_check` through the `seledct_1gpu_$SLURM_JOB_ID`
+    The `srun` command on line 40 will now run `gpu_check` through the `seledct_1gpu_$SLURM_JOB_ID`
     wrapper that gives task 0 access to GPU 0 in the "local" numbering, which should be GPU2/CCD2
     in the regular full node numbering, etc. Its output is
     
     ```
-    MPI 000 - OMP 000 - HWT 002 (CCD0) - Node nid005942 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c9(GCD2/CCD2)
-    MPI 001 - OMP 000 - HWT 003 (CCD0) - Node nid005942 - RT_GPU_ID 0 - GPU_ID 1 - Bus_ID cc(GCD3/CCD3)
-    MPI 002 - OMP 000 - HWT 004 (CCD0) - Node nid005942 - RT_GPU_ID 0 - GPU_ID 2 - Bus_ID d1(GCD4/CCD0)
-    MPI 003 - OMP 000 - HWT 005 (CCD0) - Node nid005942 - RT_GPU_ID 0 - GPU_ID 3 - Bus_ID d6(GCD5/CCD1)
+    MPI 000 - OMP 000 - HWT 002 (CCD0) - Node nid005350 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c9(GCD2/CCD2)
+    MPI 001 - OMP 000 - HWT 003 (CCD0) - Node nid005350 - RT_GPU_ID 0 - GPU_ID 1 - Bus_ID cc(GCD3/CCD3)
+    MPI 002 - OMP 000 - HWT 004 (CCD0) - Node nid005350 - RT_GPU_ID 0 - GPU_ID 2 - Bus_ID d1(GCD4/CCD0)
+    MPI 003 - OMP 000 - HWT 005 (CCD0) - Node nid005350 - RT_GPU_ID 0 - GPU_ID 3 - Bus_ID d6(GCD5/CCD1)
     ```
     
     which confirms that out strategy worked. So in this example we have 4 tasks running in a control group
@@ -845,5 +843,6 @@ CPUs and with GPUs. Affinity masks for CPUs refer to the "bare OS" numbering of 
 while the numbering used for `ROCR_VISIBLE_DEVICES` which determines which GPUs the ROCm runtime can use,
 uses the numbering within the current control group.
 
-**Running GPUs in a different control group per task may have consequences for the way inter-GPU
-communication within a node can be organised so the above examples are important.**
+**Running GPUs in a different control group per task has consequences for the way inter-GPU
+communication within a node can be organised so the above examples are important. It is essential
+to run MPI applications with optimal efficiency.**
