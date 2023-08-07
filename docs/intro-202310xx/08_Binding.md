@@ -22,6 +22,11 @@ Binding to discuss:
 
 ## What are we talking about in this session?
 
+**Distribution** is the process of distributing processes and threads across the available
+resources of the job (nodes, sockets, NUMA domains, cores, ...), and **binding** is the process
+of ensuring they stay there as naturally processes and threads are only bound to a node 
+(OS image) but will migrate between cores. 
+
 When running a distributed memory program, the process starter - `mpirun` or `mpiexec`
 on many clusters, or `srun` on LUMI - will *distribute*  the processes over the available
 nodes. Within a node, it is possible to pin or attach processes or even individual threads
@@ -848,31 +853,377 @@ communication within a node can be organised so the above examples are important
 to run MPI applications with optimal efficiency.**
 
 
-
-
 ## Task distribution with Slurm
 
+The Slurm `srun` command offers the `--distribution` option to influence the distribution of 
+tasks across nodes (level 1), sockets or NUMA domains (level 2 and sockets or NUMA) or 
+even across cores in the socket or NUMA domain (third level). The first level is the most useful level,
+the second level is sometimes used but the third level is very tricky and both the second and third level
+are often better replaced with other mechanisms that will also be discussed in this chapter on distribution
+and binding.
+
+The [general form of the `--distribution` option](https://slurm.schedmd.com/archive/slurm-22.05.8/srun.html#OPT_distribution) is 
+
+```
+--distribution={*|block|cyclic|arbitrary|plane=<size>}[:{*|block|cyclic|fcyclic}[:{*|block|cyclic|fcyclic}]][,{Pack|NoPack}]
+```
+
+-   Level 1: Distribution across nodes. There are three useful options for LUMI:
+
+    -   `block` which is the default: A number of consecutive tasks is allocated on the first
+        node, then another number of consecutive tasks on the second node, and so on till the last
+        node of the allocation. Not all nodes may have the same number of tasks and this is determined
+        by the optional  `pack` or `nopack` parameter at the end.
+
+        -   With `pack` the first node in the allocation is first filled up as much as possible, then the
+            second node, etc.
+
+        -   With `nopack` a more balanced approach is taken filling up all nodes as equally as possible.
+            In fact, the number of tasks on each node will correspond to that of the `cyclic` distribution,
+            but the task numbers will be different.
+
+    -   `cyclic` assigns the tasks in a round-robin fashion to the nodes of the allocation. The first task
+        is allocated to the first node, then the second one to the second node, and so on, and when all nodes
+        of the allocation have received one task, the next one will be allocated again on the first node. 
+
+    -   `plane=<size>` is a combination of both of the former methods: Blocks of `<size>` consecutive tasks
+        are allocated in a cyclic way. 
+
+-   Level 2: Here we are distributing and pinning the tasks assigned to a node at level 1 across the sockets
+    and cores of that node.
+
+    As this option already does a form of binding, it may conflict with other options that we will discuss later
+    that also perform binding. In practice, this second level is less useful as often other mechanisms will be 
+    preferred for doing a proper binding, or the default behaviour is OK for simple distribution problems.
+
+    -   'block' will assign whole tasks to consecutive sets of cores on the node. On LIUMI-C, it will first fill up
+        the first socket before moving on to the second socket.
+
+    -   `cyclic` assigns the first task of a node to a set of consecutive cores on the first socket, then the second task to a set 
+        of cores on the second socket, etc., in a round-robin way. It will do its best to not allocate tasks across sockets.
+
+    -   `fcyclic` is a very strange distribution, where tasks requesting more than 1 CPU per task will see those 
+        spread out across sockets. 
+
+        We cannot see how this is useful on an AMD CPU except for cases where we have only one task per node which accesses
+        a lot of memory (more than offered by a single socket) but does so in a very NUMA-aware way.
+
+-    Level 3 is beyond the scope of an introductory course and rarely used.
+
+The default behaviour of Slurm depends on LUMI seems to be `block:block,nopack` if `--distribution` is not specified,
+though it is best to always verify as it can change over time and as the manual indicates that the
+default differs according to the number of tasks compared to the number of nodes.
+The defaults are also very tricky if a binding option at level 2 (or 3) is replaced with a `*` to mark
+the default behaviour, e.g., `--distribution="block:*"` gives the result of `--distribution=block:cyclic`
+while `--distribution=block` has the same effect as `--distribution=block:block`.
+
+**This option only makes sense on job-exclusive nodes.**
 
 
+## Task-to-CPU binding with Slurm
+
+This option is used to define the strategy that Slurm uses to bind tasks to CPUs.
+The mechanism is always through task affinity masks, using control groups only at the jobstep level
+within a node but not at the task level. Hence in most practical cases task binding through affinity
+masks is something you will want to use, and we will see another way to further refine the mask 
+further in this chapter of the tutorial.
+
+Task-to-CPU binding is controlled through the Slurm option 
+
+```
+--cpu-bind=[{quiet|verbose},]<type>
+```
+
+We'll describe a few of the possibilities for the `<typ>` parameter but for a more concrete overview
+we refer to the [Slurm `srun` manual page](https://slurm.schedmd.com/archive/slurm-22.05.8/srun.html#OPT_cpu-bind)
+
+-   `--cpu-bind=threads` is the default behaviour on LUMI.
+
+-   `--cpu-bind=map_cpu:<cpu_id_for_task_0>,<cpu_id_for_task_1>, ...` is used when tasks are bound to single
+    cores. The first number is the number of the hardware thread for the task with local task ID 0, etc. 
+    In other words, this option at the same time also defines the slots that can be used by the 
+    `--distribrution` option above and replaces level 2 and level 3 of that option. 
+
+    E.g.,
+    
+    ```
+    module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeGNU-22.12
+    srun --ntasks=8 --cpu-bind=map_cpu:49,57,17,25,1,9,33,41 mpi_check -r
+    ```
+
+    will run the first task on hardware threads 49, the second task on 57, third on 17, fourth on 
+    25, fifth on 1, sixth on 9, seventh on 33 and eight on 41.
+
+    This may look like a very strange numbering, but we will see an application for it further in
+    this chapter.
 
 
+-   `--cpu-bind=mask_cpu:<mask_for_task_0>,<mask_for_task_1>,...` is similar to `map_cpu`, but now multiple
+    hardware threads can be specified per task through a mask. The mask is a hexadecimal number and leading 
+    zeros can be omitted. The least significant bit in the mask corresponds to HWT 0, etc. 
 
-## Task CPU binding with Slurm
+    Masks can become very long, but we shall see that this option is very useful on the nodes of the 
+    `standard-g` partition. Just as with `map_cpu`, this option replaces level 2 and 3 of the `--distribution`
+    option. 
 
+    E.g.,
+    
+    ```
+    module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeGNU-22.12
+    srun --ntasks=8 --cpu-bind=mask_cpu:7e000000000000,7e00000000000000,7e0000,7e000000,7e,7e00,7e00000000,7e0000000000 hybrid_check -r
+    ```
 
+    will run the first task on hardware threads 49-54, the second task on 57-62, third on 17-22, fourth on 
+    25-30, fifth on 1-6, sixth on 9-14, seventh on 33-38 and eight on 41-46.
 
+The `--cpu-bind=map_cpu` and `--cpu-bind=mask_gpu` options also do not go together with `-c` / `--cpus-per-task`.
+Both commands define a binding (the latter in combination with the defulat `--gpu-bind=threads`) 
+and these will usually conflict.
 
+There are more options, but these are currently most relevant ones on LUMI. That may change in the future as
+LUMI User support is investigating whether it isn't better to change the concept of "socket" in Slurm given how important it
+sometimes is to carefully map onto L3 cache domains for performance.
 
 
 ## Task GPU binding with Slurm
 
-Not recommended
+**Doing the task-to-GPU binding fully via Slurm is currently not recommended on LUMI. 
+The problem is that Slurm uses control groups at the task level rather than just `ROCR_VISIBLE_DEVICES`
+with the latter being more or less the equivalent of affinity masks. As sue to the control groups
+the other GPUs in a job step on a node become completely invisible to a task, communication between
+tasks through shared memory becomes impossible.**
 
+We present the options for completeness, and as it may still help users if the control group setup
+is not a problem for the application.
+
+Task-to-GPU binding is done with
+
+```
+--gpu-bind=[verbose,]<type>
+```
+
+[(see the Slurm manual)](https://slurm.schedmd.com/archive/slurm-22.05.8/srun.html#OPT_gpu-bind)
+which is somewhat similar to `--cpu-binding` (to the extent that that makes sense).
+
+Some options for the `<type>` parameter that are worth considering:
+
+-   `--gpu-bind=closest`: This currently does not work well on LUMI. The problem is being investigated
+    so the situation may have changed by the time you read this.
+
+-   `--gpu-ding=none`: Turns off the GPU binding of Slurm. This can actually be useful on shared node
+    jobs where doing a proper allocation of GPUS is difficult. You can then first use Slurm options such 
+    as `--gpus-per-task` to get a working allocation of GPUs and CPUs, then un-bind and rebind using a 
+    different mechanism that we will discuss later.
+
+-   `--gpu-bind=map_gpu:<list>` is the equivalent of `--cpu-gind=map_cpu:<list>`.
+    This option only makes sense on a job-exclusive node and is for jobs that need a single 
+    GPU per task. It defines the list of GPUs that should be used, with the task with local ID 0
+    using the first one in the list, etc.
+    The numbering and topology was already discussed in the "LUMI ARchitecture" chapter, section
+    ["Building LUMI: What a LUMI-G really looks like](01_Architecture.md#building-lumi-what-a-lumi-g-node-really-looks-like).
+   
+-   `--gpu-bind=mask_gpu:>list>` is the equivalent of `--cpu-gind=mask_cpu:<list>`. 
+    Now the bits in the mask correspond to individual GPUs, with GPU 0 the least significant bit. 
+    This option again only makes sense on a job-exclusive node.
+
+Though `map_gpu` and `mask_gpu` could be very useful to get a proper mapping taking the topology of the 
+node into account, due to the current limitation of creating a control group per task it can not often
+be used as it breaks some efficient communication mechanisms between tasks, including the GPU Peer2Peer 
+IPC used by Cray MPICH for intro-node MPI transfers if GPU aware MPI support is enabled.
 
 
 ## MPI rank redistribution with Cray MPICH
 
+By default MPI rank *i* will use Slurm task *i* in a parallel job step. 
+With Cray MPICH this can be changed via the environment variable 
+`MPICH_RANK_REORDER_METHOD`. It provides an even more powerful way
+of reordering MPI ranks than the Slurm `--distribution` option as one
+can define fully custom orderings.
 
+Rank reordering is an advanced topic that is discussed in more detail in the
+4-day LUMI comprehensive courses organised by the LUMI User Support Team.
+The [material of the latest one can be found via the course archive web page](https://lumi-supercomputer.github.io/LUMI-training-materials/comprehensive-latest)
+and is discussed in the  "MPI Topics on the HPE Cray EX Supercomputer"
+which is often given on day 3.
+
+Rank reordering can be used to reduce the number of inter-node messages or to spread those
+ranks that do parallel I/O over more nodes to increase the I/O bandwidth that can be
+obtained in the application.
+
+Rank reordering makes most sense if the block distribution method is used in Slurm as 
+otherwise it become very difficult to understand on which node which task will land.
+
+Possible values for `MPICH_RANK_REORDER_METHOD` are:
+
+-   `export MPICH_RANK_REORDER_METHOD=0`: Round-robin placement of the MPI ranks.
+    This is the equivalent of the cyclic ordering in Slurm.
+
+-   `export MPICH_RANK_REORDER_METHOD=1`: This is the default and it preserves the
+    ordering of Slurm.
+
+-   `export MPICH_RANK_REORDER_METHOD=2`: Folded rank placement. This is somewhat similar 
+    to round-robin, but when the last node is reached, the node list is transferred in the 
+    opposite direction.
+
+-   `export MPICH_RANK_REORDER_METHOD=3`: Use a custom ordering, given by the 
+    `MPICH_RANK_ORDER` environment variable which gives a comma-separated list of the MPI ranks
+    in the order they should be assigned to slots on the nodes.
+
+Rank reordering does not always work well if Slurm is not using the block ordering. 
+As the `lumi-CPEtools` `mpi_check`, `hybrid_check` and `gpu_check` commands use Cray MPICH
+they can be used to test the Cray MPICH rank reordering also. The MPI ranks that are 
+displayed are the MPI ranks as seen through MPI calls and not the value of
+`SLURM_PROCID` which is the Slurm task number.
+
+The HPE Cray Programming Environment actually has profiling tools that help you determine
+the optimal rank ordering for a particular run, which is useful if you do a lot of runs with
+the same problem size (and hence same number of nodes and tasks).
+
+??? Example "Try the following job script (click to expand)
+
+    ```
+    #!/bin/bash
+    #SBATCH --account=project_46YXXXXXX
+    #SBATCH --job-name=renumber-demo
+    #SBATCH --output %x-%j.txt
+    #SBATCH --partition=standard
+    #SBATCH --nodes=2
+    #SBATCH --hint=nomultithread
+    #SBATCH --time=5:00
+    
+    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeGNU-22.12
+    
+    set -x
+    echo -e "\nSMP distribution on top of block."
+    export MPICH_RANK_REORDER_METHOD=1
+    srun -n 8 -c 32 -m block mpi_check -r
+    echo -e "\nSMP distribution on top of cyclic."
+    export MPICH_RANK_REORDER_METHOD=1
+    srun -n 8 -c 32 -m cyclic mpi_check -r
+    echo -e "\nRound-robin distribution on top of block."
+    export MPICH_RANK_REORDER_METHOD=0
+    srun -n 8 -c 32 -m block mpi_check -r
+    echo -e "\nFolded distribution on top of block."
+    export MPICH_RANK_REORDER_METHOD=2
+    srun -n 8 -c 32 -m block mpi_check -r
+    echo -e "\nCustom distribution on top of block."
+    export MPICH_RANK_REORDER_METHOD=3
+    cat >MPICH_RANK_ORDER <<EOF
+    0,1,4,5,2,3,6,7
+    EOF
+    srun -n 8 -c 32 -m block mpi_check -r
+    /bin/rm MPICH_RANK_ORDER
+    set +x
+    ```
+    
+    Ths script starts 8 tasks that each take a quarter node. 
+    
+    1.  The first `srun` command is just the block distribution. The first 4 MPI ranks are
+        on the first node, the next 4 on the second node.
+    
+        ```
+        + export MPICH_RANK_REORDER_METHOD=1
+        + MPICH_RANK_REORDER_METHOD=1
+        + srun -n 8 -c 32 -m block mpi_check -r
+
+        Running 8 single-threaded MPI ranks.
+
+        ++ mpi_check: MPI rank   0/8   on cpu  17/256 of nid001804 mask 0-31
+        ++ mpi_check: MPI rank   1/8   on cpu  32/256 of nid001804 mask 32-63
+        ++ mpi_check: MPI rank   2/8   on cpu  65/256 of nid001804 mask 64-95
+        ++ mpi_check: MPI rank   3/8   on cpu 111/256 of nid001804 mask 96-127
+        ++ mpi_check: MPI rank   4/8   on cpu   0/256 of nid001805 mask 0-31
+        ++ mpi_check: MPI rank   5/8   on cpu  32/256 of nid001805 mask 32-63
+        ++ mpi_check: MPI rank   6/8   on cpu  64/256 of nid001805 mask 64-95
+        ++ mpi_check: MPI rank   7/8   on cpu 120/256 of nid001805 mask 96-127
+        ```
+    
+    2.  The second `srun` command uses Cray MPICH rank reordering to get a round-robin ordering
+        rather than using the Slurm `--distribution=cyclic` option. MPI rank 0 now lands on the first
+        32 cores of node 0 of the allocation, MPI rank 1 on the first 32 cores of node 1 of the allocation,
+        then task 2 on the second 32 cores of node 0, and so on:
+    
+        ```
+        + export MPICH_RANK_REORDER_METHOD=1
+        + MPICH_RANK_REORDER_METHOD=1
+        + srun -n 8 -c 32 -m cyclic mpi_check -r
+
+        Running 8 single-threaded MPI ranks.
+
+        ++ mpi_check: MPI rank   0/8   on cpu   0/256 of nid001804 mask 0-31
+        ++ mpi_check: MPI rank   1/8   on cpu   1/256 of nid001805 mask 0-31
+        ++ mpi_check: MPI rank   2/8   on cpu  32/256 of nid001804 mask 32-63
+        ++ mpi_check: MPI rank   3/8   on cpu  33/256 of nid001805 mask 32-63
+        ++ mpi_check: MPI rank   4/8   on cpu  79/256 of nid001804 mask 64-95
+        ++ mpi_check: MPI rank   5/8   on cpu  64/256 of nid001805 mask 64-95
+        ++ mpi_check: MPI rank   6/8   on cpu 112/256 of nid001804 mask 96-127
+        ++ mpi_check: MPI rank   7/8   on cpu 112/256 of nid001805 mask 96-127
+        ```
+    
+    3.  Now we use the Slurm cyclic ordering and the default of 1 for the Cray MPICH rank
+        reordering (which is no reordering) and the result is the same as the preovious case: 
+    
+        ```
+        + export MPICH_RANK_REORDER_METHOD=0
+        + MPICH_RANK_REORDER_METHOD=0
+        + srun -n 8 -c 32 -m block mpi_check -r
+
+        Running 8 single-threaded MPI ranks.
+
+        ++ mpi_check: MPI rank   0/8   on cpu   0/256 of nid001804 mask 0-31
+        ++ mpi_check: MPI rank   1/8   on cpu   1/256 of nid001805 mask 0-31
+        ++ mpi_check: MPI rank   2/8   on cpu  32/256 of nid001804 mask 32-63
+        ++ mpi_check: MPI rank   3/8   on cpu  47/256 of nid001805 mask 32-63
+        ++ mpi_check: MPI rank   4/8   on cpu  64/256 of nid001804 mask 64-95
+        ++ mpi_check: MPI rank   5/8   on cpu  64/256 of nid001805 mask 64-95
+        ++ mpi_check: MPI rank   6/8   on cpu 112/256 of nid001804 mask 96-127
+        ++ mpi_check: MPI rank   7/8   on cpu 112/256 of nid001805 mask 96-127
+        ```
+    
+    4.  The fourth `srun` command demonstrates the folded ordering: Rank 0 runs on the first 32 
+        cores of node 0 of the allocation, rank 1 on the first 32 of node 1, then rank 2 runs on 
+        the second set of 32 cores again on node 1, with rank 3 then running on the second 32 cores
+        of node 0, rank 4 on the third group of 32 cores of node 0, rank 5 on the third group of
+        32 cores on rank 1, and so on. So the nodes are filled in the order 0, 1, 1, 0, 0, 1, 1, 0.
+    
+        ```
+        + export MPICH_RANK_REORDER_METHOD=2
+        + MPICH_RANK_REORDER_METHOD=2
+        + srun -n 8 -c 32 -m block mpi_check -r
+
+        Running 8 single-threaded MPI ranks.
+
+        ++ mpi_check: MPI rank   0/8   on cpu   0/256 of nid001804 mask 0-31
+        ++ mpi_check: MPI rank   1/8   on cpu  17/256 of nid001805 mask 0-31
+        ++ mpi_check: MPI rank   2/8   on cpu  32/256 of nid001805 mask 32-63
+        ++ mpi_check: MPI rank   3/8   on cpu  32/256 of nid001804 mask 32-63
+        ++ mpi_check: MPI rank   4/8   on cpu  64/256 of nid001804 mask 64-95
+        ++ mpi_check: MPI rank   5/8   on cpu  64/256 of nid001805 mask 64-95
+        ++ mpi_check: MPI rank   6/8   on cpu 112/256 of nid001805 mask 96-127
+        ++ mpi_check: MPI rank   7/8   on cpu 112/256 of nid001804 mask 96-127
+        ```
+    
+    5.  The fifth example demonstrate a custon reordering. Here we fance a 4x2-grid which we want
+        to split in 2 2x2 groups. In this example rank 0, 1, 4 and 5 will run on node 0 with rank 2, 3, 6 and 7
+        running on node 1.
+    
+        ```
+        + export MPICH_RANK_REORDER_METHOD=3
+        + MPICH_RANK_REORDER_METHOD=3
+        + cat
+        + srun -n 8 -c 32 -m block mpi_check -r
+
+        Running 8 single-threaded MPI ranks.
+
+        ++ mpi_check: MPI rank   0/8   on cpu   0/256 of nid001804 mask 0-31
+        ++ mpi_check: MPI rank   1/8   on cpu  32/256 of nid001804 mask 32-63
+        ++ mpi_check: MPI rank   2/8   on cpu   1/256 of nid001805 mask 0-31
+        ++ mpi_check: MPI rank   3/8   on cpu  32/256 of nid001805 mask 32-63
+        ++ mpi_check: MPI rank   4/8   on cpu  64/256 of nid001804 mask 64-95
+        ++ mpi_check: MPI rank   5/8   on cpu 112/256 of nid001804 mask 96-127
+        ++ mpi_check: MPI rank   6/8   on cpu  64/256 of nid001805 mask 64-95
+        ++ mpi_check: MPI rank   7/8   on cpu 112/256 of nid001805 mask 96-127
+        ```
 
 
 ## Refining core binding in OpenMP applications
@@ -889,4 +1240,21 @@ Not recommended
 ## Combining Slurm task binding with ROCR_VISIBLE_DEVICES
 
 Or: How to get an optmial mapping on the GPU nodes?
+
+
+## Further material
+
+-   Distribution and binding is discussed in more detail in our
+    [4-day comprehensive LUMI courses](https://lumi-supercomputer.github.io/LUMI-training-materials/comprehensive-latest).
+    Check for the lecture on "Advanced Placement" which is usually
+    given on day 2 of the course.
+
+    Material of this presentation is available to all LUMI users on the system. Check the course
+    website for the names of the files.
+
+-   Rank reordering in Cray MPICH is discussed is also discussed in more dteail in our
+    [4-day comprehensive LUMI courses](https://lumi-supercomputer.github.io/LUMI-training-materials/comprehensive-latest),
+    but in the lecture on "MPI Topics on the HPE Cray EX Supercomputer" (often on day 3 of the course)
+    that discusses more advanced MPI on LUMI, including loads of environment variables that can be used to
+    improve the performance.
 
