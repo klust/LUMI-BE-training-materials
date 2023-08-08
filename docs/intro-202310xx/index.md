@@ -55,6 +55,8 @@ THIS TEXT ALREADY ASSUMES A TRAINING PROJECT WHICH DOES NOT YET EXIST.
 
 ## Web links
 
+-   [Links to additional HPE Cray documentation](documentation.md)
+
 -   LUMI documentation
 
     -   [Main documentation](https://docs.lumi-supercomputer.eu/)
