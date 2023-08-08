@@ -11,13 +11,17 @@
         <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-202310xx/04_Modules/">
       
       
+        <link rel="prev" href="../03_LUMI_access/">
+      
+      
+        <link rel="next" href="../05_Software_stacks/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.1">
     
     
       
-        <title>Modules on LUMI - LUMI-BE training materials</title>
+        <title>Modules - LUMI-BE training materials</title>
       
     
     
@@ -47,8 +51,23 @@
     
     
   
+    
+    
   
-  <style>:root{--md-admonition-icon--demo:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M0 192h176V0h-16C71.6 0 0 71.6 0 160v32zm0 32v128c0 88.4 71.6 160 160 160h64c88.4 0 160-71.6 160-160V224H0zm384-32v-32C384 71.6 312.4 0 224 0h-16v192h176z"/></svg>');--md-admonition-icon--exercise:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M78.6 5c-9.5-7.4-23-6.5-31.6 2L7 47c-8.5 8.5-9.4 22-2.1 31.6l80 104c4.5 5.9 11.6 9.4 19 9.4H158l109 109c-14.7 29-10 65.4 14.3 89.6l112 112c12.5 12.5 32.8 12.5 45.3 0l64-64c12.5-12.5 12.5-32.8 0-45.3l-112-112c-24.2-24.2-60.6-29-89.6-14.3L192 158v-54c0-7.5-3.5-14.5-9.4-19L78.6 5zM19.9 396.1C7.2 408.8 0 426.1 0 444.1 0 481.6 30.4 512 67.9 512c18 0 35.3-7.2 48-19.9l117.8-117.8c-7.8-20.9-9-43.6-3.6-65.1l-61.7-61.7L19.9 396.1zM512 144c0-10.5-1.1-20.7-3.2-30.5-2.4-11.2-16.1-14.1-24.2-6l-63.9 63.9c-3 3-7.1 4.7-11.3 4.7H352c-8.8 0-16-7.2-16-16v-57.5c0-4.2 1.7-8.3 4.7-11.3l63.9-63.9c8.1-8.1 5.2-21.8-6-24.2C388.7 1.1 378.5 0 368 0c-79.5 0-144 64.5-144 144v.8l85.3 85.3c36-9.1 75.8.5 104 28.7l15.7 15.7c49-23 83-72.8 83-130.5zM56 432a24 24 0 1 1 48 0 24 24 0 1 1-48 0z"/></svg>');--md-admonition-icon--remark:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M256 448c141.4 0 256-93.1 256-208S397.4 32 256 32 0 125.1 0 240c0 45.1 17.7 86.8 47.7 120.9-1.9 24.5-11.4 46.3-21.4 62.9-5.5 9.2-11.1 16.6-15.2 21.6-2.1 2.5-3.7 4.4-4.9 5.7-.6.6-1 1.1-1.3 1.4l-.3.3c-4.6 4.6-5.9 11.4-3.4 17.4 2.5 6 8.3 9.9 14.8 9.9 28.7 0 57.6-8.9 81.6-19.3 22.9-10 42.4-21.9 54.3-30.6 31.8 11.5 67 17.9 104.1 17.9zM128 208a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm128 0a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm96 32a32 32 0 1 1 64 0 32 32 0 1 1-64 0z"/></svg>');--md-admonition-icon--solution:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M234.7 42.7 197 56.8c-3 1.1-5 4-5 7.2s2 6.1 5 7.2l37.7 14.1 14.1 37.7c1.1 3 4 5 7.2 5s6.1-2 7.2-5l14.1-37.7L315 71.2c3-1.1 5-4 5-7.2s-2-6.1-5-7.2l-37.7-14.1L263.2 5c-1.1-3-4-5-7.2-5s-6.1 2-7.2 5l-14.1 37.7zM46.1 395.4c-18.7 18.7-18.7 49.1 0 67.9l34.6 34.6c18.7 18.7 49.1 18.7 67.9 0l381.3-381.4c18.7-18.7 18.7-49.1 0-67.9l-34.6-34.5c-18.7-18.7-49.1-18.7-67.9 0L46.1 395.4zM484.6 82.6l-105 105-23.3-23.3 105-105 23.3 23.3zM7.5 117.2C3 118.9 0 123.2 0 128s3 9.1 7.5 10.8L64 160l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L128 160l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L128 96l-21.2-56.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1 3-10.8 7.5L64 96 7.5 117.2zm352 256c-4.5 1.7-7.5 6-7.5 10.8s3 9.1 7.5 10.8L416 416l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L480 416l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L480 352l-21.2-56.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1 3-10.8 7.5L416 352l-56.5 21.2z"/></svg>');--md-admonition-icon--technical:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M160 96a96 96 0 1 1 192 0 96 96 0 1 1-192 0zm80 152v264l-48.4-24.2c-20.9-10.4-43.5-17-66.8-19.3l-96-9.6C12.5 457.2 0 443.5 0 427V224c0-17.7 14.3-32 32-32h30.3c63.6 0 125.6 19.6 177.7 56zm32 264V248c52.1-36.4 114.1-56 177.7-56H480c17.7 0 32 14.3 32 32v203c0 16.4-12.5 30.2-28.8 31.8l-96 9.6c-23.2 2.3-45.9 8.9-66.8 19.3L272 512z"/></svg>');--md-admonition-icon--lumi-be:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M48 0C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h96v-80c0-26.5 21.5-48 48-48s48 21.5 48 48v80h96c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48H48zm16 240c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16v-32zm112-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16h-32c-8.8 0-16-7.2-16-16v-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16h-32c-8.8 0-16-7.2-16-16v-32zM80 96h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16v-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16h-32c-8.8 0-16-7.2-16-16v-32zm112-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16h-32c-8.8 0-16-7.2-16-16v-32c0-8.8 7.2-16 16-16zM448 0c-17.7 0-32 14.3-32 32v480h64V192h144c8.8 0 16-7.2 16-16V48c0-8.8-7.2-16-16-16H480c0-17.7-14.3-32-32-32z"/></svg>');}</style>
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+  
+  <style>:root{--md-admonition-icon--demo:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M0 192h176V0h-16C71.6 0 0 71.6 0 160v32zm0 32v128c0 88.4 71.6 160 160 160h64c88.4 0 160-71.6 160-160V224H0zm384-32v-32C384 71.6 312.4 0 224 0h-16v192h176z"/></svg>');--md-admonition-icon--exercise:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M78.6 5c-9.5-7.4-23-6.5-31.6 2L7 47c-8.5 8.5-9.4 22-2.1 31.6l80 104c4.5 5.9 11.6 9.4 19 9.4H158l109 109c-14.7 29-10 65.4 14.3 89.6l112 112c12.5 12.5 32.8 12.5 45.3 0l64-64c12.5-12.5 12.5-32.8 0-45.3l-112-112c-24.2-24.2-60.6-29-89.6-14.3L192 158v-54c0-7.5-3.5-14.5-9.4-19L78.6 5zM19.9 396.1C7.2 408.8 0 426.1 0 444.1 0 481.6 30.4 512 67.9 512c18 0 35.3-7.2 48-19.9l117.8-117.8c-7.8-20.9-9-43.6-3.6-65.1l-61.7-61.7L19.9 396.1zM512 144c0-10.5-1.1-20.7-3.2-30.5-2.4-11.2-16.1-14.1-24.2-6l-63.9 63.9c-3 3-7.1 4.7-11.3 4.7H352c-8.8 0-16-7.2-16-16v-57.5c0-4.2 1.7-8.3 4.7-11.3l63.9-63.9c8.1-8.1 5.2-21.8-6-24.2C388.7 1.1 378.5 0 368 0c-79.5 0-144 64.5-144 144v.8l85.3 85.3c36-9.1 75.8.5 104 28.7l15.7 15.7c49-23 83-72.8 83-130.5zM56 432a24 24 0 1 1 48 0 24 24 0 1 1-48 0z"/></svg>');--md-admonition-icon--remark:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M256 448c141.4 0 256-93.1 256-208S397.4 32 256 32 0 125.1 0 240c0 45.1 17.7 86.8 47.7 120.9-1.9 24.5-11.4 46.3-21.4 62.9-5.5 9.2-11.1 16.6-15.2 21.6-2.1 2.5-3.7 4.4-4.9 5.7-.6.6-1 1.1-1.3 1.4l-.3.3c-4.6 4.6-5.9 11.4-3.4 17.4 2.5 6 8.3 9.9 14.8 9.9 28.7 0 57.6-8.9 81.6-19.3 22.9-10 42.4-21.9 54.3-30.6 31.8 11.5 67 17.9 104.1 17.9zM128 208a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm128 0a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm96 32a32 32 0 1 1 64 0 32 32 0 1 1-64 0z"/></svg>');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M320 0c17.7 0 32 14.3 32 32v64h120c39.8 0 72 32.2 72 72v272c0 39.8-32.2 72-72 72H168c-39.8 0-72-32.2-72-72V168c0-39.8 32.2-72 72-72h120V32c0-17.7 14.3-32 32-32zM208 384c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16h-32zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16h-32zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16h-32zM264 256a40 40 0 1 0-80 0 40 40 0 1 0 80 0zm152 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80zM48 224h16v192H48c-26.5 0-48-21.5-48-48v-96c0-26.5 21.5-48 48-48zm544 0c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48h-16V224h16z"/></svg>');--md-admonition-icon--audience:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M72 88a56 56 0 1 1 112 0 56 56 0 1 1-112 0zm-8 157.7c-10 11.2-16 26.1-16 42.3s6 31.1 16 42.3v-84.6zm144.4-49.3C178.7 222.7 160 261.2 160 304c0 34.3 12 65.8 32 90.5V416c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32v-26.8C26.2 371.2 0 332.7 0 288c0-61.9 50.1-112 112-112h32c24 0 46.2 7.5 64.4 20.3zM448 416v-21.5c20-24.7 32-56.2 32-90.5 0-42.8-18.7-81.3-48.4-107.7C449.8 183.5 472 176 496 176h32c61.9 0 112 50.1 112 112 0 44.7-26.2 83.2-64 101.2V416c0 17.7-14.3 32-32 32h-64c-17.7 0-32-14.3-32-32zm8-328a56 56 0 1 1 112 0 56 56 0 1 1-112 0zm120 157.7v84.7c10-11.3 16-26.1 16-42.3s-6-31.1-16-42.3zM320 32a64 64 0 1 1 0 128 64 64 0 1 1 0-128zm-80 272c0 16.2 6 31 16 42.3v-84.6c-10 11.3-16 26.1-16 42.3zm144-42.3v84.7c10-11.3 16-26.1 16-42.3s-6-31.1-16-42.3zm64 42.3c0 44.7-26.2 83.2-64 101.2V448c0 17.7-14.3 32-32 32h-64c-17.7 0-32-14.3-32-32v-42.8c-37.8-18-64-56.5-64-101.2 0-61.9 50.1-112 112-112h32c61.9 0 112 50.1 112 112z"/></svg>');--md-admonition-icon--solution:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M234.7 42.7 197 56.8c-3 1.1-5 4-5 7.2s2 6.1 5 7.2l37.7 14.1 14.1 37.7c1.1 3 4 5 7.2 5s6.1-2 7.2-5l14.1-37.7L315 71.2c3-1.1 5-4 5-7.2s-2-6.1-5-7.2l-37.7-14.1L263.2 5c-1.1-3-4-5-7.2-5s-6.1 2-7.2 5l-14.1 37.7zM46.1 395.4c-18.7 18.7-18.7 49.1 0 67.9l34.6 34.6c18.7 18.7 49.1 18.7 67.9 0l381.3-381.4c18.7-18.7 18.7-49.1 0-67.9l-34.6-34.5c-18.7-18.7-49.1-18.7-67.9 0L46.1 395.4zM484.6 82.6l-105 105-23.3-23.3 105-105 23.3 23.3zM7.5 117.2C3 118.9 0 123.2 0 128s3 9.1 7.5 10.8L64 160l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L128 160l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L128 96l-21.2-56.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1 3-10.8 7.5L64 96 7.5 117.2zm352 256c-4.5 1.7-7.5 6-7.5 10.8s3 9.1 7.5 10.8L416 416l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L480 416l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L480 352l-21.2-56.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1 3-10.8 7.5L416 352l-56.5 21.2z"/></svg>');--md-admonition-icon--technical:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M160 96a96 96 0 1 1 192 0 96 96 0 1 1-192 0zm80 152v264l-48.4-24.2c-20.9-10.4-43.5-17-66.8-19.3l-96-9.6C12.5 457.2 0 443.5 0 427V224c0-17.7 14.3-32 32-32h30.3c63.6 0 125.6 19.6 177.7 56zm32 264V248c52.1-36.4 114.1-56 177.7-56H480c17.7 0 32 14.3 32 32v203c0 16.4-12.5 30.2-28.8 31.8l-96 9.6c-23.2 2.3-45.9 8.9-66.8 19.3L272 512z"/></svg>');--md-admonition-icon--intermediate:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M320 32c-8.1 0-16.1 1.4-23.7 4.1L15.8 137.4C6.3 140.9 0 149.9 0 160s6.3 19.1 15.8 22.6l57.9 20.9C57.3 229.3 48 259.8 48 291.9V320c0 28.4-10.8 57.7-22.3 80.8-6.5 13-13.9 25.8-22.5 37.6-3.2 4.3-4.1 9.9-2.3 15s6 8.9 11.2 10.2l64 16c4.2 1.1 8.7.3 12.4-2s6.3-6.1 7.1-10.4c8.6-42.8 4.3-81.2-2.1-108.7-3.2-14.2-7.5-28.7-13.5-42v-24.6c0-30.2 10.2-58.7 27.9-81.5 12.9-15.5 29.6-28 49.2-35.7l157-61.7c8.2-3.2 17.5.8 20.7 9s-.8 17.5-9 20.7l-157 61.7c-12.4 4.9-23.3 12.4-32.2 21.6l159.6 57.6c7.6 2.7 15.6 4.1 23.7 4.1s16.1-1.4 23.7-4.1l280.6-101c9.5-3.4 15.8-12.5 15.8-22.6s-6.3-19.1-15.8-22.6L343.7 36.1c-7.6-2.7-15.6-4.1-23.7-4.1zM128 408c0 35.3 86 72 192 72s192-36.7 192-72l-15.3-145.4L354.5 314c-11.1 4-22.8 6-34.5 6s-23.5-2-34.5-6l-142.2-51.4L128 408z"/></svg>');--md-admonition-icon--advanced:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M219.3.5c3.1-.6 6.3-.6 9.4 0l200 40C439.9 42.7 448 52.6 448 64s-8.1 21.3-19.3 23.5L352 102.9V160c0 70.7-57.3 128-128 128S96 230.7 96 160v-57.1l-48-9.6v65.1l15.7 78.4c.9 4.7-.3 9.6-3.3 13.3S52.8 256 48 256H16c-4.8 0-9.3-2.1-12.4-5.9s-4.3-8.6-3.3-13.3L16 158.4V86.6C6.5 83.3 0 74.3 0 64c0-11.4 8.1-21.3 19.3-23.5l200-40zM111.9 327.7c10.5-3.4 21.8.4 29.4 8.5l71 75.5c6.3 6.7 17 6.7 23.3 0l71-75.5c7.6-8.1 18.9-11.9 29.4-8.5 65 20.9 112 81.7 112 153.6 0 17-13.8 30.7-30.7 30.7H30.7C13.8 512 0 498.2 0 481.3c0-71.9 47-132.7 111.9-153.6z"/></svg>');--md-admonition-icon--lumi-be:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M48 0C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h96v-80c0-26.5 21.5-48 48-48s48 21.5 48 48v80h96c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48H48zm16 240c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16v-32zm112-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16h-32c-8.8 0-16-7.2-16-16v-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16h-32c-8.8 0-16-7.2-16-16v-32zM80 96h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16v-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16h-32c-8.8 0-16-7.2-16-16v-32zm112-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16h-32c-8.8 0-16-7.2-16-16v-32c0-8.8 7.2-16 16-16zM448 0c-17.7 0-32 14.3-32 32v480h64V192h144c8.8 0 16-7.2 16-16V48c0-8.8-7.2-16-16-16H480c0-17.7-14.3-32-32-32z"/></svg>');--md-admonition-icon--nice-to-know:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M281.2 248.9c14.4-20.6 22.8-45.7 22.8-72.9 0-70.7-57.3-128-128-128S48 105.3 48 176c0 27.2 8.4 52.3 22.8 72.9 3.7 5.3 8.1 11.3 12.8 17.7 12.9 17.7 28.3 38.9 39.8 59.8 10.4 19 15.7 38.8 18.3 57.5H93c-2.2-12-5.9-23.7-11.8-34.5-9.9-18-22.2-34.9-34.5-51.8-5.2-7.1-10.4-14.2-15.4-21.4C11.6 247.9 0 213.3 0 176 0 78.8 78.8 0 176 0s176 78.8 176 176c0 37.3-11.6 71.9-31.4 100.3-5 7.2-10.2 14.3-15.4 21.4-12.3 16.8-24.6 33.7-34.5 51.8-5.9 10.8-9.6 22.5-11.8 34.5h-48.5c2.6-18.7 7.9-38.6 18.3-57.5 11.5-20.9 26.9-42.1 39.8-59.8 4.7-6.4 9-12.4 12.7-17.7zM176 128c-26.5 0-48 21.5-48 48 0 8.8-7.2 16-16 16s-16-7.2-16-16c0-44.2 35.8-80 80-80 8.8 0 16 7.2 16 16s-7.2 16-16 16zm0 384c-44.2 0-80-35.8-80-80v-16h160v16c0 44.2-35.8 80-80 80z"/></svg>');}</style>
 
 
     
@@ -201,7 +220,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Modules on LUMI
+              Modules
             
           </span>
         </div>
@@ -382,19 +401,41 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
       
       
         
           
             
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
           
         
           
@@ -418,7 +459,7 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
           LUMI Intro 10/23
@@ -435,6 +476,20 @@
     <li class="md-nav__item">
       <a href="../schedule/" class="md-nav__link">
         Schedule
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00_Introduction/" class="md-nav__link">
+        Intro to the notes
       </a>
     </li>
   
@@ -475,8 +530,300 @@
   
   
     <li class="md-nav__item">
-      <a href="../03_LUMI_organisation/" class="md-nav__link">
-        Organisation
+      <a href="../03_LUMI_access/" class="md-nav__link">
+        Getting access
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Modules
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Modules
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#module-environments" class="md-nav__link">
+    Module environments
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploring-modules-with-lmod" class="md-nav__link">
+    Exploring modules with Lmod
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benefits-of-a-hierarchy" class="md-nav__link">
+    Benefits of a hierarchy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#about-module-names-and-families" class="md-nav__link">
+    About module names and families
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extensions" class="md-nav__link">
+    Extensions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#searching-for-modules-the-module-spider-command" class="md-nav__link">
+    Searching for modules: the module spider command
+  </a>
+  
+    <nav class="md-nav" aria-label="Searching for modules: the module spider command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-running-module-spider-on-lumi" class="md-nav__link">
+    Example 1: Running module spider on LUMI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-searching-for-the-fftw-module-which-happens-to-be-provided-by-the-pe" class="md-nav__link">
+    Example 2: Searching for the FFTW module which happens to be provided by the PE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-searching-for-gnuplot" class="md-nav__link">
+    Example 3: Searching for GNUplot
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-searching-for-an-extension-of-a-module-cmake" class="md-nav__link">
+    Example 4: Searching for an extension of a module: CMake.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternative-search-the-module-keyword-command" class="md-nav__link">
+    Alternative search: the module keyword command
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sticky-modules-and-the-module-purge-command" class="md-nav__link">
+    Sticky modules and the module purge command
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changing-how-the-module-list-is-displayed" class="md-nav__link">
+    Changing how the module list is displayed
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-help-with-the-module-help-command" class="md-nav__link">
+    Getting help with the module help command
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-note-on-caching" class="md-nav__link">
+    A note on caching
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-note-on-other-commands" class="md-nav__link">
+    A note on other commands
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#links" class="md-nav__link">
+    Links
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#local-materials" class="md-nav__link">
+    Local materials
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_Software_stacks/" class="md-nav__link">
+        Software stacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_Exercises_1/" class="md-nav__link">
+        Exercises 1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_Slurm/" class="md-nav__link">
+        Slurm on LUMI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_Binding/" class="md-nav__link">
+        Binding
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09_Exercises_2/" class="md-nav__link">
+        Exercises 2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_Lustre/" class="md-nav__link">
+        Lustre
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_Containers/" class="md-nav__link">
+        Containers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12_Support" class="md-nav__link">
+        Support
       </a>
     </li>
   
@@ -640,6 +987,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#local-materials" class="md-nav__link">
+    Local materials
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -662,21 +1016,28 @@
 as virtually any cluster nowadays uses some form of module environment, this
 section assumes that the reader is already familiar with a module environment
 but not necessarily the one used on LUMI.</p>
+<p>However, even if you are very familiar with Lmod it makes sense to go through
+these notes as not every Lmod configuration is the same.</p>
 </div>
 <h2 id="module-environments">Module environments<a class="headerlink" href="#module-environments" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Module environments" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ModuleEnvironments.png" /></p>
+<p><img alt="Module environments" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleEnvironments.png" /></p>
 </figure>
-<p>Modules are commonly used on HPC systems to enable users to create 
+<p>An HPC cluster is a multi-user machine. Different users may need different 
+versions of the same application, and each user has their own preferences for
+the environment. Hence there is no "one size fits all" for HPC and mechanisms
+are needed to support the diverse requirements of multiple users on a single machine.
+This is where modules play an important role.
+They are commonly used on HPC systems to enable users to create 
 custom environments and select between multiple versions of applications.
 Note that this also implies that applications on HPC systems are often not
 installed in the regular directories one would expect from the documentation
 of some packages, as that location may not even always support proper multi-version
-installations and as one prefers to have a software stack which is as isolated as
+installations and as system administrators prefer to have a software stack which is as isolated as
 possible from the system installation to keep the image that has to be loaded
 on the compute nodes small.</p>
 <p>Another use of modules not mentioned on the slide is to configure the programs
-that is being activated. E.g., some packages expect certain additional environment
+that are being activated. E.g., some packages expect certain additional environment
 variables to be set and modules can often take care of that also.</p>
 <p>There are 3 systems in use for module management.
 The oldest is a C implementation of the commands using module files written in Tcl.
@@ -717,7 +1078,7 @@ that are not available on your home cluster.</p>
 </div>
 <h2 id="exploring-modules-with-lmod">Exploring modules with Lmod<a class="headerlink" href="#exploring-modules-with-lmod" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Exploring modules with Lmod" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ExploringWithLmod.png" /></p>
+<p><img alt="Exploring modules with Lmod" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ExploringWithLmod.png" /></p>
 </figure>
 <p>Contrary to some other module systems, or even some other Lmod installations, <strong>not all modules are
 immediately available for loading</strong>. So don't be disappointed by the few modules you will see with
@@ -748,7 +1109,7 @@ the way the Lmod developer intended so that some features do not function as the
 </ul>
 <h2 id="benefits-of-a-hierarchy">Benefits of a hierarchy<a class="headerlink" href="#benefits-of-a-hierarchy" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Benefits of a hierarchy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/BenefitsHierarchy.png" /></p>
+<p><img alt="Benefits of a hierarchy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/BenefitsHierarchy.png" /></p>
 </figure>
 <p>When the hierarchy is well designed, you get some protection from loading modules that do
 not work together well. E.g., in the HPE Cray PE it is not possible to load the MPI
@@ -765,7 +1126,11 @@ a different programming environment in the default login environment right after
 </code></pre></div>
 <p>which results in</p>
 <!-- Used window size 23x95 -->
-<p><img alt="module load PrgEnv-aocc" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ml_PrgEnvAOCC_1.png" /></p>
+<p><img alt="module load PrgEnv-aocc" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_BenefitsHierarchyDemo.png" /></p>
+<!-- <figure markdown style="border: 1px solid #000">
+  ![module load PrgEnv-aocc](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/BenefitsHierarchyDemo.png)
+</figure> -->
+
 <p>The first two lines of output are due to to other mechanisms that are at work here, 
 and the order of the lines may seem strange but that has to do with the way Lmod works
 internally. Each of the PrgEnv modules hard loads a compiler module which is why Lmod tells
@@ -786,7 +1151,7 @@ MODULEPATH was changed. As a result, the version of the cray-mpich module for th
 the <code>aocc/3.2.0</code> compiler. </p>
 <h2 id="about-module-names-and-families">About module names and families<a class="headerlink" href="#about-module-names-and-families" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Module names and families" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ModuleNamesFamilies.png" /></p>
+<p><img alt="Module names and families" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleNamesFamilies.png" /></p>
 </figure>
 <p>In Lmod you cannot have two modules with the same name loaded at the same time.
 On LUMI, when you load a module with the same name as an already loaded module, that
@@ -807,6 +1172,7 @@ The family property is something that is defined in the module file. It is commo
 used on systems with multiple compilers and multiple MPI implementations to ensure 
 that each compiler and each MPI implementation can have a logical name without 
 encoding that name in the version string (like needing to have <code>compiler/gcc-11.2.0</code>
+or <code>compiler/gcc/11.2.0</code>
 rather than <code>gcc/11.2.0</code>), while still having an easy way to avoid having two 
 compilers or MPI implementations loaded at the same time. 
 On LUMI, the conflicting module of the same family will be unloaded automatically
@@ -825,7 +1191,7 @@ on this feature being enabled to make live easier for users.</p>
 </div>
 <h2 id="extensions">Extensions<a class="headerlink" href="#extensions" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Extensions" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ModuleExtensions.png" /></p>
+<p><img alt="Extensions" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleExtensions.png" /></p>
 </figure>
 <p>It would not make sense to have a separate module for each of the hundreds of R
 packages or tens of Python packages that a software stack may contain.
@@ -839,12 +1205,12 @@ On LUMI related packages are often bundled in a single module. </p>
 it contains several ones, how can I then find the appropriate module to load?
 Lmod has a solution for that through the so-called <strong>extension</strong> mechanism. An Lmod module
 can define extensions, and some of the search commands for modules will also search in the extensions
-of a module. Unfortunately, the HP{E Cray PE cray-python and cray-R modules do not provide that 
+of a module. Unfortunately, the HPE Cray PE cray-python and cray-R modules do not provide that 
 information at the moment as they too contain several packages that may benefit from linking
 to optimised math libraries.</p>
 <h2 id="searching-for-modules-the-module-spider-command">Searching for modules: the module spider command<a class="headerlink" href="#searching-for-modules-the-module-spider-command" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="module spider" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ModuleSpider.png" /></p>
+<p><img alt="module spider" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleSpider.png" /></p>
 </figure>
 <p>There are three ways to use <code>module spider</code>, discovering software in more and more detail.</p>
 <ol>
@@ -878,9 +1244,23 @@ to optimised math libraries.</p>
 <h3 id="example-1-running-module-spider-on-lumi">Example 1: Running <code>module spider</code> on LUMI<a class="headerlink" href="#example-1-running-module-spider-on-lumi" title="Permanent link">&para;</a></h3>
 <p>Let's first run the <code>module spider</code> command. The output varies over time, but at the time of writing,
 and leaving out a lot of the output, one would have gotten:</p>
-<p><img alt="module spider 1" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_1.png" /></p>
-<p><img alt="module spider 1" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_2.png" /></p>
-<p><img alt="module spider 1" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_3.png" /></p>
+<p><img alt="module spider 1" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_1.png" /></p>
+<p><img alt="module spider 1" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_2.png" /></p>
+<p><img alt="module spider 1" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_3.png" /></p>
+<!-- 
+<figure markdown style="border: 1px solid #000">
+  ![module spider 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_1.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module spider 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_2.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module spider 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_3.png)
+</figure>
+-->
+
 <p>On the second screen we see, e.g., the ARMForge module which was available in just a single version
 at that time, and then Autoconf where the version is in blue and followed by <code>(E)</code>. This denotes
 that the Autoconf package is actually provided as an extension of another module, and one of the next
@@ -892,7 +1272,13 @@ for the command.</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>FFTW
 </code></pre></div>
 <p>produces</p>
-<p><img alt="module spider FFTW" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_FFTW_1.png" /></p>
+<p><img alt="module spider FFTW" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTW.png" /></p>
+<!--
+<figure markdown style="border: 1px solid #000">
+  ![module spider FFTW](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTW.png)
+</figure>
+-->
+
 <p>This shows that the FFTW library is actually provided by the <code>cray-fftw</code> module and was at the time
 that this was tested available in 3 versions. 
 Note that (a) it is not case sensitive as FFTW is not in capitals in the module name and (b) it
@@ -902,8 +1288,18 @@ check for a specific version, so let's run</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>cray-fftw/3.3.10.3
 </code></pre></div>
 <p>This produces:</p>
-<p><img alt="module spider cray-fftw/3.3.10.3" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_FFTW_version_1.png" /></p>
-<p><img alt="module spider cray-fftw/3.3.10.3" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_FFTW_version_2.png" /></p>
+<p><img alt="module spider cray-fftw/3.3.10.3" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTWVersion_1.png" /></p>
+<p><img alt="module spider cray-fftw/3.3.10.3" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTWVersion_2.png" /></p>
+<!--
+<figure markdown style="border: 1px solid #000">
+  ![module spider cray-fftw/3.3.10.3](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTWVersion_1.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module spider cray-fftw/3.3.10.3](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTWVersion_2.png)
+</figure>
+-->
+
 <p>We now get a long list of possible combinations of modules that would enable us to load this module.
 What these modules are will be explained in the next session of this course. However, it does show
 a weakness when module spider is used with the HPE Cray PE. In some cases, not all possible combinations
@@ -915,17 +1311,27 @@ that is needed. The command does work well with the software managed by the LUMI
 next two examples will show.</p>
 <h3 id="example-3-searching-for-gnuplot">Example 3: Searching for GNUplot<a class="headerlink" href="#example-3-searching-for-gnuplot" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="module spider for a regular package" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ModuleSpiderRegular.png" /></p>
+<p><img alt="module spider for a regular package" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleSpiderRegular.png" /></p>
 </figure>
 <p>To see if GNUplot is available, we'd first search for the name of the package:</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>GNUplot
 </code></pre></div>
 <p>This produces:</p>
-<p><img alt="module spider GNUplot" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_gnuplot_1.png" /></p>
-<p><img alt="module spider GNUplot" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_gnuplot_2.png" /></p>
+<p><img alt="module spider GNUplot" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplot_1.png" /></p>
+<p><img alt="module spider GNUplot" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplot_2.png" /></p>
+<!--
+<figure markdown style="border: 1px solid #000">
+  ![module spider GNUplot](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplot_1.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module spider GNUplot](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplot_2.png)
+</figure>
+-->
+
 <p>The output again shows that the search is not case sensitive which is fortunate as uppercase and lowercase
 letters are not always used in the same way on different clusters. Some management tools for scientific software
-stacks will only use lowercase letters, while the package we use on LUMI often uses both.</p>
+stacks will only use lowercase letters, while the package we use for the LUMI software stacks often uses both.</p>
 <p>We see that there are a lot of versions installed on the system and that the version actually contains more 
 information (e.g., <code>-cpeGNU-22.12</code>) that we will explain in the next part of this course. But you might of
 course guess that it has to do with the compilers that were used. It may look strange to you to have the same
@@ -938,8 +1344,18 @@ line in terms of the other software that you will be using.</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>gnuplot/5.4.6-cpeGNU-22.12
 </code></pre></div>
 <p>This produces:</p>
-<p><img alt="module spider gnuplot/5.4.6-cpeGNU-22.12" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_gnuplot_version_1.png" /></p>
-<p><img alt="module spider gnuplot/5.4.6-cpeGNU-22.12" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_gnuplot_version_2.png" /></p>
+<p><img alt="module spider gnuplot/5.4.6-cpeGNU-22.12" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplotVersion_1.png" /></p>
+<p><img alt="module spider gnuplot/5.4.6-cpeGNU-22.12" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplotVersion_2.png" /></p>
+<!--
+<figure markdown style="border: 1px solid #000">
+  ![module spider gnuplot/5.4.6-cpeGNU-22.12](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplotVersion_1.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module spider gnuplot/5.4.6-cpeGNU-22.12](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplotVersion_2.png)
+</figure>
+-->
+
 <p>In this case, this module is provided by 3 different combinations of modules that also will be explained
 in the next part of this course. Furthermore, the output of the command now also shows some help information
 about the module, with some links to further documentation available on the system or on the web.
@@ -950,7 +1366,7 @@ and we sometimes have to do some effort to fit all information in there.</p>
 worth looking there also.</p>
 <h3 id="example-4-searching-for-an-extension-of-a-module-cmake">Example 4: Searching for an extension of a module: CMake.<a class="headerlink" href="#example-4-searching-for-an-extension-of-a-module-cmake" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="module spider for extensions" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ModuleSpiderExtensions.png" /></p>
+<p><img alt="module spider for extensions" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleSpiderExtensions.png" /></p>
 </figure>
 <p>The <code>cmake</code> command on LUMI is available in the operating system image, but as is often the case with
 such tools distributed with the OS, it is a rather old version and you may want to use a newer one.</p>
@@ -960,7 +1376,13 @@ powers of <code>module spider</code> and try</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>cmake
 </code></pre></div>
 <p>which produces</p>
-<p><img alt="module spider cmake" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_cmake_1.png" /></p>
+<p><img alt="module spider cmake" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMake.png" /></p>
+<!--
+<figure markdown style="border: 1px solid #000">
+  ![module spider cmake](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMake.png)
+</figure>
+-->
+
 <p>The output above shows us that there are actually four other versions of CMake on the system, but their
 version is followed by <code>(E)</code> which says that they are extensions of other modules.
 There is no module called <code>CMake</code> on the system. 
@@ -969,8 +1391,18 @@ how to find out which module actually provides the CMake tools. So let's try</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>CMake/3.25.2
 </code></pre></div>
 <p>which produces</p>
-<p><img alt="module spider CMake/3.25.2" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_cmake_version_1.png" /></p>
-<p><img alt="module spider CMake/3.25.2" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ms_cmake_version_2.png" /></p>
+<p><img alt="module spider CMake/3.25.2" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMakeVersion_1.png" /></p>
+<p><img alt="module spider CMake/3.25.2" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMakeVersion_2.png" /></p>
+<!--
+<figure markdown style="border: 1px solid #000">
+  ![module spider CMake/3.25.2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMakeVersion_1.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module spider CMake/3.25.2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMakeVersion_2.png)
+</figure>
+-->
+
 <p>This shows us that the version is provided by a number of <code>buildtools</code> modules, and for each of those
 modules also shows us which other modules should be loaded to get access to the commands. E.g.,
 the first line tells us that there is a module <code>buildtools/22.08</code> that provides that version of CMake, but
@@ -986,7 +1418,7 @@ one such combination.</p>
 <p>to get even more information about the buildtools module, including any help included in the module.</p>
 <h2 id="alternative-search-the-module-keyword-command">Alternative search: the module keyword command<a class="headerlink" href="#alternative-search-the-module-keyword-command" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="module keyword" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ModuleKeyword.png" /></p>
+<p><img alt="module keyword" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleKeyword.png" /></p>
 </figure>
 <p>Lmod has a second way of searching for modules: <code>module keyword</code>, but unfortunately it does not
 yet work very well on LUMI as the version of Lmod is rather old and still has some bugs in the
@@ -1000,11 +1432,33 @@ One could try</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>keyword<span class="w"> </span>https
 </code></pre></div>
 <p>which produces a lot of output:</p>
-<p><img alt="module keyword https" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_mk_https_1.png" /></p>
-<p><img alt="module keyword https" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_mk_https_2.png" /></p>
-<p><img alt="module keyword https" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_mk_https_3.png" /></p>
-<p><img alt="module keyword https" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_mk_https_4.png" /></p>
-<p><img alt="module keyword https" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_mk_https_5.png" /></p>
+<p><img alt="module keyword https" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_1.png" /></p>
+<p><img alt="module keyword https" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_2.png" /></p>
+<p><img alt="module keyword https" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_3.png" /></p>
+<p><img alt="module keyword https" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_4.png" /></p>
+<p><img alt="module keyword https" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_5.png" /></p>
+<!--
+<figure markdown style="border: 1px solid #000">
+  ![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_1.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_2.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_3.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_4.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_5.png)
+</figure>
+-->
+
 <p>The bug in the Lmod 8.3 version on LUMI is that all extensions are shown in the output while they are
 irrelevant. On the second screen though we see <code>cURL</code> and on the fourth screen <code>wget</code> which are
 two tools that can be used to fetch files from the internet.</p>
@@ -1027,7 +1481,7 @@ but more about that in the tutorial section on LUMI software stacks.</p>
 </div>
 <h2 id="sticky-modules-and-the-module-purge-command">Sticky modules and the module purge command<a class="headerlink" href="#sticky-modules-and-the-module-purge-command" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Sticky modules and module purge" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/StickyModules.png" /></p>
+<p><img alt="Sticky modules and module purge" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/StickyModules.png" /></p>
 </figure>
 <p>On some systems you will be taught to avoid <code>module purge</code> as many HPC systems do their default user
 configuration also through modules. This advice is often given on Cray systems as it is a common
@@ -1035,7 +1489,7 @@ practice to preload a suitable set of target modules and a programming environme
 On LUMI both are used. A default programming environment and set of target modules suitable for the
 login nodes is preloaded when you log in to the system, and next the <code>init-lumi</code> module is loaded
 which in turn makes the LUMI software stacks available that we will discuss in the next session.</p>
-<p>Lmod however has a trick that help to avoid removing necessary modules and it is called sticky modules.
+<p>Lmod however has a trick that helps to avoid removing necessary modules and it is called sticky modules.
 When issuing the <code>module purge</code> command these modules are automatically reloaded. It is very important to
 realise that those modules will not just be kept "as is" but are in fact unloaded and loaded again as
 we shall see later that this may have consequences. It is still possible to force unload all these modules
@@ -1048,12 +1502,38 @@ chosen a software stack but want to clean up your environment.</p>
 <p>Let us look at the output of the <code>module avail</code> command, taken just after login on the system at the
 time of writing of these notes (the exact list of modules shown is a bit fluid):</p>
 <!-- Use a window of 98x23 -->
-<p><img alt="module avail slide 1" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ma_1.png" /></p>
-<p><img alt="module avail slide 2" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ma_2.png" /></p>
-<p><img alt="module avail slide 3" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ma_3.png" /></p>
-<p><img alt="module avail slide 4" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ma_4.png" /></p>
-<p><img alt="module avail slide 5" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ma_5.png" /></p>
-<p><img alt="module avail slide 6" src="https://465000095.lumidata.eu/intro-202310xx/img/03_mod_ma_6.png" /></p>
+<p><img alt="module avail slide 1" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_1.png" /></p>
+<p><img alt="module avail slide 2" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_2.png" /></p>
+<p><img alt="module avail slide 3" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_3.png" /></p>
+<p><img alt="module avail slide 4" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_4.png" /></p>
+<p><img alt="module avail slide 5" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_5.png" /></p>
+<p><img alt="module avail slide 6" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_6.png" /></p>
+<!--
+<figure markdown style="border: 1px solid #000">
+  ![module avail slide 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_1.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module avail slide 2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_2.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module avail slide 3](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_3.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module avail slide 4](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_4.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module avail slide 5](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_5.png)
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![module avail slide 6](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_6.png)
+</figure>
+-->
+
 <p>Next to the names of modules you sometimes see one or more letters.
 The <code>(D)</code> means that that is currently the default version of the module, the one that will be loaded
 if you do not specify a version. Note that the default version may depend on other modules that are already
@@ -1072,7 +1552,7 @@ might become very long. There is a way in Lmod to hide that output but unfortuna
 due to another bug in the already old version of Lmod.</p>
 <h2 id="changing-how-the-module-list-is-displayed">Changing how the module list is displayed<a class="headerlink" href="#changing-how-the-module-list-is-displayed" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Changing how the module list is displayed" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/ChangingDisplayStyle.png" /></p>
+<p><img alt="Changing how the module list is displayed" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ChangingDisplayStyle.png" /></p>
 </figure>
 <p>You may have noticed in the above example that we don't show directories of module files
 in the overview (as is the case on most clusters) but descriptive texts about the module group.
@@ -1110,7 +1590,7 @@ all (well, most) of the modules corresponding to other version of the Cray PE ar
 </div>
 <h2 id="getting-help-with-the-module-help-command">Getting help with the module help command<a class="headerlink" href="#getting-help-with-the-module-help-command" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Getting help" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/GettingHelp.png" /></p>
+<p><img alt="Getting help" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/GettingHelp.png" /></p>
 </figure>
 <p>Lmod has the <code>module help</code> command to get help on modules</p>
 <div class="highlight"><pre><span></span><code>$ module help
@@ -1134,7 +1614,7 @@ $ module whatis Subversion/1.14.2
 </code></pre></div>
 <h2 id="a-note-on-caching">A note on caching<a class="headerlink" href="#a-note-on-caching" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="A note on caching" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/NoteCaching.png" /></p>
+<p><img alt="A note on caching" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/NoteCaching.png" /></p>
 </figure>
 <p>Modules are stored as (small) files in the file system. Having a large module system with
 much software preinstalled for everybody means a lot of small files which will make
@@ -1153,7 +1633,7 @@ software that is installed in the central stacks as we are not sure when that ca
 in good shape.</p>
 <h2 id="a-note-on-other-commands">A note on other commands<a class="headerlink" href="#a-note-on-other-commands" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="A note on other commands" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-modules/NoteOtherCommands.png" /></p>
+<p><img alt="A note on other commands" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/NoteOtherCommands.png" /></p>
 </figure>
 <p>As this tutorial assumes some experience with using modules on other clusters, we haven't paid
 much attention to some of the basic commands that are mostly the same across all three
@@ -1201,6 +1681,45 @@ so links may break over time.</strong></p>
     the <a href="https://lmod.readthedocs.io/en/latest/010_user.html">User Guide for Lmod</a> which is the part specifically for regular users who do not
     want to design their own modules.</li>
 <li><a href="https://docs.lumi-supercomputer.eu/runjobs/lumi_env/Lmod_modules/">Information on the module environment in the LUMI documentation</a></li>
+</ul>
+<h2 id="local-materials">Local materials<a class="headerlink" href="#local-materials" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>VSC</p>
+<ul>
+<li>
+<p>VSC@UAntwerpen: Modules are covered in the <a href="https://www.uantwerpen.be/en/research-facilities/calcua/training/">HPC@UAntwerp introduction</a></p>
+</li>
+<li>
+<p>VSC@VUB: Modules are covered in the <a href="https://hpc.vub.be/docs/slides/hpc-intro/">HPC Introduction course</a>,</p>
+<p>with local documentation in the <a href="https://hpc.vub.be/docs/software/modules/">"Module System" section of the documentation</a></p>
+</li>
+<li>
+<p>VSC@UGent: Modules are briefly coverd in the "Introduction to HPC-UGent" course. The Lmod setup on the
+    clusters at UGent is more restrictive than on LUMI with several usefull features disabled.</p>
+<ul>
+<li><a href="https://www.ugent.be/hpc/en/training/2023/introhpc202306">Slides</a> and <a href="https://www.ugent.be/hpc/en/training/introhpcugent-recording">YouTube recording</a>
+    of the June 9, 2023 session.</li>
+</ul>
+</li>
+<li>
+<p>VSC@KULeuven: Modules are discussed in the <a href="https://hpcleuven.github.io/Linux-for-HPC/">Linux for HPC course</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p>CÉCI: </p>
+<ul>
+<li>
+<p><a href="https://indico.cism.ucl.ac.be/event/121/contributions/58/">Choosing and activating software with system modules on CÉCI clusters</a>
+    from the fall 2022 introductory courses.</p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=4hq8jcy2k3Q">YouTube video: Modules: How to find/use software on cluster</a>
+    from the fall 2020 introductory courses.</p>
+</li>
+</ul>
+</li>
 </ul>
 
 
