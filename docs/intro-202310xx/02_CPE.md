@@ -337,7 +337,7 @@ customizable collective buffering when using MPI-IO, and
 optimized remote memory access (MPI one-sided communication) which also supports
 passive remote memory access.
 
-When used in the correct way (some attention is needed when linking applications) it is allo fully
+When used in the correct way (some attention is needed when linking applications) it is also fully
 GPU aware with currently support for AMD and NVIDIA GPUs.
 
 The MPI library also supports bindings for Fortran 2008.
@@ -355,6 +355,47 @@ correctly on the allocated resources, and the resource manager is better suited 
 Cray MPI on LUMI is layered on top of libfabric, which in turn uses the so-called Cassini provider
 to interface with the hardware. UCX is not supported on LUMI (but Cray MPI can support it when used
 on InfiniBand clusters). It also uses a GPU Transfer Library (GTL) for GPU-aware MPI.
+
+
+## GPU-aware MPI
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide GPU-aware MPI](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-02-CPE/CrayMPIGPU.png){ loading=lazy }
+</figure>
+
+Cray MPICH does support GPU-aware MPI, so it is possible to directly use GPU-attached communication buffers using device pointers.
+The implementation supports (a) GPU-NIC RDMA for efficient inter-node MPI transfers and (b) GPU Peer2PEer IPC for
+efficient intra-node transfers. The latter mechanism comes with some restrictions though that we will discuss in the
+[chapter "Process and thread distribution and binding"](08_Binding.md).
+
+GPU-aware MPI needs to be enabled explicitly, which you can do by setting an environment variable:
+
+``` bash
+export MPICH_GPU_SUPPORT_ENABLED=1
+```
+
+In addition to this, if the GPU code does use MPI operations that access GPU-attached memory regions it is best to also set
+
+``` bash
+export MPICH_OFI_NIC_POLICY=GPU
+```
+
+If only CPU communication buffers are used, then it may be better to set
+
+``` bash
+export MPICH_OFI_NIC_POLICY=NUMA
+```
+
+Depending on how Slurm is used, Peer2Peer IPC may not work and in those cases you may want to turn it off using
+``` bash
+export MPICH_GPU_IPC_ENABLED=0
+```
+or alternatively
+``` bash
+export MPICH_SMP_SINGLE_COPY_MODE=NONE
+```
+Both options entail a serious loss of performance. The underlying problem is that the way in which Slurm does GPU
+binding using control groups makes other GPUS from other tasks in the node invisible to a task.
 
 
 ## Lmod
