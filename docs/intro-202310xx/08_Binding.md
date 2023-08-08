@@ -1031,6 +1031,20 @@ node into account, due to the current limitation of creating a control group per
 be used as it breaks some efficient communication mechanisms between tasks, including the GPU Peer2Peer 
 IPC used by Cray MPICH for intro-node MPI transfers if GPU aware MPI support is enabled.
 
+??? advanced "What do the HPE Cray manuals say about this? (Click to expand)"
+    From the HPE Cray CoE: 
+    *"Slurm may choose to use cgroups to implement the required
+    affinity settings. Typically, the use of cgroups has the downside of preventing the use of 
+    GPU Peer2Peer IPC mechanisms. By default Cray MPI uses IPC for
+    implementing intra-node, inter-process MPI data movement operations that involve GPU-attached user buffers. 
+    When Slurm’s cgroups settings are in effect, users are
+    advised to set `MPICH_SMP_SINGLE_COPY_MODE=NONE` or `MPICH_GPU_IPC_ENABLED=0`
+    to disable the use of IPC-based implementations. 
+    Disabling IPC also has a noticeable impact on intra-node MPI performance when 
+    GPU-attached memory regions are involved."*
+
+    This is exactly what Slurm does on LUMI.
+    
 
 ## MPI rank redistribution with Cray MPICH
 
@@ -1228,6 +1242,21 @@ the same problem size (and hence same number of nodes and tasks).
 
 ## Refining core binding in OpenMP applications
 
+In a Slurm batch job step, threads of a shared memory process will be contained to all 
+hardware threads of all available cores on the first node of your allocation. To contain
+a shared memory program to the hardware threads asked for in the allocation (i.e., to ensure
+that `--hint=[no]multithread` has effect) you'd have to start the shared memory program with
+`srun` in a regular job step.
+
+Any multithreaded executable run as a shared memory job or ranks in a hybrid MPI/multithread job,
+will - when started properly via `srun` - get access to a group of cores via an affinity mask.
+In some cases you will want to manually refine the way individual threads of each process are
+mapped onto the available hardware threads.
+
+In OpenMP, this is usually done through environment variables (it can also be done partially in
+the program through library calls).
+
+
 
 
 ## GPU binding with ROCR_VISIBLE_DEVICES
@@ -1239,7 +1268,7 @@ the same problem size (and hence same number of nodes and tasks).
 
 ## Combining Slurm task binding with ROCR_VISIBLE_DEVICES
 
-Or: How to get an optmial mapping on the GPU nodes?
+Or: How to get an optimal mapping on the GPU nodes?
 
 
 ## Further material
