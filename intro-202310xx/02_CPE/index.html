@@ -1293,6 +1293,27 @@ on InfiniBand clusters). It also uses a GPU Transfer Library (GTL) for GPU-aware
 <figure style="border: 1px solid #000">
 <p><img alt="Slide GPU-aware MPI" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-02-CPE/CrayMPIGPU.png" /></p>
 </figure>
+<p>Cray MPICH does support GPU-aware MPI, so it is possible to directly use GPU-attached communication buffers using device pointers.
+The implementation supports (a) GPU-NIC RDMA for efficient inter-node MPI transfers and (b) GPU Peer2PEer IPC for
+efficient intra-node transfers. The latter mechanism comes with some restrictions though that we will discuss in the
+<a href="../08_Binding/">chapter "Process and thread distribution and binding"</a>.</p>
+<p>GPU-aware MPI needs to be enabled explicitly, which you can do by setting an environment variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_GPU_SUPPORT_ENABLED</span><span class="o">=</span><span class="m">1</span>
+</code></pre></div>
+<p>In addition to this, if the GPU code does use MPI operations that access GPU-attached memory regions it is best to also set</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_OFI_NIC_POLICY</span><span class="o">=</span>GPU
+</code></pre></div>
+<p>If only CPU communication buffers are used, then it may be better to set</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_OFI_NIC_POLICY</span><span class="o">=</span>NUMA
+</code></pre></div>
+<p>Depending on how Slurm is used, Peer2Peer IPC may not work and in those cases you may want to turn it off using
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_GPU_IPC_ENABLED</span><span class="o">=</span><span class="m">0</span>
+</code></pre></div>
+or alternatively
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_SMP_SINGLE_COPY_MODE</span><span class="o">=</span>NONE
+</code></pre></div>
+Both options entail a serious loss of performance. The underlying problem is that the way in which Slurm does GPU
+binding using control groups makes other GPUS from other tasks in the node invisible to a task.</p>
 <h2 id="lmod">Lmod<a class="headerlink" href="#lmod" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Lmod" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-02-CPE/Lmod.png" /></p>
