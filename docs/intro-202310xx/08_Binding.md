@@ -1044,7 +1044,7 @@ IPC used by Cray MPICH for intro-node MPI transfers if GPU aware MPI support is 
     GPU-attached memory regions are involved."*
 
     This is exactly what Slurm does on LUMI.
-    
+
 
 ## MPI rank redistribution with Cray MPICH
 
@@ -1254,19 +1254,522 @@ In some cases you will want to manually refine the way individual threads of eac
 mapped onto the available hardware threads.
 
 In OpenMP, this is usually done through environment variables (it can also be done partially in
-the program through library calls).
+the program through library calls). A number of environment variables is standardised in the 
+OpenMP standard, but some implementations offer some addtional non-standard ones. Below we discuss
+the more important of the standard ones:
+
+-   `OMP_NUM_THREADS` is used to set the number of CPU threads OpenMP will use. In its most basic
+    form this is a single number (but you can give multiple comma-separated numbers for nested
+    parallelism). 
+
+    OpenMP programs on LUMI will usually correctly detect how many hardware threads are available to
+    the task and use one OpenMP thread per hardware thread. There are cases where you may want to ask
+    for a certain number of hardware threads when allocating resources, e.g., to easily get a good mapping
+    of tasks on cores, but do not want to use them all, e.g., because your application is too memory bandwidth
+    or cache constrained and using fewer threads actually gives better overall performance on a per-node basis.
+
+-   `OMP_PROC_BIND`: Sets the binding of threads to processors. Possible values are:
+
+    -   `OMP_PROC_BIND=false`: Turn of OpenMP thread binding. Each thread will get access to all hardware threads
+        available in to the task (and defined by a Linux affinity mask in Slurm).
+
+    -   `OMP_PROC_BIND=close`: If more hardware threads are available then there are OpenMP threads, then try
+        to put the OpenMP threads as close as possible to the master thread. In general, bind as close as possible
+        to the master thread while still distributing for load balancing.
+
+    -   `OMP_PROC_BIND=spread`: Spread threads out as evenly as possible over the hardware threads/cores available
+        to the task.
+
+    -   `OMP_PROC_BIND=master`: Bind threads to the same place as the master thread. The place is determined by the
+         `OMP_PLACES` environment variable and it is clear this makes no sense if that place is just a single hardware
+         thread or single core as all threads would then be competing for the resources of a single core.
+
+    Multiple values of `close`, `spread` and `master` in a comma-separated list are possible but this is outside of
+    the scope of this tutorial. 
+
+    The Cray Compilation Environment also has an additional non-standard option `auto` which is actually the default and tries to
+    do a reasonable job for most cases. On the other compilers on LUMI, the default behaviour is `false` unless the
+    next environment variable, `OMP_PLACES`, is specified.
+
+-   `OMP_PLACES` is used to restrict each OpenMP thread to a group of hardware threads. Possible values
+    include: 
+    -   `OMP_PLACES=threads` to restrict OpenMP threads to a single hardware thread
+    -   `OMP_PLACES=cores` to restrict each OpenMP threads to a single core (but all hardware threads associated with that core)
+    -   `OMP_PLACES=sockets` to restrict each OpenMP thread to the hardware threads of a single socket
+    -   And it is possible to give a list with explicit values, e.g.,
+
+        ``` bash
+        export OMP_PLACES="{0:4}:4:4"
+        ```
+
+        which is also equivalent to
+
+        ``` bash
+        export OMP_PLACES="{0,1,2,3}.{4,5,6,7},{8.9.10.122}. {12.13.14.15}"
+        ```
+
+        so each OpenMP thread is restricted to a different group of 4 hardware threads. The numbers in the list are not
+        the physical Linux hardware thread numbers, but are relative to the hardware threads available in the 
+        affinity mask of the task. 
+        
+        Note that this is different from the core numbers that would be used in `--cpu-bind=map_cpu`
+        or `-=-gpi-bind=mask_cpu` which sets the CPUs or groups of CPUs available to each thread and which always use
+        the physical numbering and not a numbering that is local to the job allocation.
+
+-    `OMP_DISPLAY_AFFINITY`: When set tot `TRUE` information about the affinity binding of each thread will be 
+     shown which is good for debugging purposes.
+
+For single-level OpenMP parallelism, the `omp_check` and `hybrid_check` programs from the `lumi-CPEtools` modules
+can also be used to check the OpenMP thread binding.
+
+??? example "Some examples (click to expand)"
+    Consider the following job script:
+    
+    ```
+    #!/bin/bash
+    #SBATCH --account=project_46YXXXXXX
+    #SBATCH --job-name=omp-demo
+    #SBATCH --output %x-%j.txt
+    #SBATCH --partition=standard
+    #SBATCH --nodes=1
+    #SBATCH --hint=multithread
+    #SBATCH --time=5:00
+    
+    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeCray-22.12
+    
+    set -x
+    export OMP_NUM_THREADS=4
+    export OMP_PROC_BIND=false
+    srun -n 1 -c 32 --hint=multithread   omp_check -r
+    srun -n 1 -c 16 --hint=nomultithread omp_check -r
+    
+    export OMP_NUM_THREADS=4
+    unset OMP_PROC_BIND
+    srun -n 1 -c 32 --hint=multithread   omp_check -r
+    srun -n 1 -c 16 --hint=nomultithread omp_check -r
+    
+    export OMP_NUM_THREADS=4
+    export OMP_PROC_BIND=close
+    srun -n 1 -c 32 --hint=multithread   omp_check -r
+    srun -n 1 -c 16 --hint=nomultithread omp_check -r
+    
+    export OMP_NUM_THREADS=4
+    export OMP_PROC_BIND=spread
+    srun -n 1 -c 32 --hint=multithread   omp_check -r
+    srun -n 1 -c 16 --hint=nomultithread omp_check -r
+    
+    export OMP_NUM_THREADS=4
+    export OMP_PROC_BIND=close
+    export OMP_PLACES=threads
+    srun -n 1 -c 32 --hint=multithread   omp_check -r
+    export OMP_PLACES=cores
+    srun -n 1 -c 32 --hint=multithread   omp_check -r
+    
+    export OMP_NUM_THREADS=4
+    export OMP_PROC_BIND=close
+    export OMP_PLACES="{0:8}:4:8"
+    srun -n 1 -c 32 --hint=multithread   omp_check -r
+    
+    export OMP_PLACES="{0:4,16:4}:4:4"
+    srun -n 1 -c 32 --hint=multithread   omp_check -r
+    set +x
+    ```
+    
+    Let's check the output step by step:
+    
+    In the first block we run 2 `srun` commands that actually both use 16 cores, but first with
+    hardware threading enabled in Slurm and then with multithread mode off in Slurm:
+    
+    ```
+    + export OMP_NUM_THREADS=4
+    + OMP_NUM_THREADS=4
+    + export OMP_PROC_BIND=false
+    + OMP_PROC_BIND=false
+    + srun -n 1 -c 32 --hint=multithread omp_check -r
+    
+    Running 4 threads in a single process
+    
+    ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001077 mask 0-15, 128-143
+    ++ omp_check: OpenMP thread   1/4   on cpu 137/256 of nid001077 mask 0-15, 128-143
+    ++ omp_check: OpenMP thread   2/4   on cpu 129/256 of nid001077 mask 0-15, 128-143
+    ++ omp_check: OpenMP thread   3/4   on cpu 143/256 of nid001077 mask 0-15, 128-143
+    
+    + srun -n 1 -c 16 --hint=nomultithread omp_check -r
+    
+    Running 4 threads in a single process
+    
+    ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001077 mask 0-15
+    ++ omp_check: OpenMP thread   1/4   on cpu  15/256 of nid001077 mask 0-15
+    ++ omp_check: OpenMP thread   2/4   on cpu   1/256 of nid001077 mask 0-15
+    ++ omp_check: OpenMP thread   3/4   on cpu  14/256 of nid001077 mask 0-15
+    ```
+    
+    `OMP_PROC_BIND` was explicitly set to false to disable the Cray Compilation Environment default behaviour.
+    The masks reported by `omp_Check` cover all hardware threads available to the task in Slurm: Both hardware
+    threads for the 16 first cores in the multithread case and just the primary hardware thread on the first 16 cores
+    in the second case. So each OpenMP thread can in principle migrate over all available hardware threads.
+    
+    In the second block we unset the `PROC_BIND` environment variable to demonstrate the behaviour of the
+    Cray Compilation Environment. The output would be different had we used the cpeGNU or cpeAOCC version.
+    
+    ```
+    + export OMP_NUM_THREADS=4
+    + OMP_NUM_THREADS=4
+    + unset OMP_PROC_BIND
+    + srun -n 1 -c 32 --hint=multithread omp_check -r
+    
+    Running 4 threads in a single process
+    
+    ++ omp_check: OpenMP thread   0/4   on cpu   1/256 of nid001077 mask 0-3, 128-131
+    ++ omp_check: OpenMP thread   1/4   on cpu   4/256 of nid001077 mask 4-7, 132-135
+    ++ omp_check: OpenMP thread   2/4   on cpu   8/256 of nid001077 mask 8-11, 136-139
+    ++ omp_check: OpenMP thread   3/4   on cpu 142/256 of nid001077 mask 12-15, 140-143
+    
+    + srun -n 1 -c 16 --hint=nomultithread omp_check -r
+    
+    Running 4 threads in a single process
+    
+    ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001077 mask 0-3
+    ++ omp_check: OpenMP thread   1/4   on cpu   4/256 of nid001077 mask 4-7
+    ++ omp_check: OpenMP thread   2/4   on cpu   9/256 of nid001077 mask 8-11
+    ++ omp_check: OpenMP thread   3/4   on cpu  15/256 of nid001077 mask 12-15
+    ```
+    
+    The default behaviour of the CCE is very nice: Threads are nicely spread out over the available cores and
+    then all get access to their own group of hardware threads that in this case with 4 threads for 16 cores
+    spans 4 cores for each thread. In fact, also in other cases the default behaviour of CCE will be a binding 
+    that works well for many cases. 
+    
+    In the next experiment we dempnstrate the `close` binding:
+    
+    ```
+    + export OMP_NUM_THREADS=4
+    + OMP_NUM_THREADS=4
+    + export OMP_PROC_BIND=close
+    + OMP_PROC_BIND=close
+    + srun -n 1 -c 32 --hint=multithread omp_check -r
+    
+    Running 4 threads in a single process
+    
+    ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001077 mask 0
+    ++ omp_check: OpenMP thread   1/4   on cpu 128/256 of nid001077 mask 128
+    ++ omp_check: OpenMP thread   2/4   on cpu   1/256 of nid001077 mask 1
+    ++ omp_check: OpenMP thread   3/4   on cpu 129/256 of nid001077 mask 129
+    
+    + srun -n 1 -c 16 --hint=nomultithread omp_check -r
+    
+    Running 4 threads in a single process
+    
+    ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001077 mask 0
+    ++ omp_check: OpenMP thread   1/4   on cpu   1/256 of nid001077 mask 1
+    ++ omp_check: OpenMP thread   2/4   on cpu   2/256 of nid001077 mask 2
+    ++ omp_check: OpenMP thread   3/4   on cpu   3/256 of nid001077 mask 3
+    
+    ```
+    
+    In the first case, with Slurm multithreading mode on, we see that the 4 threads are now
+    concentrated on only 2 cores but each gets pinned to its own hardware thread. In general 
+    this behaviour is not what one wants if more cores are available as on each core two threads
+    will now be competing for available resources. In the second case, with Slurm multithreading 
+    disabled, the threads are bound to the first 4 cores, with one core for each thread.
+    
+    Next we demonstrate the `spread` binding:
+    
+    ```
+    + export OMP_NUM_THREADS=4
+    + OMP_NUM_THREADS=4
+    + export OMP_PROC_BIND=spread
+    + OMP_PROC_BIND=spread
+    + srun -n 1 -c 32 --hint=multithread omp_check -r
+    
+    Running 4 threads in a single process
+    
+    ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001077 mask 0
+    ++ omp_check: OpenMP thread   1/4   on cpu   4/256 of nid001077 mask 4
+    ++ omp_check: OpenMP thread   2/4   on cpu   8/256 of nid001077 mask 8
+    ++ omp_check: OpenMP thread   3/4   on cpu  12/256 of nid001077 mask 12
+    
+    + srun -n 1 -c 16 --hint=nomultithread omp_check -r
+    
+    Running 4 threads in a single process
+    
+    ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001077 mask 0
+    ++ omp_check: OpenMP thread   1/4   on cpu   4/256 of nid001077 mask 4
+    ++ omp_check: OpenMP thread   2/4   on cpu   8/256 of nid001077 mask 8
+    ++ omp_check: OpenMP thread   3/4   on cpu  12/256 of nid001077 mask 12
+    ```
+    
+    The result is now the same in both cases as we have fewer threads than physical cores.
+    Each OpenMP thread is bound to a single core, but these cores are spread out over the
+    first 16 cores of the node. 
+    
+    Next we return to the `close` binding but try both `threads` and `cores` as places
+    with Slurm multithreading turned on for both cases:
+    
+    ```
+    + export OMP_NUM_THREADS=4
+    + OMP_NUM_THREADS=4
+    + export OMP_PROC_BIND=close
+    + OMP_PROC_BIND=close
+    + export OMP_PLACES=threads
+    + OMP_PLACES=threads
+    + srun -n 1 -c 32 --hint=multithread omp_check -r
+    
+    Running 4 threads in a single process
+    
+    ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001077 mask 0
+    ++ omp_check: OpenMP thread   1/4   on cpu 128/256 of nid001077 mask 128
+    ++ omp_check: OpenMP thread   2/4   on cpu   1/256 of nid001077 mask 1
+    ++ omp_check: OpenMP thread   3/4   on cpu 129/256 of nid001077 mask 129
+    
+    + export OMP_PLACES=cores
+    + OMP_PLACES=cores
+    + srun -n 1 -c 32 --hint=multithread omp_check -r
+    
+    Running 4 threads in a single process
+    
+    ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001077 mask 0, 128
+    ++ omp_check: OpenMP thread   1/4   on cpu   1/256 of nid001077 mask 1, 129
+    ++ omp_check: OpenMP thread   2/4   on cpu 130/256 of nid001077 mask 2, 130
+    ++ omp_check: OpenMP thread   3/4   on cpu   3/256 of nid001077 mask 3, 131
+    ```
+    
+    With `threads` as places we get again the distribution with two OpenMP threads on each
+    physical core, each with their own hardware thread. With cores as places, we get only one
+    thread per physical core, but each thread has access to both hardware threads of that physical core.
+    
+    And lastly we play a bit with custom placements:
+    
+    ```
+    + export OMP_NUM_THREADS=4
+    + OMP_NUM_THREADS=4
+    + export OMP_PROC_BIND=close
+    + OMP_PROC_BIND=close
+    + export 'OMP_PLACES={0:8}:4:8'
+    + OMP_PLACES='{0:8}:4:8'
+    + srun -n 1 -c 32 --hint=multithread omp_check -r
+    
+    Running 4 threads in a single process
+    
+    ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001077 mask 0-7
+    ++ omp_check: OpenMP thread   1/4   on cpu   8/256 of nid001077 mask 8-15
+    ++ omp_check: OpenMP thread   2/4   on cpu 128/256 of nid001077 mask 128-135
+    ++ omp_check: OpenMP thread   3/4   on cpu 136/256 of nid001077 mask 136-143
+    ```
+    
+    `OMP_PLACES='{0:8}:4:8` means: Take starting from core with logical number 0 8 cores and 
+    repeat this 4 times, shifting by 8 each time, so effectively
+    
+    ```
+    OMP_PLACES="{ 0,1,2,3,4,5,6,7},{8,9,10,11,12,13,14,15},{16,17,18,19,20,21,22,23},{24,25,26,27,27,28,30,31}"
+    ```
+    
+    `omp_check` however shows the OS numbering for the hardware threads so we can see what this places variable means:
+    the first thread can get scheduled on the first hardware thread of the first 8 cores, the second thread on the first
+    hardware thread of the next 8 cores, the third OpenMP thread on the second thread of the first 8 cores, and the 
+    fourth OpenMP thread on the second hardware thread of the next 8 cores. In other words, the logical numbering of the 
+    threads follows the same ordering as at the OS level: First the first hardware thread of each core, then the second 
+    hardware thread.
+    
+    When trying another variant with
+    
+    ```
+    OMP_PACES={0:4,16:4}:4:4
+    ```
+    
+    which is equivalent to
+    
+    ```
+    OMP_PLACES={0,1,2,3,16,17,18,19},{4,5,6,7,20,21,22,23},{8,9,10,11,24,25,26,27},{12,13,14,15,28,29,30,31}"
+    ```
+    
+    we get a much nicer distribution:
+    
+    ```
+    + export 'OMP_PLACES={0:4,16:4}:4:4'
+    + OMP_PLACES='{0:4,16:4}:4:4'
+    + srun -n 1 -c 32 --hint=multithread omp_check -r
+    
+    Running 4 threads in a single process
+    
+    ++ omp_check: OpenMP thread   0/4   on cpu   0/256 of nid001077 mask 0-3, 128-131
+    ++ omp_check: OpenMP thread   1/4   on cpu 132/256 of nid001077 mask 4-7, 132-135
+    ++ omp_check: OpenMP thread   2/4   on cpu 136/256 of nid001077 mask 8-11, 136-139
+    ++ omp_check: OpenMP thread   3/4   on cpu 140/256 of nid001077 mask 12-15, 140-143
+    ```
 
 
+
+
+Some further documentation:
+
+-   The `OMP_*` environment variables and a number of environment variables specific for the runtime libraries
+    of the Cray Compiling Environment are discussed in the 
+    [`intro_openmp` manual page, section "Environment variables"](https://cpe.ext.hpe.com/docs/cce/man7/intro_openmp.7.html#environment-variables).
+
+-   [A list of OMP_ environment variables in the OpenMP 5.1 standard](https://www.openmp.org/spec-html/5.1/openmpch6.html#x323-4980006) 
+    (as the current list in the HTML version of the 5.2 standard has some prorblems).
 
 
 ## GPU binding with ROCR_VISIBLE_DEVICES
 
--   Non-optimal example on standard-g
+The `ROCR_VISIBLE_DEVICES` environment variable restricts access to GPUs at the ROCm platform runtime 
+level. Contrary to control groups however this mechanism is compatible with the Peer2PEer IPC used by
+GPU-aware Cray MPI for intra-node communication.
 
--   Examples on small-g )non-optimal by definition)
+The value of the `ROCR_VISIBLE_DEVICES` environment variable is a list of device indices that will be
+exposed to the applications. The device indices do depend on the control group. Visible devices in a control
+group are always numbered from 0.
+
+??? advanced "Alternative values for `ROCR_VISIBLE_DEVICES`"
+    Instead of device indices, `ROCR_VISIBLE_DEVICES` also accepts GPU UUIDs that are unique to each
+    GPU. This is less practical then it seems as the UUIDs of GPUs are different on each node so one
+    would need to discover them first before they can be used.
 
 
 ## Combining Slurm task binding with ROCR_VISIBLE_DEVICES
+
+In the chapter on [the architecture of LUMI](01_Architecture.md) we discussed 
+[what a LUMI-G really looks like](01_Architecture.md#building-lumi-what-a-lumi-g-node-really-looks-like).
+
+The full topology of a LUMI-G compute node is shown in the figure:
+
+<figure>
+  <img 
+    src="https://465000095.lumidata.eu/intro-202310xx/img/lumig-node-architecture-rings.svg" 
+    width="842"
+    alt="LUMI-G compute nodes overview"
+  >
+</figure>
+
+Note that the numbering of GCDs does not correspond to the numbering of CCDs/cores. However, for optimal
+memory transfers (and certainly if cache-coherent memory access from CPU to GPU would be used) it is 
+better to ensure that each GCD collaborates with the matched CCD in an MPI rank. So we have the mapping:
+
+| CCD | cores          | GCD |
+|----:|:---------------|----:|
+|   0 | 0-7, 64-71     |   4 |
+|   1 | 8-15, 72-79    |   5 |
+|   2 | 16-23, 80-87   |   2 |
+|   3 | 24-32, 88-95   |   3 |
+|   4 | 32-39, 96-103  |   6 |
+|   5 | 40-47, 104-111 |   7 |
+|   6 | 48-55, 112-119 |   0 |
+|   7 | 56-63, 120-127 |   1 |
+
+or the reverse mapping
+
+| GCD | CCD | cores          |
+|----:|----:|:---------------|
+|   0 |   6 | 48-55, 112-119 |
+|   1 |   7 | 56-63, 120-127 |
+|   2 |   2 | 16-23, 80-87   |
+|   3 |   3 | 24-32, 88-95   |
+|   4 |   0 | 0-7, 64-71     |
+|   5 |   1 | 8-15, 72-79    |
+|   6 |   4 | 32-39, 96-103  | 
+|   7 |   5 | 40-47, 104-111 |
+
+Moreover, if you look more carefully at the topology, you can see that the connections between the 
+GCDs contain a number of rings:
+
+1.  Green ring: 0 - 1 - 3 - 2 - 4 - 5 - 7 - 6 - 0
+
+2.  Red ring:   0 - 1 - 5 - 4 - 6 - 7 - 3 - 2 - 0
+
+3.  Sharing some connections with the previous ones: 0 - 1 - 5 - 4 - 2 - 3 - 7 - 6 - 0
+
+So if your application would use a ring mapping for communication and use communication from GPU buffers 
+for that, than it may be advantageous to map the MPI ranks on one of those rings which would mean that neither
+the order of the CCDs nor the order of the GCDs is trivial.
+
+Some other topologies can also be mapped on these connections (but unfortunately not a 3D cube).
+
+To implement a proper CCD-to-GCD mapping we will use two mechanisms:
+
+-   On the CPU side we'll use Slurm `--cpu-bind`. Should LUMI be reconfigured with symmetric CCDs then
+    this would not be needed in all cases anymore.
+
+-   On the GPU side we will manually assign GPUs via a different value of `ROCR_VISIBLE_DEVICES` for each
+    thread. To accomplish this we will have to write a wrapper script which we will generate in the job script.
+
+Let us start with the simplest case:
+
+### Linear assignment of GCD, then match the cores
+
+One possible job script to accomplish this is:
+
+<!-- map-linear-GCD.slurm -->
+```
+#!/bin/bash
+#SBATCH --job-name=map-linear-GCD
+#SBATCH --output %x-%j.txt
+#SBATCH --partition=standard-g
+#SBATCH --gpus-per-node=8
+#SBATCH --nodes=1
+#SBATCH --time=5:00
+
+module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+
+cat << EOF > select_gpu_$SLURM_JOB_ID
+#!/bin/bash
+export ROCR_VISIBLE_DEVICES=\$SLURM_LOCALID
+exec \$*
+EOF
+chmod +x select_gpu_$SLURM_JOB_ID
+
+CPU_BIND1="map_cpu:49,57,17,25,1,9,33,41"
+
+CPU_BIND2="mask_cpu:0xfe000000000000,0xfe00000000000000"
+CPU_BIND2="$CPU_BIND2:0xfe0000,0xfe000000"
+CPU_BIND2="$CPU_BIND2:0xfe,0xfe00"
+CPU_BIND2="$CPU_BIND2:0xfe00000000,0xfe0000000000"
+
+export MPICH_GPU_SUPPORT_ENABLED=0
+
+echo -e "\nPure MPI:\n"
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID mpi_check -r
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID gpu_check -l
+
+echo -e "\nHybrid:\n"
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID hybrid_check -r
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID gpu_check -l
+
+/bin/rm -f select_gpu_$SLURM_JOB_ID
+```
+
+To select the GPUs we either use a map with numbers of cores (ideal for pure MPI programs)
+or masks (the only option for hybrid programs). The mask that we give in the example uses
+7 cores per CCD and always skips the first core, so it is symmetric and works on the current
+configuration of LUMI or a configuration like Frontier where the first core of each chiplet
+is reserved and not available to Slurm jobs. To select the right GPU for `ROCR_VISIBLE_DEVICES` 
+we can use the Slurm local task ID which is 
+also what the MPI rank will be. 
+We use a so-called "bash here document" to generate the script. Note that in the bash here document
+we needed to protect the `$` with a backslash (so use `\$`) as otherwise the variables would
+already be expanded when generating the script file.
+
+Instead of the somewhat complicated `--ntasks` with `srun` we could have specified `--ntasks-per-node=8`
+on a `#SBATCH` line which would have fixed the structure for all `srun` commands. Even though we want
+to use all GPUs in the node, `--gpus-per-node` or an equivalent option has to be specified either
+as an `#SBATCH` line or with each `srun` command or no GPUs will be made available to the tasks 
+started by the `srun` command.
+
+
+### Linear assignment of the CCDs, then match the GCD
+
+
+
+### The green ring
+
+
+
+
+-   Non-optimal example on standard-g
+
+-   Examples on small-g (non-optimal by definition)
+
+
 
 Or: How to get an optimal mapping on the GPU nodes?
 
