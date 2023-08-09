@@ -1721,9 +1721,9 @@ chmod +x select_gpu_$SLURM_JOB_ID
 CPU_BIND1="map_cpu:49,57,17,25,1,9,33,41"
 
 CPU_BIND2="mask_cpu:0xfe000000000000,0xfe00000000000000"
-CPU_BIND2="$CPU_BIND2:0xfe0000,0xfe000000"
-CPU_BIND2="$CPU_BIND2:0xfe,0xfe00"
-CPU_BIND2="$CPU_BIND2:0xfe00000000,0xfe0000000000"
+CPU_BIND2="$CPU_BIND2,0xfe0000,0xfe000000"
+CPU_BIND2="$CPU_BIND2,0xfe,0xfe00"
+CPU_BIND2="$CPU_BIND2,0xfe00000000,0xfe0000000000"
 
 export MPICH_GPU_SUPPORT_ENABLED=0
 
@@ -1755,14 +1755,522 @@ to use all GPUs in the node, `--gpus-per-node` or an equivalent option has to be
 as an `#SBATCH` line or with each `srun` command or no GPUs will be made available to the tasks 
 started by the `srun` command.
 
+Note the output of the second `srun` command:
+
+```
+MPI 000 - OMP 000 - HWT 049 (CCD6) - Node nid006872 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c1(GCD0/CCD6)
+MPI 001 - OMP 000 - HWT 057 (CCD7) - Node nid006872 - RT_GPU_ID 0 - GPU_ID 1 - Bus_ID c6(GCD1/CCD7)
+MPI 002 - OMP 000 - HWT 017 (CCD2) - Node nid006872 - RT_GPU_ID 0 - GPU_ID 2 - Bus_ID c9(GCD2/CCD2)
+MPI 003 - OMP 000 - HWT 025 (CCD3) - Node nid006872 - RT_GPU_ID 0 - GPU_ID 3 - Bus_ID cc(GCD3/CCD3)
+MPI 004 - OMP 000 - HWT 001 (CCD0) - Node nid006872 - RT_GPU_ID 0 - GPU_ID 4 - Bus_ID d1(GCD4/CCD0)
+MPI 005 - OMP 000 - HWT 009 (CCD1) - Node nid006872 - RT_GPU_ID 0 - GPU_ID 5 - Bus_ID d6(GCD5/CCD1)
+MPI 006 - OMP 000 - HWT 033 (CCD4) - Node nid006872 - RT_GPU_ID 0 - GPU_ID 6 - Bus_ID d9(GCD6/CCD4)
+MPI 007 - OMP 000 - HWT 041 (CCD5) - Node nid006872 - RT_GPU_ID 0 - GPU_ID 7 - Bus_ID dc(GCD7/CCD5)
+```
+
+With the `-l` option we also print some information about the CCD that a core belongs to and the 
+GCD and corresponding optimal CCD for each PCIe bus ID, which makes it very easy to check if the
+mapping is as intended. Note that the GCDs are indeed in the linear order starting with GCD0.
+
 
 ### Linear assignment of the CCDs, then match the GCD
 
+To modify the order of the GPUs, we now use an array with the desired order in the `gpu_Select` script.
+Due to the asymmetric structure structure of the chiplets on the LUMI-G nodes, we still need to define
+task slots for each task. Should the settings of the schedulers be modified to have one reserved core
+per task, then we could simply request 7 cores per task and in case of a hybrid program needing less
+then 7 cores, restrict the number with `OMP_NUM_THREADS`. The job script now becomes:
+
+<!-- map-linear-CCD.slurm -->
+```
+#!/bin/bash
+#SBATCH --job-name=map-linear-CCD
+#SBATCH --output %x-%j.txt
+#SBATCH --partition=standard-g
+#SBATCH --gpus-per-node=8
+#SBATCH --nodes=1
+#SBATCH --time=5:00
+
+module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+
+cat << EOF > select_gpu_$SLURM_JOB_ID
+#!/bin/bash
+GPU_ORDER=(4 5 2 3 6 7 0 1)
+export ROCR_VISIBLE_DEVICES=\${GPU_ORDER[\$SLURM_LOCALID]}
+exec \$*
+EOF
+chmod +x select_gpu_$SLURM_JOB_ID
+
+CPU_BIND1="map_cpu:1,9,17,25,33,41,49,57"
+
+CPU_BIND2="mask_cpu"
+CPU_BIND2="$CPU_BIND2:0x00000000000000fe,0x000000000000fe00"
+CPU_BIND2="$CPU_BIND2,0x0000000000fe0000,0x00000000fe000000"
+CPU_BIND2="$CPU_BIND2,0x000000fe00000000,0x0000fe0000000000"
+CPU_BIND2="$CPU_BIND2,0x00fe000000000000,0xfe00000000000000"
+
+export MPICH_GPU_SUPPORT_ENABLED=0
+
+echo -e "\nPure MPI:\n"
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID mpi_check -r
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID gpu_check -l
+
+echo -e "\nHybrid:\n"
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID hybrid_check -r
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID gpu_check -l
+
+/bin/rm -f select_gpu_$SLURM_JOB_ID
+```
+
+The leading zeros in the masks in the `CPU_BIND2` environment variable are not needed but we added
+them as it makes it easier to see which chiplet is used in what position.
 
 
 ### The green ring
 
+As a final example for whole node allocations, lets bind tasks such that the MPI ranks are
+mapped upon the green ring which is GCD 0 - 1 - 3 - 2 - 4 - 5 - 7 - 6 - 0. In other words,
+we want to create the mapping
 
+| Task | GCD | CCD | cores          |
+|-----:|----:|----:|:---------------|
+|    0 |   0 |   6 | 48-55, 112-119 |
+|    1 |   1 |   7 | 56-63, 120-127 |
+|    2 |   3 |   3 | 24-32, 88-95   |
+|    3 |   2 |   2 | 16-23, 80-87   |
+|    4 |   4 |   0 | 0-7, 64-71     |
+|    5 |   5 |   1 | 8-15, 72-79    |
+|    6 |   7 |   5 | 40-47, 104-111 |
+|    7 |   6 |   4 | 32-39, 96-103  | 
+
+This mapping would be useful when using GPU-to-GPU communication in a scenario where task *i*
+only communicates with tasks *i-1* and *i+1* (module 8), so the communication pattern is a ring.
+
+Now we need to reorder both the cores and the GCDs, so we basically combine the approach taken
+in the two scripts above:
+
+```
+#!/bin/bash
+#SBATCH --job-name=map-ring-green
+#SBATCH --output %x-%j.txt
+#SBATCH --partition=standard-g
+#SBATCH --gpus-per-node=8
+#SBATCH --nodes=1
+#SBATCH --time=5:00
+
+module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+
+# Mapping:
+# | Task | GCD | CCD | cores          |
+# |-----:|----:|----:|:---------------|
+# |    0 |   0 |   6 | 48-55, 112-119 |
+# |    1 |   1 |   7 | 56-63, 120-127 |
+# |    2 |   3 |   3 | 24-32, 88-95   |
+# |    3 |   2 |   2 | 16-23, 80-87   |
+# |    4 |   4 |   0 | 0-7, 64-71     |
+# |    5 |   5 |   1 | 8-15, 72-79    |
+# |    6 |   7 |   5 | 40-47, 104-111 |
+# |    7 |   6 |   4 | 32-39, 96-103  | 
+
+cat << EOF > select_gpu_$SLURM_JOB_ID
+#!/bin/bash
+GPU_ORDER=(0 1 3 2 4 5 7 6)
+export ROCR_VISIBLE_DEVICES=\${GPU_ORDER[\$SLURM_LOCALID]}
+exec \$*
+EOF
+chmod +x select_gpu_$SLURM_JOB_ID
+
+CPU_BIND1="map_cpu:49,57,25,17,1,9,41,33"
+
+CCD_MASK=( 0x00000000000000fe \
+           0x000000000000fe00 \
+           0x0000000000fe0000 \
+           0x00000000fe000000 \
+           0x000000fe00000000 \
+           0x0000fe0000000000 \
+           0x00fe000000000000 \
+           0xfe00000000000000 )
+CPU_BIND2="mask_cpu"
+CPU_BIND2="$CPU_BIND2:${CCD_MASK[6]},${CCD_MASK[7]}"
+CPU_BIND2="$CPU_BIND2,${CCD_MASK[3]},${CCD_MASK[2]}"
+CPU_BIND2="$CPU_BIND2,${CCD_MASK[0]},${CCD_MASK[1]}"
+CPU_BIND2="$CPU_BIND2,${CCD_MASK[5]},${CCD_MASK[4]}"
+
+export MPICH_GPU_SUPPORT_ENABLED=0
+
+echo -e "\nPure MPI:\n"
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID mpi_check -r
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID gpu_check -l
+
+echo -e "\nHybrid:\n"
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID hybrid_check -r
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID gpu_check -l
+
+/bin/rm -f select_gpu_$SLURM_JOB_ID
+```
+
+The values for `GPU_ORDER` are easily read from the second column of the table with the mapping
+that we prepared. The cores to use for the pure MPI run are also easily read from the table:
+sinply take the first core of each line and add 1 to skip the reserved core on CCD0 and possible
+extra reserved cores on the other CCDs in a future update of LUMI. Finally, to build the mask,
+we used some bash trickery. We first define the bash array `CCD_MASK` with the mask for each chiplet.
+As this has a regular structure, this is easy to build. Then we compose the mask list for the CPUs
+by indexing in that array, where the indices are easily read from the third column in the mapping.
+
+The alternative code to build `CPU_BIND2` is
+
+```
+CPU_BIND2="mask_cpu"
+CPU_BIND2="$CPU_BIND2:0x00fe000000000000,0xfe00000000000000"
+CPU_BIND2="$CPU_BIND2,0x00000000fe000000,0x0000000000fe0000"
+CPU_BIND2="$CPU_BIND2,0x00000000000000fe,0x000000000000fe00"
+CPU_BIND2="$CPU_BIND2,0x0000fe0000000000,0x000000fe00000000"
+```
+
+which may be shorter, but requires some puzzling to build and hence is more prone to error.
+
+The output of the second `srun` command is now
+
+```
+MPI 000 - OMP 000 - HWT 049 (CCD6) - Node nid005083 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c1(GCD0/CCD6)
+MPI 001 - OMP 000 - HWT 057 (CCD7) - Node nid005083 - RT_GPU_ID 0 - GPU_ID 1 - Bus_ID c6(GCD1/CCD7)
+MPI 002 - OMP 000 - HWT 025 (CCD3) - Node nid005083 - RT_GPU_ID 0 - GPU_ID 3 - Bus_ID cc(GCD3/CCD3)
+MPI 003 - OMP 000 - HWT 017 (CCD2) - Node nid005083 - RT_GPU_ID 0 - GPU_ID 2 - Bus_ID c9(GCD2/CCD2)
+MPI 004 - OMP 000 - HWT 001 (CCD0) - Node nid005083 - RT_GPU_ID 0 - GPU_ID 4 - Bus_ID d1(GCD4/CCD0)
+MPI 005 - OMP 000 - HWT 009 (CCD1) - Node nid005083 - RT_GPU_ID 0 - GPU_ID 5 - Bus_ID d6(GCD5/CCD1)
+MPI 006 - OMP 000 - HWT 041 (CCD5) - Node nid005083 - RT_GPU_ID 0 - GPU_ID 7 - Bus_ID dc(GCD7/CCD5)
+MPI 007 - OMP 000 - HWT 033 (CCD4) - Node nid005083 - RT_GPU_ID 0 - GPU_ID 6 - Bus_ID d9(GCD6/CCD4)
+```
+
+Checking the last column, we see that the GCDs are indeed in the desired order for the red ring, and 
+is is also easy to check that each task is also mapped on the optimal CCD for the GCD.
+
+??? example "Jobscript with some more advanced bash"
+
+    <!-- map-advanced-multiple.slurm -->
+    ```
+    #!/bin/bash
+    #SBATCH --job-name=map-advanced-multiple
+    #SBATCH --output %x-%j.txt
+    #SBATCH --partition=standard-g
+    #SBATCH --gpus-per-node=8
+    #SBATCH --nodes=1
+    #SBATCH --time=5:00
+    
+    module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+    
+    #
+    # Define the order of the GPUs and the core mask for CCD0
+    # It is important that the order of the GPUs is a string with the numbers separated by spaces.
+    #
+    GCD_ORDER="0 1 5 4 6 7 3 2"
+    coremask='2#00000010'  # Can use the binary representation, hexadecimal with 0x, or decimal
+    
+    #
+    # run_gpu script, takes the string with GCDs as the first argument.
+    #
+    cat << EOF > run_gpu_$SLURM_JOB_ID
+    #!/bin/bash
+    GCD_ORDER=( \$1 )
+    shift
+    export ROCR_VISIBLE_DEVICES=\${GCD_ORDER[\$SLURM_LOCALID]}
+    exec "\$@"
+    EOF
+    chmod +x run_gpu_$SLURM_JOB_ID
+    
+    #
+    # Build the CPU binding
+    # Argument one is mask, all other arguments are treated as an array of GCD numbers.
+    #
+    
+    function generate_mask {
+    
+        # First argument is the mask for CCD0
+        mask=$1
+        
+        # Other arguments are either a string already with the GCDs, or just one GCD per argument.
+        shift
+        GCDs=( "$@" )
+        # Fully expand (doesn't matter as the loop can deal with it, but good if we want to check the number)
+        GCDs=( ${GCDs[@]} )
+        
+        # For each GCD, the corresponding CCD number in the optimal mapping.
+        MAP_to_CCD=( 6 7 2 3 0 1 4 5 )
+    
+        CPU_BIND=""
+        
+        # Loop over the GCDs in the order of the list to compute the corresponding
+        # CPU mask.
+        for GCD in ${GCDs[@]}
+        do
+            # Get the matching CCD for this GCD
+            CCD=${MAP_to_CCD[$GCD]}
+            
+            # Shift the mask for CCD0 to the position for CCD $CCD
+            printf -v tmpvar "0x%016x" $((mask << $((CCD*8))))
+            
+            # Add to CPU_BIND. We'll remove the leading , this creates later.
+            CPU_BIND="$CPU_BIND,$tmpvar"
+        done
+    
+        # Strip the leading ,
+        CPU_BIND="${CPU_BIND#,}"
+        
+        # Return the result by printing to stdout
+        printf "$CPU_BIND"
+    
+    }
+    
+    #
+    # Running the check programs
+    #
+    
+    export MPICH_GPU_SUPPORT_ENABLED=1
+    
+    # Some mappings:
+    linear_CCD="4 5 2 3 6 7 0 1"
+    linear_GCD="0 1 2 3 4 5 6 7" 
+    ring_green="0 1 3 2 4 5 7 6"
+    ring_red="0 1 5 4 6 7 3 2"
+    
+    echo -e "\nTest runs:\n"
+    
+    echo -e "\nConsecutive CCDs:\n"
+    srun --ntasks=$((SLURM_NNODES*8)) \
+         --cpu-bind=mask_cpu:$(generate_mask $coremask $linear_CCD) \
+         ./run_gpu_$SLURM_JOB_ID "$linear_CCD" gpu_check -l
+    
+    echo -e "\nConsecutive GCDs:\n"
+    srun --ntasks=$((SLURM_NNODES*8)) \
+         --cpu-bind=mask_cpu:$(generate_mask $coremask $linear_GCD) \
+         ./run_gpu_$SLURM_JOB_ID "$linear_GCD" gpu_check -l
+     
+    echo -e "\nGreen ring:\n"
+    srun --ntasks=$((SLURM_NNODES*8)) \
+         --cpu-bind=mask_cpu:$(generate_mask $coremask $ring_green) \
+         ./run_gpu_$SLURM_JOB_ID "$ring_green" gpu_check -l
+     
+    echo -e "\nRed ring:\n"
+    srun --ntasks=$((SLURM_NNODES*8)) \
+         --cpu-bind=mask_cpu:$(generate_mask $coremask $ring_red) \
+         ./run_gpu_$SLURM_JOB_ID "$ring_red" gpu_check -l
+    
+    echo -e "\nFirst two CPU NUMA domains (assuming one node in the allocation):"
+    half="4 5 2 3"
+    srun --ntasks=4 \
+         --cpu-bind=mask_cpu:$(generate_mask $coremask $half) \
+         ./run_gpu_$SLURM_JOB_ID "$half" gpu_check -l
+     
+    /bin/rm -f run_gpu_$SLURM_JOB_ID
+    ```
+    
+    In this script, we have modified the and renamed the usual `select_gpu` script (renamed to `run_cpu`) to take
+    as the first argument a string with a space-separated list of the GCDs to use. This has
+    been combined with the bash function `generate_mask` (which could have been transformed in a script as well)
+    that computes the CPU mask starting from the mask for CCD0 and shifting that mask as needed.
+    The input is the mask to use and then the GCDs to use, either as a single string or as a
+    series of arguments (e.g., resulting from an array expansion).
+    
+    Both commands are then combined in the `srun` command. The `generate_mask` function is used to generate
+    the mask for `--gpu-bind` while the `run_gpu` script is used to set `ROCR_VISIBLE_DEVICES` for each task.
+    The examples also show how easy it is to experiment with different mappings. The one limitation of the 
+    script and function is that there can be only 1 GPU per task and one task per GPU, and the CPU mask is also
+    limited to a single CCD (which makes sense with the GPU restriction). Generating masks that also include the
+    second hardware thread is not supported yet. (We use bash arithmetic internally which is limited to 64-bit integers).
+
+
+### What about "allocate by resources" partitions?
+
+<!-- Experiments in smallg-binding-exp*.slurm -->
+On partitions that are "allocatable by resource", e.g., `small-g`, you are never guaranteed that tasks 
+will be spread in a reasonable way over the CCDs and that the matching GPUs will be available to your job.
+Creating an optimal mapping or taking the topology into account is hence impossible. 
+
+What is possible though is work around the fact that with the usual options for such resource allocations,
+Slurm will lock up the GPUs for individual tasks in control groups so that the PEer2Peer IPC intra-node
+communication mechanism has to be turned off. We can do this for job steps that follow the pattern of 
+resources allocated via the `sbatch` arguments (usually `#SBATCH` lines), and rely on two elements for that:
+
+1.  We can turn off the Slurm GPU binding mechanism with `--gpu-bind=none`.
+
+2.  Even then, the GPUs will still be locked up in a control group on each node for the job and hence on each node
+    be numbered starting from zero.
+
+3.  And each task also has a local ID that can be used to map the appropriate number of GPUs to each task.
+
+This can be demonstrated with the following job script:
+
+```
+#! /bin/bash
+#SBATCH --account=project_46YXXXXXX
+#SBATCH --job-name=map-smallg-1gpt
+#SBATCH --output %x-%j.txt
+#SBATCH --partition=small-g
+#SBATCH --ntasks=12
+#SBATCH --cpus-per-task=2
+#SBATCH --gpus-per-task=1
+#SBATCH --hint=nomultithread
+#SBATCH --time=5:00
+
+module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+
+cat << EOF > select_gpu_$SLURM_JOB_ID
+#!/bin/bash
+export ROCR_VISIBLE_DEVICES=\$SLURM_LOCALID
+exec \$*
+EOF
+chmod +x ./select_gpu_$SLURM_JOB_ID
+
+cat << EOF > echo_dev_$SLURM_JOB_ID
+#!/bin/bash
+printf -v task "%02d" \$SLURM_PROCID
+echo "Task \$task or node.local_id \$SLURM_NODEID.\$SLURM_LOCALID sees ROCR_VISIBLE_DEVICES=\$ROCR_VISIBLE_DEVICES"
+EOF
+chmod +x ./echo_dev_$SLURM_JOB_ID
+
+set -x
+srun gpu_check -l
+srun ./echo_dev_$SLURM_JOB_ID | sort
+srun --gpu-bind=none ./echo_dev_$SLURM_JOB_ID | sort
+srun --gpu-bind=none ./select_gpu_$SLURM_JOB_ID ./echo_dev_$SLURM_JOB_ID | sort
+srun --gpu-bind=none ./select_gpu_$SLURM_JOB_ID gpu_check -l
+set +x
+
+/bin/rm -f select_gpu_$SLURM_JOB_ID echo_dev_$SLURM_JOB_ID
+```
+
+To run this job successfully, we need 12 GPUs so obviously the tasks will be spread over more than 
+one node. The `echo_dev` command in this script only shows us the value of `ROCR_VISIBLE_DEVICES` 
+for the task at that point, something that `gpu_check` in fact also reports as `GPU_ID`, but this
+is just in case you don't believe...
+
+The output of the first `srun` command is:
+
+```
++ srun gpu_check -l
+MPI 000 - OMP 000 - HWT 001 (CCD0) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c1(GCD0/CCD6)
+MPI 000 - OMP 001 - HWT 002 (CCD0) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c1(GCD0/CCD6)
+MPI 001 - OMP 000 - HWT 003 (CCD0) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c6(GCD1/CCD7)
+MPI 001 - OMP 001 - HWT 004 (CCD0) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c6(GCD1/CCD7)
+MPI 002 - OMP 000 - HWT 005 (CCD0) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c9(GCD2/CCD2)
+MPI 002 - OMP 001 - HWT 006 (CCD0) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c9(GCD2/CCD2)
+MPI 003 - OMP 000 - HWT 007 (CCD0) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID cc(GCD3/CCD3)
+MPI 003 - OMP 001 - HWT 008 (CCD1) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID cc(GCD3/CCD3)
+MPI 004 - OMP 000 - HWT 009 (CCD1) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d1(GCD4/CCD0)
+MPI 004 - OMP 001 - HWT 010 (CCD1) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d1(GCD4/CCD0)
+MPI 005 - OMP 000 - HWT 011 (CCD1) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d6(GCD5/CCD1)
+MPI 005 - OMP 001 - HWT 012 (CCD1) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d6(GCD5/CCD1)
+MPI 006 - OMP 000 - HWT 013 (CCD1) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d9(GCD6/CCD4)
+MPI 006 - OMP 001 - HWT 014 (CCD1) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d9(GCD6/CCD4)
+MPI 007 - OMP 000 - HWT 015 (CCD1) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID dc(GCD7/CCD5)
+MPI 007 - OMP 001 - HWT 016 (CCD2) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID dc(GCD7/CCD5)
+MPI 008 - OMP 000 - HWT 001 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c1(GCD0/CCD6)
+MPI 008 - OMP 001 - HWT 002 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c1(GCD0/CCD6)
+MPI 009 - OMP 000 - HWT 003 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c6(GCD1/CCD7)
+MPI 009 - OMP 001 - HWT 004 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c6(GCD1/CCD7)
+MPI 010 - OMP 000 - HWT 005 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c9(GCD2/CCD2)
+MPI 010 - OMP 001 - HWT 006 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c9(GCD2/CCD2)
+MPI 011 - OMP 000 - HWT 007 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID cc(GCD3/CCD3)
+MPI 011 - OMP 001 - HWT 008 (CCD1) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID cc(GCD3/CCD3)
+```
+
+In other words, we see that we did get cores on two nodes that obviously are not well aligned with
+the GCDs, and 8 GPUS on the first and 4 on the second node.
+
+The output of the second `srun` is:
+
+```
++ srun ./echo_dev_4359428
++ sort
+Task 00 or node.local_id 0.0 sees ROCR_VISIBLE_DEVICES=0
+Task 01 or node.local_id 0.1 sees ROCR_VISIBLE_DEVICES=0
+Task 02 or node.local_id 0.2 sees ROCR_VISIBLE_DEVICES=0
+Task 03 or node.local_id 0.3 sees ROCR_VISIBLE_DEVICES=0
+Task 04 or node.local_id 0.4 sees ROCR_VISIBLE_DEVICES=0
+Task 05 or node.local_id 0.5 sees ROCR_VISIBLE_DEVICES=0
+Task 06 or node.local_id 0.6 sees ROCR_VISIBLE_DEVICES=0
+Task 07 or node.local_id 0.7 sees ROCR_VISIBLE_DEVICES=0
+Task 08 or node.local_id 1.0 sees ROCR_VISIBLE_DEVICES=0
+Task 09 or node.local_id 1.1 sees ROCR_VISIBLE_DEVICES=0
+Task 10 or node.local_id 1.2 sees ROCR_VISIBLE_DEVICES=0
+Task 11 or node.local_id 1.3 sees ROCR_VISIBLE_DEVICES=0
+```
+
+It is normal that each task sees `ROCR_VISIBLE_DEVICES=0` even though we have seen that they all use a
+different GPU. This is because each task is locked up in a control group with only one GPU, which then 
+gets number 0.
+
+The output of the third `srun` command is:
+
+```
++ sort
+Task 00 or node.local_id 0.0 sees ROCR_VISIBLE_DEVICES=
+Task 01 or node.local_id 0.1 sees ROCR_VISIBLE_DEVICES=
+Task 02 or node.local_id 0.2 sees ROCR_VISIBLE_DEVICES=
+Task 03 or node.local_id 0.3 sees ROCR_VISIBLE_DEVICES=
+Task 04 or node.local_id 0.4 sees ROCR_VISIBLE_DEVICES=
+Task 05 or node.local_id 0.5 sees ROCR_VISIBLE_DEVICES=
+Task 06 or node.local_id 0.6 sees ROCR_VISIBLE_DEVICES=
+Task 07 or node.local_id 0.7 sees ROCR_VISIBLE_DEVICES=
+Task 08 or node.local_id 1.0 sees ROCR_VISIBLE_DEVICES=
+Task 09 or node.local_id 1.1 sees ROCR_VISIBLE_DEVICES=
+Task 10 or node.local_id 1.2 sees ROCR_VISIBLE_DEVICES=
+Task 11 or node.local_id 1.3 sees ROCR_VISIBLE_DEVICES=
+```
+
+Slurm in fact did not set `ROCR_VISIBLE_DEVICES` because we turned binding off.
+
+In the next `srun` command we set `ROCR_VISIBLE_DEVICES` based on the local task ID and get:
+
+```
++ srun --gpu-bind=none ./select_gpu_4359428 ./echo_dev_4359428
++ sort
+Task 00 or node.local_id 0.0 sees ROCR_VISIBLE_DEVICES=0
+Task 01 or node.local_id 0.1 sees ROCR_VISIBLE_DEVICES=1
+Task 02 or node.local_id 0.2 sees ROCR_VISIBLE_DEVICES=2
+Task 03 or node.local_id 0.3 sees ROCR_VISIBLE_DEVICES=3
+Task 04 or node.local_id 0.4 sees ROCR_VISIBLE_DEVICES=4
+Task 05 or node.local_id 0.5 sees ROCR_VISIBLE_DEVICES=5
+Task 06 or node.local_id 0.6 sees ROCR_VISIBLE_DEVICES=6
+Task 07 or node.local_id 0.7 sees ROCR_VISIBLE_DEVICES=7
+Task 08 or node.local_id 1.0 sees ROCR_VISIBLE_DEVICES=0
+Task 09 or node.local_id 1.1 sees ROCR_VISIBLE_DEVICES=1
+Task 10 or node.local_id 1.2 sees ROCR_VISIBLE_DEVICES=2
+Task 11 or node.local_id 1.3 sees ROCR_VISIBLE_DEVICES=3
+```
+
+Finally, we run `gpu_check` again and see the same assignement of physica GPUs again as when we
+started, but now with different logical device numbers passed by `ROCR_VISIBLE_DEVICES`. The device
+number for the hip runtime is always 0 though which is normal as `ROCR_VISIBLE_DEVICES` restricts the
+access of the hip runtime to one GPU.
+
+```
++ srun --gpu-bind=none ./select_gpu_4359428 gpu_check -l
+MPI 000 - OMP 000 - HWT 001 (CCD0) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c1(GCD0/CCD6)
+MPI 000 - OMP 001 - HWT 002 (CCD0) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c1(GCD0/CCD6)
+MPI 001 - OMP 000 - HWT 003 (CCD0) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 1 - Bus_ID c6(GCD1/CCD7)
+MPI 001 - OMP 001 - HWT 004 (CCD0) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 1 - Bus_ID c6(GCD1/CCD7)
+MPI 002 - OMP 000 - HWT 005 (CCD0) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 2 - Bus_ID c9(GCD2/CCD2)
+MPI 002 - OMP 001 - HWT 006 (CCD0) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 2 - Bus_ID c9(GCD2/CCD2)
+MPI 003 - OMP 000 - HWT 007 (CCD0) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 3 - Bus_ID cc(GCD3/CCD3)
+MPI 003 - OMP 001 - HWT 008 (CCD1) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 3 - Bus_ID cc(GCD3/CCD3)
+MPI 004 - OMP 000 - HWT 009 (CCD1) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 4 - Bus_ID d1(GCD4/CCD0)
+MPI 004 - OMP 001 - HWT 010 (CCD1) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 4 - Bus_ID d1(GCD4/CCD0)
+MPI 005 - OMP 000 - HWT 011 (CCD1) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 5 - Bus_ID d6(GCD5/CCD1)
+MPI 005 - OMP 001 - HWT 012 (CCD1) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 5 - Bus_ID d6(GCD5/CCD1)
+MPI 006 - OMP 000 - HWT 013 (CCD1) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 6 - Bus_ID d9(GCD6/CCD4)
+MPI 006 - OMP 001 - HWT 014 (CCD1) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 6 - Bus_ID d9(GCD6/CCD4)
+MPI 007 - OMP 000 - HWT 015 (CCD1) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 7 - Bus_ID dc(GCD7/CCD5)
+MPI 007 - OMP 001 - HWT 016 (CCD2) - Node nid007379 - RT_GPU_ID 0 - GPU_ID 7 - Bus_ID dc(GCD7/CCD5)
+MPI 008 - OMP 000 - HWT 001 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c1(GCD0/CCD6)
+MPI 008 - OMP 001 - HWT 002 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c1(GCD0/CCD6)
+MPI 009 - OMP 000 - HWT 003 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 1 - Bus_ID c6(GCD1/CCD7)
+MPI 009 - OMP 001 - HWT 004 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 1 - Bus_ID c6(GCD1/CCD7)
+MPI 010 - OMP 000 - HWT 005 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 2 - Bus_ID c9(GCD2/CCD2)
+MPI 010 - OMP 001 - HWT 006 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 2 - Bus_ID c9(GCD2/CCD2)
+MPI 011 - OMP 000 - HWT 007 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 3 - Bus_ID cc(GCD3/CCD3)
+MPI 011 - OMP 001 - HWT 008 (CCD1) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 3 - Bus_ID cc(GCD3/CCD3)
+```
 
 
 -   Non-optimal example on standard-g
