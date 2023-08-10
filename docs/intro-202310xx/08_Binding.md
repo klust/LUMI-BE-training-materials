@@ -1,24 +1,5 @@
 # Process and thread distribution and binding
 
-Binding to discuss:
-
--   Binding in Slurm:
-
-    -   Distribute tasks across nodes and cores in the nodes
-
-        -   Task distribution
-
-        -   Set groups of cores that tasks can use
-
-        -   Set groups of GPUs that tasks can use
-
--   Binding outside Slurm
-
-    -   Bind MPI ranks to Slurm tasks: Renumbering possible with Cray MPICH
-
-    -   Bind OpenMP threads to the cores available for a task (or in the batch job step)
-
-    -   GPU binding is also possible at the level of the ROCm runtime
 
 ## What are we talking about in this session?
 
@@ -2100,6 +2081,7 @@ resources allocated via the `sbatch` arguments (usually `#SBATCH` lines), and re
 
 This can be demonstrated with the following job script:
 
+<!-- map-smallg-1gpt.slurm -->
 ```
 #! /bin/bash
 #SBATCH --account=project_46YXXXXXX
@@ -2272,14 +2254,49 @@ MPI 011 - OMP 000 - HWT 007 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 3 - B
 MPI 011 - OMP 001 - HWT 008 (CCD1) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 3 - Bus_ID cc(GCD3/CCD3)
 ```
 
-
--   Non-optimal example on standard-g
-
--   Examples on small-g (non-optimal by definition)
-
-
-
-Or: How to get an optimal mapping on the GPU nodes?
+??? example "Example job script when using 2 GPUs per task."
+    <!-- map-smallg-2gpt.slurm -->
+    ```
+    #! /bin/bash
+    #SBATCH --account=project_46YXXXXXX
+    #SBATCH --job-name=map-smallg-2gpt
+    #SBATCH --output %x-%j.txt
+    #SBATCH --partition=small-g
+    #SBATCH --ntasks=6
+    #SBATCH --cpus-per-task=2
+    #SBATCH --gpus-per-task=2
+    #SBATCH --hint=nomultithread
+    #SBATCH --time=5:00
+    
+    module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+    
+    cat << EOF > select_gpu_$SLURM_JOB_ID
+    #!/bin/bash
+    export ROCR_VISIBLE_DEVICES=\$((SLURM_LOCALID*2)),\$((SLURM_LOCALID*2+1))
+    exec \$*
+    EOF
+    chmod +x ./select_gpu_$SLURM_JOB_ID
+    
+    cat << EOF > echo_dev_$SLURM_JOB_ID
+    #!/bin/bash
+    printf -v task "%02d" \$SLURM_PROCID
+    echo "Task \$task or node.local_id \$SLURM_NODEID.\$SLURM_LOCALID sees ROCR_VISIBLE_DEVICES=\$ROCR_VISIBLE_DEVICES"
+    EOF
+    chmod +x ./echo_dev_$SLURM_JOB_ID
+    
+    set -x
+    srun gpu_check -l
+    srun ./echo_dev_$SLURM_JOB_ID | sort
+    srun --gpu-bind=none ./echo_dev_$SLURM_JOB_ID | sort
+    srun --gpu-bind=none ./select_gpu_$SLURM_JOB_ID ./echo_dev_$SLURM_JOB_ID | sort
+    srun --gpu-bind=none ./select_gpu_$SLURM_JOB_ID gpu_check -l
+    set +x
+    
+    /bin/rm -f select_gpu_$SLURM_JOB_ID echo_dev_$SLURM_JOB_ID
+    ```
+   
+    The changes that were required are only minimal. We now assign 2 GPUs to `ROCR_VISIBLE_DEVICSES` which 
+    is easily done with some bash arithmetic.
 
 
 ## Further material
