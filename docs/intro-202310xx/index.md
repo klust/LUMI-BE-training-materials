@@ -51,12 +51,13 @@ THIS TEXT ALREADY ASSUMES A TRAINING PROJECT WHICH DOES NOT YET EXIST.
 | Using Lustre | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-10-lustre.pdf) | [notes](10_Lustre.md) | / |
 | Containers on LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-11-containers.pdf) | [notes](11_Containers.md) | / |
 | LUMI User Support | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-12-support.pdf) | [notes](12_Support.md) | / |
-| A1 Slurm Issues | / | [notes](A01_Slurm_issues.md) | / | 
+| A1 Slurm issues | / | [notes](A01_Slurm_issues.md) | / | 
+| A2 Additional documentation | / | [notes](A02_Documentation.md) | / | 
 
 
 ## Web links
 
--   [Links to additional HPE Cray documentation](documentation.md)
+-   [Links to additional HPE Cray documentation](A02_Documentation.md)
 
 -   LUMI documentation
 

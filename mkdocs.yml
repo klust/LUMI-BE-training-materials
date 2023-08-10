@@ -53,6 +53,7 @@ nav:
     - Containers: intro-202310xx/11_Containers.md
     - Support: intro-202310xx/12_Support
     - A1 Slurm issues: intro-202310xx/A01_Slurm_issues.md
+    - A2 Documentation: intro-202310xx/A02_Documentation.md
      
 plugins:
   # show revision date at bottom of each page
