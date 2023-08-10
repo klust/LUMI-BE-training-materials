@@ -446,6 +446,10 @@
         
           
         
+          
+        
+          
+        
       
       
         
@@ -816,6 +820,34 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../A01_Slurm_issues/" class="md-nav__link">
+        A1 Slurm issues
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../A02_Documentation/" class="md-nav__link">
+        A2 Documentation
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -982,47 +1014,15 @@
 
 
 <h1 id="process-and-thread-distribution-and-binding">Process and thread distribution and binding<a class="headerlink" href="#process-and-thread-distribution-and-binding" title="Permanent link">&para;</a></h1>
-<p>Binding to discuss:</p>
-<ul>
-<li>
-<p>Binding in Slurm:</p>
-<ul>
-<li>
-<p>Distribute tasks across nodes and cores in the nodes</p>
-<ul>
-<li>
-<p>Task distribution</p>
-</li>
-<li>
-<p>Set groups of cores that tasks can use</p>
-</li>
-<li>
-<p>Set groups of GPUs that tasks can use</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>Binding outside Slurm</p>
-<ul>
-<li>
-<p>Bind MPI ranks to Slurm tasks: Renumbering possible with Cray MPICH</p>
-</li>
-<li>
-<p>Bind OpenMP threads to the cores available for a task (or in the batch job step)</p>
-</li>
-<li>
-<p>GPU binding is also possible at the level of the ROCm runtime</p>
-</li>
-</ul>
-</li>
-</ul>
 <h2 id="what-are-we-talking-about-in-this-session">What are we talking about in this session?<a class="headerlink" href="#what-are-we-talking-about-in-this-session" title="Permanent link">&para;</a></h2>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide What are we talking about" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/WhatAbout.png" /></p>
+</figure>
 <p><strong>Distribution</strong> is the process of distributing processes and threads across the available
 resources of the job (nodes, sockets, NUMA domains, cores, ...), and <strong>binding</strong> is the process
 of ensuring they stay there as naturally processes and threads are only bound to a node 
-(OS image) but will migrate between cores. </p>
+(OS image) but will migrate between cores. Binding can also ensure that processes cannot use
+resources they shouldn't use.</p>
 <p>When running a distributed memory program, the process starter - <code>mpirun</code> or <code>mpiexec</code>
 on many clusters, or <code>srun</code> on LUMI - will <em>distribute</em>  the processes over the available
 nodes. Within a node, it is possible to pin or attach processes or even individual threads
@@ -1034,7 +1034,8 @@ node so that one job cannot deplete the resources of another job, and even uses 
 up to the task level to restrict some resources for a task (hardware threads and GPU access).
 The second mechanism is processor affinity which works at the process and thread level and
 can be used by the OpenMP runtime to limit thread migration. It works through affinity masks
-which indicate the hardware threads that a thread or process can use.</p>
+which indicate the hardware threads that a thread or process can use. There is also a third
+mechanism provided by the ROCm run time to control which GPUs can be used.</p>
 <p>Some of the tools in the <code>lumi-CPEtools</code> module can show the affinity mask for each thread
 (or effectively the process for single-threaded processes) so you can use these tools to
 study the affinity masks and check the distribution and binding of processes and threads.
@@ -3330,15 +3331,49 @@ MPI 010 - OMP 001 - HWT 006 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 2 - B
 MPI 011 - OMP 000 - HWT 007 (CCD0) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 3 - Bus_ID cc(GCD3/CCD3)
 MPI 011 - OMP 001 - HWT 008 (CCD1) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 3 - Bus_ID cc(GCD3/CCD3)
 </code></pre></div>
-<ul>
-<li>
-<p>Non-optimal example on standard-g</p>
-</li>
-<li>
-<p>Examples on small-g (non-optimal by definition)</p>
-</li>
-</ul>
-<p>Or: How to get an optimal mapping on the GPU nodes?</p>
+<details class="example">
+<summary>Example job script when using 2 GPUs per task.</summary>
+<p><!-- map-smallg-2gpt.slurm -->
+<div class="highlight"><pre><span></span><code>#! /bin/bash
+#SBATCH --account=project_46YXXXXXX
+#SBATCH --job-name=map-smallg-2gpt
+#SBATCH --output %x-%j.txt
+#SBATCH --partition=small-g
+#SBATCH --ntasks=6
+#SBATCH --cpus-per-task=2
+#SBATCH --gpus-per-task=2
+#SBATCH --hint=nomultithread
+#SBATCH --time=5:00
+
+module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+
+cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
+#!/bin/bash
+export ROCR_VISIBLE_DEVICES=\$((SLURM_LOCALID*2)),\$((SLURM_LOCALID*2+1))
+exec \$*
+EOF
+chmod +x ./select_gpu_$SLURM_JOB_ID
+
+cat &lt;&lt; EOF &gt; echo_dev_$SLURM_JOB_ID
+#!/bin/bash
+printf -v task &quot;%02d&quot; \$SLURM_PROCID
+echo &quot;Task \$task or node.local_id \$SLURM_NODEID.\$SLURM_LOCALID sees ROCR_VISIBLE_DEVICES=\$ROCR_VISIBLE_DEVICES&quot;
+EOF
+chmod +x ./echo_dev_$SLURM_JOB_ID
+
+set -x
+srun gpu_check -l
+srun ./echo_dev_$SLURM_JOB_ID | sort
+srun --gpu-bind=none ./echo_dev_$SLURM_JOB_ID | sort
+srun --gpu-bind=none ./select_gpu_$SLURM_JOB_ID ./echo_dev_$SLURM_JOB_ID | sort
+srun --gpu-bind=none ./select_gpu_$SLURM_JOB_ID gpu_check -l
+set +x
+
+/bin/rm -f select_gpu_$SLURM_JOB_ID echo_dev_$SLURM_JOB_ID
+</code></pre></div></p>
+<p>The changes that were required are only minimal. We now assign 2 GPUs to <code>ROCR_VISIBLE_DEVICSES</code> which 
+is easily done with some bash arithmetic.</p>
+</details>
 <h2 id="further-material">Further material<a class="headerlink" href="#further-material" title="Permanent link">&para;</a></h2>
 <ul>
 <li>
