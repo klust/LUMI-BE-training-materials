@@ -1,0 +1,3 @@
+# Slurm issues on LUMI
+
+
