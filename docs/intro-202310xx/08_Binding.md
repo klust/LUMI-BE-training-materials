@@ -3,10 +3,15 @@
 
 ## What are we talking about in this session?
 
+<figure markdown style="border: 1px solid #000">
+  ![Slide What are we talking about](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/WhatAbout.png){ loading=lazy }
+</figure>
+
 **Distribution** is the process of distributing processes and threads across the available
 resources of the job (nodes, sockets, NUMA domains, cores, ...), and **binding** is the process
 of ensuring they stay there as naturally processes and threads are only bound to a node 
-(OS image) but will migrate between cores. 
+(OS image) but will migrate between cores. Binding can also ensure that processes cannot use
+resources they shouldn't use.
 
 When running a distributed memory program, the process starter - `mpirun` or `mpiexec`
 on many clusters, or `srun` on LUMI - will *distribute*  the processes over the available
@@ -20,7 +25,8 @@ node so that one job cannot deplete the resources of another job, and even uses 
 up to the task level to restrict some resources for a task (hardware threads and GPU access).
 The second mechanism is processor affinity which works at the process and thread level and
 can be used by the OpenMP runtime to limit thread migration. It works through affinity masks
-which indicate the hardware threads that a thread or process can use.
+which indicate the hardware threads that a thread or process can use. There is also a third
+mechanism provided by the ROCm run time to control which GPUs can be used.
 
 Some of the tools in the `lumi-CPEtools` module can show the affinity mask for each thread
 (or effectively the process for single-threaded processes) so you can use these tools to
@@ -49,6 +55,10 @@ resoectively. The `gpu_check` command can be used to study the steps in GPU bind
 
     (ORNL is the national lab that operates Frontier, an exascale supercomputer based on the same
     node type as LUMI-G.)
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide When/where is it done](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/WhenDone.png){ loading=lazy }
+</figure>
 
 In this section we will consider process and thread distribution and binding at several levels:
 
@@ -90,6 +100,10 @@ by the MPICH, OpenMP and ROCm runtimes may work very unpredictable.
 
 ## Why do I need this?
 
+<figure markdown style="border: 1px solid #000">
+  ![Slide Why do I need this](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/WhyNeedThis.png){ loading=lazy }
+</figure>
+
 As we have seen in the ["LUMI Architecture" session of this course](01_Architecture.md) and is discussed into
 even more detail in some other courses lectures in Belgium (in particular the
 ["Supercomputers for Starters" course](https://klust.github.io/SupercomputersForStarters/) given twice a year at VSC@UAntwerpen),
@@ -126,8 +140,14 @@ scalability on supercomputers.
 -   With careful mapping of MPI ranks on nodes you can often reduce the amount of inter-node data transfer in favour of the
     faster intra-node transfers. This requires some understanding of the communication pattern of your MPI application.
 
+-   For GPU-aware MPI: Check if the intra-node communication pattern can map onto the links between the GCDs.
+
 
 ## Core numbering
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Core numbering](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/CoreNumbering.png){ loading=lazy }
+</figure>
 
 Linux core numbering is not hierarchical and may look a bit strange. This is because Linux core numbering was fixed
 before hardware threads were added, and later on hardware threads were simply added to the numbering scheme.
@@ -458,28 +478,38 @@ started with subsequent `srun` commands.
 
 ## GPU numbering
 
+<figure markdown style="border: 1px solid #000">
+  ![Slide GPU numbering](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/GPUNumbering_2.png){ loading=lazy }
+</figure>
+
 The numbering of the GPUs is a very tricky thing on LUMI.
 
-The only way to identify the physical GPU is through the PCIe bus ID. This does not change over time 
+The only way to reliably identify the physical GPU is through the PCIe bus ID. This does not change over time 
 or in an allocation where access to some resources is limited through cgroups. It is the same on all nodes.
 
 Based on these PICe bus IDs, the OS will assign numbers to the GPU. It are those numbers that are shown
 in the figure in the
 [ Architecture chapter - "Building LUMI: What a LUMI-G node really looks like"](01_Architecture.md#building-lumi-what-a-lumi-g-node-really-looks-like).
-However, that numbering depends on the GPUs that are visible at that time.
+We will call this the *bare OS numbering* or * global numbering* in these notes.
 
-Slurm manages GPUs for a task through the control group mechanism. Now if a job requesting 4 GPUs would
-get the GPUs that are numbered 4 to 7 in the scheme and on the bare OS (outside the control groups created
-by Slurm), it would still see them as GPUs 0 to 3, and this is the numbering that one would have to use
+Slurm manages GPUs for jobs through the control group mechanism. Now if a job requesting 4 GPUs would
+get the GPUs that are numbered 4 to 7 in bare OS numbering, 
+it would still see them as GPUs 0 to 3, and this is the numbering that one would have to use
 for the `ROCR_VISIBLE_DEVICES` environment variable that is used to further limit the GPUs that the ROCm runtime
-will use in an application.
+will use in an application. We will call this the job-local numbering.
 
-Inside a process the GPUs that the application can actually use are then again numbered starting from 0, 
-independent of the actual GPUs that the process is using. 
+Inside task of a regular job step, Slurm can further restrict the GPUs that are visibile through control
+groups at the task level, leading to yet another numbering that starts from 0 which we will call the 
+task-local numbering. 
 
 Note also that Slurm does take care of setting the `ROCR_VISIBLE_DEVICES` environment variable. It will be set
 at the start of a batch job step giving access to all GPUs that are available in the allocation, and will also
-be set by `srun` for each task. 
+be set by `srun` for each task. But you don't need to know in your application which numbers these are as, e.g.,
+the HIP runtime will number the GPUs that are available from 0 on.
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide GPU Numbering - Remarks](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/GPUNumberingRemarks.png){ loading=lazy }
+</figure>
 
 <!-- Script gpu-numbering-demo1 -->
 <!-- ``` {.bash linenos=true linenostart=1 .copy}  -->
@@ -712,7 +742,7 @@ is currently happening in Slurm on LUMI. Instead it is using control groups at t
 task level. 
 
 <!-- Script gpu-numbering-demo2 -->
-??? technical "Playing with control group and `ROCR_VISIBLE_DEVICES`"
+??? technical "Playing with control group and `ROCR_VISIBLE_DEVICES` (click to expand)"
     Consider the following (tricky and maybe not very realistic) job script.
 
     ``` bash linenums="1"
@@ -836,6 +866,14 @@ to run MPI applications with optimal efficiency.**
 
 ## Task distribution with Slurm
 
+<figure markdown style="border: 1px solid #000">
+  ![Slide Task distribution with Slurm](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/SlurmTaskDistribution_1.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Task distribution with Slurm (2)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/SlurmTaskDistribution_2.png){ loading=lazy }
+</figure>
+
 The Slurm `srun` command offers the `--distribution` option to influence the distribution of 
 tasks across nodes (level 1), sockets or NUMA domains (level 2 and sockets or NUMA) or 
 even across cores in the socket or NUMA domain (third level). The first level is the most useful level,
@@ -877,7 +915,7 @@ The [general form of the `--distribution` option](https://slurm.schedmd.com/arch
     that also perform binding. In practice, this second level is less useful as often other mechanisms will be 
     preferred for doing a proper binding, or the default behaviour is OK for simple distribution problems.
 
-    -   'block' will assign whole tasks to consecutive sets of cores on the node. On LIUMI-C, it will first fill up
+    -   `block` will assign whole tasks to consecutive sets of cores on the node. On LIUMI-C, it will first fill up
         the first socket before moving on to the second socket.
 
     -   `cyclic` assigns the first task of a node to a set of consecutive cores on the first socket, then the second task to a set 
@@ -903,11 +941,26 @@ while `--distribution=block` has the same effect as `--distribution=block:block`
 
 ## Task-to-CPU binding with Slurm
 
-This option is used to define the strategy that Slurm uses to bind tasks to CPUs.
-The mechanism is always through task affinity masks, using control groups only at the jobstep level
-within a node but not at the task level. Hence in most practical cases task binding through affinity
-masks is something you will want to use, and we will see another way to further refine the mask 
-further in this chapter of the tutorial.
+<figure markdown style="border: 1px solid #000">
+  ![Slide Task-to-CPU binding with Slurm](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/SlurmTaskCPU.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Task-to-CPU binding with Slurm: Masks](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/SlurmTaskCPUMasks.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Task-to-CPU binding with Slurm: Examples](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/SlurmTaskCPUExamples.png){ loading=lazy }
+</figure>
+
+The level 2 and 3 options from the previous section already do some binding. But we will now 
+discuss a different option that enables very precise binding of tasks to hardware threads in Slurm.
+
+The mechanism does conflict with some Slurm options that implicitly already do some binding, e.g., 
+it will not always work together with `--cpus-per-task` and `--hint=[no]multithread` may also not 
+act as expected depending on how the options are used. 
+Level 2/3 control via `--distribution` sometimes also make no sense when this option is used
+(and will be ignored).
 
 Task-to-CPU binding is controlled through the Slurm option 
 
@@ -915,7 +968,7 @@ Task-to-CPU binding is controlled through the Slurm option
 --cpu-bind=[{quiet|verbose},]<type>
 ```
 
-We'll describe a few of the possibilities for the `<typ>` parameter but for a more concrete overview
+We'll describe a few of the possibilities for the `<type>` parameter but for a more concrete overview
 we refer to the [Slurm `srun` manual page](https://slurm.schedmd.com/archive/slurm-22.05.8/srun.html#OPT_cpu-bind)
 
 -   `--cpu-bind=threads` is the default behaviour on LUMI.
@@ -958,7 +1011,7 @@ we refer to the [Slurm `srun` manual page](https://slurm.schedmd.com/archive/slu
     25-30, fifth on 1-6, sixth on 9-14, seventh on 33-38 and eight on 41-46.
 
 The `--cpu-bind=map_cpu` and `--cpu-bind=mask_gpu` options also do not go together with `-c` / `--cpus-per-task`.
-Both commands define a binding (the latter in combination with the defulat `--gpu-bind=threads`) 
+Both commands define a binding (the latter in combination with the default `--gpu-bind=threads`) 
 and these will usually conflict.
 
 There are more options, but these are currently most relevant ones on LUMI. That may change in the future as
@@ -966,7 +1019,11 @@ LUMI User support is investigating whether it isn't better to change the concept
 sometimes is to carefully map onto L3 cache domains for performance.
 
 
-## Task GPU binding with Slurm
+## Task-to-GPU binding with Slurm
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Task-to-GPU binding with Slurm](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/SlurmTaskGPU.png){ loading=lazy }
+</figure>
 
 **Doing the task-to-GPU binding fully via Slurm is currently not recommended on LUMI. 
 The problem is that Slurm uses control groups at the task level rather than just `ROCR_VISIBLE_DEVICES`
@@ -991,19 +1048,19 @@ Some options for the `<type>` parameter that are worth considering:
 -   `--gpu-bind=closest`: This currently does not work well on LUMI. The problem is being investigated
     so the situation may have changed by the time you read this.
 
--   `--gpu-ding=none`: Turns off the GPU binding of Slurm. This can actually be useful on shared node
+-   `--gpu-bind=none`: Turns off the GPU binding of Slurm. This can actually be useful on shared node
     jobs where doing a proper allocation of GPUS is difficult. You can then first use Slurm options such 
     as `--gpus-per-task` to get a working allocation of GPUs and CPUs, then un-bind and rebind using a 
     different mechanism that we will discuss later.
 
--   `--gpu-bind=map_gpu:<list>` is the equivalent of `--cpu-gind=map_cpu:<list>`.
+-   `--gpu-bind=map_gpu:<list>` is the equivalent of `--cpu-bind=map_cpu:<list>`.
     This option only makes sense on a job-exclusive node and is for jobs that need a single 
     GPU per task. It defines the list of GPUs that should be used, with the task with local ID 0
     using the first one in the list, etc.
     The numbering and topology was already discussed in the "LUMI ARchitecture" chapter, section
     ["Building LUMI: What a LUMI-G really looks like](01_Architecture.md#building-lumi-what-a-lumi-g-node-really-looks-like).
    
--   `--gpu-bind=mask_gpu:>list>` is the equivalent of `--cpu-gind=mask_cpu:<list>`. 
+-   `--gpu-bind=mask_gpu:>list>` is the equivalent of `--cpu-bind=mask_cpu:<list>`. 
     Now the bits in the mask correspond to individual GPUs, with GPU 0 the least significant bit. 
     This option again only makes sense on a job-exclusive node.
 
@@ -1028,6 +1085,10 @@ IPC used by Cray MPICH for intro-node MPI transfers if GPU aware MPI support is 
 
 
 ## MPI rank redistribution with Cray MPICH
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide MPI rank redistribution with Cray MPICH](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/MPICHRankRedistribution.png){ loading=lazy }
+</figure>
 
 By default MPI rank *i* will use Slurm task *i* in a parallel job step. 
 With Cray MPICH this can be changed via the environment variable 
@@ -1074,7 +1135,7 @@ The HPE Cray Programming Environment actually has profiling tools that help you 
 the optimal rank ordering for a particular run, which is useful if you do a lot of runs with
 the same problem size (and hence same number of nodes and tasks).
 
-??? Example "Try the following job script (click to expand)
+??? Example "Try the following job script (click to expand)"
 
     ```
     #!/bin/bash
@@ -1223,6 +1284,18 @@ the same problem size (and hence same number of nodes and tasks).
 
 ## Refining core binding in OpenMP applications
 
+<figure markdown style="border: 1px solid #000">
+  ![Slide Refining core binding in OpenMP](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/OpenMPBinding.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Refining core binding in OpenMP: OMP_PLACES](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/OpenMPBindingPlaces.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Refining core binding in OpenMP: OMP_PROC_BIND](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/OpenMPBindingProcBind.png){ loading=lazy }
+</figure>
+
 In a Slurm batch job step, threads of a shared memory process will be contained to all 
 hardware threads of all available cores on the first node of your allocation. To contain
 a shared memory program to the hardware threads asked for in the allocation (i.e., to ensure
@@ -1249,29 +1322,6 @@ the more important of the standard ones:
     of tasks on cores, but do not want to use them all, e.g., because your application is too memory bandwidth
     or cache constrained and using fewer threads actually gives better overall performance on a per-node basis.
 
--   `OMP_PROC_BIND`: Sets the binding of threads to processors. Possible values are:
-
-    -   `OMP_PROC_BIND=false`: Turn of OpenMP thread binding. Each thread will get access to all hardware threads
-        available in to the task (and defined by a Linux affinity mask in Slurm).
-
-    -   `OMP_PROC_BIND=close`: If more hardware threads are available then there are OpenMP threads, then try
-        to put the OpenMP threads as close as possible to the master thread. In general, bind as close as possible
-        to the master thread while still distributing for load balancing.
-
-    -   `OMP_PROC_BIND=spread`: Spread threads out as evenly as possible over the hardware threads/cores available
-        to the task.
-
-    -   `OMP_PROC_BIND=master`: Bind threads to the same place as the master thread. The place is determined by the
-         `OMP_PLACES` environment variable and it is clear this makes no sense if that place is just a single hardware
-         thread or single core as all threads would then be competing for the resources of a single core.
-
-    Multiple values of `close`, `spread` and `master` in a comma-separated list are possible but this is outside of
-    the scope of this tutorial. 
-
-    The Cray Compilation Environment also has an additional non-standard option `auto` which is actually the default and tries to
-    do a reasonable job for most cases. On the other compilers on LUMI, the default behaviour is `false` unless the
-    next environment variable, `OMP_PLACES`, is specified.
-
 -   `OMP_PLACES` is used to restrict each OpenMP thread to a group of hardware threads. Possible values
     include: 
     -   `OMP_PLACES=threads` to restrict OpenMP threads to a single hardware thread
@@ -1297,6 +1347,29 @@ the more important of the standard ones:
         or `-=-gpi-bind=mask_cpu` which sets the CPUs or groups of CPUs available to each thread and which always use
         the physical numbering and not a numbering that is local to the job allocation.
 
+-   `OMP_PROC_BIND`: Sets how threads are distributed over the places. Possible values are:
+
+    -   `OMP_PROC_BIND=false`: Turn off OpenMP thread binding. Each thread will get access to all hardware threads
+        available in to the task (and defined by a Linux affinity mask in Slurm).
+
+    -   `OMP_PROC_BIND=close`: If more places are available than there are OpenMP threads, then try
+        to put the OpenMP threads as close as possible to the master thread. In general, bind as close as possible
+        to the master thread while still distributing for load balancing.
+
+    -   `OMP_PROC_BIND=spread`: Spread threads out as evenly as possible over the places available
+        to the task.
+
+    -   `OMP_PROC_BIND=master`: Bind threads to the same place as the master thread. The place is determined by the
+        `OMP_PLACES` environment variable and it is clear this makes no sense if that place is just a single hardware
+        thread or single core as all threads would then be competing for the resources of a single core.
+
+    Multiple values of `close`, `spread` and `master` in a comma-separated list are possible but this is outside of
+    the scope of this tutorial. 
+
+    The Cray Compilation Environment also has an additional non-standard option `auto` which is actually the default and tries to
+    do a reasonable job for most cases. On the other compilers on LUMI, the default behaviour is `false` unless the
+    next environment variable, `OMP_PLACES`, is specified.
+
 -    `OMP_DISPLAY_AFFINITY`: When set tot `TRUE` information about the affinity binding of each thread will be 
      shown which is good for debugging purposes.
 
@@ -1306,6 +1379,7 @@ can also be used to check the OpenMP thread binding.
 ??? example "Some examples (click to expand)"
     Consider the following job script:
     
+    <!-- TODO: Improve, always specify all three variables -->
     ```
     #!/bin/bash
     #SBATCH --account=project_46YXXXXXX
@@ -1421,7 +1495,7 @@ can also be used to check the OpenMP thread binding.
     spans 4 cores for each thread. In fact, also in other cases the default behaviour of CCE will be a binding 
     that works well for many cases. 
     
-    In the next experiment we dempnstrate the `close` binding:
+    In the next experiment we demonstrate the `close` binding:
     
     ```
     + export OMP_NUM_THREADS=4
@@ -1579,8 +1653,9 @@ can also be used to check the OpenMP thread binding.
     ++ omp_check: OpenMP thread   3/4   on cpu 140/256 of nid001077 mask 12-15, 140-143
     ```
 
-
-
+We only discussed a subset of the environment variables defined in the OpenMP standard. Several implementations
+also offer additional environment variables, e.g., 
+[a number of `GOMP_*` environment variables in the GNU Compiler Collection implementation](https://gcc.gnu.org/onlinedocs/libgomp/Environment-Variables.html) or `KMP_*` variables in the Intel compiler (not available on LUMI).
 
 Some further documentation:
 
