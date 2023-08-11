@@ -969,7 +969,7 @@ The two options are:
     and for LUMI-G
 
     ```
-    --sockets-per-node=1 --cores-per-socket=63
+    --sockets-per-node=1 --cores-per-socket=56
     ```
 
     Note that on LUMI-G, nodes have 64 cores but one core is reserved for the operating system and drivers to 
@@ -979,12 +979,12 @@ The two options are:
 2.  There is a shorthand for those parameters: `--extra-node-info=<sockets>[:cores]` or
     `-B --extra-node-info=<sockets>[:cores]` where the second and third number are optional.
     The full maximal specification for LUMI-C would be `--extra-node-info=2:64` and for LUMI-G
-    `--extra-node-info=1:63`.
+    `--extra-node-info=1:56`.
 
 ??? intermediate "What about `--threads-per-core`?"
     Slurm also has a `--threads-per-core` (or a third number with `--extra-node-info`)
-    which is a somewhat misleading name. On LUMI, as hyperthreading
-    is turned on, you would expect that you can use `--threads-per-core=2` but if you try, you will see
+    which is a somewhat misleading name. On LUMI, as hardware threads 
+    are turned on, you would expect that you can use `--threads-per-core=2` but if you try, you will see
     that your job is not accepted. This because on LUMI, the smallest allocatable processor resource 
     (called the CPU in Slurm) is a core and not a hardware thread (or virtual core as they are also 
     called). There is another mechanism to enable or disable hyperthreading in regular job steps that we will
@@ -1014,6 +1014,8 @@ If you insist, slurm has several options to specify the number of GPUs for this 
     any type of GRES that can also be used. Now you also need to specify the type of the GRES. The number you 
     have to specify if on a per-node basis, so on LUMI you can use  `--gres=gpu:8` or `--gres=gpu:mi250:8`.
 
+As these options are also forwarded to `srun`, it will save you from specifying them there.
+
 
 ## Per-node allocations: Starting a job step
 
@@ -1041,16 +1043,35 @@ resources are for each individual task, but this scheme is an easy scheme:
 
 1.  Specifying the number of tasks: You can specify per node or the total number:
 
-    1.  Specifying on a per node basis: `--ntasks-per-node=<ntasks>` which is a logical
-        thing to do in a per node allocation.
-
-    2.  Specifying the total number of tasks: `--ntasks=<ntasks` or `-n ntasks`.
+    1.  Specifying the total number of tasks: 
+        [`--ntasks=<ntasks` or `-n ntasks`](https://slurm.schedmd.com/archive/slurm-22.05.8/srun.html#OPT_ntasks).
         There is a risk associated to this approach which is the same as when specifying the
         total number of GPUs for a job: IF you change the number of nodes, then you should
         change the total number of tasks also. However, it is also very useful in certain cases.
         Sometimes the number of tasks cannot be easily adapted and does not fit perfectly into
         your allocation (cannot be divided by the number of nodes). In that case, specifying the
         total number of nodes makes perfect sense.
+
+    2.  Specifying on a per node basis: 
+        [`--ntasks-per-node=<ntasks>`](https://slurm.schedmd.com/archive/slurm-22.05.8/srun.html#OPT_ntasks-per-core) 
+        is possible in combination with `--nodes` according to the Slurm manual. 
+        In fact, this would be a logical thing to do in a per node allocation. 
+        **However, we see it fail on LUMI when it is used as an option for `srun` and not with `sbatch`, 
+        even though it should work
+        [according to the documentation](https://slurm.schedmd.com/archive/slurm-22.05.8/srun.html#OPT_ntasks-per-core).**
+
+        The reason for the failure is that Slurm when starting a batch job defines a large number of `SLURM_*` and
+        `SRUN_*` variables. Some only give information about the allocation, but others are picked up by `srun` as
+        options and some of those options have a higher priority than `--ntasks-per-node`. So the trick is to 
+        unset both `SLURM_NTASKS` and `SLURM_NPROCS`. The `--ntasks` option triggered by `SLURM_NTASKS` has a higher
+        priority than `--ntasks-per-node`.  `SLURM_NPROCS` was used in older versions of Slurm as with the same
+        function as the current environment variable `SLURM_NTASKS` and therefore also implicitly specifies 
+        `--ntasks` if `SLURM_NTASKS` is removed from the environment.
+
+        The option is safe to use with `sbatch` though.
+
+    **Lesson: If you want to play it safe and not bother with modifying the environment that Slurm creates, use
+    the total number of tasks `--ntasks` if you want to specify the number of tasks with `srun`.**
 
 2.  Specifying the number of CPUs (cores on LUMI) for each task. The easiest way to do this is by
     using `--cpus-per-task=<number_CPUs>` or `-c <number_CPUs>`.
@@ -1088,6 +1109,43 @@ clusters. CSC has modified the configuration to again forward that option (now v
 environment variable) but certain use cases beyond the basic one described above are not covered.
 And take into account that not all cluster operators will do that as there are also good reasons not
 to do so. Otherwise the developers of Slurm wouldn't have changed that behaviour in the first place.
+
+??? Note "Demonstrator for the problems with `--tasks-per-node` (click to expand)"
+    Try the batch script:
+
+    <!-- slurm-perNode-jobstart-standard-demo1.slurm -->
+    ```
+    #! /usr/bin/bash
+    #SBATCH --job-name=slurm-perNode-jobstart-standard-demo1
+    #SBATCH --partition=standard
+    #SBATCH --nodes=2
+    #SBATCH --time=2:00
+    #SBATCH --output=%x-%j.txt
+
+    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeCray-22.12
+
+    echo "Submitted from $SLURM_SUBMIT_HOST"
+    echo "Running on $SLURM_JOB_NODELIST"
+    echo
+    echo -e "Job script:\n$(cat $0)\n"
+    echo "SLURM_* and SRUN_* environment variables:"
+    env | egrep ^SLURM
+    env | egrep ^SRUN
+
+    set -x
+    # This works
+    srun --ntasks=32 --cpus-per-task=8 hybrid_check -r
+
+    # This does not work
+    srun --ntasks-per-node=16 --cpus-per-task=8 hybrid_check -r
+
+    # But this works again
+    unset SLURM_NTASKS
+    unset SLURM_NPROCS
+    srun --ntasks-per-node=16 --cpus-per-task=8 hybrid_check -r
+    set +x
+    echo -e "\nsacct for the job:\n$(sacct -j $SLURM_JOB_ID)\n"
+    ```
 
 
 ### A warning for GPU applications
