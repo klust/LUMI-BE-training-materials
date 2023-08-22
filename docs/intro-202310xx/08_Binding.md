@@ -1667,6 +1667,10 @@ Some further documentation:
 
 ## GPU binding with ROCR_VISIBLE_DEVICES
 
+<figure markdown style="border: 1px solid #000">
+  ![Slide GPU binding with ROCR_VISIBLE_DEVICES](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRGPU.png){ loading=lazy }
+</figure>
+
 The `ROCR_VISIBLE_DEVICES` environment variable restricts access to GPUs at the ROCm platform runtime 
 level. Contrary to control groups however this mechanism is compatible with the Peer2PEer IPC used by
 GPU-aware Cray MPI for intra-node communication.
@@ -1682,6 +1686,14 @@ group are always numbered from 0.
 
 
 ## Combining Slurm task binding with ROCR_VISIBLE_DEVICES
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide GPU binding: Optimal mapping (1)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRGPUMap_1.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide GPU binding: Optimal mapping (2)](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRGPUMap_2.png){ loading=lazy }
+</figure>
 
 In the chapter on [the architecture of LUMI](01_Architecture.md) we discussed 
 [what a LUMI-G really looks like](01_Architecture.md#building-lumi-what-a-lumi-g-node-really-looks-like).
@@ -1700,29 +1712,33 @@ Note that the numbering of GCDs does not correspond to the numbering of CCDs/cor
 memory transfers (and certainly if cache-coherent memory access from CPU to GPU would be used) it is 
 better to ensure that each GCD collaborates with the matched CCD in an MPI rank. So we have the mapping:
 
-| CCD | cores          | GCD |
-|----:|:---------------|----:|
-|   0 | 0-7, 64-71     |   4 |
-|   1 | 8-15, 72-79    |   5 |
-|   2 | 16-23, 80-87   |   2 |
-|   3 | 24-32, 88-95   |   3 |
-|   4 | 32-39, 96-103  |   6 |
-|   5 | 40-47, 104-111 |   7 |
-|   6 | 48-55, 112-119 |   0 |
-|   7 | 56-63, 120-127 |   1 |
+| CCD | HWTs           | Available HWTs | GCD |
+|----:|:---------------|:---------------|----:|
+|   0 | 0-7, 64-71     | 1-7, 65-71     |   4 |
+|   1 | 8-15, 72-79    | 9-15, 73-79    |   5 |
+|   2 | 16-23, 80-87   | 17-23, 81-87   |   2 |
+|   3 | 24-32, 88-95   | 25-32, 89-95   |   3 |
+|   4 | 32-39, 96-103  | 33-39, 97-103  |   6 |
+|   5 | 40-47, 104-111 | 41-47, 105-111 |   7 |
+|   6 | 48-55, 112-119 | 49-55, 113-119 |   0 |
+|   7 | 56-63, 120-127 | 57-63, 121-127 |   1 |
 
 or the reverse mapping
 
-| GCD | CCD | cores          |
-|----:|----:|:---------------|
-|   0 |   6 | 48-55, 112-119 |
-|   1 |   7 | 56-63, 120-127 |
-|   2 |   2 | 16-23, 80-87   |
-|   3 |   3 | 24-32, 88-95   |
-|   4 |   0 | 0-7, 64-71     |
-|   5 |   1 | 8-15, 72-79    |
-|   6 |   4 | 32-39, 96-103  | 
-|   7 |   5 | 40-47, 104-111 |
+| GCD | CCD | HWTs           | Available HWTs |
+|----:|----:|:---------------|:---------------|
+|   0 |   6 | 48-55, 112-119 | 49-55, 113-119 |
+|   1 |   7 | 56-63, 120-127 | 57-63, 121-127 |
+|   2 |   2 | 16-23, 80-87   | 17-23, 81-87   |
+|   3 |   3 | 24-32, 88-95   | 25-32, 89-95   |
+|   4 |   0 | 0-7, 64-71     | 1-7, 65-71     |
+|   5 |   1 | 8-15, 72-79    | 9-15, 73-79    |
+|   6 |   4 | 32-39, 96-103  | 33-39, 97-103  | 
+|   7 |   5 | 40-47, 104-111 | 41-47, 105-111 |
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide GPU binding: Embedded rings](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRGPURing.png){ loading=lazy }
+</figure>
 
 Moreover, if you look more carefully at the topology, you can see that the connections between the 
 GCDs contain a number of rings:
@@ -1738,6 +1754,10 @@ for that, than it may be advantageous to map the MPI ranks on one of those rings
 the order of the CCDs nor the order of the GCDs is trivial.
 
 Some other topologies can also be mapped on these connections (but unfortunately not a 3D cube).
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide GPU binding: Implementation](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanism.png){ loading=lazy }
+</figure>
 
 To implement a proper CCD-to-GCD mapping we will use two mechanisms:
 
