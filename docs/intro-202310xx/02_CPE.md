@@ -18,7 +18,10 @@ environments?"*
 
 The answer is that development environments are an intrinsic part of an HPC system. 
 No HPC system is as polished as a personal computer and the software users want to use
-is typically very unpolished. 
+is typically very unpolished. And some of the essential middleware that turns the hardware
+with some variant of Linux into a parallel supercomputers is part of the programming 
+environment. The binary interfaces to those libraries are also not as standardised 
+as for the more common Linux system libraries.
 
 Programs on an HPC cluster are preferably installed from sources to generate binaries
 optimised for the system. CPUs have gotten new instructions over time that can sometimes
@@ -29,9 +32,16 @@ When running, the build environment on most systems needs to be at least partial
 This is somewhat less relevant on Cray systems as we will see at the end of this part of
 the course, but if you want reproducibility it becomes important again.
 
-Even when installing software from prebuild binaries some modules might still be needed, e.g.,
-as you may want to inject an optimised MPI library as we shall see in the container section
-of this course.
+Compiling on the system is also the easiest way to guarantee compatibility of the binaries 
+with the system. 
+
+Even when installing software from prebuilt binaries some modules might still be needed.
+Prebuilt binaries will typically include the essential runtime libraries for the parallel
+technologies they use, but these may not be compatible with LUMI. 
+In some cases this can be solved by injecting a library from LUMI, e.g.,
+you may want to inject an optimised MPI library as we shall see in the container section
+of this course. But sometimes a binary is simply incompatible with LUMI and there is no other
+solution than to build the software from sources.
 
 !!! lumi-be "Clusters in Belgium"
 
@@ -230,7 +240,7 @@ to the 4-day trainings that we organise three times a year with HPE for more mat
 
 The Cray Compiling Environment are the default compilers on many Cray systems and on LUMI.
 These compilers are designed specifically for scientific software in an HPC environment.
-The current versions use are LLVM-based with extensions by HPE Cray for
+The current versions are LLVM-based with extensions by HPE Cray for
 automatic vectorization and shared memory parallelization, technology that they
 have experience with since the late '70s or '80s.
 
@@ -240,7 +250,7 @@ optimisation plugins and OpenMP run-time.
 The version numbering of the CCE
 currently follows the major versions of the Clang compiler used. The support for C and C++
 language standards corresponds to that of Clang.
-The Fortran compiler uses a frontend developed by HPE Cray, but an LLVM-based backend. 
+The Fortran compiler uses a frontend and optimiser developed by HPE Cray, but an LLVM-based code generator. 
 The compiler supports most of Fortran 2018 (ISO/IEC 1539:2018). The CCE Fortran compiler
 is known to be very strict with language standards. Programs that use GNU or Intel extensions
 will usually fail to compile, and unfortunately since many developers only test with these
@@ -308,7 +318,9 @@ Fastest Fourier Transforms in the West, which comes with
 optimized versions for all CPU architectures supported by recent HPE Cray machines.
 
 Finally, the scientific and math libraries also contain HDF5 and netCDF libraries
-in sequential and parallel versions.
+in sequential and parallel versions.  These are included because it is essential that 
+they interface properly with MPI parallel I/O and the Lustre file system to offer
+the best bandwidth to and from storage. 
 
 Cray used to offer more pre-installed third party libraries for which the only added value
 was that they compiled the binaries. Instead they now offer
@@ -406,7 +418,7 @@ binding using control groups makes other GPUS from other tasks in the node invis
 
 Virtually all clusters use modules to enable the users to configure the environment and
 select the versions of software they want. There are three different module systems around.
-One is an old implementation that is hardly evolving anymore but that can still be found on\
+One is an old implementation that is hardly evolving anymore but that can still be found on
 a number of clusters. HPE Cray still offers it as an option. Modulefiles are written in TCL,
 but the tool itself is in C. The more popular tool at the moment is probably Lmod. It is largely
 compatible with modulefiles for the old tool, but prefers modulefiles written in LUA. It is also
@@ -464,7 +476,7 @@ by which compiler module is loaded. As shown on the slide
 the Cray Compiling Environment (module `cce`), GNU Compiler Collection (module `gcc`), 
 the AMD Optimizing Compiler for CPUs (module `aocc`) and the ROCm LLVM-based compilers
 (module `amd`) are available. On other HPE Cray systems, you may also find the Intel
-compilers or on systems with NVIDIA GPUS, the NVIDIA HPC compilers.
+compilers or on systems with NVIDIA GPUs, the NVIDIA HPC compilers.
 
 The target architectures for CPU and GPU are also selected through modules, so it is better
 to not use compiler options such as `-march=native`. This makes cross compiling also easier.
@@ -488,6 +500,11 @@ flag.
 
 The wrappers do have some flags of their own, but also accept all flags of the selected compiler and 
 simply pass those to those compilers.
+
+The compiler wrappers are provided by the `craype` module (but you don't have to load that module by hand).
+
+The [new online documentation](https://cpe.ext.hpe.com/docs/) is now also complete enough that it makes
+sense trying the search box on that page instead.
 
 
 ## Selecting the version of the CPE
