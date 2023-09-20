@@ -573,7 +573,7 @@ two tools that can be used to fetch files from the internet.
     easy to go back to the software package page itself for more information. Hence you can use
     the search box to search for packages that may not be installed on the system.
 
-    The example given above though, searching for `https, would not work via that box as most
+    The example given above though, searching for `https`, would not work via that box as most
     EasyBuild recipes include https web links to refer to, e.g., documentation and would be 
     shown in the result.
 
