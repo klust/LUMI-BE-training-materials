@@ -444,18 +444,12 @@
         
           
         
-          
-        
-          
-        
-          
-        
       
       
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../">LUMI Intro 10/23</a>
+          <a href="../">LUMI Intro</a>
           
             <label for="__nav_2">
               <span class="md-nav__icon md-icon"></span>
@@ -466,24 +460,10 @@
       <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
-          LUMI Intro 10/23
+          LUMI Intro
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../schedule/" class="md-nav__link">
-        Schedule
-      </a>
-    </li>
-  
-
             
           
             
@@ -784,36 +764,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../10_Lustre/" class="md-nav__link">
-        Lustre
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../11_Containers/" class="md-nav__link">
         Containers
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../12_Support" class="md-nav__link">
-        Support
       </a>
     </li>
   
@@ -2649,6 +2601,9 @@ also offer additional environment variables, e.g.,
 </li>
 </ul>
 <h2 id="gpu-binding-with-rocr_visible_devices">GPU binding with ROCR_VISIBLE_DEVICES<a class="headerlink" href="#gpu-binding-with-rocr_visible_devices" title="Permanent link">&para;</a></h2>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide GPU binding with ROCR_VISIBLE_DEVICES" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRGPU.png" /></p>
+</figure>
 <p>The <code>ROCR_VISIBLE_DEVICES</code> environment variable restricts access to GPUs at the ROCm platform runtime 
 level. Contrary to control groups however this mechanism is compatible with the Peer2PEer IPC used by
 GPU-aware Cray MPI for intra-node communication.</p>
@@ -2662,6 +2617,12 @@ GPU. This is less practical then it seems as the UUIDs of GPUs are different on 
 would need to discover them first before they can be used.</p>
 </details>
 <h2 id="combining-slurm-task-binding-with-rocr_visible_devices">Combining Slurm task binding with ROCR_VISIBLE_DEVICES<a class="headerlink" href="#combining-slurm-task-binding-with-rocr_visible_devices" title="Permanent link">&para;</a></h2>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide GPU binding: Optimal mapping (1)" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRGPUMap_1.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide GPU binding: Optimal mapping (2)" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRGPUMap_2.png" /></p>
+</figure>
 <p>In the chapter on <a href="../01_Architecture/">the architecture of LUMI</a> we discussed 
 <a href="../01_Architecture/#building-lumi-what-a-lumi-g-node-really-looks-like">what a LUMI-G really looks like</a>.</p>
 <p>The full topology of a LUMI-G compute node is shown in the figure:</p>
@@ -2680,7 +2641,8 @@ better to ensure that each GCD collaborates with the matched CCD in an MPI rank.
 <thead>
 <tr>
 <th align="right">CCD</th>
-<th align="left">cores</th>
+<th align="left">HWTs</th>
+<th align="left">Available HWTs</th>
 <th align="right">GCD</th>
 </tr>
 </thead>
@@ -2688,41 +2650,49 @@ better to ensure that each GCD collaborates with the matched CCD in an MPI rank.
 <tr>
 <td align="right">0</td>
 <td align="left">0-7, 64-71</td>
+<td align="left">1-7, 65-71</td>
 <td align="right">4</td>
 </tr>
 <tr>
 <td align="right">1</td>
 <td align="left">8-15, 72-79</td>
+<td align="left">9-15, 73-79</td>
 <td align="right">5</td>
 </tr>
 <tr>
 <td align="right">2</td>
 <td align="left">16-23, 80-87</td>
+<td align="left">17-23, 81-87</td>
 <td align="right">2</td>
 </tr>
 <tr>
 <td align="right">3</td>
 <td align="left">24-32, 88-95</td>
+<td align="left">25-32, 89-95</td>
 <td align="right">3</td>
 </tr>
 <tr>
 <td align="right">4</td>
 <td align="left">32-39, 96-103</td>
+<td align="left">33-39, 97-103</td>
 <td align="right">6</td>
 </tr>
 <tr>
 <td align="right">5</td>
 <td align="left">40-47, 104-111</td>
+<td align="left">41-47, 105-111</td>
 <td align="right">7</td>
 </tr>
 <tr>
 <td align="right">6</td>
 <td align="left">48-55, 112-119</td>
+<td align="left">49-55, 113-119</td>
 <td align="right">0</td>
 </tr>
 <tr>
 <td align="right">7</td>
 <td align="left">56-63, 120-127</td>
+<td align="left">57-63, 121-127</td>
 <td align="right">1</td>
 </tr>
 </tbody>
@@ -2733,7 +2703,8 @@ better to ensure that each GCD collaborates with the matched CCD in an MPI rank.
 <tr>
 <th align="right">GCD</th>
 <th align="right">CCD</th>
-<th align="left">cores</th>
+<th align="left">HWTs</th>
+<th align="left">Available HWTs</th>
 </tr>
 </thead>
 <tbody>
@@ -2741,44 +2712,55 @@ better to ensure that each GCD collaborates with the matched CCD in an MPI rank.
 <td align="right">0</td>
 <td align="right">6</td>
 <td align="left">48-55, 112-119</td>
+<td align="left">49-55, 113-119</td>
 </tr>
 <tr>
 <td align="right">1</td>
 <td align="right">7</td>
 <td align="left">56-63, 120-127</td>
+<td align="left">57-63, 121-127</td>
 </tr>
 <tr>
 <td align="right">2</td>
 <td align="right">2</td>
 <td align="left">16-23, 80-87</td>
+<td align="left">17-23, 81-87</td>
 </tr>
 <tr>
 <td align="right">3</td>
 <td align="right">3</td>
 <td align="left">24-32, 88-95</td>
+<td align="left">25-32, 89-95</td>
 </tr>
 <tr>
 <td align="right">4</td>
 <td align="right">0</td>
 <td align="left">0-7, 64-71</td>
+<td align="left">1-7, 65-71</td>
 </tr>
 <tr>
 <td align="right">5</td>
 <td align="right">1</td>
 <td align="left">8-15, 72-79</td>
+<td align="left">9-15, 73-79</td>
 </tr>
 <tr>
 <td align="right">6</td>
 <td align="right">4</td>
 <td align="left">32-39, 96-103</td>
+<td align="left">33-39, 97-103</td>
 </tr>
 <tr>
 <td align="right">7</td>
 <td align="right">5</td>
 <td align="left">40-47, 104-111</td>
+<td align="left">41-47, 105-111</td>
 </tr>
 </tbody>
 </table>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide GPU binding: Embedded rings" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRGPURing.png" /></p>
+</figure>
 <p>Moreover, if you look more carefully at the topology, you can see that the connections between the 
 GCDs contain a number of rings:</p>
 <ol>
@@ -2796,6 +2778,9 @@ GCDs contain a number of rings:</p>
 for that, than it may be advantageous to map the MPI ranks on one of those rings which would mean that neither
 the order of the CCDs nor the order of the GCDs is trivial.</p>
 <p>Some other topologies can also be mapped on these connections (but unfortunately not a 3D cube).</p>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide GPU binding: Implementation" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanism.png" /></p>
+</figure>
 <p>To implement a proper CCD-to-GCD mapping we will use two mechanisms:</p>
 <ul>
 <li>
@@ -2809,6 +2794,12 @@ the order of the CCDs nor the order of the GCDs is trivial.</p>
 </ul>
 <p>Let us start with the simplest case:</p>
 <h3 id="linear-assignment-of-gcd-then-match-the-cores">Linear assignment of GCD, then match the cores<a class="headerlink" href="#linear-assignment-of-gcd-then-match-the-cores" title="Permanent link">&para;</a></h3>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide GPU binding: Implementation: Linear GCD, match CPU, no OpenMP" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismLinearGCD1.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide GPU binding: Implementation: Linear GCD, match CPU, OpenMP" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismLinearGCD2.png" /></p>
+</figure>
 <p>One possible job script to accomplish this is:</p>
 <!-- map-linear-GCD.slurm -->
 <div class="highlight"><pre><span></span><code>#!/bin/bash
@@ -2876,6 +2867,12 @@ MPI 007 - OMP 000 - HWT 041 (CCD5) - Node nid006872 - RT_GPU_ID 0 - GPU_ID 7 - B
 GCD and corresponding optimal CCD for each PCIe bus ID, which makes it very easy to check if the
 mapping is as intended. Note that the GCDs are indeed in the linear order starting with GCD0.</p>
 <h3 id="linear-assignment-of-the-ccds-then-match-the-gcd">Linear assignment of the CCDs, then match the GCD<a class="headerlink" href="#linear-assignment-of-the-ccds-then-match-the-gcd" title="Permanent link">&para;</a></h3>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide GPU binding: Implementation: Linear CCD, match GCD, no OpenMP" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismLinearCCD1.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide GPU binding: Implementation: Linear CCD, match GCD, OpenMP" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismLinearCCD2.png" /></p>
+</figure>
 <p>To modify the order of the GPUs, we now use an array with the desired order in the <code>gpu_Select</code> script.
 Due to the asymmetric structure structure of the chiplets on the LUMI-G nodes, we still need to define
 task slots for each task. Should the settings of the schedulers be modified to have one reserved core
@@ -2923,6 +2920,12 @@ srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_
 <p>The leading zeros in the masks in the <code>CPU_BIND2</code> environment variable are not needed but we added
 them as it makes it easier to see which chiplet is used in what position.</p>
 <h3 id="the-green-ring">The green ring<a class="headerlink" href="#the-green-ring" title="Permanent link">&para;</a></h3>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide GPU binding: Implementation: Green ring, no OpenMP" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismGreenRing1.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide GPU binding: Implementation: Green ring, OpenMP" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismGreenRing2.png" /></p>
+</figure>
 <p>As a final example for whole node allocations, lets bind tasks such that the MPI ranks are
 mapped upon the green ring which is GCD 0 - 1 - 3 - 2 - 4 - 5 - 7 - 6 - 0. In other words,
 we want to create the mapping</p>
@@ -3206,14 +3209,17 @@ limited to a single CCD (which makes sense with the GPU restriction). Generating
 second hardware thread is not supported yet. (We use bash arithmetic internally which is limited to 64-bit integers).</p>
 </details>
 <h3 id="what-about-allocate-by-resources-partitions">What about "allocate by resources" partitions?<a class="headerlink" href="#what-about-allocate-by-resources-partitions" title="Permanent link">&para;</a></h3>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide GPU binding: Allocatable-by-resources partitions" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismAllocateByResource.png" /></p>
+</figure>
 <!-- Experiments in smallg-binding-exp*.slurm -->
 <p>On partitions that are "allocatable by resource", e.g., <code>small-g</code>, you are never guaranteed that tasks 
 will be spread in a reasonable way over the CCDs and that the matching GPUs will be available to your job.
 Creating an optimal mapping or taking the topology into account is hence impossible. </p>
 <p>What is possible though is work around the fact that with the usual options for such resource allocations,
-Slurm will lock up the GPUs for individual tasks in control groups so that the PEer2Peer IPC intra-node
+Slurm will lock up the GPUs for individual tasks in control groups so that the Peer2Peer IPC intra-node
 communication mechanism has to be turned off. We can do this for job steps that follow the pattern of 
-resources allocated via the <code>sbatch</code> arguments (usually <code>#SBATCH</code> lines), and rely on two elements for that:</p>
+resources allocated via the <code>sbatch</code> arguments (usually <code>#SBATCH</code> lines), and rely on three elements for that:</p>
 <ol>
 <li>
 <p>We can turn off the Slurm GPU binding mechanism with <code>--gpu-bind=none</code>.</p>

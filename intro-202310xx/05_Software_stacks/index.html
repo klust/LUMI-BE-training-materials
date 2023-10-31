@@ -444,18 +444,12 @@
         
           
         
-          
-        
-          
-        
-          
-        
       
       
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../">LUMI Intro 10/23</a>
+          <a href="../">LUMI Intro</a>
           
             <label for="__nav_2">
               <span class="md-nav__icon md-icon"></span>
@@ -466,24 +460,10 @@
       <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
-          LUMI Intro 10/23
+          LUMI Intro
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../schedule/" class="md-nav__link">
-        Schedule
-      </a>
-    </li>
-  
-
             
           
             
@@ -865,36 +845,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../10_Lustre/" class="md-nav__link">
-        Lustre
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../11_Containers/" class="md-nav__link">
         Containers
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../12_Support" class="md-nav__link">
-        Support
       </a>
     </li>
   
@@ -1283,7 +1235,7 @@ The whole setup of EasyBuild is done such that you can build on top of the centr
 and such that <strong>your modules appear in your module view</strong> without having to add directories by hand
 to environment variables etc. You only need to point to the place where you want to install software
 for your project as LUMI cannot automatically determine a suitable place. </p>
-<p><strong>The LUST does offer some help so set up
+<p><strong>The LUST does offer some help to set up
 Spack also but it is mostly offered "as is" and LUST will not do bug-fixing or development in Spack
 package files.</strong> Spack is very attractive for users who want to set up a personal environment with
 fully customised versions of the software rather than the rather fixed versions provided by EasyBuild
@@ -1364,7 +1316,10 @@ also requires to <strong>containerize conda and Python installations</strong>. T
 that offers a way to install conda packages or to install Python packages with pip on top of 
 the Python provided by the <code>cray-python</code> module. On LUMI the tool is called
 <a href="https://docs.lumi-supercomputer.eu/software/installing/container_wrapper/">lumi-container-wrapper</a>
-but it may by some from CSC also be known as Tykky.</p>
+but it may by some from CSC also be known as Tykky. As an alternative LUMI also offers
+<a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/c/cotainr/">cotainr</a>, a tool developed by
+the Danish LUMI-partner DeIC that helps with building some types of containers that can be built in
+user space and can be used to containerise a conda-installation.</p>
 <h3 id="organisation-of-the-software-in-software-stacks">Organisation of the software in software stacks<a class="headerlink" href="#organisation-of-the-software-in-software-stacks" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
 <p><img alt="Organisation&quot;Software Stacks" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksOrganisation.png" /></p>
@@ -1381,13 +1336,13 @@ of hardware in the regular LUMI system</strong>: zen2 CPUs in the login nodes an
 LUMI-C compute nodes and zen3 + MI250X for
 the LUMI-G partition. IF the need would arrise, a fourth partition could be created for the visualisation nodes
 with zen2 CPUs and NVIDIA GPUs.</p>
+<p>LUMI also offers an extensible software stack based on <strong>Spack</strong> which has been pre-configured to use the compilers
+from the Cray PE. This stack is offered as-is for users who know how to use Spack, but support is limited and
+no bug-fixing in Spack is done.</p>
 <p>In the far future the LUST will also look at <strong>a stack based on the common EasyBuild toolchains as-is</strong>, 
 but problems are expected with MPI
 that will make this difficult to implement, and the common toolchains also do not yet support
 the AMD GPU ecosystem, so no promises whatsoever are made about a time frame for this development.</p>
-<p>LUMI also offers an extensible software stack based on <strong>Spack</strong> which has been pre-configured to use the compilers
-from the Cray PE. This stack is offered as-is for users who know how to use Spack, but support is limited and
-no bug-fixing in Spack is done.</p>
 <h3 id="3-ways-to-access-the-cray-programming-environment-on-lumi">3 ways to access the Cray Programming environment on LUMI.<a class="headerlink" href="#3-ways-to-access-the-cray-programming-environment-on-lumi" title="Permanent link">&para;</a></h3>
 <h4 id="bare-environment-and-crayenv">Bare environment and CrayEnv<a class="headerlink" href="#bare-environment-and-crayenv" title="Permanent link">&para;</a></h4>
 <figure style="border: 1px solid #000">
@@ -1414,7 +1369,7 @@ that LUST organises</strong>.</p>
 <p>The <strong>third way</strong> to access the Cray Programming Environment is through the <strong>LUMI software stacks</strong>, where each stack
 is <strong>based on a particular release of the HPE Cray Programming Environment</strong>. We advise against mixing with modules
 that came with other versions of the Cray PE, but they <strong>remain accessible</strong> although they are hidden from the default
-view for regular users. It ia also better to <strong>not use the PrgEnv modules, but the equivalent LUMI EasyBuild 
+view for regular users. It is also better to <strong>not use the PrgEnv modules, but the equivalent LUMI EasyBuild 
 toolchains</strong> instead as indicated by the following table:</p>
 <table>
 <thead>
@@ -1428,7 +1383,7 @@ toolchains</strong> instead as indicated by the following table:</p>
 <tr>
 <td align="left"><code>PrgEnv-cray</code></td>
 <td align="left"><code>cpeCray</code></td>
-<td align="left">Cray Compiler Environment</td>
+<td align="left">Cray Compiling Environment</td>
 </tr>
 <tr>
 <td align="left"><code>PrgEnv-gnu</code></td>
@@ -1484,7 +1439,9 @@ explicitly load the partition/L module.</p>
 <figure style="border: 1px solid #000">
 <p><img alt="Installing software on HPC systems" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildInstallingSoftwareHPC.png" /></p>
 </figure>
-<p>Software on HPC systems is <strong>rarely installed from RPMs</strong> for various reasons.
+<p>Software on HPC systems is <strong>rarely installed from RPMs</strong> (a popular format to package Linux software
+distributed as binaries) or any other similar format for various reasons.
+Software on HPC systems is <strong>rarely installed from RPMs</strong> for various reasons.
 Generic RPMs are <strong>rarely optimised for the specific CPU</strong> of the system as they have to work on a range
 of systems and including optimised code paths in a single executable for multiple architectures is
 hard to even impossible. 
@@ -1511,7 +1468,7 @@ And they do <strong>take care of dependency handling</strong> in a way that is c
 <p><img alt="Extending the LUMI stack with EasyBuild" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildExtendingLUMIStack.png" /></p>
 </figure>
 <p>On LUMI EasyBuild is the primary software installation tool. 
-EasyBuild was selected this as there is
+EasyBuild was selected as there is
 already a lot of experience with EasyBuild in several LUMI consortium countries and as
 it is also a tool developed in Europe which makes it a nice fit with EuroHPC's goal of
 creating a fully European HPC ecosystem.</p>
@@ -1597,7 +1554,7 @@ before.</p>
 <tr>
 <td align="left"><code>PrgEnv-cray</code></td>
 <td align="left"><code>cpeCray</code></td>
-<td align="left">Cray Compiler Environment</td>
+<td align="left">Cray Compiling Environment</td>
 </tr>
 <tr>
 <td align="left"><code>PrgEnv-gnu</code></td>
@@ -1738,12 +1695,12 @@ the proper value before loading the <code>LUMI</code> module.</strong></p>
 <p>Let's look at GROMACS as an example. I will not try to do this completely live though as the 
 installation takes 15 or 20 minutes.
 First we need to figure out for which versions of GROMACS there is already support on LUMI.
-One can use <code>eb -S</code> or <code>eb --search</code> for that. So in our example this is
+An easy way to do that is to simply check the <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/">LUMI Software Library</a>.
+This web site lists all software that we manage via EasyBuild and make available either pre-installed on
+the system or as an EasyBuild recipe for user installation.
+Alternatively one can use <code>eb -S</code> or <code>eb --search</code> for that. So in our example this is
 <div class="highlight"><pre><span></span><code>eb<span class="w"> </span>--search<span class="w"> </span>GROMACS
-</code></pre></div>
-LUMI now also provides the <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/">LUMI Software Library</a>
-which lists all software that is managed via EasyBuild and made available either pre-installed on
-the system or as an EasyBuild recipe for user installation.</p>
+</code></pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Output of the search commands:</p>
 <p><code>eb --search GROMACS</code> produces:</p>
@@ -1764,7 +1721,7 @@ always added for CPU-only system, but in case of GROMACS there already is a GPU 
 for AMD GPUs in active development so even before LUMI-G was active the developers of this
 EasyConfig chose to ensure that one could distinguish between GPU and CPU-only versions.
 To install it, we first run 
-<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>–r<span class="w"> </span>GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb<span class="w"> </span>–D
+<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb<span class="w"> </span>–D
 </code></pre></div>
 The <code>-D</code> flag tells EasyBuild to just perform a check for the dependencies that are needed
 when installing this package, while the <code>-r</code> argument is needed to tell EasyBuild to also 
@@ -1780,7 +1737,7 @@ it can be turned on.</p>
 </figure>
 <p>Looking at the output we see that EasyBuild will also need to install <code>PLUMED</code> for us.
 But it will do so automatically when we run
-<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>–r<span class="w"> </span>GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb
+<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb<span class="w"> </span>-r
 </code></pre></div></p>
 <figure style="border: 1px solid #000">
 <p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_03.png" /></p>
