@@ -1,9 +1,10 @@
-# LUMI 1-day training October 2023
+# LUMI 1-day training preliminary and incomplete
 
+<!--
 ## Organisation
 
 -   [Schedule](schedule.md)
-
+-->
 
 ## Setting up for the exercises
 
@@ -36,9 +37,11 @@ THIS TEXT ALREADY ASSUMES A TRAINING PROJECT WHICH DOES NOT YET EXIST.
 
 ## Downloads
 
+*As the course is still under development, some links are still dead.*
+
 | Presentation | Slides | Notes | recording |
 |:-------------|:-------|:------|:----------|
-| Introduction | / | [notes](00_Introduction.md)] | / |
+| Introduction | / | [notes](00_Introduction.md) | / |
 | LUMI Architecture | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-01-architecture.pdf) | [notes](01_Architecture.md) | / |
 | HPE Cray Programming Environment | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-02-CPE.pdf) | [notes](02_CPE.md) | / |
 | Getting access to LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-03-access.pdf) | [notes](03_LUMI_access.md) | / |
