@@ -26,11 +26,11 @@ THIS TEXT ALREADY ASSUMES A TRAINING PROJECT WHICH DOES NOT YET EXIST.
 -   Now download the exercises and un-tar:
 
     ```
-    wget https://465000095.lumidata.eu/intro-202310xx/files/exercises-202310xx.tar.gz
+    wget https://465000095.lumidata.eu/training-materials-web/intro-202310xx/files/exercises-202310xx.tar.gz
     tar -xf exercises-20230509.tar.gz
     ```
 
-    [Link to the tar-file with the exercises](https://465000095.lumidata.eu/intro-202310xx/files/exercises-20230509.tar.gz)
+    [Link to the tar-file with the exercises](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/files/exercises-20230509.tar.gz)
 
 -   You're all set to go!
 
@@ -42,18 +42,18 @@ THIS TEXT ALREADY ASSUMES A TRAINING PROJECT WHICH DOES NOT YET EXIST.
 | Presentation | Slides | Notes | recording |
 |:-------------|:-------|:------|:----------|
 | Introduction | / | [notes](00_Introduction.md) | / |
-| LUMI Architecture | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-01-architecture.pdf) | [notes](01_Architecture.md) | / |
-| HPE Cray Programming Environment | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-02-CPE.pdf) | [notes](02_CPE.md) | / |
-| Getting access to LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-03-access.pdf) | [notes](03_LUMI_access.md) | / |
-| Modules on LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-04-modules.pdf) | [notes](04_Modules.md) | / |
-| LUMI Software Stacks | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-05-software.pdf) | [notes](05_Software_stacks.md) | / |
+| LUMI Architecture | [slides](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/files/LUMI-BE-Intro-202310XX-01-architecture.pdf) | [notes](01_Architecture.md) | / |
+| HPE Cray Programming Environment | [slides](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/files/LUMI-BE-Intro-202310XX-02-CPE.pdf) | [notes](02_CPE.md) | / |
+| Getting access to LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/files/LUMI-BE-Intro-202310XX-03-access.pdf) | [notes](03_LUMI_access.md) | / |
+| Modules on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/files/LUMI-BE-Intro-202310XX-04-modules.pdf) | [notes](04_Modules.md) | / |
+| LUMI Software Stacks | [slides](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/files/LUMI-BE-Intro-202310XX-05-software.pdf) | [notes](05_Software_stacks.md) | / |
 | Exercises 1 | / | [notes](06_Exercises_1.md) | / |
-| Slurm on LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-07-slurm.pdf) | [notes](07_Slurm.md) | / |
-| Binding resources | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-08-binding.pdf) | [notes](08_Binding.md) | / | 
+| Slurm on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/files/LUMI-BE-Intro-202310XX-07-slurm.pdf) | [notes](07_Slurm.md) | / |
+| Binding resources | [slides](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/files/LUMI-BE-Intro-202310XX-08-binding.pdf) | [notes](08_Binding.md) | / | 
 | Exercises 2 | / | [notes](09_Exercises_2.md) | / |
-| Using Lustre | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-10-lustre.pdf) | [notes](10_Lustre.md) | / |
-| Containers on LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-11-containers.pdf) | [notes](11_Containers.md) | / |
-| LUMI User Support | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-12-support.pdf) | [notes](12_Support.md) | / |
+| Using Lustre | [slides](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/files/LUMI-BE-Intro-202310XX-10-lustre.pdf) | [notes](10_Lustre.md) | / |
+| Containers on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/files/LUMI-BE-Intro-202310XX-11-containers.pdf) | [notes](11_Containers.md) | / |
+| LUMI User Support | [slides](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/files/LUMI-BE-Intro-202310XX-12-support.pdf) | [notes](12_Support.md) | / |
 | A1 Slurm issues | / | [notes](A01_Slurm_issues.md) | / | 
 | A2 Additional documentation | / | [notes](A02_Documentation.md) | / | 
 
