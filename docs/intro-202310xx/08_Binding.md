@@ -1771,6 +1771,14 @@ Let us start with the simplest case:
 
 ### Linear assignment of GCD, then match the cores
 
+<figure markdown style="border: 1px solid #000">
+  ![Slide GPU binding: Implementation: Linear GCD, match CPU, no OpenMP](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismLinearGCD1.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide GPU binding: Implementation: Linear GCD, match CPU, OpenMP](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismLinearGCD2.png){ loading=lazy }
+</figure>
+
 One possible job script to accomplish this is:
 
 <!-- map-linear-GCD.slurm -->
@@ -1849,6 +1857,14 @@ mapping is as intended. Note that the GCDs are indeed in the linear order starti
 
 ### Linear assignment of the CCDs, then match the GCD
 
+<figure markdown style="border: 1px solid #000">
+  ![Slide GPU binding: Implementation: Linear CCD, match GCD, no OpenMP](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismLinearCCD1.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide GPU binding: Implementation: Linear CCD, match GCD, OpenMP](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismLinearCCD2.png){ loading=lazy }
+</figure>
+
 To modify the order of the GPUs, we now use an array with the desired order in the `gpu_Select` script.
 Due to the asymmetric structure structure of the chiplets on the LUMI-G nodes, we still need to define
 task slots for each task. Should the settings of the schedulers be modified to have one reserved core
@@ -1901,6 +1917,14 @@ them as it makes it easier to see which chiplet is used in what position.
 
 
 ### The green ring
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide GPU binding: Implementation: Green ring, no OpenMP](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismGreenRing1.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide GPU binding: Implementation: Green ring, OpenMP](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismGreenRing2.png){ loading=lazy }
+</figure>
 
 As a final example for whole node allocations, lets bind tasks such that the MPI ranks are
 mapped upon the green ring which is GCD 0 - 1 - 3 - 2 - 4 - 5 - 7 - 6 - 0. In other words,
@@ -2155,15 +2179,19 @@ is is also easy to check that each task is also mapped on the optimal CCD for th
 
 ### What about "allocate by resources" partitions?
 
+<figure markdown style="border: 1px solid #000">
+  ![Slide GPU binding: Allocatable-by-resources partitions](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismAllocateByResource.png){ loading=lazy }
+</figure>
+
 <!-- Experiments in smallg-binding-exp*.slurm -->
 On partitions that are "allocatable by resource", e.g., `small-g`, you are never guaranteed that tasks 
 will be spread in a reasonable way over the CCDs and that the matching GPUs will be available to your job.
 Creating an optimal mapping or taking the topology into account is hence impossible. 
 
 What is possible though is work around the fact that with the usual options for such resource allocations,
-Slurm will lock up the GPUs for individual tasks in control groups so that the PEer2Peer IPC intra-node
+Slurm will lock up the GPUs for individual tasks in control groups so that the Peer2Peer IPC intra-node
 communication mechanism has to be turned off. We can do this for job steps that follow the pattern of 
-resources allocated via the `sbatch` arguments (usually `#SBATCH` lines), and rely on two elements for that:
+resources allocated via the `sbatch` arguments (usually `#SBATCH` lines), and rely on three elements for that:
 
 1.  We can turn off the Slurm GPU binding mechanism with `--gpu-bind=none`.
 

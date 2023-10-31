@@ -49,7 +49,7 @@ THIS TEXT ALREADY ASSUMES A TRAINING PROJECT WHICH DOES NOT YET EXIST.
 | LUMI Software Stacks | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-05-software.pdf) | [notes](05_Software_stacks.md) | / |
 | Exercises 1 | / | [notes](06_Exercises_1.md) | / |
 | Slurm on LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-07-slurm.pdf) | [notes](07_Slurm.md) | / |
-| Binding resources | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-binding.pdf) | [notes](08_Binding.md) | / | 
+| Binding resources | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-08-binding.pdf) | [notes](08_Binding.md) | / | 
 | Exercises 2 | / | [notes](09_Exercises_2.md) | / |
 | Using Lustre | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-10-lustre.pdf) | [notes](10_Lustre.md) | / |
 | Containers on LUMI | [slides](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-11-containers.pdf) | [notes](11_Containers.md) | / |
