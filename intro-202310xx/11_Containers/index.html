@@ -444,6 +444,8 @@
         
           
         
+          
+        
       
       
         
@@ -757,6 +759,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../12_Support" class="md-nav__link">
+        Support
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../A01_Slurm_issues/" class="md-nav__link">
         A1 Slurm issues
       </a>
@@ -926,7 +942,7 @@
 <h1 id="containers-on-lumi">Containers on LUMI<a class="headerlink" href="#containers-on-lumi" title="Permanent link">&para;</a></h1>
 <h2 id="what-are-we-talking-about-in-this-chapter">What are we talking about in this chapter?<a class="headerlink" href="#what-are-we-talking-about-in-this-chapter" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Containers on LUMI" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersIntro.png" /></p>
+<p><img alt="Containers on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersIntro.png" /></p>
 </figure>
 <p>Let's now switch to using containers on LUMI. 
 This section is about using containers on the login nodes and compute nodes. 
@@ -952,7 +968,7 @@ due to a lack of personpower to get this running and then to support this.</p>
 <p>Remember though that the compute nodes of LUMI are an HPC infrastructure and not a container cloud!</p>
 <h2 id="what-do-containers-not-provide">What do containers not provide<a class="headerlink" href="#what-do-containers-not-provide" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="What do containers not provide" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersNotProvide.png" /></p>
+<p><img alt="What do containers not provide" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersNotProvide.png" /></p>
 </figure>
 <p>What is being discussed in this subsection may be a bit surprising.
 Containers are often marketed as a way to provide reproducible science and as an easy way to transfer
@@ -992,7 +1008,7 @@ possible. You may not care much about 10% or 20% performance difference on your 
 investment represents 32 million EURO and a lot of science can be done for that money...</p>
 <h2 id="but-what-can-they-then-do-on-lumi">But what can they then do on LUMI?<a class="headerlink" href="#but-what-can-they-then-do-on-lumi" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="But what can they then do on LUMI?" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersCanDoOnLUMI.png" /></p>
+<p><img alt="But what can they then do on LUMI?" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersCanDoOnLUMI.png" /></p>
 </figure>
 <ul>
 <li>
@@ -1040,7 +1056,7 @@ want to run in those containers. We provide some advice on how to build a proper
 neglect it it is up to you to solve the problems that occur.</p>
 <h2 id="managing-containers">Managing containers<a class="headerlink" href="#managing-containers" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Managing containers" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersManaging_1.png" /></p>
+<p><img alt="Managing containers" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersManaging_1.png" /></p>
 </figure>
 <p>On LUMI, we currently support only one container runtime.</p>
 <p>Docker is not available, and will never be on the regular compute nodes as it requires elevated privileges
@@ -1069,20 +1085,20 @@ pull operation so save on your storage billing units).</p>
 <p>Let's try the <code>singularity pull docker://julia</code> command:</p>
 <p><!-- Used a 105x23 window size -->
 <figure markdown style="border: 1px solid #000">
-  <img alt="Demo singularity pull slide 1" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExamplePull_1.png" />
+  <img alt="Demo singularity pull slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExamplePull_1.png" />
 </figure></p>
 <p>We do get a lot of warnings but usually this is perfectly normal and usually they can be safely ignored.</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="Demo singularity pull slide 2" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExamplePull_2.png" />
+  <img alt="Demo singularity pull slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExamplePull_2.png" />
 </figure></p>
 <p>The process ends with the creation of the file <code>jula_latest.sif</code>. </p>
 <p>Note however that the process has left a considerable number of files in <code>~/.singularity</code> also:</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="Demo singularity pull slide 3" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExamplePull_3.png" />
+  <img alt="Demo singularity pull slide 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExamplePull_3.png" />
 </figure></p>
 </details>
 <figure style="border: 1px solid #000">
-<p><img alt="Managing containers (2)" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersManaging_2.png" /></p>
+<p><img alt="Managing containers (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersManaging_2.png" /></p>
 </figure>
 <p>There is currently limited support for building containers on LUMI and I do not expect that to change quickly.
 Container build strategies that require elevated privileges, and even those that require fakeroot or user namespaces, cannot
@@ -1098,7 +1114,7 @@ We are also working on a number of base images to build upon, where the base ima
 OS kernel on LUMI.</p>
 <h2 id="interacting-with-containers">Interacting with containers<a class="headerlink" href="#interacting-with-containers" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Interacting with containers" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersInteracting.png" /></p>
+<p><img alt="Interacting with containers" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersInteracting.png" /></p>
 </figure>
 <p>There are basically three ways to interact with containers.</p>
 <p>If you have the sif file already on the system you can enter the container with an interactive shell:</p>
@@ -1107,7 +1123,7 @@ OS kernel on LUMI.</p>
 <details class="demo" open="open">
 <summary>Demo singularity shell</summary>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="Demo singularity shell" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleShell.png" />
+  <img alt="Demo singularity shell" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleShell.png" />
 </figure></p>
 <p>In this screenshot we checked the contents of the <code>/opt</code> directory before and after the
 <code>singularity shell julia_latest.sif</code> command. This shows that we are clearly in a different
@@ -1121,7 +1137,7 @@ container has the <code>uname</code> executable installed in it,</p>
 <details class="demo" open="open">
 <summary>Demo singularity exec</summary>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="Demo singularity exec" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleExec.png" />
+  <img alt="Demo singularity exec" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleExec.png" />
 </figure></p>
 <p>In this screenshot we execute the <code>uname -a</code> command before and with the
 <code>singularity exec julia_latest.sif</code> command. There are some slight differences in the
@@ -1141,7 +1157,7 @@ running a container means. You can check if it is present and what it does with 
 <details class="demo" open="open">
 <summary>Demo singularity run</summary>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="Demo singularity run" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleRun.png" />
+  <img alt="Demo singularity run" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleRun.png" />
 </figure></p>
 <p>In this screenshot we start the julia interface in the container using
 <code>singularity run</code>. The second command shows that the container indeed
@@ -1163,7 +1179,7 @@ E.g.,</p>
 <p>will ensure that you have access to the scratch, project and flash directories of your project.</p>
 <h2 id="running-containers-on-lumi">Running containers on LUMI<a class="headerlink" href="#running-containers-on-lumi" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="/running containers on LUMI" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersRunning.png" /></p>
+<p><img alt="/running containers on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersRunning.png" /></p>
 </figure>
 <p>Just as for other jobs, you need to use Slurm to run containers on the compute nodes.</p>
 <p>For MPI containers one should use <code>srun</code> to run the <code>singularity exec</code> command, e.g,,</p>
@@ -1191,7 +1207,7 @@ use the SlingShot 11 interconnect, so work is going on for better support for OF
 support on systems that rely on OFI and do not support UCX.</p>
 <h2 id="enhancements-to-the-environment">Enhancements to the environment<a class="headerlink" href="#enhancements-to-the-environment" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Environment enhancements" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersEnvironmentEnhancement_1.png" /></p>
+<p><img alt="Environment enhancements" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersEnvironmentEnhancement_1.png" /></p>
 </figure>
 <p>To make life easier, LUST with the support of CSC did implement some modules
 that are either based on containers or help you run software with containers.</p>
@@ -1233,7 +1249,7 @@ have to create an ssh tunnel to access the server. Try</p>
 <p>for more information on how to use <code>lumi-vnc</code>.</p>
 <h3 id="cotainr-build-conda-containers-on-lumi">cotainr: Build Conda containers on LUMI<a class="headerlink" href="#cotainr-build-conda-containers-on-lumi" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Environment enhancements (2)" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersEnvironmentEnhancement_2.png" /></p>
+<p><img alt="Environment enhancements (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersEnvironmentEnhancement_2.png" /></p>
 </figure>
 <p>The third tool is <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/c/cotainr/"><strong><code>cotainr</code></strong></a>, 
 a tool developed by DeIC, the Danish partner in the LUMI consortium.
@@ -1275,7 +1291,7 @@ dependencies:
 <p>and create an empty subdirectory <code>conda-cont-1</code>.</p>
 <p>Now you can follow the commands on the slides below:</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="demo lumi-container-wrapper slide 1" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleWrapper_1.png" />
+  <img alt="demo lumi-container-wrapper slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleWrapper_1.png" />
 </figure></p>
 <p>On the slide above we prepared the environment.</p>
 <p>Now lets run the command </p>
@@ -1285,27 +1301,27 @@ dependencies:
 The screenshots don't show the full output as some parts of the screen get overwritten during
 the process:</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="demo lumi-container-wrapper slide 2" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleWrapper_2.png" />
+  <img alt="demo lumi-container-wrapper slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleWrapper_2.png" />
 </figure></p>
 <p>The tool will first build the conda installation in a tempororary work directory
 and also uses a base container for that purpose.</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="demo lumi-container-wrapper slide 3" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleWrapper_3.png" />
+  <img alt="demo lumi-container-wrapper slide 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleWrapper_3.png" />
 </figure></p>
 <p>The conda installation itself though is stored in a SquashFS file that is then
 used by the container.</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="demo lumi-container-wrapper slide 4" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleWrapper_4.png" />
+  <img alt="demo lumi-container-wrapper slide 4" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleWrapper_4.png" />
 </figure></p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="demo lumi-container-wrapper slide 65" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleWrapper_5.png" />
+  <img alt="demo lumi-container-wrapper slide 65" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleWrapper_5.png" />
 </figure></p>
 <p>In the slide above we see the installation contains both a singularity container
 and a SquashFS file. They work together to get a working conda installation.</p>
 <p>The <code>bin</code> directory seems to contain the commands, but these are in fact scripts 
 that run those commands in the container with the SquashFS file system mounted in it.</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="demo lumi-container-wrapper slide 6" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleWrapper_6.png" />
+  <img alt="demo lumi-container-wrapper slide 6" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersExampleWrapper_6.png" />
 </figure></p>
 <p>So as you can see above, we can simply use the <code>python3</code> command without realising
 what goes on behind the screen...</p>
@@ -1315,7 +1331,7 @@ what goes on behind the screen...</p>
 <p><strong>This is work in progress and not yet available when this text was written. 
 The information below is preliminary. More information will follow.</strong></p>
 <figure style="border: 1px solid #000">
-<p><img alt="Environment enhancements (3): Prebuilt AI containers" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersPrebuiltAI.png" /></p>
+<p><img alt="Environment enhancements (3): Prebuilt AI containers" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersPrebuiltAI.png" /></p>
 </figure>
 <p>LUST with the help of AMD is also building some containers with popular AI software.
 These containers contain a ROCm version that is appropriate for the software,
@@ -1333,7 +1349,7 @@ the container in job scripts.</p>
 with a container label.</p>
 <h2 id="conclusion-container-limitations-on-lumi">Conclusion: Container limitations on LUMI<a class="headerlink" href="#conclusion-container-limitations-on-lumi" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Container limitations on LUMI" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersLimitations.png" /></p>
+<p><img alt="Container limitations on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-11-containers/ContainersLimitations.png" /></p>
 </figure>
 <p>To conclude the information on using singularity containers on LUMI,
 we want to repeat the limitations:</p>

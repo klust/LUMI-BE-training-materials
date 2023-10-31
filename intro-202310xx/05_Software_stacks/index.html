@@ -444,6 +444,8 @@
         
           
         
+          
+        
       
       
         
@@ -859,6 +861,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../12_Support" class="md-nav__link">
+        Support
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../A01_Slurm_issues/" class="md-nav__link">
         A1 Slurm issues
       </a>
@@ -1136,7 +1152,7 @@
 <h2 id="the-software-stacks-on-lumi">The software stacks on LUMI<a class="headerlink" href="#the-software-stacks-on-lumi" title="Permanent link">&para;</a></h2>
 <h3 id="design-considerations">Design considerations<a class="headerlink" href="#design-considerations" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Software stack design considerations" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksDesignConsiderations.png" /></p>
+<p><img alt="Software stack design considerations" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksDesignConsiderations.png" /></p>
 </figure>
 <ul>
 <li>
@@ -1202,7 +1218,7 @@ conventional and mature system as an x86 cluster with NVIDIA GPUs and Mellanox I
 </ul>
 <h3 id="the-lumi-solution">The LUMI solution<a class="headerlink" href="#the-lumi-solution" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="The LUMI solution" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksTheLUMISolution.png" /></p>
+<p><img alt="The LUMI solution" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksTheLUMISolution.png" /></p>
 </figure>
 <p>The LUMI User Support Team (LUST) tried to take all these considerations into account 
 and came up with a solution that may look <strong>a little unconventional</strong> to many users.</p>
@@ -1244,7 +1260,7 @@ that you need and then let Spack figure out a minimal compatible set of dependen
 those packages.</p>
 <h3 id="software-policies">Software policies<a class="headerlink" href="#software-policies" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Policies" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksPolicies.png" /></p>
+<p><img alt="Policies" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksPolicies.png" /></p>
 </figure>
 <p>As any site, LUMI also has a number of policies about software installation, and these policies
 are further developed as the LUMI team gains experience in what they can do with the amount of people 
@@ -1322,7 +1338,7 @@ the Danish LUMI-partner DeIC that helps with building some types of containers t
 user space and can be used to containerise a conda-installation.</p>
 <h3 id="organisation-of-the-software-in-software-stacks">Organisation of the software in software stacks<a class="headerlink" href="#organisation-of-the-software-in-software-stacks" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Organisation&quot;Software Stacks" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksOrganisation.png" /></p>
+<p><img alt="Organisation&quot;Software Stacks" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksOrganisation.png" /></p>
 </figure>
 <p>LUMI offers several software stacks:</p>
 <p><strong>CrayEnv</strong> is the minimal software stack for users who only need the <strong>Cray Programming Environment</strong> but want a <strong>more
@@ -1346,7 +1362,7 @@ the AMD GPU ecosystem, so no promises whatsoever are made about a time frame for
 <h3 id="3-ways-to-access-the-cray-programming-environment-on-lumi">3 ways to access the Cray Programming environment on LUMI.<a class="headerlink" href="#3-ways-to-access-the-cray-programming-environment-on-lumi" title="Permanent link">&para;</a></h3>
 <h4 id="bare-environment-and-crayenv">Bare environment and CrayEnv<a class="headerlink" href="#bare-environment-and-crayenv" title="Permanent link">&para;</a></h4>
 <figure style="border: 1px solid #000">
-<p><img alt="Accessing the Cray PE on LUMI slide 1" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksAccessingCrayPE_1.png" /></p>
+<p><img alt="Accessing the Cray PE on LUMI slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksAccessingCrayPE_1.png" /></p>
 </figure>
 <p>Right after login you have a <strong>very bare environment available with the Cray Programming Environment
 with the PrgEnv-cray module loaded</strong>. It gives you basically <strong>what you can expect on a typical Cray system</strong>.
@@ -1364,7 +1380,7 @@ Environment <strong>works exactly as you'd expect from this course or the 4-day 
 that LUST organises</strong>.</p>
 <h4 id="lumi-stack">LUMI stack<a class="headerlink" href="#lumi-stack" title="Permanent link">&para;</a></h4>
 <figure style="border: 1px solid #000">
-<p><img alt="Accessing the Cray PE on LUMI slide 2" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksAccessingCrayPE_2.png" /></p>
+<p><img alt="Accessing the Cray PE on LUMI slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksAccessingCrayPE_2.png" /></p>
 </figure>
 <p>The <strong>third way</strong> to access the Cray Programming Environment is through the <strong>LUMI software stacks</strong>, where each stack
 is <strong>based on a particular release of the HPE Cray Programming Environment</strong>. We advise against mixing with modules
@@ -1409,7 +1425,7 @@ easily due to the way system administration on a Cray system is done. </p>
 and from the name of the modules you can see which compilers we used.</p>
 <h4 id="lumi-stack-module-organisation">LUMI stack module organisation<a class="headerlink" href="#lumi-stack-module-organisation" title="Permanent link">&para;</a></h4>
 <figure style="border: 1px solid #000">
-<p><img alt="Accessing the Cray PE on LUMI slide 3" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksAccessingCrayPE_3.png" /></p>
+<p><img alt="Accessing the Cray PE on LUMI slide 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/SoftwareStacksAccessingCrayPE_3.png" /></p>
 </figure>
 <p>To manage the heterogeneity in the hardware, the LUMI software stack uses <strong>two levels of modules</strong></p>
 <p>First there are the <strong>LUMI/22.08, LUMI/22.12 and LUMI/23.03 modules</strong>. 
@@ -1437,7 +1453,7 @@ explicitly load the partition/L module.</p>
 <h2 id="easybuild-to-extend-the-lumi-software-stack">EasyBuild to extend the LUMI software stack<a class="headerlink" href="#easybuild-to-extend-the-lumi-software-stack" title="Permanent link">&para;</a></h2>
 <h3 id="installing-software-on-hpc-systems">Installing software on HPC systems<a class="headerlink" href="#installing-software-on-hpc-systems" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Installing software on HPC systems" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildInstallingSoftwareHPC.png" /></p>
+<p><img alt="Installing software on HPC systems" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildInstallingSoftwareHPC.png" /></p>
 </figure>
 <p>Software on HPC systems is <strong>rarely installed from RPMs</strong> (a popular format to package Linux software
 distributed as binaries) or any other similar format for various reasons.
@@ -1465,7 +1481,7 @@ and select appropriate versions for your work.
 And they do <strong>take care of dependency handling</strong> in a way that is compatible with modules.</p>
 <h3 id="extending-the-lumi-stack-with-easybuild">Extending the LUMI stack with EasyBuild<a class="headerlink" href="#extending-the-lumi-stack-with-easybuild" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Extending the LUMI stack with EasyBuild" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildExtendingLUMIStack.png" /></p>
+<p><img alt="Extending the LUMI stack with EasyBuild" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildExtendingLUMIStack.png" /></p>
 </figure>
 <p>On LUMI EasyBuild is the primary software installation tool. 
 EasyBuild was selected as there is
@@ -1509,7 +1525,7 @@ and even instructions for some software that is not suitable for installation th
 Spack, e.g., because it likes to write in its own directories while running.</p>
 <h3 id="easybuild-recipes-easyconfigs">EasyBuild recipes - easyconfigs<a class="headerlink" href="#easybuild-recipes-easyconfigs" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="EasyBuild recipes - easyconfigs" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildEasyConfig.png" /></p>
+<p><img alt="EasyBuild recipes - easyconfigs" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildEasyConfig.png" /></p>
 </figure>
 <p>EasyBuild uses a build recipe for each individual package, or better said, each individual module
 as it is possible to install more than one software package in the same module. That installation
@@ -1530,7 +1546,7 @@ the extension <code>.eb</code>. </p>
 <p>Most or all of these steps can be influenced by parameters in the easyconfig.</p>
 <h3 id="the-toolchain-concept">The toolchain concept<a class="headerlink" href="#the-toolchain-concept" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="The toolchain concept" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildToolchain_1.png" /></p>
+<p><img alt="The toolchain concept" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildToolchain_1.png" /></p>
 </figure>
 <p>EasyBuild uses the toolchain concept. A toolchain consists of compilers, an MPI implementation
 and some basic mathematics libraries. The latter two are optional in a toolchain. All these 
@@ -1574,7 +1590,7 @@ before.</p>
 </tbody>
 </table>
 <figure style="border: 1px solid #000">
-<p><img alt="The toolchain concept 2" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildToolchain_2.png" /></p>
+<p><img alt="The toolchain concept 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildToolchain_2.png" /></p>
 </figure>
 <p>There is also a special toolchain called the SYSTEM toolchain that uses the compiler
 provided by the operating system. This toolchain does not fully function in the same way as the other
@@ -1606,7 +1622,7 @@ when building as mixing libraries could cause problems. Spack uses rpath linking
 this may work.</p>
 <h3 id="easyconfig-names-and-module-names">EasyConfig names and module names<a class="headerlink" href="#easyconfig-names-and-module-names" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="easyconfig names and module names" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyConfigModuleNames.png" /></p>
+<p><img alt="easyconfig names and module names" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyConfigModuleNames.png" /></p>
 </figure>
 <p>There is a convention for the naming of an EasyConfig as shown on the slide. This is not
 mandatory, but EasyBuild will fail to automatically locate easyconfigs for dependencies 
@@ -1642,7 +1658,7 @@ Hence this easyconfig file will generate the module
 <h3 id="installing">Installing<a class="headerlink" href="#installing" title="Permanent link">&para;</a></h3>
 <h4 id="step-1-where-to-install">Step 1: Where to install<a class="headerlink" href="#step-1-where-to-install" title="Permanent link">&para;</a></h4>
 <figure style="border: 1px solid #000">
-<p><img alt="Installing: Where to install" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildInstallingStep1.png" /></p>
+<p><img alt="Installing: Where to install" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildInstallingStep1.png" /></p>
 </figure>
 <p>Let's now discuss how you can extend the central LUMI software stack with packages that you
 need for your project.</p>
@@ -1667,7 +1683,7 @@ by the <code>LUMI</code> - or actually <strong>the <code>partition</code> - modu
 who want to use the software should set that variable.</p>
 <h4 id="step-2-configure-the-environment">Step 2: Configure the environment<a class="headerlink" href="#step-2-configure-the-environment" title="Permanent link">&para;</a></h4>
 <figure style="border: 1px solid #000">
-<p><img alt="Installing: Configure the environment" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildInstallingStep2_1.png" /></p>
+<p><img alt="Installing: Configure the environment" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildInstallingStep2_1.png" /></p>
 </figure>
 <p>The next step is to configure your environment. First load the proper version of the LUMI
 stack for which you want to install software, and you may want to change to the proper
@@ -1690,7 +1706,7 @@ the software that is installed that way it is sufficient to ensure that <code>EB
 the proper value before loading the <code>LUMI</code> module.</strong></p>
 <h4 id="step-3-install-the-software">Step 3: Install the software.<a class="headerlink" href="#step-3-install-the-software" title="Permanent link">&para;</a></h4>
 <figure style="border: 1px solid #000">
-<p><img alt="Installing: Install the software" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildInstallingStep3.png" /></p>
+<p><img alt="Installing: Install the software" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildInstallingStep3.png" /></p>
 </figure>
 <p>Let's look at GROMACS as an example. I will not try to do this completely live though as the 
 installation takes 15 or 20 minutes.
@@ -1705,11 +1721,11 @@ Alternatively one can use <code>eb -S</code> or <code>eb --search</code> for tha
 <p class="admonition-title">Output of the search commands:</p>
 <p><code>eb --search GROMACS</code> produces:</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb --search GROMACS" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACSSearch_1.png" />
+  <img alt="eb --search GROMACS" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACSSearch_1.png" />
 </figure></p>
 <p>while <code>eb -S GROMACS</code> produces:</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb -S GROMACS" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACSSearch_2.png" />
+  <img alt="eb -S GROMACS" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACSSearch_2.png" />
 </figure></p>
 <p>The information provided by both variants of the search command is the same, but <code>-S</code> presents the information in a more
 compact form.</p>
@@ -1730,32 +1746,32 @@ since there are scenarios where this is not desired and it cannot be turned off 
 it can be turned on.</p>
 <p>The output of this command looks like:</p>
 <figure style="border: 1px solid #000">
-<p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb –D" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_01.png" /></p>
+<p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb –D" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_01.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb –D (2)" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_02.png" /></p>
+<p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb –D (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_02.png" /></p>
 </figure>
 <p>Looking at the output we see that EasyBuild will also need to install <code>PLUMED</code> for us.
 But it will do so automatically when we run
 <div class="highlight"><pre><span></span><code>eb<span class="w"> </span>GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb<span class="w"> </span>-r
 </code></pre></div></p>
 <figure style="border: 1px solid #000">
-<p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_03.png" /></p>
+<p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_03.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (2)" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_04.png" /></p>
+<p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_04.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (3)" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_05.png" /></p>
+<p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (3)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_05.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (4)" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_06.png" /></p>
+<p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (4)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_06.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (5)" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_07.png" /></p>
+<p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (5)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_07.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (6)" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_08.png" /></p>
+<p><img alt="eb GROMACS-2021.4-cpeCray-22.08-PLUMED-2.8.0-CPU.eb -r (6)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildGROMACS_08.png" /></p>
 </figure>
 <p>This takes too long to wait for, but once it finished the software should be available
 and you should be able to see the module in the output of
@@ -1763,7 +1779,7 @@ and you should be able to see the module in the output of
 </code></pre></div></p>
 <h4 id="step-3-install-the-software-note">Step 3: Install the software - Note<a class="headerlink" href="#step-3-install-the-software-note" title="Permanent link">&para;</a></h4>
 <figure style="border: 1px solid #000">
-<p><img alt="Installing: Install the software" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildInstallingStep3Note.png" /></p>
+<p><img alt="Installing: Install the software" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildInstallingStep3Note.png" /></p>
 </figure>
 <p>Installing software this way is <strong>100% equivalent to an installation in the central software
 tree</strong>. The application is compiled in exactly the same way as we would do and served from the
@@ -1787,7 +1803,7 @@ You can do this with
 </code></pre></div></p>
 <h3 id="more-advanced-work">More advanced work<a class="headerlink" href="#more-advanced-work" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="More advanced work" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildAdvanced_1.png" /></p>
+<p><img alt="More advanced work" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildAdvanced_1.png" /></p>
 </figure>
 <p>You can also install some EasyBuild recipes that you got from support. For this it is best to
 create a subdirectory where you put those files, then go into that directory and run 
@@ -1814,7 +1830,7 @@ directory run EasyBuild, for instance for VASP 6.3.0 with the GNU compilers:
 </code></pre></div></p>
 <h3 id="more-advanced-work-2-repositories">More advanced work (2): Repositories<a class="headerlink" href="#more-advanced-work-2-repositories" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="More advanced work (2): Repositories" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildAdvanced_2.png" /></p>
+<p><img alt="More advanced work (2): Repositories" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildAdvanced_2.png" /></p>
 </figure>
 <p>It is also possible to have your own clone of the <code>LUMI-EasyBuild-contrib</code> GitHub repository
 in your <code>$EBU_USER_PREFIX</code> subdirectory if you want the latest and greatest before it is in
@@ -1832,7 +1848,7 @@ The structure should also be compatible with the structure that EasyBuild uses, 
 easyconfig files go in <code>$EBU_USER_PREFIX/UserRepo/easybuild/easyconfigs</code>.</p>
 <h3 id="more-advanced-work-3-reproducibility">More advanced work (3): Reproducibility<a class="headerlink" href="#more-advanced-work-3-reproducibility" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="More advanced work (3): Reproducibility" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildAdvanced_3.png" /></p>
+<p><img alt="More advanced work (3): Reproducibility" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildAdvanced_3.png" /></p>
 </figure>
 <p>EasyBuild also takes care of a <strong>high level of reproducibility of installations</strong>.</p>
 <p>It will <strong>keep a copy of all the downloaded sources</strong> in the <code>$EBU_USER_PREFIX/sources</code>
@@ -1863,7 +1879,7 @@ you could manually put the downloaded installation files for licensed software.<
 </ol>
 <h3 id="easybuild-tips-and-tricks">EasyBuild tips and tricks<a class="headerlink" href="#easybuild-tips-and-tricks" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="EasyBuild tips and tricks" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildTipsTricks.png" /></p>
+<p><img alt="EasyBuild tips and tricks" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildTipsTricks.png" /></p>
 </figure>
 <p>Updating the version of a package often requires only trivial changes in the easyconfig file.
 However, we do tend to use checksums for the sources so that we can detect if the available
@@ -1887,7 +1903,7 @@ also some technical documentation that is more geared towards users who want to
 build or modify recipes. It sometimes also tells why things are done in a particular way.</p>
 <h3 id="easybuild-training-for-advanced-users-and-developers">EasyBuild training for advanced users and developers<a class="headerlink" href="#easybuild-training-for-advanced-users-and-developers" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="EasyBuild training" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildTraining.png" /></p>
+<p><img alt="EasyBuild training" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-05-software/EasyBuildTraining.png" /></p>
 </figure>
 <p>Pointers to all information about EasyBuild can be found on the EasyBuild web site 
 <a href="https://easybuild.io/">easybuild.io</a>. This

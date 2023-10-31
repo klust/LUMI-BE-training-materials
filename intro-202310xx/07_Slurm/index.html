@@ -444,6 +444,8 @@
         
           
         
+          
+        
       
       
         
@@ -909,6 +911,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../12_Support" class="md-nav__link">
+        Support
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../A01_Slurm_issues/" class="md-nav__link">
         A1 Slurm issues
       </a>
@@ -1244,7 +1260,7 @@ the course. Links in the PDF of the slides however are to the newest version.</p
 </div>
 <h2 id="what-is-slurm">What is Slurm<a class="headerlink" href="#what-is-slurm" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide What is Slurm" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/WhatIsSlurm.png" /></p>
+<p><img alt="Slide What is Slurm" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/WhatIsSlurm.png" /></p>
 </figure>
 <p>Slurm is both a resource manager and job scheduler for supercomputers in a single package.</p>
 <p>A resource manager manages all user-exposed resources on a supercomputer: cores, GPUs or other
@@ -1285,7 +1301,7 @@ being assembled. </p>
 </div>
 <h2 id="slurm-concepts-physical-resources">Slurm concepts: Physical resources<a class="headerlink" href="#slurm-concepts-physical-resources" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Slurm concepts 1" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/SlurmConceptsPhys.png" /></p>
+<p><img alt="Slide Slurm concepts 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/SlurmConceptsPhys.png" /></p>
 </figure>
 <p>The machine model of Slurm is bit more limited than what we would like for LUMI. </p>
 <p>On the CPU side it knows:</p>
@@ -1319,7 +1335,7 @@ other jobs.</p>
 <p>A <strong>GPU</strong> in Slurm is an accelerator and on LUMI corresponds to one GCD of an MI250X, so one half of an MI250X.</p>
 <h2 id="slurm-concepts-logical-resources">Slurm concepts: Logical resources<a class="headerlink" href="#slurm-concepts-logical-resources" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Slurm concepts 2" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/SlurmConceptsLog.png" /></p>
+<p><img alt="Slide Slurm concepts 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/SlurmConceptsLog.png" /></p>
 </figure>
 <ul>
 <li>
@@ -1377,7 +1393,7 @@ within a single operating system image.</p>
 </ul>
 <h2 id="slurm-is-first-and-foremost-a-batch-scheduler">Slurm is first and foremost a batch scheduler<a class="headerlink" href="#slurm-is-first-and-foremost-a-batch-scheduler" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Slurm is first and foremost a batch scheduler" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/BatchScheduler.png" /></p>
+<p><img alt="Slide Slurm is first and foremost a batch scheduler" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/BatchScheduler.png" /></p>
 </figure>
 <p>And LUMI is in the first place a batch processing supercomputer.</p>
 <p>A supercomputer like LuMI is a very large and very expensive machine. This implies that it also has to be
@@ -1404,7 +1420,7 @@ scheduler looks for small and short jobs to fill up the gaps left while the sche
 for a big job.</p>
 <h2 id="a-slurm-batch-script">A Slurm batch script<a class="headerlink" href="#a-slurm-batch-script" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide A Slurm batch script" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/BatchScript.png" /></p>
+<p><img alt="Slide A Slurm batch script" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/BatchScript.png" /></p>
 </figure>
 <p>Slurm batch scripts (also called job scripts) are conceptually not that different from batch scripts for other HPC schedulers.
 A typical batch script will have 4 parts:</p>
@@ -1447,7 +1463,7 @@ use it whenever you suspect Slurm isn't doing what you meant to do.</p>
 </div>
 <h2 id="partitions">Partitions<a class="headerlink" href="#partitions" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Partitions 1" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/Partitions_1.png" /></p>
+<p><img alt="Slide Partitions 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/Partitions_1.png" /></p>
 </figure>
 <div class="admonition remark">
 <p class="admonition-title">Remark</p>
@@ -1484,7 +1500,7 @@ access was requested may still react differently to a node in the exclusive part
 of what each Slurm parameter really means. Overspecifying resources (using more parameters than needed for the
 desired effect) may result in unexpected conflicts between parameters and error messages.</p>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Partitions 2" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/Partitions_2.png" /></p>
+<p><img alt="Slide Partitions 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/Partitions_2.png" /></p>
 </figure>
 <p>For the overview of Slurm partitions, see the <a href="https://docs.lumi-supercomputer.eu/runjobs/scheduled-jobs/partitions/">LUMI dpcumentation, "Slurm partitions" page</a>.
 In the overview on the slide we did not mention partitions that are hidden to regular users.</p>
@@ -1492,7 +1508,7 @@ In the overview on the slide we did not mention partitions that are hidden to re
 operation of LUMI and depending on needs observed by the system administrators and LUMI
 User Support Team.</p>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Partitions 3" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/Partitions_3.png" /></p>
+<p><img alt="Slide Partitions 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/Partitions_3.png" /></p>
 </figure>
 <p>Some useful commands with respect to Slurm partitions:</p>
 <ul>
@@ -1589,7 +1605,7 @@ RAM disk it needs.</p>
 </details>
 <h2 id="queueing-and-fairness">Queueing and fairness<a class="headerlink" href="#queueing-and-fairness" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Fairness of queueing" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/Fairness.png" /></p>
+<p><img alt="Slide Fairness of queueing" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/Fairness.png" /></p>
 </figure>
 <div class="admonition remark">
 <p class="admonition-title">Remark</p>
@@ -1638,7 +1654,7 @@ to have all nodes for the big job. This mechanism is called backfill and is the 
 short experiments of half an hour or so often start quickly on LUMI even though the queue is very long.</p>
 <h2 id="accounting-of-jobs">Accounting of jobs<a class="headerlink" href="#accounting-of-jobs" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Accounting of jobs" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/Accounting.png" /></p>
+<p><img alt="Slide Accounting of jobs" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/Accounting.png" /></p>
 </figure>
 <div class="admonition remark">
 <p class="admonition-title">Billing of jobs</p>
@@ -1762,7 +1778,7 @@ manage jobs.</p>
 the behaviour of Slurm.</p>
 <h2 id="creating-a-slurm-job">Creating a Slurm job<a class="headerlink" href="#creating-a-slurm-job" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Creating a Slurm job" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/CreateJob.png" /></p>
+<p><img alt="Slide Creating a Slurm job" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/CreateJob.png" /></p>
 </figure>
 <p>Slurm has three main commands to create jobs and job steps. 
 Remember that a job is just a request for an allocation. Your applications always have to
@@ -1799,7 +1815,7 @@ internally calls <code>srun</code> to start the job.
 supported on LUMI) you will have to use <code>srun</code> as the process starter.</strong></p>
 <h2 id="passing-options-to-srun-salloc-and-sbatch">Passing options to srun, salloc and sbatch<a class="headerlink" href="#passing-options-to-srun-salloc-and-sbatch" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Passing options to srun, salloc and sbatch" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PassingOptions.png" /></p>
+<p><img alt="Slide Passing options to srun, salloc and sbatch" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PassingOptions.png" /></p>
 </figure>
 <p>There are several ways to pass options and flags to the <code>srun</code>, <code>salloc</code> and <code>sbatch</code> command.</p>
 <p>The lowest priority way and only for the <code>sbatch</code> command is specifying the options (mostly resource-related)
@@ -1828,7 +1844,7 @@ as otherwise they would be passed to that command as flags and options.</p>
 variables set in the job by these commands.</p>
 <h2 id="specifying-options">Specifying options<a class="headerlink" href="#specifying-options" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Specifying options" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/SpecifyingOptions.png" /></p>
+<p><img alt="Slide Specifying options" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/SpecifyingOptions.png" /></p>
 </figure>
 <p>Slurm commands have way more options and flags than we can discuss in this course or even the
 4-day comprehensive course organised by the LUMI User Support Team. Moreover, if and how they work
@@ -1870,7 +1886,7 @@ same node.
 
 <h2 id="some-common-options-to-all-partitions">Some common options to all partitions<a class="headerlink" href="#some-common-options-to-all-partitions" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Some common options to all partitions" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/SpecifyingCommonOptions.png" /></p>
+<p><img alt="Slide Some common options to all partitions" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/SpecifyingCommonOptions.png" /></p>
 </figure>
 <p>For CPU and GPU requests, a different strategy should be used for "allocatable by node" and "allocatable by resource" partitions,
 and this will be discussed later. A number of options however are common to both strategies and will be discussed first.
@@ -1915,7 +1931,7 @@ Schedulers have been developed for a reason.</p>
 </ul>
 <h2 id="redirecting-output">Redirecting output<a class="headerlink" href="#redirecting-output" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Redirecting output" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/SpecifyingOutput.png" /></p>
+<p><img alt="Slide Redirecting output" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/SpecifyingOutput.png" /></p>
 </figure>
 <p>Slurm has two options to redirect stdout and stderr respectively: <code>--output=&lt;template&gt;</code> or <code>-o &lt;template&gt;</code> for stdout
 and <code>--error=&lt;template&gt;</code> or <code>-e &lt;template&gt;</code> for stderr. They work together in the following way:</p>
@@ -1944,7 +1960,7 @@ scope of this tutorial, but you can find them all in the <a href="https://slurm.
 in the <a href="https://slurm.schedmd.com/archive/slurm-22.05.8/sbatch.html#SECTION_%3CB%3Efilename-pattern%3C/B%3E">"filename pattern" section</a>.</p>
 <h2 id="requesting-resources-cpus-and-gpus">Requesting resources: CPUs and GPUs<a class="headerlink" href="#requesting-resources-cpus-and-gpus" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Requesting resources: CPUs and GPUs" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/RequestingCPUsGPUs.png" /></p>
+<p><img alt="Slide Requesting resources: CPUs and GPUs" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/RequestingCPUsGPUs.png" /></p>
 </figure>
 <p>Slurm is very flexible in the way resources can be requested. Covering every scenario and every possible
 way to request CPUs and GPUs is impossible, so we will present a scheme that works for most users and jobs.</p>
@@ -2013,7 +2029,7 @@ node and if all jobs take about the same time anyway, it might be better to bund
 mapping of each subjob on the available resources (e.g., in case of two jobs on a CPU node, map each on a socket).</p>
 <h2 id="resources-for-per-node-allocations">Resources for per-node allocations<a class="headerlink" href="#resources-for-per-node-allocations" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Per-node allocations" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNode.png" /></p>
+<p><img alt="Slide Per-node allocations" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNode.png" /></p>
 </figure>
 <p>In a per-node allocation, all you need to specify is the partition and the number of nodes needed, and in some cases,
 the amount of memory. In this scenario, one should use those Slurm options that specify resources per node
@@ -2106,7 +2122,7 @@ extensively in the next section on binding also, and are written to check how yo
 would behave in the allocation without burning through tons of billing units.</p>
 </details>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Per-node allocations: CPUs" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeCPU.png" /></p>
+<p><img alt="Slide Per-node allocations: CPUs" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeCPU.png" /></p>
 </figure>
 <p>By default you will get all the CPUs in each node that is allocated in a per-node allocation.
 The Slurm options to request CPUs on a per-node basis are not really useful on LUMI, but might be on clusters
@@ -2151,7 +2167,7 @@ called). There is another mechanism to enable or disable hyperthreading in regul
 discuss later.</p>
 </details>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Per-node allocations: GPUs" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeGPU.png" /></p>
+<p><img alt="Slide Per-node allocations: GPUs" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeGPU.png" /></p>
 </figure>
 <p>By default you will get all the GPUs in each node that is allocated in a per-node allocation. The Slurm options
 to request GPUs on a per-node basis are not really useful on LUMI, but might be on clusters with multiple
@@ -2179,7 +2195,7 @@ On LUMI, you could in principle use <code>--gpus-per-node=mi250:8</code>.</p>
 <p>As these options are also forwarded to <code>srun</code>, it will save you from specifying them there.</p>
 <h2 id="per-node-allocations-starting-a-job-step">Per-node allocations: Starting a job step<a class="headerlink" href="#per-node-allocations-starting-a-job-step" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Per-node allocations: Starting a job step" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeJobStep_1.png" /></p>
+<p><img alt="Slide Per-node allocations: Starting a job step" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeJobStep_1.png" /></p>
 </figure>
 <p>Serial or shared-memory multithreaded programs in a batch script can in principle be run in 
 the batch job step. As we shall see though the effect may be different from what you expect. 
@@ -2191,7 +2207,7 @@ cases. After all, a job step consists of a number of equal-sized tasks (consider
 homogeneous job steps at the moment, the typical case for most users) that each need a number
 of cores or hardware threads and, in case of GPU compute, access to a number of GPUs.</p>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Per-node allocations: Starting a job step (2)" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeJobStep_2.png" /></p>
+<p><img alt="Slide Per-node allocations: Starting a job step (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeJobStep_2.png" /></p>
 </figure>
 <p>There are several ways telling Slurm how many tasks should be created and what the 
 resources are for each individual task, but this scheme is an easy scheme:</p>
@@ -2308,7 +2324,7 @@ echo -e &quot;\nsacct for the job:\n$(sacct -j $SLURM_JOB_ID)\n&quot;
 </details>
 <h3 id="a-warning-for-gpu-applications">A warning for GPU applications<a class="headerlink" href="#a-warning-for-gpu-applications" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Per-node allocations: A warning for GPU applications" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeJobstepWarningGPU.png" /></p>
+<p><img alt="Slide Per-node allocations: A warning for GPU applications" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeJobstepWarningGPU.png" /></p>
 </figure>
 <p>Allocating GPUs with <code>--gpus-per-task</code> or <code>--tasks-per-gpu</code> may seem the most logical thing to do
 when reading the Slurm manual pages. It does come with a problem though resulting of how Slurm
@@ -2328,7 +2344,7 @@ discussion and a solution.</p>
 more problems).</p>
 <h2 id="turning-simultaneous-multithreading-on-or-off">Turning simultaneous multithreading on or off<a class="headerlink" href="#turning-simultaneous-multithreading-on-or-off" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Turning hardware threading on or off" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeHardwareThreading.png" /></p>
+<p><img alt="Slide Turning hardware threading on or off" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerNodeHardwareThreading.png" /></p>
 </figure>
 <p>Hardware threads are enabled by default at the operating system level. In Slurm however, regular
 job steps start by default with hardware threads disabled. This is not true though for the 
@@ -2629,7 +2645,7 @@ work.</p>
 <h2 id="per-core-allocations">Per-core allocations<a class="headerlink" href="#per-core-allocations" title="Permanent link">&para;</a></h2>
 <h3 id="when-to-use">When to use?<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Per core allocations: When to use?" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreWhenUse.png" /></p>
+<p><img alt="Slide Per core allocations: When to use?" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreWhenUse.png" /></p>
 </figure>
 <p>Not all jobs can use entire nodes efficiently, and therefore the LUMI setup does provide some
 partitions that enable users to define jobs that use only a part of a node. This scheme enables
@@ -2657,13 +2673,13 @@ on other jobs already running on the set of nodes assigned to your job.</p>
 arguments of <code>sbatch</code> and <code>salloc</code> that you will need to run the job.</p>
 <h3 id="resource-request">Resource request<a class="headerlink" href="#resource-request" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Per core allocations: Resource request (1)" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreResources_1.png" /></p>
+<p><img alt="Slide Per core allocations: Resource request (1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreResources_1.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Per core allocations: Resource request (2)" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreResources_2.png" /></p>
+<p><img alt="Slide Per core allocations: Resource request (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreResources_2.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Per core allocations: Resource request (3)" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreResources_3.png" /></p>
+<p><img alt="Slide Per core allocations: Resource request (3)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreResources_3.png" /></p>
 </figure>
 <p>To request an allocation, you have to specify the task structure of the job step you want to run using
 mostly the same options that we have discussed on the slides "Per-node allocations: Starting a job step": </p>
@@ -2742,7 +2758,7 @@ wrong number of GPUs or on the wrong node (like too many tasks on one and too li
 to the number of GPUs set aside in each of these nodes).</p>
 </div>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Per core allocations: Warning: Allocations per socket?" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreWarningSocket.png" /></p>
+<p><img alt="Slide Per core allocations: Warning: Allocations per socket?" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreWarningSocket.png" /></p>
 </figure>
 <div class="admonition warning">
 <p class="admonition-title"><code>--sockets-per-node</code> and <code>--ntasks-per-socket</code></p>
@@ -2763,10 +2779,10 @@ a single L3 cache domain, is futile.</p>
 </div>
 <h3 id="different-job-steps-in-a-single-job">Different job steps in a single job<a class="headerlink" href="#different-job-steps-in-a-single-job" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Per core allocations: Different job steps (1)" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreJobstep_1.png" /></p>
+<p><img alt="Slide Per core allocations: Different job steps (1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreJobstep_1.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Per core allocations: Different job steps (2)" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreJobstep_2.png" /></p>
+<p><img alt="Slide Per core allocations: Different job steps (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PerCoreJobstep_2.png" /></p>
 </figure>
 <p>It is possible to have an <code>srun</code> command with a different task structure in your job script.
 This will work if no task requires more CPUs or GPUs than in the original request, and if there are
@@ -3016,7 +3032,7 @@ then tries and lets it fail.</p>
 </details>
 <h2 id="the-job-environment">The job environment<a class="headerlink" href="#the-job-environment" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Job environment" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobEnvironment.png" /></p>
+<p><img alt="Slide Job environment" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobEnvironment.png" /></p>
 </figure>
 <p>On LUMI, <code>sbatch</code>, <code>salloc</code> and <code>srun</code> will all by default copy the environment in which they run to the
 job step they start (the batch job step for <code>sbatch</code>, an interactive job step for <code>salloc</code> and a regular
@@ -3049,7 +3065,7 @@ that is needed to have a job script in which you can work more or less normally 
 </li>
 </ul>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Passing arguments" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PassingArguments.png" /></p>
+<p><img alt="Slide Passing arguments" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/PassingArguments.png" /></p>
 </figure>
 <div class="admonition note">
 <p class="admonition-title">Passing argumetns to a batch script</p>
@@ -3103,7 +3119,7 @@ a job or job step in the environment from which the Slurm command was called.</p
 </div>
 <h2 id="automatic-requeueing">Automatic requeueing<a class="headerlink" href="#automatic-requeueing" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Automatic requeueing" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/AutomaticRequeueing.png" /></p>
+<p><img alt="Slide Automatic requeueing" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/AutomaticRequeueing.png" /></p>
 </figure>
 <p>LUMI has the Slurm automatic requeueing of jobs upon node failure enabled. So jobs will be
 automatically resubmitted when one of the allocated nodes fails. For this an identical job ID
@@ -3125,7 +3141,7 @@ is used and by default the prefious output will be truncated when the requeueed 
 </ul>
 <h2 id="job-dependencies">Job dependencies<a class="headerlink" href="#job-dependencies" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Job dependencies" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobDependencies.png" /></p>
+<p><img alt="Slide Job dependencies" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobDependencies.png" /></p>
 </figure>
 <p>The maximum wall time that a job can run on LUMI is fairly long for a Tier-0 system. Many other big systems in 
 Europe will only allow a maximum wall time of 24 hours. Despite this, this is not yet enough for some users.
@@ -3174,7 +3190,7 @@ sbatch<span class="w"> </span>--dependency<span class="o">=</span>afterok:<span 
 </ol>
 <h3 id="interactive-jobs-with-salloc">Interactive jobs with salloc<a class="headerlink" href="#interactive-jobs-with-salloc" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Interactive jobs with salloc" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobInteractiveSalloc.png" /></p>
+<p><img alt="Slide Interactive jobs with salloc" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobInteractiveSalloc.png" /></p>
 </figure>
 <p>This is a very good way of working for the first scenario described above. </p>
 <p>Using <code>salloc</code> will create a pool of resources reserved for interactive execution, and
@@ -3244,7 +3260,7 @@ MPI 015 - OMP 001 - HWT 016 - Node nid005192 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d
 </details>
 <h3 id="interactive-jobs-with-srun">Interactive jobs with srun<a class="headerlink" href="#interactive-jobs-with-srun" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Interactive jobs with srun" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobInteractiveSrun.png" /></p>
+<p><img alt="Slide Interactive jobs with srun" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobInteractiveSrun.png" /></p>
 </figure>
 <p>Starting an interactive job with <code>srun</code> is good to get an interactive shell in which you want
 to do some work without starting further job steps, e.g., for compilation on the compute nodes
@@ -3265,7 +3281,7 @@ partitions of choice.</p>
 CTRL-D key combination.</p>
 <h3 id="inspecting-a-running-job">Inspecting a running job<a class="headerlink" href="#inspecting-a-running-job" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Inpecting a running job" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobInteractiveAttach.png" /></p>
+<p><img alt="Slide Inpecting a running job" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobInteractiveAttach.png" /></p>
 </figure>
 <p>On LUMI it is not possible to use <code>ssh</code> to log on to a compute node in use by one of your jobs.
 Instead you need to use Slurm to attach a shell to an already running job. This can be done with
@@ -3294,7 +3310,7 @@ TODO: Add some examples of how to use sstat or salloc for this?
 
 <h2 id="job-arrays">Job arrays<a class="headerlink" href="#job-arrays" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Job arrays" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobArrays.png" /></p>
+<p><img alt="Slide Job arrays" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/JobArrays.png" /></p>
 </figure>
 <p>Job arrays is a mechanism to submit a large number of related jobs with the same batch script in a
 single <code>sbatch</code> operation.</p>
@@ -3327,7 +3343,7 @@ throughput computing should do some kind of hierarchical scheduling, running a s
 job that then further start subjobs.</p>
 <h2 id="heterogeneous-jobs">Heterogeneous jobs<a class="headerlink" href="#heterogeneous-jobs" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Heterogeneous jobs" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/HeterogeneousJobs.png" /></p>
+<p><img alt="Slide Heterogeneous jobs" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/HeterogeneousJobs.png" /></p>
 </figure>
 <p>A heterogeneous job is one in which multiple executables run in a single <code>MPI_COMM_WORLD</code>, or a single
 executable runs in different combinations (e.g., some multithreaded and some single-threaded MPI ranks where
@@ -3359,10 +3375,10 @@ bugs are being introduced.</p>
 </li>
 </ul>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Heterogeneous jobs: Example with #SBATCH" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/HeterogeneousJobsExampleSBATCH.png" /></p>
+<p><img alt="Slide Heterogeneous jobs: Example with #SBATCH" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/HeterogeneousJobsExampleSBATCH.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Heterogeneous jobs: Example with srun" loading="lazy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/HeterogeneousJobsExampleSrun.png" /></p>
+<p><img alt="Slide Heterogeneous jobs: Example with srun" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-07-slurm/HeterogeneousJobsExampleSrun.png" /></p>
 </figure>
 <details class="example">
 <summary>Let's show with an example (worked out more in the text than in the slides)</summary>

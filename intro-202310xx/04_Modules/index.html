@@ -444,6 +444,8 @@
         
           
         
+          
+        
       
       
         
@@ -792,6 +794,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../12_Support" class="md-nav__link">
+        Support
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../A01_Slurm_issues/" class="md-nav__link">
         A1 Slurm issues
       </a>
@@ -1005,7 +1021,7 @@ these notes as not every Lmod configuration is the same.</p>
 </div>
 <h2 id="module-environments">Module environments<a class="headerlink" href="#module-environments" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Module environments" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleEnvironments.png" /></p>
+<p><img alt="Module environments" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleEnvironments.png" /></p>
 </figure>
 <p>An HPC cluster is a multi-user machine. Different users may need different 
 versions of the same application, and each user has their own preferences for
@@ -1064,7 +1080,7 @@ that are not available on your home cluster.</p>
 </div>
 <h2 id="exploring-modules-with-lmod">Exploring modules with Lmod<a class="headerlink" href="#exploring-modules-with-lmod" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Exploring modules with Lmod" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ExploringWithLmod.png" /></p>
+<p><img alt="Exploring modules with Lmod" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ExploringWithLmod.png" /></p>
 </figure>
 <p>Contrary to some other module systems, or even some other Lmod installations, <strong>not all modules are
 immediately available for loading</strong>. So don't be disappointed by the few modules you will see with
@@ -1095,7 +1111,7 @@ the way the Lmod developer intended so that some features do not function as the
 </ul>
 <h2 id="benefits-of-a-hierarchy">Benefits of a hierarchy<a class="headerlink" href="#benefits-of-a-hierarchy" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Benefits of a hierarchy" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/BenefitsHierarchy.png" /></p>
+<p><img alt="Benefits of a hierarchy" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/BenefitsHierarchy.png" /></p>
 </figure>
 <p>When the hierarchy is well designed, you get some protection from loading modules that do
 not work together well. E.g., in the HPE Cray PE it is not possible to load the MPI
@@ -1112,9 +1128,9 @@ a different programming environment in the default login environment right after
 </code></pre></div>
 <p>which results in</p>
 <!-- Used window size 23x95 -->
-<p><img alt="module load PrgEnv-aocc" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_BenefitsHierarchyDemo.png" /></p>
+<p><img alt="module load PrgEnv-aocc" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_BenefitsHierarchyDemo.png" /></p>
 <!-- <figure markdown style="border: 1px solid #000">
-  ![module load PrgEnv-aocc](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/BenefitsHierarchyDemo.png)
+  ![module load PrgEnv-aocc](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/BenefitsHierarchyDemo.png)
 </figure> -->
 
 <p>The first two lines of output are due to to other mechanisms that are at work here, 
@@ -1137,7 +1153,7 @@ MODULEPATH was changed. As a result, the version of the cray-mpich module for th
 the <code>aocc/3.2.0</code> compiler. </p>
 <h2 id="about-module-names-and-families">About module names and families<a class="headerlink" href="#about-module-names-and-families" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Module names and families" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleNamesFamilies.png" /></p>
+<p><img alt="Module names and families" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleNamesFamilies.png" /></p>
 </figure>
 <p>In Lmod you cannot have two modules with the same name loaded at the same time.
 On LUMI, when you load a module with the same name as an already loaded module, that
@@ -1177,7 +1193,7 @@ on this feature being enabled to make live easier for users.</p>
 </div>
 <h2 id="extensions">Extensions<a class="headerlink" href="#extensions" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Extensions" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleExtensions.png" /></p>
+<p><img alt="Extensions" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleExtensions.png" /></p>
 </figure>
 <p>It would not make sense to have a separate module for each of the hundreds of R
 packages or tens of Python packages that a software stack may contain.
@@ -1196,7 +1212,7 @@ information at the moment as they too contain several packages that may benefit 
 to optimised math libraries.</p>
 <h2 id="searching-for-modules-the-module-spider-command">Searching for modules: the module spider command<a class="headerlink" href="#searching-for-modules-the-module-spider-command" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="module spider" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleSpider.png" /></p>
+<p><img alt="module spider" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleSpider.png" /></p>
 </figure>
 <p>There are three ways to use <code>module spider</code>, discovering software in more and more detail.</p>
 <ol>
@@ -1230,20 +1246,20 @@ to optimised math libraries.</p>
 <h3 id="example-1-running-module-spider-on-lumi">Example 1: Running <code>module spider</code> on LUMI<a class="headerlink" href="#example-1-running-module-spider-on-lumi" title="Permanent link">&para;</a></h3>
 <p>Let's first run the <code>module spider</code> command. The output varies over time, but at the time of writing,
 and leaving out a lot of the output, one would have gotten:</p>
-<p><img alt="module spider 1" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_1.png" /></p>
-<p><img alt="module spider 1" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_2.png" /></p>
-<p><img alt="module spider 1" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_3.png" /></p>
+<p><img alt="module spider 1" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_1.png" /></p>
+<p><img alt="module spider 1" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_2.png" /></p>
+<p><img alt="module spider 1" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_3.png" /></p>
 <!-- 
 <figure markdown style="border: 1px solid #000">
-  ![module spider 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_1.png)
+  ![module spider 1](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_1.png)
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![module spider 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_2.png)
+  ![module spider 1](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_2.png)
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![module spider 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_3.png)
+  ![module spider 1](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/imp_ModuleSpiderCommand_3.png)
 </figure>
 -->
 
@@ -1258,10 +1274,10 @@ for the command.</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>FFTW
 </code></pre></div>
 <p>produces</p>
-<p><img alt="module spider FFTW" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTW.png" /></p>
+<p><img alt="module spider FFTW" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTW.png" /></p>
 <!--
 <figure markdown style="border: 1px solid #000">
-  ![module spider FFTW](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTW.png)
+  ![module spider FFTW](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTW.png)
 </figure>
 -->
 
@@ -1274,15 +1290,15 @@ check for a specific version, so let's run</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>cray-fftw/3.3.10.3
 </code></pre></div>
 <p>This produces:</p>
-<p><img alt="module spider cray-fftw/3.3.10.3" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTWVersion_1.png" /></p>
-<p><img alt="module spider cray-fftw/3.3.10.3" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTWVersion_2.png" /></p>
+<p><img alt="module spider cray-fftw/3.3.10.3" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTWVersion_1.png" /></p>
+<p><img alt="module spider cray-fftw/3.3.10.3" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTWVersion_2.png" /></p>
 <!--
 <figure markdown style="border: 1px solid #000">
-  ![module spider cray-fftw/3.3.10.3](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTWVersion_1.png)
+  ![module spider cray-fftw/3.3.10.3](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTWVersion_1.png)
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![module spider cray-fftw/3.3.10.3](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTWVersion_2.png)
+  ![module spider cray-fftw/3.3.10.3](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderFFTWVersion_2.png)
 </figure>
 -->
 
@@ -1297,21 +1313,21 @@ that is needed. The command does work well with the software managed by the LUMI
 next two examples will show.</p>
 <h3 id="example-3-searching-for-gnuplot">Example 3: Searching for GNUplot<a class="headerlink" href="#example-3-searching-for-gnuplot" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="module spider for a regular package" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleSpiderRegular.png" /></p>
+<p><img alt="module spider for a regular package" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleSpiderRegular.png" /></p>
 </figure>
 <p>To see if GNUplot is available, we'd first search for the name of the package:</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>GNUplot
 </code></pre></div>
 <p>This produces:</p>
-<p><img alt="module spider GNUplot" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplot_1.png" /></p>
-<p><img alt="module spider GNUplot" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplot_2.png" /></p>
+<p><img alt="module spider GNUplot" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplot_1.png" /></p>
+<p><img alt="module spider GNUplot" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplot_2.png" /></p>
 <!--
 <figure markdown style="border: 1px solid #000">
-  ![module spider GNUplot](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplot_1.png)
+  ![module spider GNUplot](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplot_1.png)
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![module spider GNUplot](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplot_2.png)
+  ![module spider GNUplot](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplot_2.png)
 </figure>
 -->
 
@@ -1330,15 +1346,15 @@ line in terms of the other software that you will be using.</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>gnuplot/5.4.6-cpeGNU-22.12
 </code></pre></div>
 <p>This produces:</p>
-<p><img alt="module spider gnuplot/5.4.6-cpeGNU-22.12" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplotVersion_1.png" /></p>
-<p><img alt="module spider gnuplot/5.4.6-cpeGNU-22.12" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplotVersion_2.png" /></p>
+<p><img alt="module spider gnuplot/5.4.6-cpeGNU-22.12" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplotVersion_1.png" /></p>
+<p><img alt="module spider gnuplot/5.4.6-cpeGNU-22.12" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplotVersion_2.png" /></p>
 <!--
 <figure markdown style="border: 1px solid #000">
-  ![module spider gnuplot/5.4.6-cpeGNU-22.12](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplotVersion_1.png)
+  ![module spider gnuplot/5.4.6-cpeGNU-22.12](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplotVersion_1.png)
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![module spider gnuplot/5.4.6-cpeGNU-22.12](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplotVersion_2.png)
+  ![module spider gnuplot/5.4.6-cpeGNU-22.12](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderGnuplotVersion_2.png)
 </figure>
 -->
 
@@ -1352,7 +1368,7 @@ and we sometimes have to do some effort to fit all information in there.</p>
 worth looking there also.</p>
 <h3 id="example-4-searching-for-an-extension-of-a-module-cmake">Example 4: Searching for an extension of a module: CMake.<a class="headerlink" href="#example-4-searching-for-an-extension-of-a-module-cmake" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="module spider for extensions" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleSpiderExtensions.png" /></p>
+<p><img alt="module spider for extensions" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleSpiderExtensions.png" /></p>
 </figure>
 <p>The <code>cmake</code> command on LUMI is available in the operating system image, but as is often the case with
 such tools distributed with the OS, it is a rather old version and you may want to use a newer one.</p>
@@ -1362,10 +1378,10 @@ powers of <code>module spider</code> and try</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>CMake
 </code></pre></div>
 <p>which produces</p>
-<p><img alt="module spider cmake" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMake.png" /></p>
+<p><img alt="module spider cmake" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMake.png" /></p>
 <!--
 <figure markdown style="border: 1px solid #000">
-  ![module spider cmake](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMake.png)
+  ![module spider cmake](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMake.png)
 </figure>
 -->
 
@@ -1377,15 +1393,15 @@ how to find out which module actually provides the CMake tools. So let's try</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>CMake/3.25.2
 </code></pre></div>
 <p>which produces</p>
-<p><img alt="module spider CMake/3.25.2" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMakeVersion_1.png" /></p>
-<p><img alt="module spider CMake/3.25.2" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMakeVersion_2.png" /></p>
+<p><img alt="module spider CMake/3.25.2" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMakeVersion_1.png" /></p>
+<p><img alt="module spider CMake/3.25.2" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMakeVersion_2.png" /></p>
 <!--
 <figure markdown style="border: 1px solid #000">
-  ![module spider CMake/3.25.2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMakeVersion_1.png)
+  ![module spider CMake/3.25.2](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMakeVersion_1.png)
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![module spider CMake/3.25.2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMakeVersion_2.png)
+  ![module spider CMake/3.25.2](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleSpiderCMakeVersion_2.png)
 </figure>
 -->
 
@@ -1404,7 +1420,7 @@ one such combination.</p>
 <p>to get even more information about the buildtools module, including any help included in the module.</p>
 <h2 id="alternative-search-the-module-keyword-command">Alternative search: the module keyword command<a class="headerlink" href="#alternative-search-the-module-keyword-command" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="module keyword" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleKeyword.png" /></p>
+<p><img alt="module keyword" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleKeyword.png" /></p>
 </figure>
 <p>Lmod has a second way of searching for modules: <code>module keyword</code>, but unfortunately it does not
 yet work very well on LUMI as the version of Lmod is rather old and still has some bugs in the
@@ -1418,30 +1434,30 @@ One could try</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>keyword<span class="w"> </span>https
 </code></pre></div>
 <p>which produces a lot of output:</p>
-<p><img alt="module keyword https" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_1.png" /></p>
-<p><img alt="module keyword https" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_2.png" /></p>
-<p><img alt="module keyword https" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_3.png" /></p>
-<p><img alt="module keyword https" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_4.png" /></p>
-<p><img alt="module keyword https" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_5.png" /></p>
+<p><img alt="module keyword https" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_1.png" /></p>
+<p><img alt="module keyword https" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_2.png" /></p>
+<p><img alt="module keyword https" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_3.png" /></p>
+<p><img alt="module keyword https" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_4.png" /></p>
+<p><img alt="module keyword https" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_5.png" /></p>
 <!--
 <figure markdown style="border: 1px solid #000">
-  ![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_1.png)
+  ![module keyword https](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_1.png)
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_2.png)
+  ![module keyword https](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_2.png)
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_3.png)
+  ![module keyword https](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_3.png)
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_4.png)
+  ![module keyword https](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_4.png)
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![module keyword https](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_5.png)
+  ![module keyword https](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleKeywordHTTPS_5.png)
 </figure>
 -->
 
@@ -1467,7 +1483,7 @@ but more about that in the tutorial section on LUMI software stacks.</p>
 </div>
 <h2 id="sticky-modules-and-the-module-purge-command">Sticky modules and the module purge command<a class="headerlink" href="#sticky-modules-and-the-module-purge-command" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Sticky modules and module purge" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/StickyModules.png" /></p>
+<p><img alt="Sticky modules and module purge" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/StickyModules.png" /></p>
 </figure>
 <p>On some systems you will be taught to avoid <code>module purge</code> as many HPC systems do their default user
 configuration also through modules. This advice is often given on Cray systems as it is a common
@@ -1488,35 +1504,35 @@ chosen a software stack but want to clean up your environment.</p>
 <p>Let us look at the output of the <code>module avail</code> command, taken just after login on the system at the
 time of writing of these notes (the exact list of modules shown is a bit fluid):</p>
 <!-- Use a window of 98x23 -->
-<p><img alt="module avail slide 1" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_1.png" /></p>
-<p><img alt="module avail slide 2" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_2.png" /></p>
-<p><img alt="module avail slide 3" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_3.png" /></p>
-<p><img alt="module avail slide 4" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_4.png" /></p>
-<p><img alt="module avail slide 5" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_5.png" /></p>
-<p><img alt="module avail slide 6" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_6.png" /></p>
+<p><img alt="module avail slide 1" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_1.png" /></p>
+<p><img alt="module avail slide 2" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_2.png" /></p>
+<p><img alt="module avail slide 3" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_3.png" /></p>
+<p><img alt="module avail slide 4" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_4.png" /></p>
+<p><img alt="module avail slide 5" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_5.png" /></p>
+<p><img alt="module avail slide 6" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_6.png" /></p>
 <!--
 <figure markdown style="border: 1px solid #000">
-  ![module avail slide 1](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_1.png)
+  ![module avail slide 1](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_1.png)
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![module avail slide 2](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_2.png)
+  ![module avail slide 2](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_2.png)
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![module avail slide 3](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_3.png)
+  ![module avail slide 3](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_3.png)
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![module avail slide 4](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_4.png)
+  ![module avail slide 4](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_4.png)
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![module avail slide 5](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_5.png)
+  ![module avail slide 5](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_5.png)
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![module avail slide 6](https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_6.png)
+  ![module avail slide 6](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules-img/img_ModuleAvail_6.png)
 </figure>
 -->
 
@@ -1538,7 +1554,7 @@ might become very long. There is a way in Lmod to hide that output but unfortuna
 due to another bug in the already old version of Lmod.</p>
 <h2 id="changing-how-the-module-list-is-displayed">Changing how the module list is displayed<a class="headerlink" href="#changing-how-the-module-list-is-displayed" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Changing how the module list is displayed" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ChangingDisplayStyle.png" /></p>
+<p><img alt="Changing how the module list is displayed" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ChangingDisplayStyle.png" /></p>
 </figure>
 <p>You may have noticed in the above example that we don't show directories of module files
 in the overview (as is the case on most clusters) but descriptive texts about the module group.
@@ -1576,7 +1592,7 @@ all (well, most) of the modules corresponding to other version of the Cray PE ar
 </div>
 <h2 id="getting-help-with-the-module-help-command">Getting help with the module help command<a class="headerlink" href="#getting-help-with-the-module-help-command" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Getting help" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/GettingHelp.png" /></p>
+<p><img alt="Getting help" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/GettingHelp.png" /></p>
 </figure>
 <p>Lmod has the <code>module help</code> command to get help on modules</p>
 <div class="highlight"><pre><span></span><code>$ module help
@@ -1600,7 +1616,7 @@ $ module whatis Subversion/1.14.2
 </code></pre></div>
 <h2 id="a-note-on-caching">A note on caching<a class="headerlink" href="#a-note-on-caching" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="A note on caching" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/NoteCaching.png" /></p>
+<p><img alt="A note on caching" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/NoteCaching.png" /></p>
 </figure>
 <p>Modules are stored as (small) files in the file system. Having a large module system with
 much software preinstalled for everybody means a lot of small files which will make
@@ -1619,7 +1635,7 @@ software that is installed in the central stacks as we are not sure when that ca
 in good shape.</p>
 <h2 id="a-note-on-other-commands">A note on other commands<a class="headerlink" href="#a-note-on-other-commands" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="A note on other commands" src="https://465000095.lumidata.eu/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/NoteOtherCommands.png" /></p>
+<p><img alt="A note on other commands" src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/NoteOtherCommands.png" /></p>
 </figure>
 <p>As this tutorial assumes some experience with using modules on other clusters, we haven't paid
 much attention to some of the basic commands that are mostly the same across all three
