@@ -36,7 +36,8 @@ theme:
 
 nav:
   - Home: index.md
-  - "LUMI Intro 10/23":
+  #- "LUMI Intro 10/23":
+  - "LUMI Intro":
     - Overview: intro-202310xx/index.md
     - Schedule: intro-202310xx/schedule.md
     - Intro to the notes: intro-202310xx/00_Introduction.md
