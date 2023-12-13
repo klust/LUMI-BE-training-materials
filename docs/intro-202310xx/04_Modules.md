@@ -427,11 +427,11 @@ This produces:
 -->
 
 <figure markdown style="border: 1px solid #000">
-  ![module spider gnuplot/5.4.8-cpeGNU-23.09](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/img_ModuleSpiderGnuplotVersion_1.png)
+  ![module spider gnuplot/5.4.8-cpeGNU-23.09](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleSpiderGnuplotVersion_1.png)
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![module spider gnuplot/5.4.8-cpeGNU-23.09](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/img_ModuleSpiderGnuplotVersion_2.png)
+  ![module spider gnuplot/5.4.8-cpeGNU-23.09](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-04-modules/ModuleSpiderGnuplotVersion_2.png)
 </figure>
 
 In this case, this module is provided by 3 different combinations of modules that also will be explained
