@@ -1,9 +1,5 @@
 # How to get support and documentation
 
-See [the slides (PDF)](https://465000095.lumidata.eu/intro-202310xx/files/LUMI-BE-Intro-202310XX-09-Lumi-support.pdf).
-
-**Notes under development.**
-
 ## Distributed nature of LUMI support
 
 <figure markdown style="border: 1px solid #000">
