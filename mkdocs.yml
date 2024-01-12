@@ -50,7 +50,7 @@ nav:
     - Slurm on LUMI: intro-202310xx/07_Slurm.md
     - Binding: intro-202310xx/08_Binding.md
     - Exercises 2: intro-202310xx/09_Exercises_2.md
-    #- Lustre: intro-202310xx/10_Lustre.md
+    - Lustre: intro-202310xx/10_Lustre.md
     - Containers: intro-202310xx/11_Containers.md
     - Support: intro-202310xx/12_Support
     - A1 Slurm issues: intro-202310xx/A01_Slurm_issues.md
