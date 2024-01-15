@@ -132,15 +132,17 @@ A Lustre system consists of the following blocks:
 </figure>
 -->
 
-On Lustre, large files are typically broken into chunks that are then cyclically spread across
-a number of OSTs. In the figure above, the file is spread across the OSTs 0, 2, 4 and 6.
+On Lustre, large files are typically broken into blocks called *stripes* that are then
+cyclically spread across a number of chunk files called *objects* in LUSTRE, each on
+a separate OST. 
+In the figure above, the file is spread across the OSTs 0, 2, 4 and 6.
 
 This process is completely transparent to the user with respect to correctness. The Lustre client
 takes care of the process and presents a traditional file to the application program.
 It is however not transparent with respect to performance. The performance of reading and
 writing a file depends a lot on how the file is spread across the OSTs of a file system.
 
-Basically, there are two parameters that have to be chosen: The size of the chunks (all chunks have
+Basically, there are two parameters that have to be chosen: The size of the stripes (all stripes have
 the same size in this example, except for the last one which may be smaller) and the number of OSTs 
 that should be used for a file. Lustre itself takes care of choosing the OSTs in general.
 
@@ -149,11 +151,20 @@ doesn't know the size of the file in advance. The first part of the file will th
 with fewer OSTs and/or smaller chunks, but this is outside the scope of this course.
 The feature is known as Progressive File Layout.
 
-The chunk size and number of OSTs used can be chosen on a file-by-file basis. The default on LUMI
+The stripe size and number of OSTs used can be chosen on a file-by-file basis. The default on LUMI
 is to use only one OST for a file. This is done because that is the most reasonable choice for the many
 small files that many unsuspecting users have, and as we shall see, it is sometimes even the best choice
 for users working with large files. But it is not always the best choice.
 And unfortunately there is no single set of parameters that is good for all users.
+
+!!! Note "Objects"
+
+    The term "object" nowadays has different meanings, even in the storage world.
+    The Object Storage Servers in Lustre should not be confused with the object
+    storage used in cloud solutions such as Amazon Web Services (AWS)
+    with the S3 storage service or the LUMI-O object storage that we will discuss
+    later. In fact, the Object Storage Servers use a regular file system such as
+    ZFS or ldiskfs to store the "objects".
 
 
 ## Accessing a file
@@ -319,11 +330,331 @@ with a stripe size of 1 GB you'd be engaging only a single OST for each write op
   ![Managing the striping parameters (1)](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LustreManageStriping1.png){ loading=lazy }
 </figure>
 
+The basic Lustre command for regular users to do special operations on Lustre is the
+`lfs` command, which has various subcommands.
+
+The first interesting subcommand is `df` which has a similar purpose as the regular
+Linux `df` command: Return information about the filesystem. In particular,
+
+```
+lfs df -h
+```
+
+will return information about all available Lustre filesystems. The `-h` flag tells the
+command to use "human-readable" number formats: return sizes in gigabytes and terabytes
+rather than blocks. On LUMI, the output starts with:
+
+```
+$ lfs df -h
+UUID                       bytes        Used   Available Use% Mounted on
+lustref1-MDT0000_UUID       11.8T       16.8G       11.6T   1% /pfs/lustref1[MDT:0]
+lustref1-MDT0001_UUID       11.8T        4.1G       11.6T   1% /pfs/lustref1[MDT:1]
+lustref1-MDT0002_UUID       11.8T        2.8G       11.7T   1% /pfs/lustref1[MDT:2]
+lustref1-MDT0003_UUID       11.8T        2.7G       11.7T   1% /pfs/lustref1[MDT:3]
+lustref1-OST0000_UUID      121.3T       21.5T       98.5T  18% /pfs/lustref1[OST:0]
+lustref1-OST0001_UUID      121.3T       21.6T       98.4T  18% /pfs/lustref1[OST:1]
+lustref1-OST0002_UUID      121.3T       21.4T       98.6T  18% /pfs/lustref1[OST:2]
+lustref1-OST0003_UUID      121.3T       21.4T       98.6T  18% /pfs/lustref1[OST:3]
+```
+
+so the command can also be used to see the number of MDTs and OSTs available in each
+filesystem, with the capacity.
 
 
+<figure markdown style="border: 1px solid #000">
+  ![Managing the striping parameters (2)](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LustreManageStriping2.png){ loading=lazy }
+</figure>
+
+Striping in Lustre can be set at a filesystem level by the sysadmins, but users can
+adjust the settings at the directory level (which then sets the default for files
+created in that directory) and file level. Once a file is created, the striping
+configuration cannot be changed anymore on-the-fly. 
+
+To inspect the striping configuration, one can use the `getstripe` subcommand of `lfs`.
+
+Let us first use it at the directory level:
+
+```
+$ lfs getstripe -d /appl/lumi/SW
+stripe_count:  1 stripe_size:   1048576 pattern:       0 stripe_offset: -1
+
+$ lfs getstripe -d --raw /appl/lumi/SW
+stripe_count:  0 stripe_size:   0 pattern:       0 stripe_offset: -1
+```
+
+The `-d` flag tells that we only want information about the directory itself and not about
+everything in that directory. The first `lfs getstripe` command tells us that files 
+created in this directory will use only a single OST and have a stripe size of 1 MiB. 
+By adding the `--raw` we actually see the settings that have been made specifically
+for this directory. The - for `stripe_count` and `stripe_size` means that the default
+value is being used, and the `stripe_offset` of `-1` also indicates the default value.
+
+We can also use `lfs getstripe` for individual files:
+
+```
 
 
+$ lfs getstripe /appl/lumi/LUMI-SoftwareStack/etc/motd.txt
+/appl/lumi/LUMI-SoftwareStack/etc/motd.txt
+lmm_stripe_count:  1
+lmm_stripe_size:   1048576
+lmm_pattern:       raid0
+lmm_layout_gen:    0
+lmm_stripe_offset: 10
+        obdidx           objid           objid           group
+            10        56614379      0x35fddeb                0
+```
 
+Now `lfs getstripe` does not only return the stripe size and number of OSTs used,
+but it will also show the OSTs that are actually used (in the column `obdidx` of
+the output). The `lmm_stripe_offset` is also the number of the OST with the first
+object of the file.
+
+
+<figure markdown style="border: 1px solid #000">
+  ![Managing the striping parameters (3)](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LustreManageStriping3.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Managing the striping parameters (4)](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LustreManageStriping4.png){ loading=lazy }
+</figure>
+
+The final subcommand that we will discuss is the `setstripe` subcommand to set the striping policy
+for a file or directory.
+
+Let us first look at setting a striping policy at the directory level:
+
+```
+$ module load lumi-training-tools
+$ mkdir testdir
+$ lfs setstripe -S 2m -c 4 testdir
+$ cd testdir
+$ mkfile -G 2 testfile1
+$ lfs getstripe testfile1
+testfile1
+lmm_stripe_count:  4
+lmm_stripe_size:   2097152
+lmm_pattern:       raid0
+lmm_layout_gen:    0
+lmm_stripe_offset: 28
+        obdidx           objid           objid           group
+            28        66250987      0x3f2e8eb                0
+            30        66282908      0x3f3659c                0
+             1        71789920      0x4476d60                0
+             5        71781120      0x4474b00                0
+```
+
+The `lumi-training-tools` module only serves to provide the `mkfile` command that we use in
+this example.
+
+We first create a directory and then set the striping parameters to a stripe size
+of 2 MiB (the `-S` flag) and a so-called stripe count, the number of OSTs used for 
+the file, of 4 (the `-c` flag).
+
+Next we go into the subdirectory and use the `mkfile` command to generate f file of 
+2 GiB (the command reserves the space but does not write into it and that is why it is
+so fast, but that doesn't matter here). 
+
+When we now check the file layout of the file that we just created with `lfs getstripe`,
+we see that the file now indeed uses 4 OSTs with a stripe size of 2 MiB, and has object on
+in this case OSTs 28, 30, 1 and 5. 
+
+However, we can even control striping at the level of an individual file. The
+condition is that the layout of the file is set as soon as it is created.
+We can do this also with `lfs setstripe`:
+
+```
+$ lfs setstripe -S 16m -c 2 testfile2
+$ ls -lh
+total 0
+-rw-rw---- 1 XXXXXXXX project_462000000 2.0G Jan 15 16:17 testfile1
+-rw-rw---- 1 XXXXXXXX project_462000000    0 Jan 15 16:23 testfile2
+$ lfs getstripe testfile2
+testfile2
+lmm_stripe_count:  2
+lmm_stripe_size:   16777216
+lmm_pattern:       raid0
+lmm_layout_gen:    0
+lmm_stripe_offset: 10
+        obdidx           objid           objid           group
+            10        71752411      0x446dadb                0
+            14        71812909      0x447c72d                0
+```
+
+In this example, the `lfs setstripe` command will create an empty file but with
+the required layout. In this case we have set the stripe size to 16 MiB and use
+only 2 OSTs, and the `lfs getstripe` command confirms that information.
+We can now open the file to write data into it with the regular file
+operations of the Linux glibc library or your favourite programming language
+(though of course you need to take into account that the file already exists
+so you should use routines that do not return an error if the file already
+exists).
+
+!!! Note "Lustre API"
+
+    Lustre also offers a C API to directly set file layout properties, etc., from
+    your package. Few scientific packages seem to support it though.
+
+
+## The metadata servers
+
+<figure markdown style="border: 1px solid #000">
+  ![The metadata servers](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LustreMDS.png){ loading=lazy }
+</figure>
+
+Parallelising metadata access is very difficult. Even large Lustre filesystems have very
+few metadata servers. They are a finite and shared resource, and overloading the metadata
+server slows down the file system for all users.
+
+The metadata servers are involved in many operations. The play a role in creating, opening and
+also closing files. The provide some of the attributes of a file. And they also play a role in
+file locking.
+
+Yet the metadata servers have a very finite capacity. The Lustre documentation claims that in
+theory a single metadata server should be capable of up to 200,000 operations per second, depending
+on the type of request. However, 75,000 operations per second may be more realistic.
+
+As a user, many operations that you think are harmless from using your PC, are in fact expensive
+operations on a supercomputer with a large parallel file system and you will find "Lustre best
+practices" pages on web sites of many large supercomputer centres. Some tips for regular users:
+
+-   Any command that requests attributes if fairly expensive and should not be used 
+    in large directories. This holds even for something as trivial as `ls -l`. 
+    But it is even more so for commands as `du` that run recursively through attributes
+    of lots of files.
+
+-   Opening a file is also rather expensive as it involves a metadata server and one or more
+    object servers. It is not a good idea to frequently open and close the same file while 
+    processing data. 
+
+-   Therefore access to many small files from many processes is not a good idea. One example of this
+    is using Python, and even more so if you do distributed memory parallel computing with Python.
+    This is why on LUMI we ask to do big Python installations in containers. Another alterative is
+    to run such programs from `/tmp` (and get them on `/tmp` from an archive file).
+
+-   It is also obvious that directories with thousands of files should be avoided as even an 
+    `ls -l` command on that directory generates a high load on the metadata servers.
+
+There are many more tips more specifically for programmers. As good use of the filesystems on a
+supercomputer is important and wrong use has consequences for all other users, it is an important
+topic in the [4-day comprehensive LUMI course](https://lumi-supercomputer.github.io/comprehensive-latest) 
+that the LUMI User Support Team organises a few times per year, and you'll find many more tips
+about proper use of Lustre in that lecture (which is only available to actual users on LUMI
+unfortunately).
+
+
+## Lustre on LUMI
+
+<figure markdown style="border: 1px solid #000">
+  ![Lustre on LUMI](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LumiLustreOnLumi.png){ loading=lazy }
+</figure>
+
+LUMI has 5 Lustre filesystems:
+
+The file storage sometimes denoted as LUMI-P consists of 4 disk based Lustre filesystems, each
+with a capacity of roughly 18 PB and 240 GB/s aggregated bandwidth in the optimal case (which of
+course is shared by all users, no single user will ever observe that bandwidth unless they have
+the machine for themselves). Each of the 4 systems has 2 MDTs, one per MDS (but in a high availability
+setup), and 32 OSTs spread across 16 OSSes, so 2 OSTs per OSS. All 4 systems are used to serve the
+home directories, persistent project space and regular scratch space, but also, e.g., most of the
+software pre-installed on LUMI. Some of that pre-installed software is copied on all 4 systems to 
+distribute the load.
+
+The fifth Lustre filesystem of LUMI is also known as LUMI-F, where the "F" stands for flash as it
+is entirely based on SSDs. It currently has a capacity of approximately 8.5 PB and a total of over
+2 TB/s aggregated bandwidth. The system has 4 MDTs spread across 4 MDSes, and 72 OSTs and 72 OSSes,
+os 1 OST per OSS (as a single OST already offers a lot more bandwidth and hence needs more server
+capacity than a hard disk based OST).
+
+
+### Storage areas
+
+<figure markdown style="border: 1px solid #000">
+  ![Storage areas](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LumiStorageAreas.png){ loading=lazy }
+</figure>
+
+The table on the slide above summarises the available file areas on the Lustre filesystems.
+That information is also [available in the LUMI docs](https://docs.lumi-supercomputer.eu/storage/).
+
+-   The home directory your personal area and mostly meant for configuration files and caches of
+    Linux commands, etc., and not meant for project-related work. It is fixed in size and number 
+    of files. No extension of those limits is ever granted.
+
+-   The persistent project directory is meant to be the main work place for your project. A LUMI
+    project is also meant to be a close collaboration between people, and not something simply provided
+    to a research group for all their work.
+
+    By default users get 50 GB of storage and 100,000 inodes (files and directories). The storage
+    volume can be increased to 500 GB on request to the central LUMI help desk, but the number of
+    inodes is fixed (though some small extensions have been granted if the user has a very good reason)
+    as we want to avoid that the filesystems get overloaded by users working with lots of small files
+    directly on the Lustre filesystem.
+
+    The data is persistent for the project lifetime, but removed 90 days after the end of the project.
+
+-   The project scratch space on LUMI-P is by default 50 TB but can on request be extended up to 500 TB.
+    The number of files is limited to 2M, again to discourage using many small files.
+
+    Data is only guaranteed to stay on the file system for 90 days. After 90 days, an automatic cleaning
+    procedure may remove data (but it has not yet been necessary so far as other policies work well to 
+    keep the storage reasonably clean).
+
+-   Finally, each project also gets some fast scratch space on LUMI-F. The default amount of storage is 
+    12 TB, but can be extended to up to 100 TB. The number of inodes is limited to 1M, and data can be
+    removed automatically after 30 days (but again this has not happened yet).
+
+It is important to note that LUMI is not meant to be used as a safe data archive. There is no backup of
+any of the filesystems, and there is no archiving of data of expired projects or user accounts. 
+Users are responsible for moving their data to systems suitable for archival.
+
+Storage use on LUMI is limited in two independent ways:
+
+-   Traditional Linux block and file quota limit the maximum capacity you can use (in volume and number of
+    inodes, roughly the number of files and directories combined).
+
+-   But actual storage use is also "billed" on a use-per-hour basis. The idea behind this is that a user may
+    run a program that generates a lot of data, but after some postprocessing much of the data can be deleted
+    so that other users can use that capacity again, and to encourage that behaviour you are billed based not
+    on peak use, but based on the combination of the volume that you use and the time you use it for. 
+
+    E.g., if you would have 10 GB on the LUMI-P storage for 100 hours, you'd be billed 1 TB hour for that.
+    If subsequently you reduce your usage to 2 GB, then it would take 500 hours before you have consumed another
+    TB hour. Storage use is monitored hourly for this billing process, and if you run out of storage billing units
+    you will not be able to run jobs anymore.
+
+    The billing rate also depends on the file system used. As the flash storage system was roughly 10 times as 
+    expensive in purchase as the hard disk based file systems, storage on `/flash` is also billed at 10 times
+    the rate, so with 1 TB hour you can only store 100 GB for 1 hour on that system.
+
+Storage in your home directory is not billed but that should not mean that you should abuse your home directory
+for other purposes then a home directory is meant to be used, and an extension of the home directory will
+never be granted. 
+
+
+## Object storage: LUMI-O
+
+<figure markdown style="border: 1px solid #000">
+  ![Object storage: LUMI-O](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LumiObjectStorage.png){ loading=lazy }
+</figure>
+
+LUMI has yet another storage system: An object storage system based on CEPH with a capacity of 30 PB.
+It can be used for storing, sharing and staging data. 
+It is not mounted on the compute nodes in a traditional way (as it is also structured differently)
+but can be accessed with tools such as `rclone` and `s3cmd`. 
+
+It can also be reached easily from outside LUMI and is a proper intermediate stage to get
+data to and from LUMI, also because several object storage tools perform much better on high
+latency long-distance connections than tools as `sftp`. 
+
+The downside is that to access LUMI-O, temporary authentication credentials have to be generated,
+which currently can only be done via a web interface, after which information about those credentials
+needs to be copied to configuration files or to fields in a GUI for GUI tools.
+
+Data on LUMI-O is persistent for the duration of the project. It is also billed, but as object storage
+is fairly cheap, is is billed at half the rate of LUMI-P.
+
+This short course does not offer enough time to fully discuss working with the object storage of LUMI.
+For this we refer to [the LUMI documentation](https://docs.lumi-supercomputer.eu/storage/lumio/).
 
 
 ## Links
