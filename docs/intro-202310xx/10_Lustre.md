@@ -1,7 +1,5 @@
 # I/O and file systems on LUMI
 
-Notes are still incomplete.
-
 ## File systems on LUMI
 
 <figure markdown style="border: 1px solid #000">
