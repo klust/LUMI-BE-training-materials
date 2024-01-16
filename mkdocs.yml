@@ -55,7 +55,7 @@ nav:
     - A1 Slurm issues: intro-202310xx/A01_Slurm_issues.md
     - A2 Documentation: intro-202310xx/A02_Documentation.md
   - "Lessons Learnt XX/24":
-    - Overview: lessonslearnt-202311xx/index.md
+    - Overview: lessonslearnt-2024xxxx/index.md
      
 plugins:
   # show revision date at bottom of each page
