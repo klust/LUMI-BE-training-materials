@@ -427,7 +427,7 @@ $ module load lumi-training-tools
 $ mkdir testdir
 $ lfs setstripe -S 2m -c 4 testdir
 $ cd testdir
-$ mkfile -G 2 testfile1
+$ mkfile 2g testfile1
 $ lfs getstripe testfile1
 testfile1
 lmm_stripe_count:  4
@@ -449,9 +449,8 @@ We first create a directory and then set the striping parameters to a stripe siz
 of 2 MiB (the `-S` flag) and a so-called stripe count, the number of OSTs used for 
 the file, of 4 (the `-c` flag).
 
-Next we go into the subdirectory and use the `mkfile` command to generate f file of 
-2 GiB (the command reserves the space but does not write into it and that is why it is
-so fast, but that doesn't matter here). 
+Next we go into the subdirectory and use the `mkfile` command to generate a file of 
+2 GiB. 
 
 When we now check the file layout of the file that we just created with `lfs getstripe`,
 we see that the file now indeed uses 4 OSTs with a stripe size of 2 MiB, and has object on
