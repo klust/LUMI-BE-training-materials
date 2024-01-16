@@ -1479,7 +1479,7 @@ for a file or directory.</p>
 $ mkdir testdir
 $ lfs setstripe -S 2m -c 4 testdir
 $ cd testdir
-$ mkfile -G 2 testfile1
+$ mkfile 2g testfile1
 $ lfs getstripe testfile1
 testfile1
 lmm_stripe_count:  4
@@ -1498,9 +1498,8 @@ this example.</p>
 <p>We first create a directory and then set the striping parameters to a stripe size
 of 2 MiB (the <code>-S</code> flag) and a so-called stripe count, the number of OSTs used for 
 the file, of 4 (the <code>-c</code> flag).</p>
-<p>Next we go into the subdirectory and use the <code>mkfile</code> command to generate f file of 
-2 GiB (the command reserves the space but does not write into it and that is why it is
-so fast, but that doesn't matter here). </p>
+<p>Next we go into the subdirectory and use the <code>mkfile</code> command to generate a file of 
+2 GiB. </p>
 <p>When we now check the file layout of the file that we just created with <code>lfs getstripe</code>,
 we see that the file now indeed uses 4 OSTs with a stripe size of 2 MiB, and has object on
 in this case OSTs 28, 30, 1 and 5. </p>
