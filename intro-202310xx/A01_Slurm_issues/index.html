@@ -8,22 +8,28 @@
       
       
       
+        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-202310xx/A01_Slurm_issues/">
       
       
+        <link rel="prev" href="../11_Containers/">
       
-      <link rel="icon" href="/LUMI-BE-training-materials/assets/images/favicon.png">
+      
+        <link rel="next" href="../A02_Documentation/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.11">
     
     
       
-        <title>LUMI-BE training materials</title>
+        <title>A1 Slurm issues - LUMI-BE training materials</title>
       
     
     
-      <link rel="stylesheet" href="/LUMI-BE-training-materials/assets/stylesheets/main.fad675c6.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.fad675c6.min.css">
       
         
-        <link rel="stylesheet" href="/LUMI-BE-training-materials/assets/stylesheets/palette.356b1318.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
       
       
   
@@ -74,9 +80,9 @@
       
     
     
-      <link rel="stylesheet" href="/LUMI-BE-training-materials/stylesheets/extra.css">
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("/LUMI-BE-training-materials/",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -100,6 +106,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#slurm-issues-on-lumi" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -112,7 +123,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/LUMI-BE-training-materials/." title="LUMI-BE training materials" class="md-header__button md-logo" aria-label="LUMI-BE training materials" data-md-component="logo">
+    <a href="../.." title="LUMI-BE training materials" class="md-header__button md-logo" aria-label="LUMI-BE training materials" data-md-component="logo">
       
   
   <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -214,7 +225,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              A1 Slurm issues
             
           </span>
         </div>
@@ -288,7 +299,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/LUMI-BE-training-materials/." title="LUMI-BE training materials" class="md-nav__button md-logo" aria-label="LUMI-BE training materials" data-md-component="logo">
+    <a href="../.." title="LUMI-BE training materials" class="md-nav__button md-logo" aria-label="LUMI-BE training materials" data-md-component="logo">
       
   
   <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -387,7 +398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/LUMI-BE-training-materials/." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -404,6 +415,8 @@
       
   
   
+    
+  
   
     
     
@@ -446,17 +459,17 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="/LUMI-BE-training-materials/intro-202310xx/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -473,7 +486,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             LUMI Intro
@@ -488,7 +501,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/LUMI-BE-training-materials/intro-202310xx/00_Introduction/" class="md-nav__link">
+      <a href="../00_Introduction/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -508,7 +521,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/LUMI-BE-training-materials/intro-202310xx/01_Architecture/" class="md-nav__link">
+      <a href="../01_Architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -528,7 +541,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/LUMI-BE-training-materials/intro-202310xx/02_CPE/" class="md-nav__link">
+      <a href="../02_CPE/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -548,7 +561,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/LUMI-BE-training-materials/intro-202310xx/03_LUMI_access/" class="md-nav__link">
+      <a href="../03_LUMI_access/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -568,7 +581,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/LUMI-BE-training-materials/intro-202310xx/04_Modules/" class="md-nav__link">
+      <a href="../04_Modules/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -588,7 +601,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/LUMI-BE-training-materials/intro-202310xx/05_Software_stacks/" class="md-nav__link">
+      <a href="../05_Software_stacks/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -608,7 +621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/LUMI-BE-training-materials/intro-202310xx/06_Exercises_1/" class="md-nav__link">
+      <a href="../06_Exercises_1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -628,7 +641,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/LUMI-BE-training-materials/intro-202310xx/07_Slurm/" class="md-nav__link">
+      <a href="../07_Slurm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -648,7 +661,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/LUMI-BE-training-materials/intro-202310xx/08_Binding/" class="md-nav__link">
+      <a href="../08_Binding/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -668,7 +681,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/LUMI-BE-training-materials/intro-202310xx/09_Exercises_2/" class="md-nav__link">
+      <a href="../09_Exercises_2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -688,7 +701,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/LUMI-BE-training-materials/intro-202310xx/10_Lustre/" class="md-nav__link">
+      <a href="../10_Lustre/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -708,7 +721,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/LUMI-BE-training-materials/intro-202310xx/11_Containers/" class="md-nav__link">
+      <a href="../11_Containers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -728,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/LUMI-BE-training-materials/intro-202310xx/12_Support" class="md-nav__link">
+      <a href="../12_Support" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -746,9 +759,29 @@
                 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="/LUMI-BE-training-materials/intro-202310xx/A01_Slurm_issues/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    A1 Slurm issues
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -757,6 +790,35 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#wrong-allocations-on-small-g-when-requesting-1-cpu-per-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wrong allocations on small-g when requesting 1 CPU per task
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -768,7 +830,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/LUMI-BE-training-materials/intro-202310xx/A02_Documentation/" class="md-nav__link">
+      <a href="../A02_Documentation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -806,6 +868,25 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#wrong-allocations-on-small-g-when-requesting-1-cpu-per-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wrong allocations on small-g when requesting 1 CPU per task
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -817,8 +898,66 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+<h1 id="slurm-issues-on-lumi">Slurm issues on LUMI<a class="headerlink" href="#slurm-issues-on-lumi" title="Permanent link">&para;</a></h1>
+<p>Note: Use <code>sbatch --version</code> to check the version of Slurm.</p>
+<h2 id="wrong-allocations-on-small-g-when-requesting-1-cpu-per-task">Wrong allocations on small-g when requesting 1 CPU per task<a class="headerlink" href="#wrong-allocations-on-small-g-when-requesting-1-cpu-per-task" title="Permanent link">&para;</a></h2>
+<p><em>Observed on Slurm 22.05.8.</em></p>
+<p>When requesting a GPU allocation requesting only 1 CPU per task with <code>--cpus-per-task=1</code>
+and requesting GPUs with <code>--gpus-per-task</code>, we get invalid allocations at least when 
+the job has to span multiple nodes. The problems disappear as soon as a value larger
+than 1 is used for <code>--cpus-per-task</code>.</p>
+<details class="note">
+<summary>Sample job script showing the bug</summary>
+<p><!-- map-smallg-1gpt-error.slurm -->
+<div class="highlight"><pre><span></span><code>#! /bin/bash
+#SBATCH --job-name=map-smallg-1gpt-error
+#SBATCH --output %x-%j.txt
+#SBATCH --partition=small-g
+#SBATCH --ntasks=12
+#SBATCH --cpus-per-task=1
+#SBATCH --gpus-per-task=1
+#SBATCH --hint=nomultithread
+#SBATCH --time=5:00
+
+module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+
+echo &quot;Requested resources as reported through SLURM_ variables:&quot;
+echo &quot;- SLURM_NTASKS: $SLURM_NTASKS&quot;
+echo &quot;- SLURM_CPUS_PER_TASK: $SLURM_CPUS_PER_TASK&quot;
+echo &quot;- SLURM_GPUS_PER_TASK: $SLURM_GPUS_PER_TASK&quot;
+echo &quot;Distribution based on SLURM_ variables:&quot;
+echo &quot;- SLURM_JOB_NUM_NODES: $SLURM_JOB_NUM_NODES&quot;
+echo &quot;- SLURM_JOB_NODELIST: $SLURM_JOB_NODELIST&quot;
+echo &quot;- SLURM_TASKS_PER_NODE: $SLURM_TASKS_PER_NODE&quot;
+echo &quot;- SLURM_JOB_CPUS_PER_NODE: $SLURM_JOB_CPUS_PER_NODE&quot;
+echo
+echo &quot;Control: All SLURM_ and SRUN_ variables:&quot;
+env | egrep ^SLURM_
+env | egrep ^SRUN_
+echo
+echo -e &quot;Control: Job script\n\n======================================================&quot;
+cat $0
+echo -e &quot;======================================================\n&quot;
+
+set -x
+srun -n $SLURM_NTASKS -c $SLURM_CPUS_PER_TASK --gpus-per-task=$SLURM_GPUS_PER_TASK gpu_check -l
+set +x
+
+/bin/rm -f select_gpu_$SLURM_JOB_ID echo_dev_$SLURM_JOB_ID
+</code></pre></div></p>
+</details>
+<p><strong>Workaround:</strong> Use a value larger than 1 for <code>--cpus-per-task</code>. A pure MPI application will not use
+the additional CPU cores, but since in an ideal case a CCD should not be used by more than 1 task unless
+the GPU is also shared by multiple tasks.</p>
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -865,10 +1004,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "/LUMI-BE-training-materials/", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "navigation.indexes", "header.autohide", "toc.follow"], "search": "/LUMI-BE-training-materials/assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "navigation.indexes", "header.autohide", "toc.follow"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="/LUMI-BE-training-materials/assets/javascripts/bundle.6c14ae12.min.js"></script>
+      <script src="../../assets/javascripts/bundle.6c14ae12.min.js"></script>
       
     
   </body>
