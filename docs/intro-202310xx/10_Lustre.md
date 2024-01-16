@@ -533,7 +533,13 @@ practices" pages on web sites of many large supercomputer centres. Some tips for
     to run such programs from `/tmp` (and get them on `/tmp` from an archive file).
 
 -   It is also obvious that directories with thousands of files should be avoided as even an 
-    `ls -l` command on that directory generates a high load on the metadata servers.
+    `ls -l` command on that directory generates a high load on the metadata servers. But the same
+    holds for commands such as `du` or `find`.
+
+    Note that the `lfs` command also has a subcommand `find` (see `man lfs-find`), but it cannot do
+    everything that the regular Linux `find` command can do. E.g., the `--exec` functionality is
+    missing. But to simply list files it will put less strain on the filesystem as running the 
+    regular Linux `find` command.
 
 There are many more tips more specifically for programmers. As good use of the filesystems on a
 supercomputer is important and wrong use has consequences for all other users, it is an important
@@ -658,6 +664,10 @@ For this we refer to [the LUMI documentation](https://docs.lumi-supercomputer.eu
 
 
 ## Links
+
+-   The `lfs` command itself is documented through a manual page that can be accessed at the
+    LUMI command line with `man lfs`. The various subcommands each come with their own man page,
+    e.g., `lfs-df`, `lfs-getstripe`, `lfs-setstripe` and `lfs-find`.
 
 -   [Understanding Lustre Internals](https://wiki.lustre.org/Understanding_Lustre_Internals)
     on the [Lustre Wiki](https://wiki.lustre.org/).
