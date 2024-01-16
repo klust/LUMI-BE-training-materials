@@ -25,10 +25,36 @@ theme:
       demo: fontawesome/solid/computer-mouse
       exercise: fontawesome/solid/screwdriver-wrench
       remark: fontawesome/solid/comment-dots
+      bug: fontawesome/solid/robot
+      audience: fontawesome/solid/people-group
       solution: fontawesome/solid/wand-magic-sparkles
+      technical: fontawesome/solid/book-open-reader
+      intermediate: fontawesome/solid/graduation-cap
+      advanced: fontawesome/solid/user-graduate
+      lumi-be: fontawesome/solid/building-flag
+      nice-to-know: fontawesome/regular/lightbulb
 
 nav:
   - Home: index.md
+  #- "LUMI Intro 10/23":
+  - "LUMI Intro":
+    - Overview: intro-202310xx/index.md
+    #- Schedule: intro-202310xx/schedule.md
+    - Intro to the notes: intro-202310xx/00_Introduction.md
+    - Architecture: intro-202310xx/01_Architecture.md
+    - Programming Environment: intro-202310xx/02_CPE.md
+    - Getting access: intro-202310xx/03_LUMI_access.md
+    - Modules: intro-202310xx/04_Modules.md
+    - Software stacks: intro-202310xx/05_Software_stacks.md
+    - Exercises 1: intro-202310xx/06_Exercises_1.md
+    - Slurm on LUMI: intro-202310xx/07_Slurm.md
+    - Binding: intro-202310xx/08_Binding.md
+    - Exercises 2: intro-202310xx/09_Exercises_2.md
+    - Lustre: intro-202310xx/10_Lustre.md
+    - Containers: intro-202310xx/11_Containers.md
+    - Support: intro-202310xx/12_Support
+    - A1 Slurm issues: intro-202310xx/A01_Slurm_issues.md
+    - A2 Documentation: intro-202310xx/A02_Documentation.md
      
 plugins:
   # show revision date at bottom of each page
@@ -36,9 +62,9 @@ plugins:
   # necessary for search to work
   - search
   # redirects to avoid broken URLs in original version of the tutorial (June 2020)
-  #- redirects:
-  #    redirect_maps:
-  #        practical_information.md: 2020-06-isc20/practical_information.md
+  - redirects:
+      redirect_maps:
+          intro-latest.md: intro-202310xx/index.md
 
 markdown_extensions:
   # Attributes (e.g., for lazy loading)
