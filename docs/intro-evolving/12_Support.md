@@ -293,7 +293,7 @@ The improved version could be something like this:
 ### 1 ticket = 1 issue = 1 ticket
 
 <figure markdown style="border: 1px solid #000">
-  ![1 ticket = 1 issue = 1 ticket](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-12-support/Tickets1ticket1issue.png){ loading=lazy }
+  ![1 ticket = 1 issue = 1 ticket](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-12-support/Tickets1issue1ticket.png){ loading=lazy }
 </figure>
 
 -   If you have multiple unrelated issues, submit them as multiple tickets. In a support team, each member
@@ -519,7 +519,7 @@ After all, if your analysis of your problem was fully correct, you wouldn't need
 ### Restrictions
 
 <figure markdown style="border: 1px solid #000">
-  ![help desk restrictions](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-12-support/help deskRestrictions.png){ loading=lazy }
+  ![help desk restrictions](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-12-support/HelpdeskRestrictions.png){ loading=lazy }
 </figure>
 
 Contrary to what you may be familiar with from your local Tier-2 system and support staff,
@@ -561,15 +561,15 @@ As a result,
 ### What support can and cannot do
 
 <figure markdown style="border: 1px solid #000">
-  ![What support can and cannot do (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-12-support/help deskCanCannot1.png){ loading=lazy }
+  ![What support can and cannot do (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-12-support/HelpdeskCanCannot1.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![What support can and cannot do (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-12-support/help deskCanCannot2.png){ loading=lazy }
+  ![What support can and cannot do (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-12-support/HelpdeskCanCannot2.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![What support can and cannot do (3)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-12-support/help deskCanCannot3.png){ loading=lazy }
+  ![What support can and cannot do (3)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-12-support/HelpdeskCanCannot3.png){ loading=lazy }
 </figure>
 
 -   The LUST and LUMI-BE help desk do not replace a good introductory HPC course nor are they a 
