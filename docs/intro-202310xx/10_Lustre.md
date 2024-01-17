@@ -526,8 +526,24 @@ practices" pages on web sites of many large supercomputer centres. Some tips for
 
 -   Therefore access to many small files from many processes is not a good idea. One example of this
     is using Python, and even more so if you do distributed memory parallel computing with Python.
-    This is why on LUMI we ask to do big Python installations in containers. Another alterative is
+    This is why on LUMI we ask to do big Python installations in containers. Another alternative is
     to run such programs from `/tmp` (and get them on `/tmp` from an archive file).
+
+    For data, it is not a good idea to dump a big dataset as lots of small files on the filesystem.
+    Data should be properly organised, preferably using file formats that support parallel access
+    from many processes simultaneously. Technologies popular in supercomputing are 
+    [HDF5](https://www.hdfgroup.org/solutions/hdf5/),
+    [netCDF](https://www.unidata.ucar.edu/software/netcdf/) and
+    [ADIOS2](https://adios2.readthedocs.io/).
+    Sometimes libraries to read tar-files or other archive file formats without first 
+    fully uncompressing may even be enough for read-only data. 
+    Or if your software runs into a container,
+    you may be able to put your read-only dataset into a 
+    [SquashFS file](https://tldp.org/HOWTO/SquashFS-HOWTO/index.html) and mount into a container.
+
+    Likewise, shuffling data in a distributed memory program should not be done via the 
+    filesystem (put data on a shared filesystem and then read it again in a different
+    order) but by direct communication between the processes over the interconnect.
 
 -   It is also obvious that directories with thousands of files should be avoided as even an 
     `ls -l` command on that directory generates a high load on the metadata servers. But the same
