@@ -6,9 +6,8 @@
 -   [Schedule](schedule.md)
 -->
 
+<!-- Exercises actual training session. 
 ## Setting up for the exercises
-
-THIS TEXT ALREADY ASSUMES A TRAINING PROJECT WHICH DOES NOT YET EXIST.
 
 -   Create a directory in the scratch of the training project, or if you want to
     keep the exercises around for a while after the session and have already
@@ -31,6 +30,37 @@ THIS TEXT ALREADY ASSUMES A TRAINING PROJECT WHICH DOES NOT YET EXIST.
     ```
 
     [Link to the tar-file with the exercises](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/exercises-20230509.tar.gz)
+
+-   You're all set to go!
+-->
+
+## Setting up for the exercises
+
+If you have an active project on LUMI, you should be able to make the exercises in that project.
+You will only need an very minimum of CPU and GPU billing units for this.
+
+-   Create a directory in the scratch of your project, or if you want to
+    keep the exercises around for a while, in a subdirectory of your project directory 
+    or in your home directory (though we don't recommend the latter).
+    Then go into that directory.
+
+    E.g., in the scratch directory of your project:
+
+    ```
+    mkdir -p /scratch/project_465XXXXXX/$USER/exercises
+    cd /scratch/project_465XXXXXX/$USER/exercises
+    ```
+
+    where you have to replace `project_465XXXXXX` using the number of your own project.
+
+-   Now download the exercises and un-tar:
+
+    ```
+    wget https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/exercises-evolving.tar.gz
+    tar -xf exercises-evolving.tar.gz
+    ```
+
+    [Link to the tar-file with the exercises](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/exercises-evolving.tar.gz)
 
 -   You're all set to go!
 
