@@ -3,7 +3,7 @@
 ## File systems on LUMI
 
 <figure markdown style="border: 1px solid #000">
-  ![File systems on LUMI](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/FileSystemLumi.png){ loading=lazy }
+  ![File systems on LUMI](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-lustre/FileSystemLumi.png){ loading=lazy }
 </figure>
 
 Supercomputing since the second half of the 1980s has almost always been about 
@@ -38,11 +38,11 @@ minimise OS jitter on the compute nodes to improve scalability of applications.
 ## Lustre building blocks
 
 <figure markdown style="border: 1px solid #000">
-  ![Lustre building blocks](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LustreBuildingBlocks1.png){ loading=lazy }
+  ![Lustre building blocks](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-lustre/LustreBuildingBlocks1.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![Lustre building blocks (2)](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LustreBuildingBlocks2.png){ loading=lazy }
+  ![Lustre building blocks (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-lustre/LustreBuildingBlocks2.png){ loading=lazy }
 </figure>
 
 A key element of Lustre - but also of other parallel file systems for large parallel
@@ -120,7 +120,7 @@ A Lustre system consists of the following blocks:
 ## Striping: Large files are spread across OSTs
 
 <figure markdown style="border: 1px solid #000">
-  ![Large files are spread across OSTs](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LustreFileStriping.png){ loading=lazy }
+  ![Large files are spread across OSTs](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-lustre/LustreFileStriping.png){ loading=lazy }
 </figure>
 
 <!--
@@ -168,7 +168,7 @@ And unfortunately there is no single set of parameters that is good for all user
 ## Accessing a file
 
 <figure markdown style="border: 1px solid #000">
-  ![Accessing a file](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LustreFileAccess.png){ loading=lazy }
+  ![Accessing a file](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-lustre/LustreFileAccess.png){ loading=lazy }
 </figure>
 
 Let's now study how Lustre will access a file for reading or writing. Let's assume that the
@@ -189,7 +189,7 @@ second client in the above picture wants to write something to the file.
 ## Parallelism is key!
 
 <figure markdown style="border: 1px solid #000">
-  ![Parallelism is key!](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LustreParallelismKey.png){ loading=lazy }
+  ![Parallelism is key!](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-lustre/LustreParallelismKey.png){ loading=lazy }
 </figure>
 
 The metadata servers can be the bottleneck in a Lustre setup. 
@@ -285,7 +285,7 @@ deal better with small files are being made, but they may come at a high hardwar
 ## How to determine the striping values?
 
 <figure markdown style="border: 1px solid #000">
-  ![How to determine the striping values?](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LustreDetermineParameters.png){ loading=lazy }
+  ![How to determine the striping values?](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-lustre/LustreDetermineParameters.png){ loading=lazy }
 </figure>
 
 If you only access relatively small files (up to a few hundreds of kilobytes) and access them 
@@ -325,7 +325,7 @@ with a stripe size of 1 GB you'd be engaging only a single OST for each write op
 ## Managing the striping parameters
 
 <figure markdown style="border: 1px solid #000">
-  ![Managing the striping parameters (1)](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LustreManageStriping1.png){ loading=lazy }
+  ![Managing the striping parameters (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-lustre/LustreManageStriping1.png){ loading=lazy }
 </figure>
 
 The basic Lustre command for regular users to do special operations on Lustre is the
@@ -360,7 +360,7 @@ filesystem, with the capacity.
 
 
 <figure markdown style="border: 1px solid #000">
-  ![Managing the striping parameters (2)](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LustreManageStriping2.png){ loading=lazy }
+  ![Managing the striping parameters (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-lustre/LustreManageStriping2.png){ loading=lazy }
 </figure>
 
 Striping in Lustre can be set at a filesystem level by the sysadmins, but users can
@@ -410,11 +410,11 @@ object of the file.
 
 
 <figure markdown style="border: 1px solid #000">
-  ![Managing the striping parameters (3)](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LustreManageStriping3.png){ loading=lazy }
+  ![Managing the striping parameters (3)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-lustre/LustreManageStriping3.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![Managing the striping parameters (4)](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LustreManageStriping4.png){ loading=lazy }
+  ![Managing the striping parameters (4)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-lustre/LustreManageStriping4.png){ loading=lazy }
 </figure>
 
 The final subcommand that we will discuss is the `setstripe` subcommand to set the striping policy
@@ -496,7 +496,7 @@ exists).
 ## The metadata servers
 
 <figure markdown style="border: 1px solid #000">
-  ![The metadata servers](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LustreMDS.png){ loading=lazy }
+  ![The metadata servers](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-lustre/LustreMDS.png){ loading=lazy }
 </figure>
 
 Parallelising metadata access is very difficult. Even large Lustre filesystems have very
@@ -565,7 +565,7 @@ unfortunately).
 ## Lustre on LUMI
 
 <figure markdown style="border: 1px solid #000">
-  ![Lustre on LUMI](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LumiLustreOnLumi.png){ loading=lazy }
+  ![Lustre on LUMI](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-lustre/LumiLustreOnLumi.png){ loading=lazy }
 </figure>
 
 LUMI has 5 Lustre filesystems:
@@ -589,7 +589,7 @@ capacity than a hard disk based OST).
 ### Storage areas
 
 <figure markdown style="border: 1px solid #000">
-  ![Storage areas](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LumiStorageAreas.png){ loading=lazy }
+  ![Storage areas](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-lustre/LumiStorageAreas.png){ loading=lazy }
 </figure>
 
 The table on the slide above summarises the available file areas on the Lustre filesystems.
@@ -653,7 +653,7 @@ never be granted.
 ## Object storage: LUMI-O
 
 <figure markdown style="border: 1px solid #000">
-  ![Object storage: LUMI-O](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-10-lustre/LumiObjectStorage.png){ loading=lazy }
+  ![Object storage: LUMI-O](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-lustre/LumiObjectStorage.png){ loading=lazy }
 </figure>
 
 LUMI has yet another storage system: An object storage system based on CEPH with a capacity of 30 PB.

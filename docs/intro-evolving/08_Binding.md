@@ -4,7 +4,7 @@
 ## What are we talking about in this session?
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide What are we talking about](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/WhatAbout.png){ loading=lazy }
+  ![Slide What are we talking about](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/WhatAbout.png){ loading=lazy }
 </figure>
 
 **Distribution** is the process of distributing processes and threads across the available
@@ -57,7 +57,7 @@ resoectively. The `gpu_check` command can be used to study the steps in GPU bind
     node type as LUMI-G.)
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide When/where is it done](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/WhenDone.png){ loading=lazy }
+  ![Slide When/where is it done](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/WhenDone.png){ loading=lazy }
 </figure>
 
 In this section we will consider process and thread distribution and binding at several levels:
@@ -101,7 +101,7 @@ by the MPICH, OpenMP and ROCm runtimes may work very unpredictable.
 ## Why do I need this?
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Why do I need this](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/WhyNeedThis.png){ loading=lazy }
+  ![Slide Why do I need this](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/WhyNeedThis.png){ loading=lazy }
 </figure>
 
 As we have seen in the ["LUMI Architecture" session of this course](01_Architecture.md) and is discussed into
@@ -146,7 +146,7 @@ scalability on supercomputers.
 ## Core numbering
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Core numbering](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/CoreNumbering.png){ loading=lazy }
+  ![Slide Core numbering](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/CoreNumbering.png){ loading=lazy }
 </figure>
 
 Linux core numbering is not hierarchical and may look a bit strange. This is because Linux core numbering was fixed
@@ -479,7 +479,7 @@ started with subsequent `srun` commands.
 ## GPU numbering
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide GPU numbering](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/GPUNumbering_2.png){ loading=lazy }
+  ![Slide GPU numbering](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/GPUNumbering_2.png){ loading=lazy }
 </figure>
 
 The numbering of the GPUs is a very tricky thing on LUMI.
@@ -508,7 +508,7 @@ be set by `srun` for each task. But you don't need to know in your application w
 the HIP runtime will number the GPUs that are available from 0 on.
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide GPU Numbering - Remarks](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/GPUNumberingRemarks.png){ loading=lazy }
+  ![Slide GPU Numbering - Remarks](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/GPUNumberingRemarks.png){ loading=lazy }
 </figure>
 
 <!-- Script gpu-numbering-demo1 -->
@@ -865,11 +865,11 @@ to run MPI applications with optimal efficiency.**
 ## Task distribution with Slurm
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Task distribution with Slurm](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/SlurmTaskDistribution_1.png){ loading=lazy }
+  ![Slide Task distribution with Slurm](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/SlurmTaskDistribution_1.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Task distribution with Slurm (2)](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/SlurmTaskDistribution_2.png){ loading=lazy }
+  ![Slide Task distribution with Slurm (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/SlurmTaskDistribution_2.png){ loading=lazy }
 </figure>
 
 The Slurm `srun` command offers the `--distribution` option to influence the distribution of 
@@ -940,15 +940,15 @@ while `--distribution=block` has the same effect as `--distribution=block:block`
 ## Task-to-CPU binding with Slurm
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Task-to-CPU binding with Slurm](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/SlurmTaskCPU.png){ loading=lazy }
+  ![Slide Task-to-CPU binding with Slurm](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/SlurmTaskCPU.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Task-to-CPU binding with Slurm: Masks](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/SlurmTaskCPUMasks.png){ loading=lazy }
+  ![Slide Task-to-CPU binding with Slurm: Masks](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/SlurmTaskCPUMasks.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Task-to-CPU binding with Slurm: Examples](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/SlurmTaskCPUExamples.png){ loading=lazy }
+  ![Slide Task-to-CPU binding with Slurm: Examples](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/SlurmTaskCPUExamples.png){ loading=lazy }
 </figure>
 
 The level 2 and 3 options from the previous section already do some binding. But we will now 
@@ -1020,7 +1020,7 @@ sometimes is to carefully map onto L3 cache domains for performance.
 ## Task-to-GPU binding with Slurm
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Task-to-GPU binding with Slurm](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/SlurmTaskGPU.png){ loading=lazy }
+  ![Slide Task-to-GPU binding with Slurm](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/SlurmTaskGPU.png){ loading=lazy }
 </figure>
 
 **Doing the task-to-GPU binding fully via Slurm is currently not recommended on LUMI. 
@@ -1085,7 +1085,7 @@ IPC used by Cray MPICH for intro-node MPI transfers if GPU aware MPI support is 
 ## MPI rank redistribution with Cray MPICH
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide MPI rank redistribution with Cray MPICH](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/MPICHRankRedistribution.png){ loading=lazy }
+  ![Slide MPI rank redistribution with Cray MPICH](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/MPICHRankRedistribution.png){ loading=lazy }
 </figure>
 
 By default MPI rank *i* will use Slurm task *i* in a parallel job step. 
@@ -1283,15 +1283,15 @@ the same problem size (and hence same number of nodes and tasks).
 ## Refining core binding in OpenMP applications
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Refining core binding in OpenMP](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/OpenMPBinding.png){ loading=lazy }
+  ![Slide Refining core binding in OpenMP](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/OpenMPBinding.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Refining core binding in OpenMP: OMP_PLACES](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/OpenMPBindingPlaces.png){ loading=lazy }
+  ![Slide Refining core binding in OpenMP: OMP_PLACES](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/OpenMPBindingPlaces.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Refining core binding in OpenMP: OMP_PROC_BIND](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/OpenMPBindingProcBind.png){ loading=lazy }
+  ![Slide Refining core binding in OpenMP: OMP_PROC_BIND](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/OpenMPBindingProcBind.png){ loading=lazy }
 </figure>
 
 In a Slurm batch job step, threads of a shared memory process will be contained to all 
@@ -1668,7 +1668,7 @@ Some further documentation:
 ## GPU binding with ROCR_VISIBLE_DEVICES
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide GPU binding with ROCR_VISIBLE_DEVICES](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRGPU.png){ loading=lazy }
+  ![Slide GPU binding with ROCR_VISIBLE_DEVICES](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/ROCRGPU.png){ loading=lazy }
 </figure>
 
 The `ROCR_VISIBLE_DEVICES` environment variable restricts access to GPUs at the ROCm platform runtime 
@@ -1688,11 +1688,11 @@ group are always numbered from 0.
 ## Combining Slurm task binding with ROCR_VISIBLE_DEVICES
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide GPU binding: Optimal mapping (1)](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRGPUMap_1.png){ loading=lazy }
+  ![Slide GPU binding: Optimal mapping (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/ROCRGPUMap_1.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide GPU binding: Optimal mapping (2)](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRGPUMap_2.png){ loading=lazy }
+  ![Slide GPU binding: Optimal mapping (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/ROCRGPUMap_2.png){ loading=lazy }
 </figure>
 
 In the chapter on [the architecture of LUMI](01_Architecture.md) we discussed 
@@ -1702,7 +1702,7 @@ The full topology of a LUMI-G compute node is shown in the figure:
 
 <figure>
   <img 
-    src="https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/lumig-node-architecture-rings.svg" 
+    src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/lumig-node-architecture-rings.svg" 
     width="842"
     alt="LUMI-G compute nodes overview"
   >
@@ -1737,7 +1737,7 @@ or the reverse mapping
 |   7 |   5 | 40-47, 104-111 | 41-47, 105-111 |
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide GPU binding: Embedded rings](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRGPURing.png){ loading=lazy }
+  ![Slide GPU binding: Embedded rings](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/ROCRGPURing.png){ loading=lazy }
 </figure>
 
 Moreover, if you look more carefully at the topology, you can see that the connections between the 
@@ -1756,7 +1756,7 @@ the order of the CCDs nor the order of the GCDs is trivial.
 Some other topologies can also be mapped on these connections (but unfortunately not a 3D cube).
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide GPU binding: Implementation](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanism.png){ loading=lazy }
+  ![Slide GPU binding: Implementation](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/ROCRMechanism.png){ loading=lazy }
 </figure>
 
 To implement a proper CCD-to-GCD mapping we will use two mechanisms:
@@ -1772,11 +1772,11 @@ Let us start with the simplest case:
 ### Linear assignment of GCD, then match the cores
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide GPU binding: Implementation: Linear GCD, match CPU, no OpenMP](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismLinearGCD1.png){ loading=lazy }
+  ![Slide GPU binding: Implementation: Linear GCD, match CPU, no OpenMP](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/ROCRMechanismLinearGCD1.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide GPU binding: Implementation: Linear GCD, match CPU, OpenMP](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismLinearGCD2.png){ loading=lazy }
+  ![Slide GPU binding: Implementation: Linear GCD, match CPU, OpenMP](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/ROCRMechanismLinearGCD2.png){ loading=lazy }
 </figure>
 
 One possible job script to accomplish this is:
@@ -1858,11 +1858,11 @@ mapping is as intended. Note that the GCDs are indeed in the linear order starti
 ### Linear assignment of the CCDs, then match the GCD
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide GPU binding: Implementation: Linear CCD, match GCD, no OpenMP](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismLinearCCD1.png){ loading=lazy }
+  ![Slide GPU binding: Implementation: Linear CCD, match GCD, no OpenMP](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/ROCRMechanismLinearCCD1.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide GPU binding: Implementation: Linear CCD, match GCD, OpenMP](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismLinearCCD2.png){ loading=lazy }
+  ![Slide GPU binding: Implementation: Linear CCD, match GCD, OpenMP](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/ROCRMechanismLinearCCD2.png){ loading=lazy }
 </figure>
 
 To modify the order of the GPUs, we now use an array with the desired order in the `gpu_Select` script.
@@ -1919,11 +1919,11 @@ them as it makes it easier to see which chiplet is used in what position.
 ### The green ring
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide GPU binding: Implementation: Green ring, no OpenMP](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismGreenRing1.png){ loading=lazy }
+  ![Slide GPU binding: Implementation: Green ring, no OpenMP](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/ROCRMechanismGreenRing1.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide GPU binding: Implementation: Green ring, OpenMP](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismGreenRing2.png){ loading=lazy }
+  ![Slide GPU binding: Implementation: Green ring, OpenMP](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/ROCRMechanismGreenRing2.png){ loading=lazy }
 </figure>
 
 As a final example for whole node allocations, lets bind tasks such that the MPI ranks are
@@ -2180,7 +2180,7 @@ is is also easy to check that each task is also mapped on the optimal CCD for th
 ### What about "allocate by resources" partitions?
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide GPU binding: Allocatable-by-resources partitions](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-08-binding/ROCRMechanismAllocateByResource.png){ loading=lazy }
+  ![Slide GPU binding: Allocatable-by-resources partitions](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-binding/ROCRMechanismAllocateByResource.png){ loading=lazy }
 </figure>
 
 <!-- Experiments in smallg-binding-exp*.slurm -->

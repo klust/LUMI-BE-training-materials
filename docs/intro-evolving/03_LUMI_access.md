@@ -3,7 +3,7 @@
 ## Who pays the bills?
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Who pays the bills](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-access/WhoPays.png){ loading=lazy }
+  ![Slide Who pays the bills](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/WhoPays.png){ loading=lazy }
 </figure>
 
 LUMI is one of the larger EuroHPC supercomuters. EuroHPC currently funds 
@@ -49,7 +49,7 @@ Web links:
 ## Users and projects
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Projects and users 1](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-access/ProjectsUsers_1.png){ loading=lazy }
+  ![Slide Projects and users 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/ProjectsUsers_1.png){ loading=lazy }
 </figure>
 
 LUMI works like most European large supercomputers: Users are members of projects.
@@ -95,7 +95,7 @@ LUMI projects will typically have multiple project numbers which may be a bit co
 
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Projects and users 2](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-access/ProjectsUsers_2.png){ loading=lazy }
+  ![Slide Projects and users 2](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/ProjectsUsers_2.png){ loading=lazy }
 </figure>
 
 Besides projects there are also user accounts. 
@@ -128,7 +128,7 @@ disk space.
 ## Project management
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Project Management](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-access/ProjectManagement.png){ loading=lazy }
+  ![Slide Project Management](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/ProjectManagement.png){ loading=lazy }
 </figure>
 
 A large system like LUMI with many entities giving independent access to the system to users 
@@ -175,7 +175,7 @@ Web links
 ## File spaces
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide File spaces 1](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-access/FileSpaces_1.png){ loading=lazy }
+  ![Slide File spaces 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/FileSpaces_1.png){ loading=lazy }
 </figure>
 
 LUMI has file spaces that are linked to a user account and file spaces that are linked to projects.
@@ -211,7 +211,7 @@ storage budget of the project.
 
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide File spaces 1](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-access/FileSpaces_2.png){ loading=lazy }
+  ![Slide File spaces 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/FileSpaces_2.png){ loading=lazy }
 </figure>
 
 The use of space in each file space is limited by block and file quota. Block quota limit the
@@ -270,7 +270,7 @@ Web links:
 ## Access
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Access](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-access/Access.png){ loading=lazy }
+  ![Slide Access](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/Access.png){ loading=lazy }
 </figure>
 
 LUMI currently has 4 login nodes through which users can enter the system via key-based ssh.
@@ -314,7 +314,7 @@ Web links:
 ## Data transfer
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Access](https://465000095.lumidata.eu/training-materials-web/intro-202310xx/img/LUMI-BE-Intro-202310XX-03-access/DataTransfer.png){ loading=lazy }
+  ![Slide Access](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/DataTransfer.png){ loading=lazy }
 </figure>
 
 There are currently two main options to transfer data to and from LUMI.
