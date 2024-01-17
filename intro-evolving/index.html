@@ -877,26 +877,53 @@
 -   [Schedule](schedule.md)
 -->
 
-<h2 id="setting-up-for-the-exercises">Setting up for the exercises<a class="headerlink" href="#setting-up-for-the-exercises" title="Permanent link">&para;</a></h2>
-<p>THIS TEXT ALREADY ASSUMES A TRAINING PROJECT WHICH DOES NOT YET EXIST.</p>
-<ul>
-<li>
-<p>Create a directory in the scratch of the training project, or if you want to
+<!-- Exercises actual training session. 
+## Setting up for the exercises
+
+-   Create a directory in the scratch of the training project, or if you want to
     keep the exercises around for a while after the session and have already
     another project on LUMI, in a subdirectory or your project directory 
     or in your home directory (though we don't recommend the latter).
-    Then go into that directory.</p>
-<p>E.g., in the scratch directory of the project:</p>
-<div class="highlight"><pre><span></span><code>mkdir -p /scratch/project_465000523/$USER/exercises
+    Then go into that directory.
+
+    E.g., in the scratch directory of the project:
+
+    <div class="highlight"><pre><span></span><code>mkdir -p /scratch/project_465000523/$USER/exercises
 cd /scratch/project_465000523/$USER/exercises
 </code></pre></div>
+
+-   Now download the exercises and un-tar:
+
+    <div class="highlight"><pre><span></span><code>wget https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/exercises-202310xx.tar.gz
+tar -xf exercises-20230509.tar.gz
+</code></pre></div>
+
+    [Link to the tar-file with the exercises](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/exercises-20230509.tar.gz)
+
+-   You're all set to go!
+-->
+
+<h2 id="setting-up-for-the-exercises">Setting up for the exercises<a class="headerlink" href="#setting-up-for-the-exercises" title="Permanent link">&para;</a></h2>
+<p>If you have an active project on LUMI, you should be able to make the exercises in that project.
+You will only need an very minimum of CPU and GPU billing units for this.</p>
+<ul>
+<li>
+<p>Create a directory in the scratch of your project, or if you want to
+    keep the exercises around for a while, in a subdirectory of your project directory 
+    or in your home directory (though we don't recommend the latter).
+    Then go into that directory.</p>
+<p>E.g., in the scratch directory of your project:</p>
+<div class="highlight"><pre><span></span><code>mkdir -p /scratch/project_465XXXXXX/$USER/exercises
+cd /scratch/project_465XXXXXX/$USER/exercises
+</code></pre></div>
+<p>where you have to replace <code>project_465XXXXXX</code> using the number of your own project.</p>
 </li>
 <li>
 <p>Now download the exercises and un-tar:</p>
-<div class="highlight"><pre><span></span><code>wget https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/exercises-202310xx.tar.gz
-tar -xf exercises-20230509.tar.gz
+<div class="highlight"><pre><span></span><code>wget https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/exercises-evolving.tar.gz
+tar -xf exercises-evolving.tar.gz
 </code></pre></div>
-<p><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/exercises-20230509.tar.gz">Link to the tar-file with the exercises</a></p>
+<p><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/exercises-evolving.tar.gz">Link to the tar-file with the exercises</a></p>
 </li>
 <li>
 <p>You're all set to go!</p>
