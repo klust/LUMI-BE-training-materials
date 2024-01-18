@@ -576,8 +576,9 @@ bottom as they produce less heat). Furthermore each package features 6 GPU dies
 providing a total of 128 GB of RAM. The MI300X,  which is the regular version 
 without built-in CPU, already uses 24 GB stacks for a total of 192 GB of memory,
 but presumably those were not yet available when the design of MI300A was tested
-for the launch customer, the El Capitan supercomputer.
-HLRS is building the Hunter cluster based on AMD MI300A as a transitional system
+for the launch customer, the [El Capitan supercomputer](https://asc.llnl.gov/exascale/el-capitan). 
+[HLRS is building the Hunter cluster based on AMD MI300A](https://www.hlrs.de/news/detail/exascale-supercomputing-is-coming-to-stuttgart) 
+as a transitional system
 to their first exascale-class system Herder that will become operational by 2027.
 
 Intel at some point has shown only very conceptual drawings of its Falcon Shores chip 
