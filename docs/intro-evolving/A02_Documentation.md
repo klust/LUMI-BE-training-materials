@@ -10,6 +10,8 @@ and some more.
 
 ## Web documentation
 
+-   [Slurm version 22.05.10, on the system at the time of the course](https://slurm.schedmd.com/archive/slurm-22.05.10/)
+
 -   [HPE Cray Programming Environment web documentation](https://cpe.ext.hpe.com/docs/) has only become available in
      May 2023 and is a work-in-progress. It does contain a lot of HTML-processed man pages in an easier-to-browse
      format than the man pages on the system.
@@ -32,9 +34,11 @@ and some more.
   
     -   [Clang 15.0.0 version](https://releases.llvm.org/15.0.0/tools/clang/docs/index.html) (cce/15.0.0 and cce/15.0.1 in 22.12/23.03)
 
+    -   [Clang 16.0.0 version](https://releases.llvm.org/15.0.0/tools/clang/docs/index.html) (cce/16.0.0 in 23.09)
+
 -   [AMD Developer Information](https://www.amd.com/en/developer.html)
 
-    -    [AOCC 4.0 CompilerOptions Quick Reference Guide](https://www.amd.com/content/dam/amd/en/documents/developer/compiler-options-quick-ref-guide-amd-epyc-9xx4-series-processors.pdf)
+    -    [AOCC 4.0 Compiler Options Quick Reference Guide](https://www.amd.com/content/dam/amd/en/documents/developer/compiler-options-quick-ref-guide-amd-epyc-9xx4-series-processors.pdf)
          (Version 4.0 compilers will come when the 23.05 or later CPE release gets installed on LUMI)
 
     -    [AOCC 4.0 User Guide](https://www.amd.com/content/dam/amd/en/documents/pdfs/developer/aocc/aocc-v4.0-ga-user-guide.pdf)
@@ -96,11 +100,6 @@ and some more.
 
 -   [HDF5 generic documentation](https://hdfgroup.github.io/hdf5/)
 
--   Mentioned in the Lustre presentation: The 
-    [ExaIO project](https://www.exascaleproject.org/research-project/exaio/) paper
-    ["Transparent Asynchronous Parallel I/O Using Background Threads"](https://doi.org/10.1109/TPDS.2021.3090322).
-
-
 
 ## Man pages
 
@@ -154,23 +153,23 @@ A selection of man pages explicitly mentioned during the course:
 -   Slurm manual pages are also all [on the web](https://slurm.schedmd.com/archive/slurm-22.05.8/man_index.html) 
     and are easily found by Google, but are usually those for the latest version.
 
-    -   [`man sbatch`](https://slurm.schedmd.com/archive/slurm-22.05.8/sbatch.html)
+    -   [`man sbatch`](https://slurm.schedmd.com/archive/slurm-22.05.10/sbatch.html)
 
-    -   [`man srun`](https://slurm.schedmd.com/archive/slurm-22.05.8/srun.html)
+    -   [`man srun`](https://slurm.schedmd.com/archive/slurm-22.05.10/srun.html)
 
-    -   [`man salloc`](https://slurm.schedmd.com/archive/slurm-22.05.8/salloc.html)
+    -   [`man salloc`](https://slurm.schedmd.com/archive/slurm-22.05.10/salloc.html)
 
-    -   [`man squeue`](https://slurm.schedmd.com/archive/slurm-22.05.8/squeue.html)
+    -   [`man squeue`](https://slurm.schedmd.com/archive/slurm-22.05.10/squeue.html)
 
-    -   [`man scancel`](https://slurm.schedmd.com/archive/slurm-22.05.8/scancel.html)
+    -   [`man scancel`](https://slurm.schedmd.com/archive/slurm-22.05.10/scancel.html)
 
-    -   [`man sinfo`](https://slurm.schedmd.com/archive/slurm-22.05.8/sinfo.html)
+    -   [`man sinfo`](https://slurm.schedmd.com/archive/slurm-22.05.10/sinfo.html)
 
-    -   [`man sstat`](https://slurm.schedmd.com/archive/slurm-22.05.8/sstat.html)
+    -   [`man sstat`](https://slurm.schedmd.com/archive/slurm-22.05.10/sstat.html)
 
-    -   [`man sacct`](https://slurm.schedmd.com/archive/slurm-22.05.8/sacct.html)
+    -   [`man sacct`](https://slurm.schedmd.com/archive/slurm-22.05.10/sacct.html)
 
-    -   [`man scontrol`](https://slurm.schedmd.com/archive/slurm-22.05.8/scontrol.html)
+    -   [`man scontrol`](https://slurm.schedmd.com/archive/slurm-22.05.10/scontrol.html)
 
 
 ## Via the module system
