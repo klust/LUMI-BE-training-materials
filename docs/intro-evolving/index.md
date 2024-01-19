@@ -1,4 +1,11 @@
-# LUMI 1-day training preliminary and incomplete
+# LUMI 1-day training evolving version
+
+*This document includes the base materials for the 1-day training that we
+provide to Belgian LUMI users. We try to evolve it as soon as possible when
+it becomes outdated due to changes on LUMI, and it is certainly more up-to-date
+than any other version you may find on this site in the future.*
+
+*Short URL: [https://klust.github.io/intro-evolving](https://klust.github.io/intro-evolving).*
 
 <!--
 ## Organisation
