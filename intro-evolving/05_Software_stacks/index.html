@@ -2036,10 +2036,11 @@ We have seen some very rare cases where clearing the cache did not help likely b
 internal data structures in Lmod where corrupt. The easiest way to solve this is to simply
 log out and log in again and rebuild your environment.</p>
 <p>In case you see strange behaviour using modules you can also try to manually
-remove the Lmod user cache which is in <code>$HOME/.lmod.d/.cache</code>.
+remove the Lmod user cache which is in <code>$HOME/.cache/lmod</code>.
 You can do this with 
-<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$HOME</span>/.lmod.d/.cache
-</code></pre></div></p>
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$HOME</span>/.cache/lmod
+</code></pre></div>
+(With older versions of Lmod the cache directory is <code>$HOME/.lmod.d/cache</code>.)</p>
 <h3 id="more-advanced-work">More advanced work<a class="headerlink" href="#more-advanced-work" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
 <p><img alt="More advanced work" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildAdvanced_1.png" /></p>

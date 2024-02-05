@@ -1222,8 +1222,8 @@
 <h1 id="modules-on-lumi">Modules on LUMI<a class="headerlink" href="#modules-on-lumi" title="Permanent link">&para;</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Intended audience</p>
-<p>As this course is designed for people already familiar with HPC systems.
-As virtually any cluster nowadays uses some form of module environment, this
+<p>As this course is designed for people already familiar with HPC systems and
+as virtually any cluster nowadays uses some form of module environment, this
 section assumes that the reader is already familiar with a module environment
 but not necessarily the one used on LUMI.</p>
 <p>However, even if you are very familiar with Lmod it makes sense to go through
@@ -1282,11 +1282,14 @@ information for search and help information.</p>
 </details>
 <div class="admonition note">
 <p class="admonition-title">I know Lmod, should I continue?</p>
-<p>Lmod is a very flexible tool. Not all sides using Lmod use all features, and
+<p>Lmod is a very flexible tool. Not all sites using Lmod use all features, and
 Lmod can be configured in different ways to the extent that it may even look
 like a very different module system for people coming from another cluster.
 So yes, it makes sense to continue reading as Lmod on LUMI may have some tricks
-that are not available on your home cluster.</p>
+that are not available on your home cluster. E.g., several of the features that 
+we rely upon on LUMI are disabled on the UGhent clusters to make them more similar
+to clusters running the C/Tcl module implementation which was used in the early
+days of the VSC.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Standard OS software</p>
@@ -1299,7 +1302,7 @@ updates. Python and the system compiler are typical examples of those. Red Hat 8
 and SUSE Enterprise Linux 15 both came with Python 3.6 in their first version, and 
 keep using this version as the base version of Python even though official support from the Python Software Foundation has long ended. Similarly, the default GNU
 compiler version offered on those system also remains the same. The compiler may not even fully support some of the newer CPUs the code is running on. E.g., the
-system compiler of SUSE Enterprise Linux 15 does not support the zen2 "Rome"
+system compiler of SUSE Enterprise Linux 15, GCC 7.5, does not support the zen2 "Rome"
 or zen3 "Milan" CPUs on LUMI. </p>
 <p>HPC systems will usually offer newer versions of those system packages through modules and users should always use those. The OS-included tools are really
 only for system management and system related tasks and serve a different purpose which actually requires a version that remains stable across a number of updates
@@ -1408,7 +1411,7 @@ On LUMI, the conflicting module of the same family will be unloaded automaticall
 when loading another module of that particular family.</p>
 <p>This is shown in the example in the previous subsection (the <code>module load PrgEnv-gnu</code> in 
 a fresh long shell) in two places. It is the mechanism that unloaded <code>PrgEnv-cray</code>
-when loading <code>PrgEnv-gnu</code> and that then unloaded <code>cce/14.0.1</code> when the 
+when loading <code>PrgEnv-gnu</code> and that then unloaded <code>cce/16.0.1</code> when the 
 <code>PrgEnv-gnu</code> module loaded the <code>gcc/11.2.0</code> module.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1833,7 +1836,8 @@ $ module whatis Subversion/1.14.2
 much software preinstalled for everybody means a lot of small files which will make
 our Lustre file system very unhappy.
 Fortunately Lmod does use caches by default. On LUMI we currently have no 
-system cache and only a user cache. That cache can be found in <code>$HOME/.lmod.d/.cache</code>. </p>
+system cache and only a user cache. That cache can be found in <code>$HOME/.cache/lmod</code>
+(and in some versions of LMOD in <code>$HOME/.lmod.d/.cache</code>). </p>
 <p>That cache is also refreshed automatically every 24 hours. You'll notice when this happens as,
 e.g., the <code>module spider</code> and <code>module available</code> commands will be slow during the rebuild.
 you may need to clean the cache after installing new software as on LUMI Lmod does not
