@@ -10,11 +10,11 @@ LUMI is one of the larger EuroHPC supercomuters. EuroHPC currently funds
 [supercomputers in three different clases](https://eurohpc-ju.europa.eu/supercomputers/our-supercomputers_en):
 
 1.  There are a number of so-called petascale supercomputers. The first ones of those are
-    Meluxina (in Luxembourg), VEGA (in Slovenia), Karolina (in the Czech Republic) and 
-    Discoverr (ikn Bulgaria), with Deucalion (in Portugal) under construction.
+    Meluxina (in Luxembourg), VEGA (in Slovenia), Karolina (in the Czech Republic), 
+    Discoverr (in Bulgaria)a nd Deucalion (in Portugal).
 
 2.  A number of pre-exascale supercomputers, LUMI being one of them. The other two are Leonardo (in Italy)
-    and MareNostrum 5 (in Spain and still under construction)
+    and MareNostrum 5 (in Spain)
 
 3.  A decision has already been taken on two exascale supercomputers: Jupiter (in Germany) and
     Jules Verne (in France).
@@ -22,7 +22,7 @@ LUMI is one of the larger EuroHPC supercomuters. EuroHPC currently funds
 Depending on the machine, EuroHPC pays one third up to half of the bill, while the remainder of the budget
 comes from the hosting country, usually with the help of a consortium of countries.
 
-LUMI is hosted in Finland but operated by a consortium of 10 countries, with Belgium being the third largest
+LUMI is hosted in Finland but operated by a consortium of 11 countries, with Belgium being the third largest
 contributor to LUMI and the second largest in the consortium of countries. The Belgian contribution is
 brought together by 4 entities:
 
@@ -35,7 +35,8 @@ The resources of LUMI are allocated proportional to the investments. As a result
 of the resources. The Belgian share is approximately 7.4%.
 
 Each LUMI consortium country can set its own policies for a national access program, within the limits of
-what the supercomputer can technically sustain. In Belgium, the 4 entities that invested in LUMI do so together.
+what the supercomputer can technically sustain. In Belgium, the 4 entities that invested in LUMI do so together
+via a competetion (3 calls a year for regular projects).
 The access conditions for projects in the Belgian share are advertised via the 
 [EuroCC Belgium National Competence Centre](https://www.enccb.be/GettingAccess).
 
@@ -58,14 +59,16 @@ A project corresponds to a coherent amount of work that is being done by a singl
 of a group of people. It typically corresponds to a research project, though there are other project types also,
 e.g., to give people access in the context of a course, or for organisational issues, e.g., a project for VSC support.
 Most projects are short-lived, with a typical duration of 4 to 6 months for benchmarking projects or one year for a 
-regular project.
+regular project (which is the maximum duration agreed upon in the consortium).
 
 Projects are also the basis for most research allocations on LUMI. In LUMI there are three types of resource allocations,
 and each project needs at least two of them:
 
-1.  A compute budget for the CPU nodes of LUMI (LUMI-C), expressed in core-hours.
-2.  A compute budget for the GPU nodes of LUMI (LUMI-G), expressed in GPU-hours. As the mechanism was
-    already fixed before it became publically known that for all practical purposes one AMD MI250X GPU
+1.  A compute budget for the CPU nodes of LUMI (LUMI-C and the CPU-only large memory nodes), 
+    expressed in core-hours.
+2.  A compute budget for the GPU nodes of LUMI (LUMI-G and the visualisation nodes), 
+    expressed in GPU-hours. As the mechanism was
+    already fixed before it became publicly known that for all practical purposes one AMD MI250X GPU
     should really be treated as 2 GPUs, one GPU-hour is one hour on a full MI250X, so computing for one
     hour on a full LUMI-G GPU node costs 4 GPU-hours.
 3.  A storage budget which is expressed in TB-hours. Only storage that is actually being used is charged
@@ -102,13 +105,13 @@ Besides projects there are also user accounts.
 Each user account on LUMI corresponds to a physical person, and user accounts should
 not be shared. Some physical persons have more than one user account but this is an
 unfortunate consequence of decisions made very early in the LUMI project about how projects on
-LUMI would be managed. Users themselves cannot do a lot without a projects as all a user
+LUMI would be managed. Users themselves cannot do a lot without a project as all a user
 has on LUMI is a small personal disk space which is simply a Linux requirement. 
 To do anything useful on LUMI users need to be member of a project.
-There is some discussion about special "robot accounts" for special purposes 
+There are also "robot accounts" for special purposes 
 that would not correspond to a physical person but have a specific goal 
-(like organising data ingestion from an external source) but those
-do not yet exist.
+(like organising data ingestion from an external source) but few projects are granted
+such an account.
 
 There ia a many-to-may mapping between projects and user accounts.
 Projects can of course have multiple users who collaborate in the project, but a user account
@@ -163,11 +166,8 @@ on LUMI is created it is very easy to do this on the command line with the
 Web links
 
 -   [Puhuri documentation](https://puhuri.neic.no/), look for the "User Guides".
-    Resource allocations done by VSC or CÉCI are managed via a
-    [shared puhuri portal](https://puhuri.neic.no/user_guides/user_guide_shared/organization_and_project_management_shared/),
-    though we recommend having a look at the 
-    ["New interface" documentation](https://puhuri.neic.no/user_guides/new_interface/interface/).
--   The `lumi-workspaces` command is provided through the [`lumi-tools module]](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/l/lumi-tools/#lumi-workspaces)
+
+-   The `lumi-workspaces` command is provided through the [`lumi-tools` module](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/l/lumi-tools/#lumi-workspaces)
     which is loaded by default. The command will usually give the output you need when used
     without any argument.
 
@@ -219,7 +219,7 @@ capacity you can use, while file quota limit the number of so-called inodes you 
 each subdirectory and each link use an inode.
 As we shall see later in this course or as you may have seen in other HPC courses already
 (e.g., the VSC "Supercomputers for Starters" course organised by UAntwerpen),
-parallel file systems are not build to deal with hundreds of thousands of small files and are
+parallel file systems are not built to deal with hundreds of thousands of small files and are
 very inefficient at that. Therefore block quota on LUMI tend to be rather flexible (except for
 the home directory) but file quota are rather strict and will not easily get extended.
 Software installations that require tens of thousands of small files should be done in 
@@ -228,13 +228,13 @@ be organised in proper file formats rather than being dumped on the file system 
 system as a database.
 Quota extensions are currently handled by the central LUMI User Support Team.
 
-**So storage billing units come from the RA, quota come from the LUMI User Support Team!**
+**So storage billing units come from the RA, block and file quota come from the LUMI User Support Team!**
 
 LUMI has four disk based Lustre file systems that house `/users`, `/project` and `/scratch`.
 The `/project` and `/scratch` directories of your project will always be on the same parallel
 file system, but your home directory may be on a different one. Both are assigned automatically
-suring project and account creation and these assignements cannot be changed by the LUMI User Support Team.
-As htere is a many-to-may mapping between user accounts and projects it is not possible to
+during project and account creation and these assignments cannot be changed by the LUMI User Support Team.
+As there is a many-to-may mapping between user accounts and projects it is not possible to
 ensure that user accounts are on the same file system as their main project. In fact, many users
 enter LUMI for the first time through a course project and not through one of their main compute
 projects...
@@ -242,8 +242,10 @@ projects...
 It is important to note that even though `/flash` is SSD based storage, it is still a parallel file 
 system and will not behave the way an SSD in your PC does. The cost of opening and closing a file
 is still very high due to it being both a networked and a parallel file system rather than a
-local drive. In fact, the cost for metadata operations is similar as on the hard disk based
-parallel file systems as both use SSDs to store the metadata. Once a file is opened and with
+local drive. In fact, the cost for metadata operations is not always that much lower as on the hard disk based
+parallel file systems as both use SSDs to store the metadata (but some metadata operations
+on Lustre involve both the metadata and object servers and the latter are faster on `/flash`). 
+Once a file is opened and with
 a proper data access pattern (big accesses, properly striped files which we will discuss later
 in this course) the flash file system can give a lot more bandwidth than the disk based ones.
 
@@ -259,7 +261,9 @@ can be blocked and you should contact your resource allocator for extra billing 
 Our experience within Belgium is that projects tend to heavily under-request storage
 billing units. It is important that you clean up after a run as LUMI is not meant for
 long-term data archiving. But at the same time it is completely normal that you cannot do 
-so right after a run, so data from a run has to stay on the system for a few days or weeks,
+so right after a run, or as a job may not launch immediately, that you need to put input
+data on the system long before a run starts. 
+So data needed for or resulting from a run has to stay on the system for a few days or weeks,
 and you need to budget for that in your project request.
 
 Web links:
@@ -293,17 +297,17 @@ Puhuri-managed project, and in this case your keys are still managed through the
 But this procedure is only important for those LUMI-BE users who may have gotten their first access 
 to LUMI via a project managed by CSC.
 
-There is currently not much support for GUI applications on LUMI. 
-Running X11 over ssh (via `ssh -X`) is unbearibly slow for users located in Belgium. 
+LUMI now also provides a web interface via Open OnDemand. The URL is
+[`https://www.lumi.csc.fi/`](https://www.lumi.csc.fi/). It also offers a number
+of tools that can be useful for visualisation via a web browser, but it is still 
+work-in-progress.
+
+There is currently not much support for other technologies for GUI applications on LUMI. 
+Running X11 over ssh (via `ssh -X`) is unbearably slow for users located in Belgium. 
 The alternative is some support offered for VNC, though the window manager and fonts used by
 the server do look a little dated. Access is possible via a browser or VNC client. 
 On the system, check for the 
 [`lumi-vnc` module](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/l/lumi-vnc/).
-
-In the future we plan to provide a web interface via Open OnDemand, but there is no date set yet
-for availability. The setup of Open OnDemand is not as easy as many would like you to believe as 
-the product does suffer from a number of security issues and needs to be linked to multiple 
-authentication services.
 
 Web links:
 
@@ -319,9 +323,9 @@ Web links:
 
 There are currently two main options to transfer data to and from LUMI.
 
-The first one is to use sftp to the login nodes, authenticating via your ssh key. 
+The first one is to use **sftp** to the login nodes, authenticating via your ssh key. 
 There is a lot of software available for all major operating systems, both command line
-based and GUI based. The sftp protocol can be very slow over high latency connections.
+based and GUI based. The sftp protocol can be **very slow over high latency connections**.
 This is because it is a protocol that opens only a single stream for communication
 with the remote host, and the bandwidth one can reach via a single stream in the 
 TCP network protocol used for such connections, is limited not only by the bandwidth of
@@ -333,7 +337,7 @@ the whole path from the system from which you initiate the connection to LUMI
 is responsible and every step adds to the latency. We've seen many cases where the
 biggest contributor to the latency was actually the campus network of the user.
 
-The second important option is to transfer data via the object storage system LUMI-O.
+The second important option is to **transfer data via the object storage system LUMI-O**.
 To transfer data to LUMI, you'd first push the data to LUMI-O and then on LUMI pull it 
 from LUMI-O. When transferring data to your home institute, you'd first push it onto
 LUMI-O from LUMI and then pull the data from LUMI-O to your work machine. 
@@ -350,6 +354,7 @@ These tools work with keys which are different from SSH keys and temporary in na
 They can be obtained from [auth.lumidata.eu](https://auth.lumidata.eu) where you need
 to log in either via MyAccessID (if your project is managed through Puhuri) or your
 "My CSC" account (if your project is managed via that platform).
+In the future it will also be possible to do part of that setup via the Open OnDemand platform.
 
 Alternatively, you can also chose to access external servers from LUMI if you have client
 software that runs on LUMI (or if that software is already installed on LUMI, e.g., rclone
@@ -371,7 +376,7 @@ Web links:
     -   [restic documentation](https://restic.readthedocs.io/en/latest/)
 
 
-## Local trainings
+## Local trainings in Belgium
 
 Any HPC introductory training in Belgium covers logging in via ssh and transferring files.
-Such a course is a prerequisite for this section.
+Such a course is a prerequisite for this course.
