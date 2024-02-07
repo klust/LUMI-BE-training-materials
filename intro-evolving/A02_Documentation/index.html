@@ -985,11 +985,11 @@ and some more.</p>
 </li>
 <li>
 <p><a href="https://cpe.ext.hpe.com/docs/">HPE Cray Programming Environment web documentation</a> has only become available in
-     May 2023 and is a work-in-progress. It does contain a lot of HTML-processed man pages in an easier-to-browse
-     format than the man pages on the system.</p>
+    May 2023 and is a work-in-progress. It does contain a lot of HTML-processed man pages in an easier-to-browse
+    format than the man pages on the system.</p>
 <p>The presentations on debugging and profiling tools referred a lot to pages that can be found on this web site.
- The manual pages mentioned in those presentations are also in the web documentation and are the easiest way
- to access that documentation.</p>
+The manual pages mentioned in those presentations are also in the web documentation and are the easiest way
+to access that documentation.</p>
 </li>
 <li>
 <p><a href="https://github.com/PE-Cray">Cray PE Github account</a> with whitepapers and some documentation.</p>
@@ -1161,6 +1161,21 @@ and some more.</p>
 </table>
 </li>
 <li>
+<p>Web-based versions of the compiler wrapper manual pages (the version on the system is currently hijacked by
+    the GNU manual pages):</p>
+<ul>
+<li>
+<p><a href="https://cpe.ext.hpe.com/docs/craype/cc.html"><code>man cc</code></a></p>
+</li>
+<li>
+<p><a href="https://cpe.ext.hpe.com/docs/craype/ccpp.html"><code>man CC</code></a></p>
+</li>
+<li>
+<p><a href="https://cpe.ext.hpe.com/docs/craype/ftn.html"><code>man ftn</code></a> </p>
+</li>
+</ul>
+</li>
+<li>
 <p>OpenMP in CCE</p>
 <ul>
 <li><a href="https://cpe.ext.hpe.com/docs/cce/man7/intro_openmp.7.html"><code>man intro_openmp</code></a></li>
@@ -1267,15 +1282,9 @@ and some more.</p>
 <tbody>
 <tr>
 <td>PrgEnv-cray</td>
-<td><code>craycc --help</code></td>
-<td><code>crayCC --help</code></td>
-<td><code>crayftn --help</code></td>
-</tr>
-<tr>
-<td></td>
-<td><code>craycc --craype-help</code></td>
-<td><code>crayCC --craype-help</code></td>
-<td><code>crayftn --craype-help</code></td>
+<td><code>craycc --help</code><br/><code>craycc --craype-help</code></td>
+<td><code>crayCC --help</code><br/><code>crayCC --craype-help</code></td>
+<td><code>crayftn --help</code><br/><code>crayftn --craype-help</code></td>
 </tr>
 <tr>
 <td>PrgEnv-gnu</td>
@@ -1297,9 +1306,9 @@ and some more.</p>
 </tr>
 <tr>
 <td>Compiler wrappers</td>
-<td><code>cc --help</code></td>
-<td><code>CC --help</code></td>
-<td><code>ftn --help</code></td>
+<td><code>cc --craype-help</code><br/><code>cc --help</code></td>
+<td><code>CC --craype-help</code><br/><code>CC --help</code></td>
+<td><code>ftn --craype-help</code><br/><code>ftn --help</code></td>
 </tr>
 </tbody>
 </table>
