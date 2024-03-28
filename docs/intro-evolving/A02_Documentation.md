@@ -97,8 +97,9 @@ and some more.
 
         -   [Omniperf](https://amdresearch.github.io/omniperf/)
 
-
 -   [HDF5 generic documentation](https://hdfgroup.github.io/hdf5/)
+
+-   [SingularityCD 3.11 User Guide](https://docs.sylabs.io/guides/3.11/user-guide/index.html)
 
 
 ## Man pages
