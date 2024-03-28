@@ -8,13 +8,9 @@
       
       
       
-        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/E07_Exercises_4/">
+        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/E04_Exercises_2/">
       
       
-        <link rel="prev" href="../07_Binding/">
-      
-      
-        <link rel="next" href="../08_Lustre/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +18,7 @@
     
     
       
-        <title>Exercises 4 - LUMI-BE training materials</title>
+        <title>Exercises 2: Modules on LUMI - LUMI-BE training materials</title>
       
     
     
@@ -106,7 +102,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#exercises-4-running-jobs-with-slurm" class="md-skip">
+        <a href="#exercises-2-modules-on-lumi" class="md-skip">
           Skip to content
         </a>
       
@@ -224,7 +220,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Exercises 4
+              Exercises 2: Modules on LUMI
             
           </span>
         </div>
@@ -416,8 +412,6 @@
       
   
   
-    
-  
   
   
     
@@ -460,11 +454,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           
@@ -486,7 +480,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             LUMI Intro (evolving)
@@ -688,30 +682,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Exercises 4
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../E07_Exercises_4/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -720,44 +694,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#exercises-on-the-slurm-allocation-modes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Exercises on the Slurm allocation modes
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#slurm-custom-binding-on-gpu-nodes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Slurm custom binding on GPU nodes
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -902,18 +838,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#exercises-on-the-slurm-allocation-modes" class="md-nav__link">
+  <a href="#exercises-on-the-use-of-modules" class="md-nav__link">
     <span class="md-ellipsis">
-      Exercises on the Slurm allocation modes
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#slurm-custom-binding-on-gpu-nodes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Slurm custom binding on GPU nodes
+      Exercises on the use of modules
     </span>
   </a>
   
@@ -934,245 +861,105 @@
                   
 
 
-<h1 id="exercises-4-running-jobs-with-slurm">Exercises 4: Running jobs with Slurm<a class="headerlink" href="#exercises-4-running-jobs-with-slurm" title="Permanent link">&para;</a></h1>
-<h2 id="exercises-on-the-slurm-allocation-modes">Exercises on the Slurm allocation modes<a class="headerlink" href="#exercises-on-the-slurm-allocation-modes" title="Permanent link">&para;</a></h2>
+<h1 id="exercises-2-modules-on-lumi">Exercises 2: Modules on LUMI<a class="headerlink" href="#exercises-2-modules-on-lumi" title="Permanent link">&para;</a></h1>
+<p>See <a href="../#setting-up-for-the-exercises">the instructions</a>
+to set up for the exercises.</p>
+<h2 id="exercises-on-the-use-of-modules">Exercises on the use of modules<a class="headerlink" href="#exercises-on-the-use-of-modules" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
-<p>In this exercise we check how cores would be assigned to a shared memory program. 
-    Run a single task on the CPU partition with <code>srun</code> using 16 cpu cores. 
-    Inspect the default task allocation with the <code>taskset</code> command 
-    (<code>taskset -cp $$</code> will show you the cpu numbers allocated to the current process). </p>
+<p>The <code>Bison</code> program installed in the OS image is pretty old (version 3.0.4) and
+    we want to use a newer one. Is there one available on LUMI?</p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
-<div class="highlight"><pre><span></span><code>srun --partition=small --nodes=1 --tasks=1 --cpus-per-task=16 --time=5 --account=&lt;project_id&gt; bash -c &#39;taskset -cp $$&#39; 
+<div class="highlight"><pre><span></span><code>module spider Bison
 </code></pre></div>
-<p>Note that you need to replace <code>&lt;project_id&gt;</code> with the actual project account ID of the 
-form  <code>project_</code> plus a 9 digits number.</p>
-<p>The command runs a single process (<code>bash</code> shell with the native Linux <code>taskset</code> tool showing 
-process's CPU affinity) on a compute node. 
-You can use the <code>man taskset</code> command to see how the tool works.</p>
+<p>tells us that there are indeed newer versions available on the system. </p>
+<p>The versions that have a compiler name (usually <code>gcc</code>) in their name followed
+by some seemingly random characters are installed with Spack and not in the
+CrayEnv or LUMI environments.</p>
+<p>To get more information about <code>Bison/3.8.2</code>: </p>
+<div class="highlight"><pre><span></span><code>module spider Bison/3.8.2
+</code></pre></div>
+<p>tells us that Bison 3.8.2 is provided by a couple of <code>buildtools</code> modules and available
+in all partitions in several versions of the <code>LUMI</code> software stack and in <code>CrayEnv</code>.</p>
+<p>Alternatively, in this case</p>
+<div class="highlight"><pre><span></span><code>module keyword Bison
+</code></pre></div>
+<p>would also have shown that Bison is part of several versions of the <code>buildtools</code> module.</p>
+<p>The <code>module spider</code> command is often the better command if you use names that with a high 
+likelihood could be the name of a package, while <code>module keyword</code> is often the better choice
+for words that are more a keyword. But if one does not return the solution it is a good idea 
+to try the other one also.</p>
 </details>
 </li>
 <li>
-<p>Next we'll try a hybrid MPI/OpenMP program.
-    For this we will use the <code>hybrid_check</code> tool from the <code>lumi-CPEtools</code> module of the LUMI Software Stack. 
-    This module is preinstalled on the system and has versions for all versions of the <code>LUMI</code> software stack
-    and all toolchains and partitions in those stacks.</p>
-<p>Use the simple job script below to run a parallel program with multiple tasks (MPI ranks) and threads (OpenMP). 
-Submit with <code>sbatch</code> on the CPU partition and check task and thread affinity.</p>
-<div class="highlight"><pre><span></span><code>#!/bin/bash -l
-#SBATCH --partition=small           # Partition (queue) name
-#SBATCH --nodes=1                   # Total number of nodes
-#SBATCH --ntasks-per-node=8         # 8 MPI ranks per node
-#SBATCH --cpus-per-task=16          # 16 threads per task
-#SBATCH --time=5                    # Run time (minutes)
-#SBATCH --account=&lt;project_id&gt;      # Project for billing
-
-module load LUMI/23.09
-module load lumi-CPEtools/1.1-cpeGNU-23.09
-
-srun --cpus-per-task=$SLURM_CPS_PER_TASK hybrid_check -n -r
-</code></pre></div>
-<p>Be careful with copy/paste of the script body as copy problems with special characters or a double dash may 
-occur, depending on the editor you use.</p>
+<p>The <code>htop</code> command is a nice alternative for the <code>top</code> command with a more powerful user interface.
+    However, typing <code>htop</code> on the command line produces an error message. Can you find and run <code>htop</code>?</p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
-<p>Save the script contents into the file  <code>job.sh</code> (you can use the <code>nano</code> console text editor for instance). 
-Remember to use valid project account name.</p>
-<p>Submit the job script using the <code>sbatch</code> command:</p>
-<div class="highlight"><pre><span></span><code>sbatch job.sh
+<p>We can use either <code>module spider htop</code> or <code>module keyword htop</code> to find out that <code>htop</code> is indeed
+available on the system. With <code>module keyword htop</code> we'll find out immediately that it is in the 
+<code>systools</code> modules and some of those seem to be numbered after editions of the LUMI stack suggesting
+that they may be linked to a stack, with <code>module spider</code> you'll first see that it is an extension of
+a module and see the versions. You may again see some versions installed with Spack.</p>
+<p>Let's check further for <code>htop/3.2.1</code> that should exist according to <code>module spider htop</code>:</p>
+<div class="highlight"><pre><span></span><code>module spider htop/3.2.1
 </code></pre></div>
-<p>The job output is saved in the <code>slurm-&lt;job_id&gt;.out</code> file. 
-You can view its content with either the <code>less</code> or <code>more</code> shell commands.</p>
-<p>The actual task/threads affinity may depend on the specific OpenMP runtime 
-(if you literally use this job script it will be the GNU OpenMP runtime).</p>
-</details>
-</li>
-<li>
-<p>Improve the thread affinity with OpenMP runtime variables. 
-   Alter the script from the previous exercise and ensure that each thread is bound to
-   a specific core. </p>
-<details class="solution">
-<summary>Click to see the solution.</summary>
-<p>Add the following OpenMP environment variables definition to your script:</p>
-<div class="highlight"><pre><span></span><code>export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
-export OMP_PROC_BIND=close
-export OMP_PLACES=cores
-</code></pre></div>
-<p>You can also use an MPI runtime variable to have MPI itself report a cpu mask summary for each MPI rank:</p>
-<div class="highlight"><pre><span></span><code>export MPICH_CPUMASK_DISPLAY=1
-</code></pre></div>
-<p>Note <code>hybrid_check</code> and MPICH cpu mask may not be consistent. It is found to be confusing.</p>
-<p>To avoid having to use the <code>--cpus-per-task</code> flag, you can also set the environment variable <code>SRUN_CPUS_PER_TASK</code>
-instead: </p>
-<div class="highlight"><pre><span></span><code>export SRUN_CPUS_PER_TASK=16 
-</code></pre></div>
-<p>On LUMI this is not strictly necessary as the Slurm SBATCH processing has been modified to set
-this environment variable, but that was a clunky patch to reconstruct some old behaviour of Slurm
-and we have already seen cases where the patch did not work (but that were more complex cases that
-required different environment variables for a similar function).</p>
-<p>The list of environment variables that the <code>srun</code> command can use as input, is actually confusing, as
-some start with <code>SLURM_</code> but a few start with <code>SRUN_</code> while the <code>SLURM_</code> equivalent is ignored.</p>
-<p>So we end up with the following script:</p>
-<div class="highlight"><pre><span></span><code>#!/bin/bash -l
-#SBATCH --partition=small           # Partition (queue) name
-#SBATCH --nodes=1                   # Total number of nodes
-#SBATCH --ntasks-per-node=8         # 8 MPI ranks per node
-#SBATCH --cpus-per-task=16          # 16 threads per task
-#SBATCH --time=5                    # Run time (minutes)
-#SBATCH --account=&lt;project_id&gt;      # Project for billing
-
-module load LUMI/23.09
-module load lumi-CPEtools/1.1-cpeGNU-23.09
-
-export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
-
-export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
-export OMP_PROC_BIND=close
-export OMP_PLACES=cores
-
-export MPICH_CPUMASK_DISPLAY=1
-
-srun hybrid_check -n -r
-</code></pre></div>
-<p>Note that MPI returns the CPU mask per process in binary form (a long string of zeros and ones)
-where the last number is for core 0. Also, you'll see that with the OpenMP environment variables
-set, it will look like only one core can be used by each MPI task, but that is because it only
-shows the mask for the main process which becomes OpenMP thread 0. Remove the OpenMP environment
-variables and you'll see that each task now gets 16 possible cores to run on, and the same is true
-for each OpenMP thread (at least when using the GNU compilers, the Cray compilers have different
-default behaviour for OpenMP which actually makes more sense for most scientific computing codes).</p>
-</details>
-</li>
-<li>
-<p>Build the <code>hello_jobstep</code> program tool using interactive shell on a GPU node. 
-    You can pull the source code for the program from git repository 
-    <a href="https://code.ornl.gov/olcf/hello_jobstep"><code>https://code.ornl.gov/olcf/hello_jobstep.git</code></a>. 
-    It uses a <code>Makefile</code> for building and requires Clang and HIP. 
-    The <code>hello_jobstep</code> program is actually the main source of inspiration for the 
-    <code>gpu_check</code> program in the <code>lumi-CPEtools</code> modules for <code>partition/G</code>.
-    Try to run the program interactively. </p>
-<details class="solution">
-<summary>Click to see the solution.</summary>
-<p>Clone the code using <code>git</code> command:</p>
-<div class="highlight"><pre><span></span><code>git clone https://code.ornl.gov/olcf/hello_jobstep.git
-</code></pre></div>
-<p>It will create <code>hello_jobstep</code> directory consisting source code and <code>Makefile</code>.</p>
-<p>Allocate resources for a single task with a single GPU with <code>salloc</code>:</p>
-<div class="highlight"><pre><span></span><code>salloc --partition=small-g --nodes=1 --tasks=1 --cpus-per-task=1 --gpus-per-node=1 --time=10 --account=&lt;project_id&gt;
-</code></pre></div>
-<p>Note that, after allocation is granted, you receive new shell but are still on the compute node. 
-You need to use the <code>srun</code> command to run on the allocated node. </p>
-<p>Start interactive session on a GPU node:</p>
-<div class="highlight"><pre><span></span><code>srun --pty bash -i
-</code></pre></div>
-<p>Note now you are on the compute node. <code>--pty</code> option for <code>srun</code> is required to interact with the remote shell.</p>
-<p>Enter the <code>hello_jobstep</code> directory and issue <code>make</code> command. </p>
-<p>As an example we will built with the system default programming environment, <code>PrgEnv-cray</code> in <code>CrayEnv</code>. 
-Just to be sure we'll load even the programming environment module explicitly.</p>
-<p>The build will fail if the <code>rocm</code> module is not loaded when using <code>PrgEnv-cray</code>.</p>
+<p>tells us that this version of <code>htop</code> is available in all partitions of <code>LUMI/22.08</code> and <code>LUMI/22.06</code>,
+and in <code>CrayEnv</code>. Let us just run it in the <code>CrayEnv</code> environment:</p>
 <div class="highlight"><pre><span></span><code>module load CrayEnv
-module load PrgEnv-cray
-module load rocm
+module load systools/22.08
+htop
 </code></pre></div>
-<p>To build the code, use</p>
-<div class="highlight"><pre><span></span><code>make LMOD_SYSTEM_NAME=&quot;frontier&quot;
-</code></pre></div>
-<p>You need to add <code>LMOD_SYSTEM_NAME="frontier"</code> variable for make as the code originates from the Frontier system
-and doesn't know LUMI.</p>
-<p>(As an exercise you can try to fix the <code>Makefile</code> and enable it for LUMI :))</p>
-<p>Finally you can just execute <code>./hello_jobstep</code> binary program to see how it behaves:</p>
-<div class="highlight"><pre><span></span><code>./hello_jobstep
-</code></pre></div>
-<p>Note that executing the program with <code>srun</code> in the srun interactive session will result in a hang.
-You need to work with <code>--overlap</code> option for srun to mitigate this.</p>
-<p>Remember to terminate your interactive session with <code>exit</code> command.</p>
-<p><div class="highlight"><pre><span></span><code>exit
-</code></pre></div>
-and then do the same for the shell created by <code>salloc</code> also.</p>
+<p>(You can quit <code>htop</code> by pressing <code>q</code> on the keyboard.)</p>
 </details>
 </li>
-</ol>
-<h2 id="slurm-custom-binding-on-gpu-nodes">Slurm custom binding on GPU nodes<a class="headerlink" href="#slurm-custom-binding-on-gpu-nodes" title="Permanent link">&para;</a></h2>
-<ol>
 <li>
-<p>Allocate one GPU node with one task per GPU and bind tasks to each CCD (8-core group sharing L3 cache) 
-    leaving the first (#0) and last (#7) cores unused. 
-    Run a program with 6 threads per task and inspect the actual task/threads affinity
-    using either the <code>hello_jobstep</code> executable generated in the previous exercise, or the
-    <code>gpu_check</code> command from tne <code>lumi-CPEtools</code> module.</p>
+<p>In the future LUMI will offer Open OnDemand as a browser-based interface to LUMI that will also enable
+    running some graphical programs. At the moment the way to do this is through a so-called VNC server.
+    Do we have such a tool on LUMI, and if so, how can we use it?</p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
-<p>We can chose between different approaches. In the example below,
-we follow the 
-<a href="08_Binding.md#linear-assignment-of-gcd-then-match-the-cores">"GPU binding: Linear GCD, match cores"</a> 
-slides and we only need to adapt the CPU mask:</p>
-<div class="highlight"><pre><span></span><code>#!/bin/bash -l
-#SBATCH --partition=standard-g  # Partition (queue) name
-#SBATCH --nodes=1               # Total number of nodes
-#SBATCH --ntasks-per-node=8     # 8 MPI ranks per node
-#SBATCH --gpus-per-node=8       # Allocate one gpu per MPI rank
-#SBATCH --time=5                # Run time (minutes)
-#SBATCH --account=&lt;project_id&gt;  # Project for billing
-#SBATCH --hint=nomultithread
-
-cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
-#!/bin/bash
-export ROCR_VISIBLE_DEVICES=\$SLURM_LOCALID
-exec \$*
-EOF
-chmod +x ./select_gpu_$SLURM_JOB_ID
-
-CPU_BIND=&quot;mask_cpu:0xfe000000000000,0xfe00000000000000,&quot;
-CPU_BIND=&quot;${CPU_BIND}0xfe0000,0xfe000000,&quot;
-CPU_BIND=&quot;${CPU_BIND}0xfe,0xfe00,&quot;
-CPU_BIND=&quot;${CPU_BIND}0xfe00000000,0xfe0000000000&quot;
-
-export OMP_NUM_THREADS=6
-export OMP_PROC_BIND=close
-export OMP_PLACES=cores
-
-srun --cpu-bind=${CPU_BIND} ./select_gpu_$SLURM_JOB_ID ./hello_jobstep
+<p><code>module spider VNC</code> and <code>module keyword VNC</code> can again both be used to check if there is software
+available to use VNC. Both will show that there is a module <code>lumi-vnc</code> in several versions. If you 
+try loading the older ones of these (the version number points at the date of some scripts) you will
+notice that some produce a warning as they are deprecated. However, when installing a new version we 
+cannot remove older ones in one sweep, and users may have hardcoded full module names in scripts they
+use to set their environment, so we chose to not immediate delete these older versions.</p>
+<p>One thing you can always try to get more information about how to run a program, is to ask for the help
+information of the module. For this to work the module must first be available, or you have to use 
+<code>module spider</code> with the full name of the module. We see that version <code>20230110</code> is the newest version
+of the module, so let's try that one:</p>
+<div class="highlight"><pre><span></span><code>module spider lumi-vnc/20230110
 </code></pre></div>
-<p>The base mask we need for this exercise, with each first and last core of a chiplet disabled,
-is <code>01111110</code> which is <code>0x7e</code> in hexadecimal notation.</p>
-<p>Save the job script as <code>job_step.sh</code> then simply submit it with sbatch from the directory
-that contains the <code>hello_jobstep</code> executable. Inspect the job output.</p>
-<p>Note that in fact as this program was compiled with the Cray compiler in the previous exercise,
-you don't even need to use the <code>OMP_*</code> environment variables above as the threads are 
-automatically pinned to a single core and as the correct number of threads is derived from
-the affinity mask for each task.</p>
-<p>Or using <code>gpu_check</code> instead (and we'll use the <code>cpeGNU</code> version again):</p>
-<div class="highlight"><pre><span></span><code>#!/bin/bash -l
-#SBATCH --partition=standard-g  # Partition (queue) name
-#SBATCH --nodes=1               # Total number of nodes
-#SBATCH --ntasks-per-node=8     # 8 MPI ranks per node
-#SBATCH --gpus-per-node=8       # Allocate one gpu per MPI rank
-#SBATCH --time=5                # Run time (minutes)
-#SBATCH --account=&lt;project_id&gt;  # Project for billing
-#SBATCH --hint=nomultithread
-
-module load LUMI/23.09
-module load lumi-CPEtools/1.1-cpeGNU-23.09
-
-cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
-#!/bin/bash
-export ROCR_VISIBLE_DEVICES=\$SLURM_LOCALID
-exec \$*
-EOF
-chmod +x ./select_gpu_$SLURM_JOB_ID
-
-CPU_BIND=&quot;mask_cpu:0xfe000000000000,0xfe00000000000000,&quot;
-CPU_BIND=&quot;${CPU_BIND}0xfe0000,0xfe000000,&quot;
-CPU_BIND=&quot;${CPU_BIND}0xfe,0xfe00,&quot;
-CPU_BIND=&quot;${CPU_BIND}0xfe00000000,0xfe0000000000&quot;
-
-export OMP_NUM_THREADS=6
-export OMP_PROC_BIND=close
-export OMP_PLACES=cores
-
-srun --cpu-bind=${CPU_BIND} ./select_gpu_$SLURM_JOB_ID gpu_check -l
+<p>The output may look a little strange as it mentions <code>init-lumi</code> as one of the modules that you can load.
+That is because this tool is available even outside <code>CrayEnv</code> or the LUMI stacks. But this command also
+shows a long help test telling you how to use this module (though it does assume some familiarity with how
+X11 graphics work on Linux).</p>
+<p>Note that if there is only a single version on the system, as is the case for the course in May 2023,
+the <code>module spider VNC</code> command without specific version or correct module name will already display the
+help information.</p>
+</details>
+</li>
+<li>
+<p>Search for the <code>bzip2</code> tool (and not just the <code>bunzip2</code> command as we also need the <code>bzip2</code> command) and make 
+    sure that you can use software compiled with the Cray compilers in the LUMI stacks in the same session.</p>
+<details class="solution">
+<summary>Click to see the solution.</summary>
+<div class="highlight"><pre><span></span><code>module spider bzip2
 </code></pre></div>
+<p>shows that there are versions of <code>bzip2</code> for several of the <code>cpe*</code> toolchains and in several versions
+of the LUMI software stack.</p>
+<p>Of course we prefer to use a recent software stack, the <code>22.08</code> or <code>22.12</code> (but as of early May 2023, 
+there is a lot more software ready-to-install for <code>22.08</code>). 
+And since we want to use other software
+compiled with the Cray compilers also, we really want a <code>cpeCray</code> version to avoid conflicts between 
+different toolchains. So the module we want to load is <code>bzip2/1.0.8-cpeCray-22.08</code>.</p>
+<p>To figure out how to load it, use</p>
+<div class="highlight"><pre><span></span><code>module spider bzip2/1.0.8-cpeCray-22.08
+</code></pre></div>
+<p>and see that (as expected from the name) we need to load <code>LUMI/22.08</code> and can then use it in any of the
+partitions.</p>
 </details>
 </li>
 </ol>

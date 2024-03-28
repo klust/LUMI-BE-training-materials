@@ -106,7 +106,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#exercises-1-modules-the-hpe-cray-pe-and-easybuild" class="md-skip">
+        <a href="#exercises-1-elementary-access-and-the-hpe-cray-pe" class="md-skip">
           Skip to content
         </a>
       
@@ -632,9 +632,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#exercises-on-the-use-of-modules" class="md-nav__link">
+  <a href="#accessing-lumi" class="md-nav__link">
     <span class="md-ellipsis">
-      Exercises on the use of modules
+      Accessing LUMI
     </span>
   </a>
   
@@ -672,57 +672,6 @@
   <a href="#compilation-of-a-program-3-a-hybrid-mpiopenmp-program" class="md-nav__link">
     <span class="md-ellipsis">
       Compilation of a program 3: A hybrid MPI/OpenMP program
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#information-in-the-lumi-software-library" class="md-nav__link">
-    <span class="md-ellipsis">
-      Information in the LUMI Software Library
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installing-software-with-easybuild" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installing software with EasyBuild
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Installing software with EasyBuild">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#installing-a-simple-program-without-dependencies-with-easybuild" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installing a simple program without dependencies with EasyBuild
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#installing-an-easyconfig-given-to-you-by-lumi-user-support" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installing an EasyConfig given to you by LUMI User Support
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#installing-software-with-uninstalled-dependencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installing software with uninstalled dependencies
     </span>
   </a>
   
@@ -986,9 +935,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#exercises-on-the-use-of-modules" class="md-nav__link">
+  <a href="#accessing-lumi" class="md-nav__link">
     <span class="md-ellipsis">
-      Exercises on the use of modules
+      Accessing LUMI
     </span>
   </a>
   
@@ -1036,57 +985,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#information-in-the-lumi-software-library" class="md-nav__link">
-    <span class="md-ellipsis">
-      Information in the LUMI Software Library
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installing-software-with-easybuild" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installing software with EasyBuild
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Installing software with EasyBuild">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#installing-a-simple-program-without-dependencies-with-easybuild" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installing a simple program without dependencies with EasyBuild
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#installing-an-easyconfig-given-to-you-by-lumi-user-support" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installing an EasyConfig given to you by LUMI User Support
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#installing-software-with-uninstalled-dependencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installing software with uninstalled dependencies
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1102,105 +1000,60 @@
                   
 
 
-<h1 id="exercises-1-modules-the-hpe-cray-pe-and-easybuild">Exercises 1: Modules, the HPE Cray PE and EasyBuild<a class="headerlink" href="#exercises-1-modules-the-hpe-cray-pe-and-easybuild" title="Permanent link">&para;</a></h1>
+<h1 id="exercises-1-elementary-access-and-the-hpe-cray-pe">Exercises 1: Elementary access and the HPE Cray PE<a class="headerlink" href="#exercises-1-elementary-access-and-the-hpe-cray-pe" title="Permanent link">&para;</a></h1>
 <p>See <a href="../#setting-up-for-the-exercises">the instructions</a>
 to set up for the exercises.</p>
-<h2 id="exercises-on-the-use-of-modules">Exercises on the use of modules<a class="headerlink" href="#exercises-on-the-use-of-modules" title="Permanent link">&para;</a></h2>
+<h2 id="accessing-lumi">Accessing LUMI<a class="headerlink" href="#accessing-lumi" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
-<p>The <code>Bison</code> program installed in the OS image is pretty old (version 3.0.4) and
-    we want to use a newer one. Is there one available on LUMI?</p>
+<p>Log on to an arbitrary login node of LUMI.</p>
+<p>Can you find how to check your quota and status of your allocation?</p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
-<div class="highlight"><pre><span></span><code>module spider Bison
-</code></pre></div>
-<p>tells us that there are indeed newer versions available on the system. </p>
-<p>The versions that have a compiler name (usually <code>gcc</code>) in their name followed
-by some seemingly random characters are installed with Spack and not in the
-CrayEnv or LUMI environments.</p>
-<p>To get more information about <code>Bison/3.8.2</code>: </p>
-<div class="highlight"><pre><span></span><code>module spider Bison/3.8.2
-</code></pre></div>
-<p>tells us that Bison 3.8.2 is provided by a couple of <code>buildtools</code> modules and available
-in all partitions in several versions of the <code>LUMI</code> software stack and in <code>CrayEnv</code>.</p>
-<p>Alternatively, in this case</p>
-<div class="highlight"><pre><span></span><code>module keyword Bison
-</code></pre></div>
-<p>would also have shown that Bison is part of several versions of the <code>buildtools</code> module.</p>
-<p>The <code>module spider</code> command is often the better command if you use names that with a high 
-likelihood could be the name of a package, while <code>module keyword</code> is often the better choice
-for words that are more a keyword. But if one does not return the solution it is a good idea 
-to try the other one also.</p>
+<p>How to check your quota and status of your allocation, is explained in
+the message-of-the-day at the bottom of the "Announcements" section:
+you can use the <code>lumi-workspaces</code> command.</p>
 </details>
 </li>
 <li>
-<p>The <code>htop</code> command is a nice alternative for the <code>top</code> command with a more powerful user interface.
-    However, typing <code>htop</code> on the command line produces an error message. Can you find and run <code>htop</code>?</p>
+<p>How can you log on to a specific login node of LUMI, e.g., the login node "uan01"?</p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
-<p>We can use either <code>module spider htop</code> or <code>module keyword htop</code> to find out that <code>htop</code> is indeed
-available on the system. With <code>module keyword htop</code> we'll find out immediately that it is in the 
-<code>systools</code> modules and some of those seem to be numbered after editions of the LUMI stack suggesting
-that they may be linked to a stack, with <code>module spider</code> you'll first see that it is an extension of
-a module and see the versions. You may again see some versions installed with Spack.</p>
-<p>Let's check further for <code>htop/3.2.1</code> that should exist according to <code>module spider htop</code>:</p>
-<div class="highlight"><pre><span></span><code>module spider htop/3.2.1
-</code></pre></div>
-<p>tells us that this version of <code>htop</code> is available in all partitions of <code>LUMI/22.08</code> and <code>LUMI/22.06</code>,
-and in <code>CrayEnv</code>. Let us just run it in the <code>CrayEnv</code> environment:</p>
-<div class="highlight"><pre><span></span><code>module load CrayEnv
-module load systools/22.08
-htop
-</code></pre></div>
-<p>(You can quit <code>htop</code> by pressing <code>q</code> on the keyboard.)</p>
+<p>To log in to the login node "uan01", use the hostname <code>lumi-uan01.csc.fi</code>
+instead of <code>lumi.csc.fi</code>.</p>
+<p>This may be useful if you use software on your desktop that tries to connect
+repeatedly to LUMI and then tries to find, e.g., a running server that it 
+created before.</p>
 </details>
 </li>
 <li>
-<p>In the future LUMI will offer Open OnDemand as a browser-based interface to LUMI that will also enable
-    running some graphical programs. At the moment the way to do this is through a so-called VNC server.
-    Do we have such a tool on LUMI, and if so, how can we use it?</p>
+<p>Create a shell on a login node using the Open OnDemand web interface?</p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
-<p><code>module spider VNC</code> and <code>module keyword VNC</code> can again both be used to check if there is software
-available to use VNC. Both will show that there is a module <code>lumi-vnc</code> in several versions. If you 
-try loading the older ones of these (the version number points at the date of some scripts) you will
-notice that some produce a warning as they are deprecated. However, when installing a new version we 
-cannot remove older ones in one sweep, and users may have hardcoded full module names in scripts they
-use to set their environment, so we chose to not immediate delete these older versions.</p>
-<p>One thing you can always try to get more information about how to run a program, is to ask for the help
-information of the module. For this to work the module must first be available, or you have to use 
-<code>module spider</code> with the full name of the module. We see that version <code>20230110</code> is the newest version
-of the module, so let's try that one:</p>
-<div class="highlight"><pre><span></span><code>module spider lumi-vnc/20230110
-</code></pre></div>
-<p>The output may look a little strange as it mentions <code>init-lumi</code> as one of the modules that you can load.
-That is because this tool is available even outside <code>CrayEnv</code> or the LUMI stacks. But this command also
-shows a long help test telling you how to use this module (though it does assume some familiarity with how
-X11 graphics work on Linux).</p>
-<p>Note that if there is only a single version on the system, as is the case for the course in May 2023,
-the <code>module spider VNC</code> command without specific version or correct module name will already display the
-help information.</p>
+<ul>
+<li>Point your web browser to <code>https://www.lumi.csc.fi</code>. With some browsers
+    it is sufficient to type <code>lumi.csc.fi</code> in the address bar while others
+    require <code>www.lumi.csc.fi</code>.</li>
+<li>Click the "Go to login" button. What you need to do here, depends on how
+    you got your account. For the course you will have to proceed with the 
+    "MyAccessID" option "Login Puhuri" in most cases.</li>
+<li>Once you're in the web interface, click on "Login node shell" (likely the third
+    choice on the first line). It will open a new tab in the browser with a login shell
+    on LUMI. Note that Open OnDemand uses a different set of login nodes.</li>
+</ul>
 </details>
 </li>
 <li>
-<p>Search for the <code>bzip2</code> tool (and not just the <code>bunzip2</code> command as we also need the <code>bzip2</code> command) and make 
-    sure that you can use software compiled with the Cray compilers in the LUMI stacks in the same session.</p>
+<p>Try to transfer a file from your desktop/laptop to your home directory via the Open OnDemand web interface.</p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
-<div class="highlight"><pre><span></span><code>module spider bzip2
-</code></pre></div>
-<p>shows that there are versions of <code>bzip2</code> for several of the <code>cpe*</code> toolchains and in several versions
-of the LUMI software stack.</p>
-<p>Of course we prefer to use a recent software stack, the <code>22.08</code> or <code>22.12</code> (but as of early May 2023, 
-there is a lot more software ready-to-install for <code>22.08</code>). 
-And since we want to use other software
-compiled with the Cray compilers also, we really want a <code>cpeCray</code> version to avoid conflicts between 
-different toolchains. So the module we want to load is <code>bzip2/1.0.8-cpeCray-22.08</code>.</p>
-<p>To figure out how to load it, use</p>
-<div class="highlight"><pre><span></span><code>module spider bzip2/1.0.8-cpeCray-22.08
-</code></pre></div>
-<p>and see that (as expected from the name) we need to load <code>LUMI/22.08</code> and can then use it in any of the
-partitions.</p>
+<ul>
+<li>Go back into Open OnDemand if you have left it after the previous exercise.</li>
+<li>On the main screen of the web interface, choose "Home directory".</li>
+<li>Depending on the browser and your system you may be able to just drag-and-drop files 
+    into the frame that shows your files, or you can click the blue "Upload" button towards
+    the top of the screen.</li>
+</ul>
 </details>
 </li>
 </ol>
@@ -1219,12 +1072,12 @@ the subdirectory CPE of the download.</em></p>
 <p>Try to compile these programs using the programming environment of your choice.</p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
-<p>We'll use the default version of the programming environment (22.12 at the moment of the
-course in May 2023), but in case you want to use
-a particular version, e.g., the 22.08 version, and want to be very sure that all modules are
+<p>We'll use the default version of the programming environment (23.09 at the moment of the
+course in May 2024), but in case you want to use
+a particular version, e.g., the 22.12 version, and want to be very sure that all modules are
 loaded correctly from the start you could consider using</p>
-<div class="highlight"><pre><span></span><code>module load cpe/22.08
-module load cpe/22.08
+<div class="highlight"><pre><span></span><code>module load cpe/22.12
+module load cpe/22.12
 </code></pre></div>
 <p>So note that we do twice the same command as the first iteration does not always succeed to reload
 all modules in the correct version. Do not combine both lines into a single <code>module load</code> statement
@@ -1375,206 +1228,6 @@ cc -O3 -fopenmp mpi_omp_hello.c -o mpi_omp_hello_aocc.x
 even needed to have the respective <code>PrgEnv-*</code> module loaded since the binaries
 will use a copy of the libraries stored in a default directory, though there have
 been bugs in the past preventing this to work with <code>PrgEnv-aocc</code>.</p>
-</details>
-<h2 id="information-in-the-lumi-software-library">Information in the LUMI Software Library<a class="headerlink" href="#information-in-the-lumi-software-library" title="Permanent link">&para;</a></h2>
-<p>Explore the <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/">LUMI Software Library</a>.</p>
-<ul>
-<li>Search for information for the package ParaView and quickly read through the page</li>
-</ul>
-<details class="solution">
-<summary>Click to see the solution.</summary>
-<p><a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/ParaView/">Link to the ParaView documentation</a></p>
-<p>It is an example of a package for which we have both user-level and some technical information. The page
-will first show some license information, then the actual user information which in case of this package
-is very detailed and long. But it is also a somewhat complicated package to use. It will become easier
-when LUMI evolves a bit further, but there will always be some pain. Next comes the more technical
-part: Links to the EasyBuild recipe and some information about how we build the package.</p>
-<p>We currently only provide ParaView in the cpeGNU toolchain. This is because it has a lot of dependencies
-that are not trivial to compile and to port to the other compilers on the system, and EasyBuild is 
-strict about mixing compilers basically because it can cause a lot of problems, e.g., due to conflicts
-between OpenMP runtimes.</p>
-</details>
-<h2 id="installing-software-with-easybuild">Installing software with EasyBuild<a class="headerlink" href="#installing-software-with-easybuild" title="Permanent link">&para;</a></h2>
-<p><em>These exercises are based on material from the <a href="http://tutorial.easybuild.io/">EasyBuild tutorials</a>
-(and we have a <a href="https://lumi-supercomputer.github.io/easybuild-tutorial/2022-CSC_and_LO/">special version for LUMI</a> also).</em></p>
-<p><em>Note</em>: If you want to be able to uninstall all software installed through the exercises
-easily, we suggest you make a separate EasyBuild installation for the course, e.g.,
-in <code>/scratch/project_465000523/$USER/eb-course</code> if you make the exercises during the course:</p>
-<ul>
-<li>Start from a clean login shell with only the standard modules loaded.</li>
-<li>
-<p>Set <code>EBU_USER_PREFIX</code>: </p>
-<div class="highlight"><pre><span></span><code>export EBU_USER_PREFIX=/scratch/project_465000523/$USER/eb-course
-</code></pre></div>
-<p>You'll need to do that in every shell session where you want to install or use that software.</p>
-</li>
-<li>
-<p>From now on you can again safely load the necessary <code>LUMI</code> and <code>partition</code> modules for the exercise.</p>
-</li>
-<li>
-<p>At the end, when you don't need the software installation anymore, you can simply remove the directory
-    that you just created.</p>
-<div class="highlight"><pre><span></span><code>rm -rf /scratch/project_465000523/$USER/eb-course
-</code></pre></div>
-</li>
-</ul>
-<h3 id="installing-a-simple-program-without-dependencies-with-easybuild">Installing a simple program without dependencies with EasyBuild<a class="headerlink" href="#installing-a-simple-program-without-dependencies-with-easybuild" title="Permanent link">&para;</a></h3>
-<p>The LUMI Software Library contains the package <code>eb-tutorial</code>. Install the version of
-the package for the <code>cpeCray</code> toolchain in the 22.08 version of the software stack.</p>
-<p><em>At the time of this course, in early May 2023, we're still working on EasyBuild build
-recipes for the 22.12 version of the software stack.</em></p>
-<details class="solution">
-<summary>Click to see the solution.</summary>
-<ul>
-<li>
-<p>We can check the 
-    <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/e/eb-tutorial">eb-tutorial page</a>
-    in the 
-    <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs">LUMI Software Library</a>
-    if we want to see more information about the package.</p>
-<p>You'll notice that there are versions of the EasyConfigs for <code>cpeGNU</code> and <code>cpeCray</code>.
-As we want to install software with the <code>cpeCray</code> toolchain for <code>LUMI/22.08</code>, we'll
-need the <code>cpeCray-22.08</code> version which is the EasyConfig
-<code>eb-tutorial-1.0.1-cpeCray-22.08.eb</code>.</p>
-</li>
-<li>
-<p>Obviously we need to load the <code>LUMI/22.08</code> module. If we would like to install software
-    for the CPU compute nodes, you need to also load <code>partition/C</code>.
-    To be able to use EasyBuild, we also need the <code>EasyBuild-user</code> module.</p>
-<div class="highlight"><pre><span></span><code>module load LUMI/22.08 partition/C
-module load EasyBuild-user
-</code></pre></div>
-</li>
-<li>
-<p>Now all we need to do is run the <code>eb</code> command from EasyBuild to install the software.</p>
-<p>Let's however take the slow approach and first check if what dependencies the package needs:</p>
-<div class="highlight"><pre><span></span><code>eb eb-tutorial-1.0.1-cpeCray-22.08.eb -D
-</code></pre></div>
-<p>We can do this from any directory as the EasyConfig file is already in the LUMI Software Library
-and will be located automatically by EasyBuild. You'll see that all dependencies are already on 
-the system so we can proceed with the installation:</p>
-<div class="highlight"><pre><span></span><code>eb eb-tutorial-1.0.1-cpeCray-22.08.eb 
-</code></pre></div>
-</li>
-<li>
-<p>After this you should have a module <code>eb-tutorial/1.0.1-cpeCray-22.08</code> but it may not show up 
-    yet due to the caching of Lmod. Try</p>
-<div class="highlight"><pre><span></span><code>module av eb-tutorial/1.0.1-cpeCray-22.08
-</code></pre></div>
-<p>If this produces an error message complaining that the module cannot be found, it is time to clear
-the Lmod cache:</p>
-<div class="highlight"><pre><span></span><code>rm -rf $HOME/.lmod.d/.cache
-</code></pre></div>
-</li>
-<li>
-<p>Now that we have the module, we can check what it actually does:</p>
-<div class="highlight"><pre><span></span><code>module help eb-tutorial/1.0.1-cpeCray-22.08
-</code></pre></div>
-<p>and we see that it provides the <code>eb-tutorial</code> command.</p>
-</li>
-<li>
-<p>So let's now try to run this command:</p>
-<div class="highlight"><pre><span></span><code>module load eb-tutorial/1.0.1-cpeCray-22.08
-eb-tutorial
-</code></pre></div>
-<p>Note that if you now want to install one of the other versions of this module, EasyBuild will
-complain that some modules are loaded that it doesn't like to see, including the <code>eb-tutorial</code>
-module and the <code>cpeCray</code> modules so it is better to unload those first:</p>
-<div class="highlight"><pre><span></span><code>module unload cpeCray eb-tutorial
-</code></pre></div>
-</li>
-</ul>
-</details>
-<h3 id="installing-an-easyconfig-given-to-you-by-lumi-user-support">Installing an EasyConfig given to you by LUMI User Support<a class="headerlink" href="#installing-an-easyconfig-given-to-you-by-lumi-user-support" title="Permanent link">&para;</a></h3>
-<p>Sometimes we have no solution ready in the LUMI Software Library, but we prepare one or more
-custom EasyBuild recipes for you. Let's mimic this case. In practice we would likely send 
-those as attachments to a mail from the ticketing system and you would be asked to put
-them in a separate directory (basically since putting them at the top of your home
-directory would in some cases let EasyBuild search your whole home directory for dependencies
-which would be a very slow process).</p>
-<p>You've been given two EasyConfig files to install a tool called <code>py-eb-tutorial</code> which is in fact
-a Python package that uses the <code>eb-tutorial</code> package installed in the previous exercise. These
-EasyConfig files are in the <code>EasyBuild</code> subdirectory of the exercises for this course.
-In the first exercise you are asked to install the version of <code>py-eb-tutorial</code> for the
-<code>cpeCray/22.08</code> toolchain.</p>
-<details class="solution">
-<summary>Click to see the solution.</summary>
-<ul>
-<li>
-<p>Go to the <code>EasyBuild</code> subdirectory of the exercises and check that it indeed contains the
-    <code>py-eb-tutorial-1.0.0-cpeCray-22.08-cray-python-3.9.12.1.eb</code> and
-    <code>py-eb-tutorial-1.0.0-cpeGNU-22.08-cray-python-3.9.12.1.eb</code> files.
-    It is the first one that we need for this exercise.</p>
-<p>You can see that we have used a very long name as we are also using a version suffix to
-make clear which version of Python we'll be using.</p>
-</li>
-<li>
-<p>Let's first check for the dependencies (out of curiosity):</p>
-<div class="highlight"><pre><span></span><code>eb py-eb-tutorial-1.0.0-cpeCray-22.08-cray-python-3.9.12.1.eb -D
-</code></pre></div>
-<p>and you'll see that all dependencies are found (at least if you made the previous exercise 
-successfully). You may find it strange that it shows no Python module but that is because
-we are using the <code>cray-python</code> module which is not installed through EasyBuild and only
-known to EasyBuild as an external module.</p>
-</li>
-<li>
-<p>And now we can install the package:</p>
-<div class="highlight"><pre><span></span><code>eb py-eb-tutorial-1.0.0-cpeCray-22.08-cray-python-3.9.12.1.eb
-</code></pre></div>
-</li>
-<li>
-<p>To use the package all we need to do is to load the module and to run the command that it
-    defines:</p>
-<div class="highlight"><pre><span></span><code>module load py-eb-tutorial/1.0.0-cpeCray-22.08-cray-python-3.9.12.1
-py-eb-tutorial
-</code></pre></div>
-<p>with the same remark as in the previous exercise if Lmod fails to find the module.</p>
-<p>You may want to do this step in a separate terminal session set up the same way, or you
-will get an error message in the next exercise with EasyBuild complaining that there are
-some modules loaded that should not be loaded.</p>
-</li>
-</ul>
-</details>
-<h3 id="installing-software-with-uninstalled-dependencies">Installing software with uninstalled dependencies<a class="headerlink" href="#installing-software-with-uninstalled-dependencies" title="Permanent link">&para;</a></h3>
-<p>Now you're asked to also install the version of <code>py-eb-tutorial</code> for the <code>cpeGNU</code> toolchain in <code>LUMI/22.08</code>
-(and the solution given below assumes you haven'ty accidentally installed the wrong EasyBuild recipe in one
-of the previous two exercises).</p>
-<details class="solution">
-<summary>Click to see the solution.</summary>
-<ul>
-<li>
-<p>We again work in the same environment as in the previous two exercises. Nothing has changed here.
-    Hence if not done yet we need</p>
-<div class="highlight"><pre><span></span><code>module load LUMI/22.08 partition/C
-module load EasyBuild-user
-</code></pre></div>
-</li>
-<li>
-<p>Now go to the <code>EasyBuild</code> subdirectory of the exercises (if not there yet from the previous
-    exercise) and check what the <code>py-eb-tutorial-1.0.0-cpeGNU-22.08-cray-python-3.9.12.1.eb</code> needs:</p>
-<div class="highlight"><pre><span></span><code>eb py-eb-tutorial-1.0.0-cpeGNU-22.08-cray-python-3.9.12.1.eb -D
-</code></pre></div>
-<p>We'll now see that there are two missing modules. Not only is the 
-<code>py-eb-tutorial/1.0.0-cpeGNU-22.08-cray-python-3.9.12.1</code> that we try to install missing, but also the
-<code>eb-tutorial/1.0.1-cpeGNU-22.08</code>. EasyBuild does however manage to find a recipe from which this module
-can be built in the pre-installed build recipes.</p>
-</li>
-<li>
-<p>We can install both packages separately, but it is perfectly possible to install both packages in a single
-    <code>eb</code> command by using the <code>-r</code> option to tell EasyBuild to also install all dependencies.</p>
-<div class="highlight"><pre><span></span><code>eb py-eb-tutorial-1.0.0-cpeGNU-22.08-cray-python-3.9.12.1.eb -r
-</code></pre></div>
-</li>
-<li>
-<p>At the end you'll now notice (with <code>module avail</code>) that both the module 
-    <code>eb-tutorial/1.0.1-cpeGNU-22.08</code> and <code>py-eb-tutorial/1.0.0-cpeGNU-22.08-cray-python-3.9.12.1</code>
-    are now present.</p>
-<p>To run you can use</p>
-<div class="highlight"><pre><span></span><code>module load py-eb-tutorial/1.0.0-cpeGNU-22.08-cray-python-3.9.12.1
-py-eb-tutorial
-</code></pre></div>
-</li>
-</ul>
 </details>
 
 
