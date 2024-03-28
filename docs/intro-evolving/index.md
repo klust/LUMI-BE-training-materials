@@ -85,12 +85,12 @@ You will only need an very minimum of CPU and GPU billing units for this.
 | Modules on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-04-modules.pdf) | [notes](04_Modules.md) | / |
 | LUMI Software Stacks | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-05-software.pdf) | [notes](05_Software_stacks.md) | / |
 | Exercises 1 | / | [notes](06_Exercises_1.md) | / |
-| Slurm on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-07-slurm.pdf) | [notes](07_Slurm.md) | / |
-| Binding resources | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-08-binding.pdf) | [notes](08_Binding.md) | / | 
+| Slurm on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-06-slurm.pdf) | [notes](06_Slurm.md) | / |
+| Binding resources | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-07-binding.pdf) | [notes](07_Binding.md) | / | 
 | Exercises 2 | / | [notes](09_Exercises_2.md) | / |
-| Using Lustre | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-10-lustre.pdf) | [notes](10_Lustre.md) | / |
-| Containers on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-11-containers.pdf) | [notes](11_Containers.md) | / |
-| LUMI User Support | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-12-support.pdf) | [notes](12_Support.md) | / |
+| Using Lustre | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-08-lustre.pdf) | [notes](08_Lustre.md) | / |
+| Containers on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-09-containers.pdf) | [notes](09_Containers.md) | / |
+| LUMI User Support | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-10-support.pdf) | [notes](10_Support.md) | / |
 | A1 Slurm issues | / | [notes](A01_Slurm_issues.md) | / | 
 | A2 Additional documentation | / | [notes](A02_Documentation.md) | / | 
 
