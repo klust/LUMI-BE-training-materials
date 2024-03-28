@@ -1,132 +1,51 @@
-# Exercises 1: Modules, the HPE Cray PE and EasyBuild
+# Exercises 1: Elementary access and the HPE Cray PE
 
 See [the instructions](index.md#setting-up-for-the-exercises)
 to set up for the exercises.
 
-## Exercises on the use of modules
+## Accessing LUMI
 
-1.  The `Bison` program installed in the OS image is pretty old (version 3.0.4) and
-    we want to use a newer one. Is there one available on LUMI?
+1.  Log on to an arbitrary login node of LUMI.
 
-    ??? Solution "Click to see the solution."
-
-        ```
-        module spider Bison
-        ```
-
-        tells us that there are indeed newer versions available on the system. 
-
-        The versions that have a compiler name (usually `gcc`) in their name followed
-        by some seemingly random characters are installed with Spack and not in the
-        CrayEnv or LUMI environments.
-
-        To get more information about `Bison/3.8.2`: 
-
-        ```
-        module spider Bison/3.8.2
-        ```
-
-        tells us that Bison 3.8.2 is provided by a couple of `buildtools` modules and available
-        in all partitions in several versions of the `LUMI` software stack and in `CrayEnv`.
-
-        Alternatively, in this case
-
-        ```
-        module keyword Bison
-        ```
-
-        would also have shown that Bison is part of several versions of the `buildtools` module.
-
-        The `module spider` command is often the better command if you use names that with a high 
-        likelihood could be the name of a package, while `module keyword` is often the better choice
-        for words that are more a keyword. But if one does not return the solution it is a good idea 
-        to try the other one also.
-
-2.  The `htop` command is a nice alternative for the `top` command with a more powerful user interface.
-    However, typing `htop` on the command line produces an error message. Can you find and run `htop`?
+    Can you find how to check your quota and status of your allocation?
 
     ??? Solution "Click to see the solution."
+        How to check your quota and status of your allocation, is explained in
+        the message-of-the-day at the bottom of the "Announcements" section:
+        you can use the `lumi-workspaces` command.
 
-        We can use either `module spider htop` or `module keyword htop` to find out that `htop` is indeed
-        available on the system. With `module keyword htop` we'll find out immediately that it is in the 
-        `systools` modules and some of those seem to be numbered after editions of the LUMI stack suggesting
-        that they may be linked to a stack, with `module spider` you'll first see that it is an extension of
-        a module and see the versions. You may again see some versions installed with Spack.
 
-        Let's check further for `htop/3.2.1` that should exist according to `module spider htop`:
+2.  How can you log on to a specific login node of LUMI, e.g., the login node "uan01"?
+  
+    ??? Solution "Click to see the solution."
+        To log in to the login node "uan01", use the hostname `lumi-uan01.csc.fi`
+        instead of `lumi.csc.fi`.
 
-        ```
-        module spider htop/3.2.1
-        ```
+        This may be useful if you use software on your desktop that tries to connect
+        repeatedly to LUMI and then tries to find, e.g., a running server that it 
+        created before.
 
-        tells us that this version of `htop` is available in all partitions of `LUMI/22.08` and `LUMI/22.06`,
-        and in `CrayEnv`. Let us just run it in the `CrayEnv` environment:
+3.  Create a shell on a login node using the Open OnDemand web interface?
+  
+    ??? Solution "Click to see the solution."
+        -   Point your web browser to `https://www.lumi.csc.fi`. With some browsers
+            it is sufficient to type `lumi.csc.fi` in the address bar while others
+            require `www.lumi.csc.fi`.
+        -   Click the "Go to login" button. What you need to do here, depends on how
+            you got your account. For the course you will have to proceed with the 
+            "MyAccessID" option "Login Puhuri" in most cases.
+        -   Once you're in the web interface, click on "Login node shell" (likely the third
+            choice on the first line). It will open a new tab in the browser with a login shell
+            on LUMI. Note that Open OnDemand uses a different set of login nodes.
 
-        ```
-        module load CrayEnv
-        module load systools/22.08
-        htop
-        ```
-
-        (You can quit `htop` by pressing `q` on the keyboard.)
-
-3.  In the future LUMI will offer Open OnDemand as a browser-based interface to LUMI that will also enable
-    running some graphical programs. At the moment the way to do this is through a so-called VNC server.
-    Do we have such a tool on LUMI, and if so, how can we use it?
+4.  Try to transfer a file from your desktop/laptop to your home directory via the Open OnDemand web interface.
 
     ??? Solution "Click to see the solution."
-
-        `module spider VNC` and `module keyword VNC` can again both be used to check if there is software
-        available to use VNC. Both will show that there is a module `lumi-vnc` in several versions. If you 
-        try loading the older ones of these (the version number points at the date of some scripts) you will
-        notice that some produce a warning as they are deprecated. However, when installing a new version we 
-        cannot remove older ones in one sweep, and users may have hardcoded full module names in scripts they
-        use to set their environment, so we chose to not immediate delete these older versions.
-
-        One thing you can always try to get more information about how to run a program, is to ask for the help
-        information of the module. For this to work the module must first be available, or you have to use 
-        `module spider` with the full name of the module. We see that version `20230110` is the newest version
-        of the module, so let's try that one:
-
-        ```
-        module spider lumi-vnc/20230110
-        ```
-
-        The output may look a little strange as it mentions `init-lumi` as one of the modules that you can load.
-        That is because this tool is available even outside `CrayEnv` or the LUMI stacks. But this command also
-        shows a long help test telling you how to use this module (though it does assume some familiarity with how
-        X11 graphics work on Linux).
-
-        Note that if there is only a single version on the system, as is the case for the course in May 2023,
-        the `module spider VNC` command without specific version or correct module name will already display the
-        help information.
-
-4.  Search for the `bzip2` tool (and not just the `bunzip2` command as we also need the `bzip2` command) and make 
-    sure that you can use software compiled with the Cray compilers in the LUMI stacks in the same session.
-
-    ??? Solution "Click to see the solution."
-
-        ```
-        module spider bzip2
-        ```
-
-        shows that there are versions of `bzip2` for several of the `cpe*` toolchains and in several versions
-        of the LUMI software stack.
-
-        Of course we prefer to use a recent software stack, the `22.08` or `22.12` (but as of early May 2023, 
-        there is a lot more software ready-to-install for `22.08`). 
-        And since we want to use other software
-        compiled with the Cray compilers also, we really want a `cpeCray` version to avoid conflicts between 
-        different toolchains. So the module we want to load is `bzip2/1.0.8-cpeCray-22.08`.
-
-        To figure out how to load it, use
-
-        ```
-        module spider bzip2/1.0.8-cpeCray-22.08
-        ```
-
-        and see that (as expected from the name) we need to load `LUMI/22.08` and can then use it in any of the
-        partitions.
+        -   Go back into Open OnDemand if you have left it after the previous exercise.
+        -   On the main screen of the web interface, choose "Home directory".
+        -   Depending on the browser and your system you may be able to just drag-and-drop files 
+            into the frame that shows your files, or you can click the blue "Upload" button towards
+            the top of the screen.
 
 
 ## Exercises on compiling software by hand
@@ -147,14 +66,14 @@ Four different implementations of a simple "Hello, World!" program are provided 
 Try to compile these programs using the programming environment of your choice.
 
 ??? Solution "Click to see the solution."
-    We'll use the default version of the programming environment (22.12 at the moment of the
-    course in May 2023), but in case you want to use
-    a particular version, e.g., the 22.08 version, and want to be very sure that all modules are
+    We'll use the default version of the programming environment (23.09 at the moment of the
+    course in May 2024), but in case you want to use
+    a particular version, e.g., the 22.12 version, and want to be very sure that all modules are
     loaded correctly from the start you could consider using
 
     ```
-    module load cpe/22.08
-    module load cpe/22.08
+    module load cpe/22.12
+    module load cpe/22.12
     ```
 
     So note that we do twice the same command as the first iteration does not always succeed to reload
@@ -371,235 +290,4 @@ on the login nodes and it will then contain just a single MPI rank.
     even needed to have the respective `PrgEnv-*` module loaded since the binaries
     will use a copy of the libraries stored in a default directory, though there have
     been bugs in the past preventing this to work with `PrgEnv-aocc`.
-
-## Information in the LUMI Software Library  
-
-Explore the [LUMI Software Library](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/).
-
--   Search for information for the package ParaView and quickly read through the page
-
-??? Solution "Click to see the solution."
-    [Link to the ParaView documentation](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/ParaView/)
-
-    It is an example of a package for which we have both user-level and some technical information. The page
-    will first show some license information, then the actual user information which in case of this package
-    is very detailed and long. But it is also a somewhat complicated package to use. It will become easier
-    when LUMI evolves a bit further, but there will always be some pain. Next comes the more technical
-    part: Links to the EasyBuild recipe and some information about how we build the package.
-
-    We currently only provide ParaView in the cpeGNU toolchain. This is because it has a lot of dependencies
-    that are not trivial to compile and to port to the other compilers on the system, and EasyBuild is 
-    strict about mixing compilers basically because it can cause a lot of problems, e.g., due to conflicts
-    between OpenMP runtimes.
-
-
-## Installing software with EasyBuild
-
-*These exercises are based on material from the [EasyBuild tutorials](http://tutorial.easybuild.io/)
-(and we have a [special version for LUMI](https://lumi-supercomputer.github.io/easybuild-tutorial/2022-CSC_and_LO/) also).*
-
-*Note*: If you want to be able to uninstall all software installed through the exercises
-easily, we suggest you make a separate EasyBuild installation for the course, e.g.,
-in `/scratch/project_465000523/$USER/eb-course` if you make the exercises during the course:
-
--   Start from a clean login shell with only the standard modules loaded.
--   Set `EBU_USER_PREFIX`: 
-     
-    ```
-    export EBU_USER_PREFIX=/scratch/project_465000523/$USER/eb-course
-    ```
-
-    You'll need to do that in every shell session where you want to install or use that software.
-
--   From now on you can again safely load the necessary `LUMI` and `partition` modules for the exercise.
-  
--   At the end, when you don't need the software installation anymore, you can simply remove the directory
-    that you just created.
-
-    ```
-    rm -rf /scratch/project_465000523/$USER/eb-course
-    ```
-
-
-### Installing a simple program without dependencies with EasyBuild
-
-The LUMI Software Library contains the package `eb-tutorial`. Install the version of
-the package for the `cpeCray` toolchain in the 22.08 version of the software stack.
-
-*At the time of this course, in early May 2023, we're still working on EasyBuild build
-recipes for the 22.12 version of the software stack.*
-
-??? Solution "Click to see the solution."
-    -   We can check the 
-        [eb-tutorial page](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/e/eb-tutorial)
-        in the 
-        [LUMI Software Library](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs)
-        if we want to see more information about the package.
-    
-        You'll notice that there are versions of the EasyConfigs for `cpeGNU` and `cpeCray`.
-        As we want to install software with the `cpeCray` toolchain for `LUMI/22.08`, we'll
-        need the `cpeCray-22.08` version which is the EasyConfig
-        `eb-tutorial-1.0.1-cpeCray-22.08.eb`.
-
-    -   Obviously we need to load the `LUMI/22.08` module. If we would like to install software
-        for the CPU compute nodes, you need to also load `partition/C`.
-        To be able to use EasyBuild, we also need the `EasyBuild-user` module.
-
-        ```
-        module load LUMI/22.08 partition/C
-        module load EasyBuild-user
-        ```
-
-    -   Now all we need to do is run the `eb` command from EasyBuild to install the software.
-
-        Let's however take the slow approach and first check if what dependencies the package needs:
-
-        ```
-        eb eb-tutorial-1.0.1-cpeCray-22.08.eb -D
-        ```
-
-        We can do this from any directory as the EasyConfig file is already in the LUMI Software Library
-        and will be located automatically by EasyBuild. You'll see that all dependencies are already on 
-        the system so we can proceed with the installation:
-
-        ```
-        eb eb-tutorial-1.0.1-cpeCray-22.08.eb 
-        ```
-
-    -   After this you should have a module `eb-tutorial/1.0.1-cpeCray-22.08` but it may not show up 
-        yet due to the caching of Lmod. Try
-
-        ```
-        module av eb-tutorial/1.0.1-cpeCray-22.08
-        ```
-
-        If this produces an error message complaining that the module cannot be found, it is time to clear
-        the Lmod cache:
-
-        ```
-        rm -rf $HOME/.lmod.d/.cache
-        ```
-    -   Now that we have the module, we can check what it actually does:
-
-        ```
-        module help eb-tutorial/1.0.1-cpeCray-22.08
-        ```
-
-        and we see that it provides the `eb-tutorial` command.
-
-    -   So let's now try to run this command:
-
-        ```
-        module load eb-tutorial/1.0.1-cpeCray-22.08
-        eb-tutorial
-        ```
-
-        Note that if you now want to install one of the other versions of this module, EasyBuild will
-        complain that some modules are loaded that it doesn't like to see, including the `eb-tutorial`
-        module and the `cpeCray` modules so it is better to unload those first:
-
-        ```
-        module unload cpeCray eb-tutorial
-        ```
-
-### Installing an EasyConfig given to you by LUMI User Support
-
-Sometimes we have no solution ready in the LUMI Software Library, but we prepare one or more
-custom EasyBuild recipes for you. Let's mimic this case. In practice we would likely send 
-those as attachments to a mail from the ticketing system and you would be asked to put
-them in a separate directory (basically since putting them at the top of your home
-directory would in some cases let EasyBuild search your whole home directory for dependencies
-which would be a very slow process).
-
-You've been given two EasyConfig files to install a tool called `py-eb-tutorial` which is in fact
-a Python package that uses the `eb-tutorial` package installed in the previous exercise. These
-EasyConfig files are in the `EasyBuild` subdirectory of the exercises for this course.
-In the first exercise you are asked to install the version of `py-eb-tutorial` for the
-`cpeCray/22.08` toolchain.
-
-??? Solution "Click to see the solution."
-    -   Go to the `EasyBuild` subdirectory of the exercises and check that it indeed contains the
-        `py-eb-tutorial-1.0.0-cpeCray-22.08-cray-python-3.9.12.1.eb` and
-        `py-eb-tutorial-1.0.0-cpeGNU-22.08-cray-python-3.9.12.1.eb` files.
-        It is the first one that we need for this exercise.
-
-        You can see that we have used a very long name as we are also using a version suffix to
-        make clear which version of Python we'll be using.
-
-    -   Let's first check for the dependencies (out of curiosity):
-
-        ```
-        eb py-eb-tutorial-1.0.0-cpeCray-22.08-cray-python-3.9.12.1.eb -D
-        ```
-
-        and you'll see that all dependencies are found (at least if you made the previous exercise 
-        successfully). You may find it strange that it shows no Python module but that is because
-        we are using the `cray-python` module which is not installed through EasyBuild and only
-        known to EasyBuild as an external module.
-
-    -   And now we can install the package:
-
-        ```
-        eb py-eb-tutorial-1.0.0-cpeCray-22.08-cray-python-3.9.12.1.eb
-        ```
-
-    -   To use the package all we need to do is to load the module and to run the command that it
-        defines:
-
-        ```
-        module load py-eb-tutorial/1.0.0-cpeCray-22.08-cray-python-3.9.12.1
-        py-eb-tutorial
-        ```
-
-        with the same remark as in the previous exercise if Lmod fails to find the module.
-
-        You may want to do this step in a separate terminal session set up the same way, or you
-        will get an error message in the next exercise with EasyBuild complaining that there are
-        some modules loaded that should not be loaded.
-
-
-### Installing software with uninstalled dependencies
-
-Now you're asked to also install the version of `py-eb-tutorial` for the `cpeGNU` toolchain in `LUMI/22.08`
-(and the solution given below assumes you haven'ty accidentally installed the wrong EasyBuild recipe in one
-of the previous two exercises).
-
-??? Solution "Click to see the solution."
-    -   We again work in the same environment as in the previous two exercises. Nothing has changed here.
-        Hence if not done yet we need
-
-        ```
-        module load LUMI/22.08 partition/C
-        module load EasyBuild-user
-        ```
-
-    -   Now go to the `EasyBuild` subdirectory of the exercises (if not there yet from the previous
-        exercise) and check what the `py-eb-tutorial-1.0.0-cpeGNU-22.08-cray-python-3.9.12.1.eb` needs:
-
-        ```
-        eb py-eb-tutorial-1.0.0-cpeGNU-22.08-cray-python-3.9.12.1.eb -D
-        ```
-
-        We'll now see that there are two missing modules. Not only is the 
-        `py-eb-tutorial/1.0.0-cpeGNU-22.08-cray-python-3.9.12.1` that we try to install missing, but also the
-        `eb-tutorial/1.0.1-cpeGNU-22.08`. EasyBuild does however manage to find a recipe from which this module
-        can be built in the pre-installed build recipes.
-
-    -   We can install both packages separately, but it is perfectly possible to install both packages in a single
-        `eb` command by using the `-r` option to tell EasyBuild to also install all dependencies.
-
-        ```
-        eb py-eb-tutorial-1.0.0-cpeGNU-22.08-cray-python-3.9.12.1.eb -r
-        ```
-
-    -   At the end you'll now notice (with `module avail`) that both the module 
-        `eb-tutorial/1.0.1-cpeGNU-22.08` and `py-eb-tutorial/1.0.0-cpeGNU-22.08-cray-python-3.9.12.1`
-        are now present.
-
-        To run you can use
-
-        ```
-        module load py-eb-tutorial/1.0.0-cpeGNU-22.08-cray-python-3.9.12.1
-        py-eb-tutorial
-        ```
 

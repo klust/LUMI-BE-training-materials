@@ -1,4 +1,4 @@
-# Exercises 2: Running jobs with Slurm
+# Exercises 4: Running jobs with Slurm
 
 ## Exercises on the Slurm allocation modes
 
