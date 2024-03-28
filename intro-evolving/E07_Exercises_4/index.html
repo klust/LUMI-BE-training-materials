@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/09_Exercises_2/">
+        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/E07_Exercises_4/">
       
       
-        <link rel="prev" href="../08_Binding/">
+        <link rel="prev" href="../07_Binding/">
       
       
-        <link rel="next" href="../10_Lustre/">
+        <link rel="next" href="../08_Lustre/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Exercises 2 - LUMI-BE training materials</title>
+        <title>Exercises 4 - LUMI-BE training materials</title>
       
     
     
@@ -224,7 +224,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Exercises 2
+              Exercises 4
             
           </span>
         </div>
@@ -586,6 +586,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../E03_Exercises_1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercises 1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../04_Modules/" class="md-nav__link">
         
   
@@ -628,28 +649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../06_Exercises_1/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Exercises 1
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../07_Slurm/" class="md-nav__link">
+      <a href="../06_Slurm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -670,7 +670,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../08_Binding/" class="md-nav__link">
+      <a href="../07_Binding/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -704,7 +704,7 @@
           
   
   <span class="md-ellipsis">
-    Exercises 2
+    Exercises 4
   </span>
   
 
@@ -715,7 +715,7 @@
         
   
   <span class="md-ellipsis">
-    Exercises 2
+    Exercises 4
   </span>
   
 
@@ -770,7 +770,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../10_Lustre/" class="md-nav__link">
+      <a href="../08_Lustre/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -791,7 +791,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../11_Containers/" class="md-nav__link">
+      <a href="../09_Containers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -812,7 +812,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../12_Support/" class="md-nav__link">
+      <a href="../10_Support/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1105,7 +1105,7 @@ and then do the same for the shell created by <code>salloc</code> also.</p>
 <summary>Click to see the solution.</summary>
 <p>We can chose between different approaches. In the example below,
 we follow the 
-<a href="../08_Binding/#linear-assignment-of-gcd-then-match-the-cores">"GPU binding: Linear GCD, match cores"</a> 
+<a href="08_Binding.md#linear-assignment-of-gcd-then-match-the-cores">"GPU binding: Linear GCD, match cores"</a> 
 slides and we only need to adapt the CPU mask:</p>
 <div class="highlight"><pre><span></span><code>#!/bin/bash -l
 #SBATCH --partition=standard-g  # Partition (queue) name
