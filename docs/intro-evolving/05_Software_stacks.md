@@ -620,7 +620,17 @@ Alternatively one can use `eb -S` or `eb --search` for that. So in our example t
 eb --search GROMACS
 ```
 
-!!! Note "Output of the search commands:"
+!!! Note "Results of the searches:"
+
+    In the LUMI Software Library, after some scrolling through 
+    [the page for GROMACS](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/g/GROMACS/), 
+    the list of EasyBuild recipes is found in the 
+    ["User-installable modules (and EasyConfigs)"](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/g/GROMACS/#user-installable-modules-and-easyconfigs)
+    section:
+
+    <figure markdown style="border: 1px solid #000">
+      ![GROMACS in the LUMI Software Library](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildGROMACSSoftLib.png){ loading=lazy }
+    </figure>
 
     `eb --search GROMACS` produces:
 
