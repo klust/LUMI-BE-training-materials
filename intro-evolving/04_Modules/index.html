@@ -1717,7 +1717,8 @@ which in turn makes the LUMI software stacks available that we will discuss in t
 <p>Lmod however has a trick that helps to avoid removing necessary modules and it is called sticky modules.
 When issuing the <code>module purge</code> command these modules are automatically reloaded. It is very important to
 realise that those modules will not just be kept "as is" but are in fact unloaded and loaded again as
-we shall see later that this may have consequences. It is still possible to force unload all these modules
+we shall see later that this may have unexpected side effects. 
+It is still possible to force unload all these modules
 using <code>module --force purge</code> or selectively unload those using <code>module --force unload</code>.</p>
 <p>The sticky property is something that is defined in the module file and not used by the module files
 ot the HPE Cray Programming Environment, but we shall see that there is a partial workaround for this in
@@ -1726,7 +1727,7 @@ the modules that activate a software stack so that you don't have to start from 
 chosen a software stack but want to clean up your environment.</p>
 <p>Let us look at the output of the <code>module avail</code> command, taken just after login on the system at the
 time of writing of these notes (the exact list of modules shown is a bit fluid):</p>
-<!-- Use a window of 98x23 -->
+<!-- Use a window of 106x23 -->
 <!--
 ![module avail slide 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-modules-img/img_ModuleAvail_1.png)
 
@@ -1739,8 +1740,6 @@ time of writing of these notes (the exact list of modules shown is a bit fluid):
 ![module avail slide 5](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-modules-img/img_ModuleAvail_5.png)
 
 ![module avail slide 6](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-modules-img/img_ModuleAvail_6.png)
-
-![module avail slide 7](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-modules-img/img_ModuleAvail_7.png)
 -->
 
 <figure style="border: 1px solid #000">
@@ -1760,9 +1759,6 @@ time of writing of these notes (the exact list of modules shown is a bit fluid):
 </figure>
 <figure style="border: 1px solid #000">
 <p><img alt="module avail slide 6" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-modules/ModuleAvail_6.png" /></p>
-</figure>
-<figure style="border: 1px solid #000">
-<p><img alt="module avail slide 7" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-modules/ModuleAvail_7.png" /></p>
 </figure>
 <p>Next to the names of modules you sometimes see one or more letters.
 The <code>(D)</code> means that that is currently the default version of the module, the one that will be loaded
