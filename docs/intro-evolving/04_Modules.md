@@ -591,7 +591,8 @@ which in turn makes the LUMI software stacks available that we will discuss in t
 Lmod however has a trick that helps to avoid removing necessary modules and it is called sticky modules.
 When issuing the `module purge` command these modules are automatically reloaded. It is very important to
 realise that those modules will not just be kept "as is" but are in fact unloaded and loaded again as
-we shall see later that this may have consequences. It is still possible to force unload all these modules
+we shall see later that this may have unexpected side effects. 
+It is still possible to force unload all these modules
 using `module --force purge` or selectively unload those using `module --force unload`.
 
 The sticky property is something that is defined in the module file and not used by the module files
@@ -603,7 +604,7 @@ chosen a software stack but want to clean up your environment.
 Let us look at the output of the `module avail` command, taken just after login on the system at the
 time of writing of these notes (the exact list of modules shown is a bit fluid):
 
-<!-- Use a window of 98x23 -->
+<!-- Use a window of 106x23 -->
 <!--
 ![module avail slide 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-modules-img/img_ModuleAvail_1.png)
 
@@ -616,8 +617,6 @@ time of writing of these notes (the exact list of modules shown is a bit fluid):
 ![module avail slide 5](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-modules-img/img_ModuleAvail_5.png)
 
 ![module avail slide 6](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-modules-img/img_ModuleAvail_6.png)
-
-![module avail slide 7](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-modules-img/img_ModuleAvail_7.png)
 -->
 
 <figure markdown style="border: 1px solid #000">
@@ -642,10 +641,6 @@ time of writing of these notes (the exact list of modules shown is a bit fluid):
 
 <figure markdown style="border: 1px solid #000">
   ![module avail slide 6](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-modules/ModuleAvail_6.png)
-</figure>
-
-<figure markdown style="border: 1px solid #000">
-  ![module avail slide 7](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-modules/ModuleAvail_7.png)
 </figure>
 
 Next to the names of modules you sometimes see one or more letters.
