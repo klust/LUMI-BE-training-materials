@@ -258,19 +258,30 @@ In general it is important to use some common sense when requesting resources an
 of what each Slurm parameter really means. Overspecifying resources (using more parameters than needed for the
 desired effect) may result in unexpected conflicts between parameters and error messages.
 
+<!--
 <figure markdown style="border: 1px solid #000">
   ![Slide Partitions 2](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-slurm/Partitions_2.png){ loading=lazy }
 </figure>
+-->
 
-For the overview of Slurm partitions, see the [LUMI dpcumentation, "Slurm partitions" page](https://docs.lumi-supercomputer.eu/runjobs/scheduled-jobs/partitions/).
-In the overview on the slide we did not mention partitions that are hidden to regular users.
+<figure markdown style="border: 1px solid #000">
+  ![Slide Partitions allocatable per node](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-slurm/PartitionsPerNode.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Partitions allocatable by resources](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-slurm/PartitionsByResources.png){ loading=lazy }
+</figure>
+
+
+For the overview of Slurm partitions, see the [LUMI documentation, "Slurm partitions" page](https://docs.lumi-supercomputer.eu/runjobs/scheduled-jobs/partitions/).
+In the overview on the slides we did not mention partitions that are hidden to regular users.
 
 The policies for partitions and the available partitions may change over time to fine tune the
 operation of LUMI and depending on needs observed by the system administrators and LUMI
-User Support Team.
+User Support Team, so don't take the above tables in the slide for granted.
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Partitions 3](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-slurm/Partitions_3.png){ loading=lazy }
+  ![Slide Partitions 3](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-slurm/PartitionsCommands.png){ loading=lazy }
 </figure>
 
 Some useful commands with respect to Slurm partitions:
@@ -279,19 +290,23 @@ Some useful commands with respect to Slurm partitions:
 
     ```
     $ sinfo -s
-    PARTITION   AVAIL  TIMELIMIT   NODES(A/I/O/T) NODELIST
-    standard       up 2-00:00:00  595/71/354/1020 nid[001002-001009,001012-002023]
-    small          up 3-00:00:00   354/16/124/494 nid[002028-002060,002062-002152,002154-002523]
-    interactive    up    8:00:00          0/3/1/4 nid[002524-002527]
-    debug          up      30:00          0/5/3/8 nid[002528-002535]
-    lumid          up 1-00:00:00          0/0/8/8 nid[000016-000023]
-    largemem       up 1-00:00:00          0/0/8/8 nid[000101-000108]
-    eap            up 1-00:00:00        2/26/4/32 nid[005000-005031]
-    standard-g     up 2-00:00:00 1809/319/80/2208 nid[005032-007239]
-    small-g        up 3-00:00:00    62/196/22/280 nid[007240-007519]
-    dev-g          up    6:00:00        1/43/4/48 nid[007520-007531,007534-007545,007548-007559,007562-007573]
-    q_nordiq       up      15:00          0/1/0/1 nid001001
-    q_fiqci        up      15:00          0/1/0/1 nid002153
+    PARTITION      AVAIL  TIMELIMIT   NODES(A/I/O/T) NODELIST
+    debug             up      30:00          0/8/0/8 nid[002500-002501,002504-002506,002595-002597]
+    interactive       up    8:00:00          4/0/0/4 nid[002502,002507,002594,002599]
+    ju-standard       up 2-00:00:00    571/11/26/608 nid[001256-001511,002024-002279,002600-002695]
+    ju-strategic      up 2-00:00:00    16/227/13/256 nid[001000-001255]
+    q_fiqci           up      15:00          0/1/0/1 nid002598
+    q_industry        up      15:00          0/1/0/1 nid002598
+    q_nordiq          up      15:00          0/1/0/1 nid002503
+    small             up 3-00:00:00      300/1/5/306 nid[002280-002499,002508-002593]
+    standard          up 2-00:00:00    730/87/47/864 nid[001512-002023,002696-003047]
+    dev-g             up    3:00:00       19/24/5/48 nid[005002-005025,007954-007977]
+    ju-standard-g     up 2-00:00:00    818/77/65/960 nid[005280-005495,005620-005991,006240-006487,007728-007851]
+    ju-strategic-g    up 7-00:00:00    329/52/23/404 nid[005124-005279,005992-006239]
+    small-g           up 3-00:00:00     161/32/5/198 nid[005026-005123,007852-007951]
+    standard-g        up 2-00:00:00  910/31/423/1364 nid[005496-005619,006488-007727]
+    largemem          up 1-00:00:00          5/0/1/6 nid[000101-000106]
+    lumid             up    4:00:00          0/7/1/8 nid[000016-000023]
     ```
 
     The fourth column shows 4 numbers: The number of nodes that are currently fully or partially allocated
@@ -322,43 +337,74 @@ Some useful commands with respect to Slurm partitions:
     ```
     $ sinfo --format "%4D %10P %25f %.4c %.8m %25G %N"
     NODE PARTITION  AVAIL_FEATURES            CPUS   MEMORY GRES                      NODELIST
-    256  standard   AMD_EPYC_7763,x1001        256   229376 (null)                    nid[001256-001511]
-    256  standard   AMD_EPYC_7763,x1002        256   229376 (null)                    nid[001512-001767]
+    5    debug      AMD_EPYC_7763,x1005        256   229376 (null)                    nid[002500-002501,002504-002506]
+    3    debug      AMD_EPYC_7763,x1006        256   229376 (null)                    nid[002595-002597]
+    2    interactiv AMD_EPYC_7763,x1005        256   229376 (null)                    nid[002502,002507]
+    2    interactiv AMD_EPYC_7763,x1006        256   229376 (null)                    nid[002594,002599]
+    256  ju-standar AMD_EPYC_7763,x1001        256   229376 (null)                    nid[001256-001511]
+    256  ju-standar AMD_EPYC_7763,x1004        256   229376 (null)                    nid[002024-002279]
+    96   ju-standar AMD_EPYC_7763,x1006        256   229376 (null)                    nid[002600-002695]
+    256  ju-strateg AMD_EPYC_7763,x1000        256   229376 (null)                    nid[001000-001255]
+    1    q_fiqci    AMD_EPYC_7763,x1006        256   229376 (null)                    nid002598
+    1    q_industry AMD_EPYC_7763,x1006        256   229376 (null)                    nid002598
+    1    q_nordiq   AMD_EPYC_7763,x1005        256   229376 (null)                    nid002503
+    248  small      AMD_EPYC_7763,x1005        256  229376+ (null)                    nid[002280-002499,002508-002535]
+    58   small      AMD_EPYC_7763,x1006        256   229376 (null)                    nid[002536-002593]
     256  standard   AMD_EPYC_7763,x1003        256   229376 (null)                    nid[001768-002023]
-    252  standard   AMD_EPYC_7763,x1000        256   229376 (null)                    nid[001002-001009,001012-001255]
-    244  small      AMD_EPYC_7763,x1005        256  229376+ (null)                    nid[002280-002523]
-    250  small      AMD_EPYC_7763,x1004        256   229376 (null)                    nid[002028-002060,002062-002152,002154-002279]
-    4    interactiv AMD_EPYC_7763,x1005        256   229376 (null)                    nid[002524-002527]
-    8    debug      AMD_EPYC_7763,x1005        256   229376 (null)                    nid[002528-002535]
+    256  standard   AMD_EPYC_7763,x1002        256   229376 (null)                    nid[001512-001767]
+    256  standard   AMD_EPYC_7763,x1007        256   229376 (null)                    nid[002792-003047]
+    96   standard   AMD_EPYC_7763,x1006        256   229376 (null)                    nid[002696-002791]
+    2    dev-g      AMD_EPYC_7A53,x1405        128   491520 gpu:mi250:8               nid[007974-007975]
+    22   dev-g      AMD_EPYC_7A53,x1405        128   491520 gpu:mi250:8(S:0)          nid[007954-007973,007976-007977]
+    24   dev-g      AMD_EPYC_7A53,x1100        128   491520 gpu:mi250:8(S:0)          nid[005002-005025]
+    2    ju-standar AMD_EPYC_7A53,x1102        128   491520 gpu:mi250:8               nid[005356-005357]
+    7    ju-standar AMD_EPYC_7A53,x1103        128   491520 gpu:mi250:8               nid[005472-005473,005478-005479,005486-005487,005493]
+    8    ju-standar AMD_EPYC_7A53,x1105        128   491520 gpu:mi250:8               nid[005648-005649,005679,005682-005683,005735,005738-005739]
+    2    ju-standar AMD_EPYC_7A53,x1200        128   491520 gpu:mi250:8               nid[005810-005811]
+    3    ju-standar AMD_EPYC_7A53,x1204        128   491520 gpu:mi250:8               nid[006301,006312-006313]
+    1    ju-standar AMD_EPYC_7A53,x1205        128   491520 gpu:mi250:8               nid006367
+    2    ju-standar AMD_EPYC_7A53,x1404        128   491520 gpu:mi250:8               nid[007760-007761]
+    9    ju-standar AMD_EPYC_7A53,x1201        128   491520 gpu:mi250:8               nid[005881,005886-005887,005897,005917,005919,005939,005969,005991]
+    90   ju-standar AMD_EPYC_7A53,x1102        128   491520 gpu:mi250:8(S:0)          nid[005280-005355,005358-005371]
+    117  ju-standar AMD_EPYC_7A53,x1103        128   491520 gpu:mi250:8(S:0)          nid[005372-005471,005474-005477,005480-005485,005488-005492,005494-005495]
+    116  ju-standar AMD_EPYC_7A53,x1105        128   491520 gpu:mi250:8(S:0)          nid[005620-005647,005650-005678,005680-005681,005684-005734,005736-005737,005740-005743]
+    122  ju-standar AMD_EPYC_7A53,x1200        128   491520 gpu:mi250:8(S:0)          nid[005744-005809,005812-005867]
+    115  ju-standar AMD_EPYC_7A53,x1201        128   491520 gpu:mi250:8(S:0)          nid[005868-005880,005882-005885,005888-005896,005898-005916,005918,005920-005938,005940-005968,005970-005990]
+    121  ju-standar AMD_EPYC_7A53,x1204        128   491520 gpu:mi250:8(S:0)          nid[006240-006300,006302-006311,006314-006363]
+    123  ju-standar AMD_EPYC_7A53,x1205        128   491520 gpu:mi250:8(S:0)          nid[006364-006366,006368-006487]
+    122  ju-standar AMD_EPYC_7A53,x1404        128   491520 gpu:mi250:8(S:0)          nid[007728-007759,007762-007851]
+    3    ju-strateg AMD_EPYC_7A53,x1101        128   491520 gpu:mi250:8               nid[005224,005242-005243]
+    8    ju-strateg AMD_EPYC_7A53,x1203        128   491520 gpu:mi250:8               nid[006136-006137,006153,006201,006214-006215,006236-006237]
+    5    ju-strateg AMD_EPYC_7A53,x1202        128   491520 gpu:mi250:8               nid[006035,006041,006047,006080-006081]
+    121  ju-strateg AMD_EPYC_7A53,x1101        128   491520 gpu:mi250:8(S:0)          nid[005124-005223,005225-005241,005244-005247]
+    32   ju-strateg AMD_EPYC_7A53,x1102        128   491520 gpu:mi250:8(S:0)          nid[005248-005279]
+    116  ju-strateg AMD_EPYC_7A53,x1203        128   491520 gpu:mi250:8(S:0)          nid[006116-006135,006138-006152,006154-006200,006202-006213,006216-006235,006238-006239]
+    119  ju-strateg AMD_EPYC_7A53,x1202        128   491520 gpu:mi250:8(S:0)          nid[005992-006034,006036-006040,006042-006046,006048-006079,006082-006115]
+    1    small-g    AMD_EPYC_7A53,x1100        128   491520 gpu:mi250:8               nid005059
+    97   small-g    AMD_EPYC_7A53,x1100        128   491520 gpu:mi250:8(S:0)          nid[005026-005058,005060-005123]
+    100  small-g    AMD_EPYC_7A53,x1405        128   491520 gpu:mi250:8(S:0)          nid[007852-007951]
+    2    standard-g AMD_EPYC_7A53,x1104        128   491520 gpu:mi250:8               nid[005554-005555]
+    117  standard-g AMD_EPYC_7A53,x1300        128   491520 gpu:mi250:8(S:0)          nid[006488-006505,006510-006521,006524-006550,006552-006611]
+    7    standard-g AMD_EPYC_7A53,x1300        128   491520 gpu:mi250:8               nid[006506-006509,006522-006523,006551]
+    121  standard-g AMD_EPYC_7A53,x1301        128   491520 gpu:mi250:8(S:0)          nid[006612-006657,006660-006703,006705-006735]
+    3    standard-g AMD_EPYC_7A53,x1301        128   491520 gpu:mi250:8               nid[006658-006659,006704]
+    117  standard-g AMD_EPYC_7A53,x1302        128   491520 gpu:mi250:8(S:0)          nid[006736-006740,006744-006765,006768-006849,006852-006859]
+    7    standard-g AMD_EPYC_7A53,x1302        128   491520 gpu:mi250:8               nid[006741-006743,006766-006767,006850-006851]
+    8    standard-g AMD_EPYC_7A53,x1304        128   491520 gpu:mi250:8               nid[007000-007001,007044-007045,007076-007077,007092-007093]
+    5    standard-g AMD_EPYC_7A53,x1305        128   491520 gpu:mi250:8               nid[007130-007131,007172-007173,007211]
+    2    standard-g AMD_EPYC_7A53,x1400        128   491520 gpu:mi250:8               nid[007294-007295]
+    1    standard-g AMD_EPYC_7A53,x1401        128   491520 gpu:mi250:8               nid007398
+    1    standard-g AMD_EPYC_7A53,x1403        128   491520 gpu:mi250:8               nid007655
+    122  standard-g AMD_EPYC_7A53,x1104        128   491520 gpu:mi250:8(S:0)          nid[005496-005553,005556-005619]
+    124  standard-g AMD_EPYC_7A53,x1303        128   491520 gpu:mi250:8(S:0)          nid[006860-006983]
+    116  standard-g AMD_EPYC_7A53,x1304        128   491520 gpu:mi250:8(S:0)          nid[006984-006999,007002-007043,007046-007075,007078-007091,007094-007107]
+    119  standard-g AMD_EPYC_7A53,x1305        128   491520 gpu:mi250:8(S:0)          nid[007108-007129,007132-007171,007174-007210,007212-007231]
+    122  standard-g AMD_EPYC_7A53,x1400        128   491520 gpu:mi250:8(S:0)          nid[007232-007293,007296-007355]
+    123  standard-g AMD_EPYC_7A53,x1401        128   491520 gpu:mi250:8(S:0)          nid[007356-007397,007399-007479]
+    124  standard-g AMD_EPYC_7A53,x1402        128   491520 gpu:mi250:8(S:0)          nid[007480-007603]
+    123  standard-g AMD_EPYC_7A53,x1403        128   491520 gpu:mi250:8(S:0)          nid[007604-007654,007656-007727]
+    6    largemem   AMD_EPYC_7742              256 4096000+ (null)                    nid[000101-000106]
     8    lumid      AMD_EPYC_7742              256  2048000 gpu:a40:8,nvme:40000      nid[000016-000023]
-    8    largemem   AMD_EPYC_7742              256 4096000+ (null)                    nid[000101-000108]
-    32   eap        AMD_EPYC_7A53,x1100        128   491520 gpu:mi250:8               nid[005000-005031]
-    112  standard-g AMD_EPYC_7A53,x1401        128   491520 gpu:mi250:8               nid[007016-007127]
-    112  standard-g AMD_EPYC_7A53,x1402        128   491520 gpu:mi250:8               nid[007128-007239]
-    80   standard-g AMD_EPYC_7A53,x1100        128   491520 gpu:mi250:8               nid[005032-005111]
-    112  standard-g AMD_EPYC_7A53,x1101        128   491520 gpu:mi250:8               nid[005112-005223]
-    112  standard-g AMD_EPYC_7A53,x1102        128   491520 gpu:mi250:8               nid[005224-005335]
-    112  standard-g AMD_EPYC_7A53,x1103        128   491520 gpu:mi250:8               nid[005336-005447]
-    112  standard-g AMD_EPYC_7A53,x1104        128   491520 gpu:mi250:8               nid[005448-005559]
-    112  standard-g AMD_EPYC_7A53,x1105        128   491520 gpu:mi250:8               nid[005560-005671]
-    112  standard-g AMD_EPYC_7A53,x1200        128   491520 gpu:mi250:8               nid[005672-005783]
-    112  standard-g AMD_EPYC_7A53,x1201        128   491520 gpu:mi250:8               nid[005784-005895]
-    112  standard-g AMD_EPYC_7A53,x1202        128   491520 gpu:mi250:8               nid[005896-006007]
-    112  standard-g AMD_EPYC_7A53,x1203        128   491520 gpu:mi250:8               nid[006008-006119]
-    112  standard-g AMD_EPYC_7A53,x1204        128   491520 gpu:mi250:8               nid[006120-006231]
-    112  standard-g AMD_EPYC_7A53,x1205        128   491520 gpu:mi250:8               nid[006232-006343]
-    112  standard-g AMD_EPYC_7A53,x1300        128   491520 gpu:mi250:8               nid[006344-006455]
-    112  standard-g AMD_EPYC_7A53,x1302        128   491520 gpu:mi250:8               nid[006568-006679]
-    112  standard-g AMD_EPYC_7A53,x1303        128   491520 gpu:mi250:8               nid[006680-006791]
-    112  standard-g AMD_EPYC_7A53,x1304        128   491520 gpu:mi250:8               nid[006792-006903]
-    112  standard-g AMD_EPYC_7A53,x1305        128   491520 gpu:mi250:8               nid[006904-007015]
-    112  standard-g AMD_EPYC_7A53,x1301        128   491520 gpu:mi250:8               nid[006456-006567]
-    56   small-g    AMD_EPYC_7A53,x1405        128   491520 gpu:mi250:8               nid[007464-007519]
-    112  small-g    AMD_EPYC_7A53,x1404        128   491520 gpu:mi250:8               nid[007352-007463]
-    112  small-g    AMD_EPYC_7A53,x1403        128   491520 gpu:mi250:8               nid[007240-007351]
-    48   dev-g      AMD_EPYC_7A53,x1405        128   491520 gpu:mi250:8               nid[007520-007531,007534-007545,007548-007559,007562-007573]
-    1    q_nordiq   AMD_EPYC_7763,x1000        256   229376 (null)                    nid001001
-    1    q_fiqci    AMD_EPYC_7763,x1004        256   229376 (null)                    nid002153
     ```
     (Output may vary over time)
     
@@ -907,16 +953,17 @@ partition, but note that running on these nodes is expensive!)
     #SBATCH --output=%x-%j.txt
     #SBATCH --account=project_46YXXXXXX
 
-    module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+    module load LUMI/23.09 partition/G lumi-CPEtools/1.1-cpeCray-23.09
 
     gpu_check
 
+    sleep 2
     echo -e "\nsacct for the job:\n$(sacct -j $SLURM_JOB_ID)\n"
     ```
 
     As we are using small-g here instead of standard-g, we added the `#SBATCH --exclusive` and `#SBATCH --mem=480G` lines.
 
-    A similar job script for a CPU-node in LIUMI-C and now in the standard partition would look like:
+    A similar job script for a CPU-node in LUMI-C and now in the standard partition would look like:
 
     ``` bash
     #! /usr/bin/bash
@@ -927,14 +974,15 @@ partition, but note that running on these nodes is expensive!)
     #SBATCH --output=%x-%j.txt
     #SBATCH --account=project_46YXXXXXX
 
-    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeCray-22.12
+    module load LUMI/23.09 partition/C lumi-CPEtools/1.1-cpeCray-23.09
 
     omp_check
 
+    sleep 2
     echo -e "\nsacct for the job:\n$(sacct -j $SLURM_JOB_ID)\n"
     ```
 
-    `gpu_check` and `omp_check` are two programs provided by the `lmi-CPEtools` modules to check
+    `gpu_check` and `omp_check` are two programs provided by the `lumi-CPEtools` modules to check
     the allocations. Try `man lumi-CPEtools` after loading the module. The programs will be used
     extensively in the next section on binding also, and are written to check how your program
     would behave in the allocation without burning through tons of billing units.
@@ -1008,7 +1056,26 @@ If you insist, slurm has several options to specify the number of GPUs for this 
 2.  `--gpus=<number>` or `-G <number>` specifies the total number of GPUs needed for the job. In our opinion
     this is a dangerous option to use as when you change the number of nodes, you likely also want to change
     the number of GPUs for the job and you may overlook this. Here again it is possible to specify the type of
-    the GPU also.
+    the GPU also. Moreover, if you ask for fewer GPUs than are present in the total number of nodes you request,
+    you may get a very strange distribution of the available GPUs across the nodes.
+
+    ??? example "Example of an unexpected allocation"
+
+        Assuming `SLURM_ACCOUNT` is set to a valid project with access to the partition used: 
+
+        ```
+        module load LUMI/23.09 partition/G lumi-CPEtools
+        srun --partition standard-g --time 5:00 --nodes 2 --tasks-per-node 1 --gpus 8 gpu_check
+        ```
+
+        returns
+
+        ```
+        MPI 000 - OMP 000 - HWT 001 - Node nid007264 - RT_GPU_ID 0,1,2,3,4,5,6 - GPU_ID 0,1,2,3,4,5,6 - Bus_ID c1,c9,ce,d1,d6,d9,dc
+        MPI 001 - OMP 000 - HWT 001 - Node nid007265 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID d1
+        ```
+
+        So 7 GPUs were allocated on the first node and 1 on the second.
 
 3.  A GPU belongs to the family of "generic consumable resources" (or GRES) in Slurm and there is an option to request
     any type of GRES that can also be used. Now you also need to specify the type of the GRES. The number you 
@@ -1122,7 +1189,7 @@ to do so. Otherwise the developers of Slurm wouldn't have changed that behaviour
     #SBATCH --time=2:00
     #SBATCH --output=%x-%j.txt
 
-    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeCray-22.12
+    module load LUMI/23.09 partition/C lumi-CPEtools/1.1-cpeCray-23.09
 
     echo "Submitted from $SLURM_SUBMIT_HOST"
     echo "Running on $SLURM_JOB_NODELIST"
@@ -1204,6 +1271,7 @@ core. This is illustrated with the example below.
 ??? example "Use of `--hint=(no)multithread` (click to expand)"
     We consider the job script 
 
+    <!-- slurm-HWT-standard-multithread.slurm -->
     ``` bash
     #! /usr/bin/bash
     #SBATCH --job-name=slurm-HWT-standard-multithread
@@ -1214,7 +1282,7 @@ core. This is illustrated with the example below.
     #SBATCH --output=%x-%j.txt
     #SBATCH --account=project_46YXXXXXX
 
-    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeGNU-22.12
+    module load LUMI/23.09 partition/C lumi-CPEtools/1.1-cpeGNU-23.09
 
     echo -e "Job script:\n$(cat $0)\n"
 
@@ -2007,14 +2075,14 @@ It is possible to change this behaviour or to define extra environment variables
     Now start this with (assuming the job script is saved as `slurm-small-parameters.slurm`)
 
     ```
-    $ sbatch --export=ALL,PAR1="Hello" slurm-small-parameters.slurm 'Waw, this works!'
+    $ sbatch --export=ALL,PAR1="Hello" slurm-small-parameters.slurm 'Wow, this works!'
     ```
 
     and check the output file when the job is completed:
 
     ```
     Batch script parameter 0: /var/spool/slurmd/job4278998/slurm_script
-    Batch script parameter 1: Waw, this works!
+    Batch script parameter 1: Wow, this works!
     Environment variable PAR1: Hello
     ```
 
@@ -2528,6 +2596,299 @@ bugs are being introduced.
     tools from the `lumi-CPEtools` module if the allocation would be what you expect as Slurm
     is definitely not free of problems when it comes to hetereogeneous jobs.
 
+
+## Simultaneous job steps
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Simultaneous job steps](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-slurm/SimultaneousJobSteps.png){ loading=lazy }
+</figure>
+
+It is possible to run multiple job steps in parallel on LUMI. The core of your job script would look
+something like:
+
+``` bash
+#! /usr/bin/bash
+...
+#SBATCH partition=standard
+...
+srun -n4 -c16 exe1 &
+sleep 2
+srun -n8 -c8 exe2 &
+wait
+``` 
+
+The first `srun` statement will start a hybrid job of 4 tasks with 16 cores each on the first 64 cores
+of the node, the second `srun` statement would start a hybrid job of 8 tasks with 8 cores each on
+the remaining 64 cores. The `sleep 2` statement is used because we have experienced that from time
+to time even though the second `srun` statement cannot be executed immediately as the resource manager
+is busy with the first one. The `wait` command at the end is essential, as otherwise the batch job step
+would end without waiting for the two `srun` commands to finish the work they started, and the whole
+job would be killed.
+
+Running multiple job steps in parallel in a single job can be useful if you want to ensure a proper
+binding and hence do not want to use the "allocate by resources" partition, while a single job step
+is not enough to fill an exclusive node. It does turn out to be tricky though, especially when GPU nodes
+are being used, and with proper binding of the resources. In some cases the `--overlap` parameter of
+`srun` may help a bit. (And some have reported that in some cases `--exact` is needed instead, but this
+parameter is already implied if `--cpus-per-task` can be used.)
+
+??? example "A longer example"
+    Consider the bash job script for an exclusive CPU node:
+
+    ``` bash
+    #! /usr/bin/bash
+    #SBATCH --job-name=slurm-simultaneous-CPU-1
+    #SBATCH --partition=standard
+    #SBATCH --nodes=1
+    #SBATCH --hint=nomultithread
+    #SBATCH --time=2:00
+    #SBATCH --output %x-%j.txt
+
+    module load LUMI/23.09 partition/C lumi-CPEtools/1.1-cpeCray-23.09
+
+    echo "Submitted from $SLURM_SUBMIT_HOST"
+    echo "Running on $SLURM_JOB_NODELIST"
+    echo
+    echo -e "Job script:\n$(cat $0)\n"
+    echo "SLURM_* environment variables:"
+    env | egrep ^SLURM
+
+    for i in $(seq 0 7)
+    do 
+        srun --ntasks=1 --cpus-per-task=16 --output="slurm-simultaneous-CPU-1-$SLURM_JOB_ID-$i.txt" \
+            bash -c "export ROCR_VISIBLE_DEVICES=${GPU_BIND[$i]} && omp_check -w 30" &
+            
+        sleep 2
+    done
+
+    wait
+
+    sleep 2
+    echo -e "\nsacct for the job:\n$(sacct -j $SLURM_JOB_ID --format JobID%-13,Start,End,AllocCPUS,NCPUS,TotalCPU,MaxRSS --units=M )\n"
+    ```
+
+    It will start 8 parallel job steps and in total create 9 files: One file with the output of the job script itself,
+    and then one file for each job step with the output specific to that job step.
+    the `sacct` command at the end shows that the 8 job parallel job steps indeed overlap, as can be seen from the
+    start and end time of each, with the `TotalCPU` column confirming that they are also consuming CPU time during that
+    time. The last bit of the output of the main batch file looks like:
+
+    ```
+    sacct for the job:
+    JobID                       Start                 End  AllocCPUS      NCPUS   TotalCPU     MaxRSS 
+    ------------- ------------------- ------------------- ---------- ---------- ---------- ---------- 
+    6849913       2024-04-09T16:15:45             Unknown        256        256   01:04:07            
+    6849913.batch 2024-04-09T16:15:45             Unknown        256        256   00:00:00            
+    6849913.0     2024-04-09T16:15:54 2024-04-09T16:16:25         32         32  08:00.834      6.92M 
+    6849913.1     2024-04-09T16:15:56 2024-04-09T16:16:26         32         32  08:00.854      6.98M 
+    6849913.2     2024-04-09T16:15:58 2024-04-09T16:16:29         32         32  08:00.859      6.76M 
+    6849913.3     2024-04-09T16:16:00 2024-04-09T16:16:30         32         32  08:00.793      6.76M 
+    6849913.4     2024-04-09T16:16:02 2024-04-09T16:16:33         32         32  08:00.870      6.59M 
+    6849913.5     2024-04-09T16:16:04 2024-04-09T16:16:34         32         32  08:01.046      8.57M 
+    6849913.6     2024-04-09T16:16:06 2024-04-09T16:16:36         32         32  08:01.133      6.76M 
+    6849913.7     2024-04-09T16:16:08 2024-04-09T16:16:39         32         32  08:00.793      6.57M 
+    ```
+
+    Obviously as we execute the `sacct` command in the job the end time of the batch job step and hence
+    the job as a whole are still unknown. We ask `omp_check` to do some computations during 30 seconds on 
+    each thread, and so we see that the CPU time consumed by each 16-core job is indeed around 8 minutes,
+    while start and end time of each job step showed that they executed for roughly 30s each and nicely 
+    overlapped.
+
+
+## Slurm job monitoring commands
+
+Slurm has two useful commands to monitor jobs that we want to discuss a bit further:
+
+-   `sstat` is a command to monitor jobs that are currently running. It gets its information
+    directly from the resource manager component of Slurm.
+
+-   `sacct` is a command to get information about terminated jobs. It gets its information from
+    the Slurm accounting database. As that database is not continuously updated, information about
+    running jobs may already be present but is far from real-time.
+
+Some users may also be familiar with the `sreport` command, but it is of limited use on LUMI.
+
+
+### The `sstat` command
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Job monitoring with sstat 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-slurm/MonitoringSstat_1.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Job monitoring with sstat 2](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-slurm/MonitoringSstat_2.png){ loading=lazy }
+</figure>
+
+The `sstat` command is a command to get real-time information about a running job.
+That information is obtained from the resource manager components in Slurm and not from the 
+accounting database. The command can only produce information about job steps that are currently 
+being executed and cannot be used to get information about jobs tha thave already been terminated,
+or job steps that have terminated from jobs that are still running.
+
+In its most simple form, you'd likely use the `-j` (or `--jobs`) flag to specify the job for which you want information:
+
+```
+sstat -j 1234567
+```
+
+and you may like to add the `-a` flag to get information about all job steps for which information is available.
+You can also restrict to a single job step, e.g.,
+
+```
+sstat -j 1234567.0
+```
+
+The command produces a lot of output though and it is nearly impossible to interpret the output, even on a very
+wide monitor.
+
+To restrict that output to something that can actually be handled, you can use the `-o` or `--format` flag
+to specify the columns that you want to see.
+
+E.g., the following variant would show for each job step the minimum amount of CPU time that a task has
+consumed, and the average across all tasks. These numbers should be fairly close if the job has a good
+load balance.
+
+```
+$ sstat -a -j 1234567 -o JobID,MinCPU,AveCPU
+JobID            MinCPU     AveCPU
+------------ ---------- ----------
+1234567.bat+   00:00:00   00:00:00
+1234567.1      00:23:44   00:26:02
+```
+
+The above output is from an MPI job that has two job steps in it. The first step was a quick initialisation
+step and that one has terminated already, so we get no information about that step. The `1234567.1` step
+is the currently executing one, and we do note a slight load inbalance in this case. No measurable amount
+of time has been consumed running the batch script itself outside the `srun` commands in this case.
+
+It can also be used to monitor memory use of the application. E.g.,
+
+```
+$ sstat -a -j 1234567 -o JobID,MaxRSS,MaxRSSTask,MaxRSSNode
+JobID            MaxRSS MaxRSSTask MaxRSSNode
+------------ ---------- ---------- ----------
+1234567.bat+     25500K          0  nid001522
+1234567.1       153556K          0  nid001522
+```
+
+will show the maximum amount of resident memory used by any of the tasks, and also tell you
+which task that is and on which node it is running.
+
+You can get a list of output fields using `sstat -e` or `sstat --helpformat`. 
+Or check the 
+["Job Status Fields" section in the `sstat` manual page](https://slurm.schedmd.com/archive/slurm-22.05.10/sstat.html#SECTION_Job-Status-Fields). That page also contains further examples.
+
+
+### The `sacct` command
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Job information with sacct 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-slurm/MonitoringSacct_1.png){ loading=lazy }
+</figure>
+
+The `sacct` command shows information kept in the Slurm job accounting database.
+Its main use is to extract information about jobs or job steps that have already 
+terminated. It will however also provide information about running jobs and job steps,
+but that information if not real-time and only pushed periodically to the accounting
+database.
+
+If you know the job ID of the job you want to investigate, you can specify it
+directly using the `-j` or `--jobs` flag. E.g.,
+
+<!-- Output taken from job 1234567 -->
+```
+$ sacct -j 1234567
+JobID           JobName  Partition    Account  AllocCPUS      State ExitCode
+------------ ---------- ---------- ---------- ---------- ---------- --------
+1234567      healthy_u+   standard project_4+        512  COMPLETED      0:0
+1234567.bat+      batch            project_4+        256  COMPLETED      0:0
+1234567.0     gmx_mpi_d            project_4+          2  COMPLETED      0:0
+1234567.1     gmx_mpi_d            project_4+        512  COMPLETED      0:0
+```
+
+This report is for a GROMACS job that ran on two nodes. The first line gives the data
+for the overall job. The second line is for the batch job step that ran the batch script.
+That job got access to all resources on the first node of the job which is why 256 is
+shown in the `AllocCPUS` column (as that data is reported using the number of virtual cores).
+Job step `.0` was really an initialisation step that ran as a single task on a single physical
+core of the node, while the `.1` step was running on both nodes (as 256 tasks each on a
+physical core but that again cannot be directly derived from the output shown here).
+
+You can also change the amount of output that is shown using either `--brief` (which will show a lot less)
+or `--long` (which shows an unwieldly amount of information similar to `sstat`),
+and just as with `sstat`, the information can be fully customised using `-o` or `--format`,
+but as there is a lot more information in the accounting database, the format options are different.
+
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Job information with sacct 2](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-slurm/MonitoringSacct_2.png){ loading=lazy }
+</figure>
+
+As an example, let's check the CPU time and memory used by a job:
+
+```
+$ sacct -j 1234567 --format JobID%-13,AllocCPUS,MinCPU%15,AveCPU%15,MaxRSS,AveRSS --units=M
+JobID          AllocCPUS          MinCPU          AveCPU     MaxRSS     AveRSS
+------------- ---------- --------------- --------------- ---------- ----------
+1234567              512
+1234567.batch        256        00:00:00        00:00:00     25.88M     25.88M
+1234567.0              2        00:00:00        00:00:00      5.05M      5.05M
+1234567.1            512        01:20:02        01:26:19    173.08M    135.27M
+```
+
+This is again the two node MPI job that we've used in the previous example. We used
+`--unbits=M` to get the memory use per task in megabytes, which is the proper option
+here as tasks are relatively small (but not uncommonly small for an HPC system when a 
+properly scaling code is used). The `%15` is used to specify the width of the field
+as otherwise some of that information could be truncated (and the width of 15 would have
+been needed if this were a shared memory program or a program that ran for longer than
+a day). By default, specifying the field width will right justify the information in 
+the columns. The `%-13` tells to use a field width of 13 and to left-justify the data
+in that column.
+
+You can get a list of output fields using `sacct -e` or `sacct --helpformat`. 
+Or check the 
+["Job Accounting Fields" section in the `sacct` manual page](https://slurm.schedmd.com/archive/slurm-22.05.10/sacct.html#SECTION_Job-Accounting-Fields). That page also contains further examples.
+
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Job information with sacct 3](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-slurm/MonitoringSacct_3.png){ loading=lazy }
+</figure>
+
+Using `sacct` is a bit harder if you don't have the job ID of the job for which you want information.
+You can run `sacct` without any arguments, and in that case it will produce output for your jobs that 
+have run since midnight. It is also possible to define the start time (with `-S` or `--starttime`)
+and the end time (with `-E` or `--endtime`) of the time window for which job data should be shown,
+and there are even more features to filter jobs, though some of them are really more useful for 
+administrators.
+
+This is only a very brief introduction to `sacct`, basically so that you know that it exists and what
+its main purpose is. But you can find more information in the
+[`sacct` manual page](https://slurm.schedmd.com/archive/slurm-22.05.10/sacct.html)
+
+
+### The `sreport` command
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Job information from sreport](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-slurm/MonitoringSreport.png){ loading=lazy }
+</figure>
+
+The `sreport` command is a command to create summary reports from data in the Slurm accounting database.
+Its main use is to track consumed resources in a project.
+
+On LUMI it is of little use as as the billing is not done by Slurm but by a script that runs outside
+of Slurm that uses data from the Slurm accounting database. That data is gathered in a different 
+database though with no direct user access, and only some summary reports are brought back to the
+system (and used by the `lumi-workspaces` command and some other tools for user and project monitoring).
+So the correct billing information is not available in the Slurm accounting database, nor can it be easily
+derived from data in the summary reports as the billing is more complicated than some billing for individual
+elements such as core use, memory use and accelerator use. E.g., one can get summary reports mentioning the
+amount of core hours used per user for a project, but that is reported for all partitions together and hence 
+irrelevant to get an idea of how the CPU billing units were consumed.
+
+This section is mostly to discourage you to use `sreport` as its information is often misleading and certainly
+it it is used to follow up your use of billing units on LUMI, but should you insist, there is more information
+in the [`sreport` manual page](https://slurm.schedmd.com/archive/slurm-22.05.10/sreport.html).
 
 
 ## Local trainings and materials
