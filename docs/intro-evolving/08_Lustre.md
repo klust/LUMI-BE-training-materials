@@ -70,7 +70,7 @@ A Lustre system consists of the following blocks:
     OSTs and even multiple OSSes. As we shall see, this is also the key to getting very
     high bandwidth access to the data.
 
-    Each MDT is a filesystem, again usually with some level of RAID or similar technologies
+    Each OST is a filesystem, again usually with some level of RAID or similar technologies
     to survive disk failures. One OSS typically has between 1 and 8 OSTs, and in a big setup
     a high availability setup will be used again (as is the case in LUMI).
 
@@ -91,9 +91,9 @@ A Lustre system consists of the following blocks:
 3.  Lustre clients access and use the data. They make the whole Lustre file system look like
     a single file system.
 
-    Now Lustre is transparent in functionality. You can use a Lustre file system just as any 
-    other regular file system, with all your regular applications. However, it is not at really
-    transparent when it comes to performance: How you use Lustre can have a huge impact on 
+    Lustre is **transparent in functionality**. You can use a Lustre file system just as any 
+    other regular file system, with all your regular applications. However, it is **not
+    transparent when it comes to performance**: How you use Lustre can have a huge impact on 
     performance. Lustre is optimised very much for high bandwidth access to large chunks of
     data at a time from multiple nodes in the application simultaneously, and is not very good 
     at handling access to a large pool of small files instead. 
@@ -130,10 +130,10 @@ A Lustre system consists of the following blocks:
 </figure>
 -->
 
-On Lustre, large files are typically broken into blocks called *stripes* that are then
+On Lustre, large files are typically broken into blocks called *stripes* or *chunks* that are then
 cyclically spread across a number of chunk files called *objects* in LUSTRE, each on
 a separate OST. 
-In the figure above, the file is spread across the OSTs 0, 2, 4 and 6.
+In the figure in the slide above, the file is spread across the OSTs 0, 2, 4 and 6.
 
 This process is completely transparent to the user with respect to correctness. The Lustre client
 takes care of the process and presents a traditional file to the application program.
@@ -160,8 +160,8 @@ And unfortunately there is no single set of parameters that is good for all user
     The term "object" nowadays has different meanings, even in the storage world.
     The Object Storage Servers in Lustre should not be confused with the object
     storage used in cloud solutions such as Amazon Web Services (AWS)
-    with the S3 storage service or the LUMI-O object storage that we will discuss
-    later. In fact, the Object Storage Servers use a regular file system such as
+    with the S3 storage service or the LUMI-O object storage. 
+    In fact, the Object Storage Servers use a regular file system such as
     ZFS or ldiskfs to store the "objects".
 
 
@@ -189,7 +189,7 @@ second client in the above picture wants to write something to the file.
 ## Parallelism is key!
 
 <figure markdown style="border: 1px solid #000">
-  ![Parallelism is key!](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-lustre/LustreParallelismKey.png){ loading=lazy }
+  ![Parallelism is key! (slide 1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-lustre/LustreParallelismKey_1.png){ loading=lazy }
 </figure>
 
 The metadata servers can be the bottleneck in a Lustre setup. 
@@ -233,6 +233,10 @@ in a distributed memory application from multiple nodes simultaneously as otherw
 bandwidth to the interconnect and processing capacity of the client software 
 of a single node might become the limiting factor.
 
+<figure markdown style="border: 1px solid #000">
+  ![Parallelism is key! (slide 2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-lustre/LustreParallelismKey_2.png){ loading=lazy }
+</figure>
+
 Not all codes are using Lustre optimally though, even with the best care of their users.
 
 -   Some codes use files in scientific data formats like HDF5 and netCDF, and when written
@@ -250,7 +254,7 @@ Not all codes are using Lustre optimally though, even with the best care of thei
     noisy floppy drives (do you still know what that is) and slow hard drives so learned
     how to program efficiently.
 
--   But some code open one or more files per MPI rank. Those codes may have difficulties
+-   But some codes open one or more files per MPI rank. Those codes may have difficulties
     scaling to a large number of ranks, as they will put a heavy burden on the MDS when those
     files are created, but also may bombard each OSS/OST with too many I/O requests.
 
@@ -290,8 +294,9 @@ deal better with small files are being made, but they may come at a high hardwar
 
 If you only access relatively small files (up to a few hundreds of kilobytes) and access them 
 sequentially, then you are out of luck. There is not much you can do. Engaging multiple OSTs 
-for a single file is not very useful in this case, and you will also have no parallelism from
-accessing multiple files that may be stored on different OSTs.
+for a single file is not useful at all in this case, and you will also have no parallelism from
+accessing multiple files that may be stored on different OSTs. The metadata operations may also
+be rather expensive compared to the cost of reading the file once opened.
 
 As a rule of thumb, if you access a lot of data with a data access pattern that can exploit
 parallelism, try to use all OSTs of the Lustre file system:
@@ -423,7 +428,7 @@ for a file or directory.
 Let us first look at setting a striping policy at the directory level:
 
 ```
-$ module load lumi-training-tools
+$ module load LUMI/23.09 lumi-training-tools
 $ mkdir testdir
 $ lfs setstripe -S 2m -c 4 testdir
 $ cd testdir
@@ -541,7 +546,7 @@ practices" pages on web sites of many large supercomputer centres. Some tips for
     you may be able to put your read-only dataset into a 
     [SquashFS file](https://tldp.org/HOWTO/SquashFS-HOWTO/index.html) and mount into a container.
 
-    Likewise, shuffling data in a distributed memory program should not be done via the 
+-   Likewise, shuffling data in a distributed memory program should not be done via the 
     filesystem (put data on a shared filesystem and then read it again in a different
     order) but by direct communication between the processes over the interconnect.
 
@@ -632,7 +637,7 @@ Storage use on LUMI is limited in two independent ways:
     inodes, roughly the number of files and directories combined).
 
 -   But actual storage use is also "billed" on a use-per-hour basis. The idea behind this is that a user may
-    run a program that generates a lot of data, but after some postprocessing much of the data can be deleted
+    run a program that generates a lot of data, but after some post-processing much of the data can be deleted
     so that other users can use that capacity again, and to encourage that behaviour you are billed based not
     on peak use, but based on the combination of the volume that you use and the time you use it for. 
 
