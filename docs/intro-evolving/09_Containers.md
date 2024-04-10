@@ -20,8 +20,10 @@ In this section, we will
 
 -   discuss how to run a container on LUMI,
 
--   and discuss some enhancements we made to the LUMI environment that are based on containers or help
-    you use containers.
+-   discuss some enhancements we made to the LUMI environment that are based on containers or help
+    you use containers,
+
+-   and pay some attention to the use of some of our pre-built AI containers.
 
 Remember though that the compute nodes of LUMI are an HPC infrastructure and not a container cloud!
 
@@ -47,7 +49,7 @@ the same wrong result as in particular floating point operations are only an app
 When talking about reproducibility, you should think like way experimentalists do: You have a result and an 
 error margin, and it is important to have an idea of that error margin too.
 
-But full portability is a much greater myth. Containers are really only guaranteed to be portable between similar systems.
+But full portability is as much a myth. Containers are really only guaranteed to be portable between similar systems.
 They may be a little bit more portable than just a binary as you may be able to deal with missing or different libraries
 in the container, but that is where it stops. Containers are usually built for a particular CPU architecture and GPU
 architecture, two elements where everybody can easily see that if you change this, the container will not run. But 
@@ -144,7 +146,7 @@ the compute nodes. It is a system command that is installed with the OS, so no m
 to enable it. We can also offer only a single version of singularity or its close cousin AppTainer 
 as singularity/AppTainer simply don't really like running multiple versions next to one another, 
 and currently the version that
-we offer is determined by what is offered by the OS.
+we offer is determined by what is offered by the OS. Currently we offer Singularity Community Edition 3.11.
 
 To work with containers on LUMI you will either need to pull the container from a container registry,
 e.g., [DockerHub](https://hub.docker.com/), or bring in the container either by creating a tarball from a
@@ -213,13 +215,15 @@ in CrayEnv or LUMI/23.09 or later. The SingularityCE user guide
 The general guideline from the manual is: "Generally, if your definition file starts from an existing SIF/OCI container image, 
 and adds software using system package managers, an unprivileged proot build is appropriate. 
 If your definition file compiles and installs large complex software from source, 
-you may wish to investigate `--remote` or `--fakeroot` builds instead." But on LUMI we cannot yet
+you may wish to investigate `--remote` or `--fakeroot` builds instead." But as we just said,
+on LUMI we cannot yet
 provide `--fakeroot` builds due to security constraints.
 
 <!-- TODO: Do not forget to correct the link above to a new version of singularity. -->
 
 We are also working on a number of base images to build upon, where the base images are tested with the
-OS kernel on LUMI.
+OS kernel on LUMI (and some for ROCm are already there).
+
 
 ## Interacting with containers
 
@@ -350,12 +354,12 @@ This is due to some design issues in the design of Open MPI, and also to some pi
 that recent versions of Open MPI require but that HPE only started supporting recently on Cray EX systems
 and that we haven't been able to fully test.
 Open MPI has a slight preference for the UCX communication library over the OFI libraries, and 
-currently full GPU support requires UCX. Moreover, binaries using Open MPI often use the so-called
+until version 5 full GPU support requires UCX. Moreover, binaries using Open MPI often use the so-called
 rpath linking process so that it becomes a lot harder to inject an Open MPI library that is installed
 elsewhere. The good news though is that the Open MPI developers of course also want Open MPI
 to work on biggest systems in the USA, and all three currently operating or planned exascale systems
-use the SlingShot 11 interconnect, so work is going on for better support for OFI and for full GPU
-support on systems that rely on OFI and do not support UCX.
+use the SlingShot 11 interconnect, so work is going on for better support for OFI in general and 
+Cray SlingShot in particular and for full GPU support.
 
 
 ## Enhancements to the environment
@@ -416,6 +420,9 @@ module help lumi-vnc
 ```
 
 for more information on how to use `lumi-vnc`.
+
+For most users, the Open OnDemand web interface and tools offered in that interface will
+be a better alternative.
 
 
 ### cotainr: Build Conda containers on LUMI
@@ -538,9 +545,6 @@ The wrapper module also offers a pip-based command to build upon the Cray Python
 
 ### Pre-built AI containers
 
-**This is work in progress and not yet available when this text was written. 
-The information below is preliminary. More information will follow.**
-
 <figure markdown style="border: 1px solid #000">
   ![Environment enhancements (3): Prebuilt AI containers](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/ContainersPrebuiltAI.png){ loading=lazy }
 </figure>
@@ -563,51 +567,419 @@ These containers can be found through the
 with a container label.
 
 
+## Running the AI containers - complicated way without modules
 
 <figure markdown style="border: 1px solid #000">
   ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAiComplicated.png){ loading=lazy }
 </figure>
 
+The containers that we provide have everything they need to use RCCL and/or MPI on LUMI.
+It is not needed to use the `singularity-bindings/system` module described earlier as that module
+tries to bind too much external software to the container.
+
+Yet to be able to properly use the containers, users do need to take care of some bindings
+
+-   Some system directories and libraries have to be bound to the container:
+
+    ```
+    -B /var/spool/slurmd,/opt/cray/,/usr/lib64/libcxi.so.1,/usr/lib64/libjansson.so.4
+    ```
+
+    The first one is needed to work together with Slurm. The second one contains the MPI and libfabric library.
+    The third one is the actual component that binds libfabric to the Slingshot network adapter and is called 
+    the CXI provider, and the last one is a library that is needed by some LUMI system libraries but not in the
+    container.
+    
+-   By default your home directory will be available in the container, but as your home directory is not your
+    main workspace, you may want to bind your subdirectory in `/project`, `/scratch` and/or `/flash` also.
+
+There are also a number of components that may need further initialisation:
+
+-   The MIOpen library has problems with file/record locking on Lustre so some environment variables
+    are needed to move some work directories.
+
+-   RCCL needs to be told the right network interfaces to use as otherwise it tends to take the interface
+    to the management network of the cluster instead and gets stuck.
+
+-   GPU-aware MPI also needs to be set up (see [earlier in the course](02_CPE.md#gpu-aware-mpi))
+
+-   Your AI package may need some environment variables too (e.g., 
+    `MASTER_ADDR` and `MASTER_PORT` for distributed learning with PyTorch)
+
+Moreover, most (if not all at the moment) containers that we provide with Python packages, are
+built using Conda to install Python. When entering those containers, conda needs to be activated.
+The containers are built in such a way that the environment variable `WITH_CONDA` provides the 
+necessary command, so in most cases you only need to run 
+
+```
+$WITH_CONDA
+```
+
+as a command in the script that is executed in the container or on the command line.
+
+
+## Running the containers through EasyBuild-generated modules
 
 <figure markdown style="border: 1px solid #000">
   ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIEasyBuild_1.png){ loading=lazy }
 </figure>
+
+Doing all those initialisations, is a burden. Therefore we provide EasyBuild recipes to "install" the containers
+and to provide a module that helps setting environment variables in the initialisation.
+
+For packages for which we know generic usage patterns, we provide some scripts that do most settings.
+When using the module, those scripts will be available in the `/runscripts` directory in the container,
+but are also in a subdirectory on the Lustre file system. So in principle you can even edit them or
+add your own scripts, though they would be erased if you reinstall the module with EasyBuild.
+
+They also define a number of environment variables that make life easier. E.g., the `SINGULARITY_BINDPATH` 
+environment variable is already set to bind the necessary files and directories from the system and to
+make sure that your project, scratch and flash spaces are available at the same location as on LUMI so
+that even symbolic links in those directories should still work.
+
+We recently started adding a pre-configured virtual environment to the containers to add your own packages.
+The virtual environment can be found in the container in a subdirectory of `/user-software/venv`. To install
+packages from within the container, this directory needs to be writeable which is done by binding `/user-software` to the
+`$CONTAINERROOT/user-software` subdirectory outside the container.
+If you add a lot of packages that way, you re-create the filesystem issues that the container is supposed to
+solve, but we have a solution for that also. These containers provide the `make-squashfs` command to generate
+a SquashFS file from the installation that will be used by the container instead next time the module for 
+the container is reloaded. And in case you prefer to fully delete the `user-software` subdirectory afterwards
+from `$CONTAINERROOT`, it can be re-created using `uname-squashfs` so that you can add further packages.
+You can also use `/user-software` to install software in other ways from within the container and can
+basically create whatever subdirectory you want into it. 
+
+These containers with pre-configured virtual environment offer another advantage also: The module injects a number
+of environment variables into the container so that it is no longer needed to activate the conda environment and
+Python virtual environment by sourcing scripts.
+
+In fact, someone with EasyBuild experience may even help you to further extend the recipe that we provide to already
+install extra packages, and we provide an example of how to do that with 
+[our PyTorch containers](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/PyTorch/).
 
 
 <figure markdown style="border: 1px solid #000">
   ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIEasyBuild_2.png){ loading=lazy }
 </figure>
 
+Installing the EasyBuild recipes for those containers is also done via the `EasyBuild-user` module,
+but it is best to use a special trick. There is a special partition called `partition/container` that is
+only used to install those containers and when using that partition for the installation, the container
+will be available in all verions of the LUMI stack and in the CrayEnv stack.
+
+Installation is as simple as, e.g., 
+
+``` bash
+module load LUMI partition/container EasyBuild-user
+eb PyTorch-2.2.0-rocm-5.6.1-python-3.10-singularity-20240315.eb
+```
+
+Before running it is best to clean up (`module purge`) or take a new shell to avoid conflicts with 
+environment variables provided by other modules.
+
+The installation with EasyBuild will make a copy from the `.sif` Singularity container image file
+that we provide somewhere in `/sppl/local/containers`
+to the software installation subdirectory of your `$EBU_USER_PREFIX` EasyBuild installation directory.
+These files are big and you may wish to delete that file which is easily done: After loading the container
+module, the environment variable `SIF` contains the name with full path of the container file. 
+After removing the container file from your personal software directory, you need to reload the container
+module and from then on, `SIF` will point to the corresponding container in 
+`/appl/local/containers/easybuild-sif-images`.
+We don't really recommend removing the container image though and certainly not if you are interested
+in reproducibility. We may remove the image in `/appl/local/containers/easybuild-sif-images`
+without prior notice if we notice that the container has too many problems, e.g., after a system
+update. But that same container that doesn't work well for others, may work well enough for you that
+you don't want to rebuild whatever environment you built with the container.
+
+
+## Example: Distributed learning without using EasyBuild
+
+**To really run this example, some additional program files and data files are needed that
+are not explained in this text. You can find more information on the 
+[PyTorch page in the LUMI Software Library](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/PyTorch).**
 
 <figure markdown style="border: 1px solid #000">
   ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIExampleNoEasyBuild_1.png){ loading=lazy }
 </figure>
 
+We'll need to create a number of scripts before we can even run the container.
+
+The first script is a Python program to extract the name of the master node from a Slurm environment
+variable. Store it in `get-master.py`:
+
+``` python
+import argparse
+def get_parser():
+    parser = argparse.ArgumentParser(description="Extract master node name from Slurm node list",
+            formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument("nodelist", help="Slurm nodelist")
+    return parser
+
+
+if __name__ == '__main__':
+    parser = get_parser()
+    args = parser.parse_args()
+
+    first_nodelist = args.nodelist.split(',')[0]
+
+    if '[' in first_nodelist:
+        a = first_nodelist.split('[')
+        first_node = a[0] + a[1].split('-')[0]
+
+    else:
+        first_node = first_nodelist
+
+    print(first_node)
+```
 
 <figure markdown style="border: 1px solid #000">
   ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIExampleNoEasyBuild_2.png){ loading=lazy }
 </figure>
 
+Second, we need a script that we will run in the container. Store the script as
+`run-pytorch.sh`:
+
+``` bash
+#!/bin/bash -e
+
+# Make sure GPUs are up
+if [ $SLURM_LOCALID -eq 0 ] ; then
+    rocm-smi
+fi
+sleep 2
+
+# !Remove this if using an image extended with cotainr or a container from elsewhere.!
+# Start conda environment inside the container
+$WITH_CONDA
+
+# MIOPEN needs some initialisation for the cache as the default location
+# does not work on LUMI as Lustre does not provide the necessary features.
+export MIOPEN_USER_DB_PATH="/tmp/$(whoami)-miopen-cache-$SLURM_NODEID"
+export MIOPEN_CUSTOM_CACHE_DIR=$MIOPEN_USER_DB_PATH
+
+if [ $SLURM_LOCALID -eq 0 ] ; then
+    rm -rf $MIOPEN_USER_DB_PATH
+    mkdir -p $MIOPEN_USER_DB_PATH
+fi
+sleep 2
+
+# Optional! Set NCCL debug output to check correct use of aws-ofi-rccl (these are very verbose)
+export NCCL_DEBUG=INFO
+export NCCL_DEBUG_SUBSYS=INIT,COLL
+
+# Set interfaces to be used by RCCL.
+# This is needed as otherwise RCCL tries to use a network interface it has
+# no access to on LUMI.
+export NCCL_SOCKET_IFNAME=hsn0,hsn1,hsn2,hsn3
+export NCCL_NET_GDR_LEVEL=3
+
+# Set ROCR_VISIBLE_DEVICES so that each task uses the proper GPU
+export ROCR_VISIBLE_DEVICES=$SLURM_LOCALID
+
+# Report affinity to check
+echo "Rank $SLURM_PROCID --> $(taskset -p $$); GPU $ROCR_VISIBLE_DEVICES"
+
+# The usual PyTorch initialisations (also needed on NVIDIA)
+# Note that since we fix the port ID it is not possible to run, e.g., two
+# instances via this script using half a node each.
+export MASTER_ADDR=$(python get-master.py "$SLURM_NODELIST")
+export MASTER_PORT=29500
+export WORLD_SIZE=$SLURM_NPROCS
+export RANK=$SLURM_PROCID
+export ROCR_VISIBLE_DEVICES=$SLURM_LOCALID
+
+# Run app
+cd /workdir/mnist
+python -u mnist_DDP.py --gpu --modelpath model
+```
+
+The script needs to be executable.
+
+The script sets a number of environment variables. Some are fairly standard when using PyTorch
+on an HPC cluster while others are specific for the LUMI interconnect and architecture or the 
+AMD ROCm environment. We notice a number of things:
+
+-   At the start we just print some information about the GPU. We do this only ones on each node
+    on the process which is why we test on `$SLURM_LOCALID`, which is a numbering starting from 0
+    on each node of the job:
+
+    ``` bash
+    if [ $SLURM_LOCALID -eq 0 ] ; then
+        rocm-smi
+    fi
+    sleep 2
+    ```
+
+-   The container uses a Conda environment internally. So to make the right version of Python
+    and its packages availabe, we need to activate the environment. The precise command to
+    activate the environment is stored in `$WITH_CONDA` and we can just call it by specifying
+    the variable as a bash command.
+
+-   The `MIOPEN_` environment variables are needed to make 
+    [MIOpen](https://rocm.docs.amd.com/projects/MIOpen/en/latest/) create its caches on `/tmp`
+    as doing this on Lustre fails because of file locking issues:
+
+    ``` bash
+    export MIOPEN_USER_DB_PATH="/tmp/$(whoami)-miopen-cache-$SLURM_NODEID"
+    export MIOPEN_CUSTOM_CACHE_DIR=$MIOPEN_USER_DB_PATH
+
+    if [ $SLURM_LOCALID -eq 0 ] ; then
+        rm -rf $MIOPEN_USER_DB_PATH
+        mkdir -p $MIOPEN_USER_DB_PATH
+    fi
+    ```
+
+-   It is also essential to tell RCCL, the communication library, which network adapters to use. 
+    These environment variables start with `NCCL_` because ROCm tries to keep things as similar as
+    possible to NCCL in the NVIDIA ecosystem:
+
+    ```
+    export NCCL_SOCKET_IFNAME=hsn0,hsn1,hsn2,hsn3
+    export NCCL_NET_GDR_LEVEL=3
+    ```
+
+    Without this RCCL may try to use a network adapter meant for system management rather than
+    inter-node communications!
+
+-   We also set `ROCR_VISIBLE_DEVICES` to ensure that each task uses the proper GPU.
+    This is again based on the local task ID of each Slurm task.
+
+-   Furthermore some environment variables are needed by PyTorch itself that are also needed on
+    NVIDIA systems.
+
+    PyTorch needs to find the master for communication which is done through the
+    `get-master.py` script that we created before:
+
+    ``` bash
+    export MASTER_ADDR=$(python get-master.py "$SLURM_NODELIST")
+    export MASTER_PORT=29500
+    ```
+
+    **As we fix the port number here, the `conda-python-distributed` script that we provide, 
+    has to run on exclusive nodes.
+    Running, e.g., 2 4-GPU jobs on the same node with this command will not work as there will be
+    a conflict for the TCP port for communication on the master as `MASTER_PORT` is hard-coded in 
+    this version of the script.**
 
 <figure markdown style="border: 1px solid #000">
   ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIExampleNoEasyBuild_3.png){ loading=lazy }
 </figure>
 
+And finally you need a job script that you can then submit with `sbatch`. LEts call it `my-job.sh`:
+
+```bash
+#!/bin/bash -e
+#SBATCH --nodes=4
+#SBATCH --gpus-per-node=8
+#SBATCH --tasks-per-node=8
+#SBATCH --cpus-per-task=7
+#SBATCH --output="output_%x_%j.txt"
+#SBATCH --partition=standard-g
+#SBATCH --mem=480G
+#SBATCH --time=00:10:00
+#SBATCH --account=project_<your_project_id>
+
+CONTAINER=your-container-image.sif
+
+c=fe
+MYMASKS="0x${c}000000000000,0x${c}00000000000000,0x${c}0000,0x${c}000000,0x${c},0x${c}00,0x${c}00000000,0x${c}0000000000"
+
+srun --cpu-bind=mask_cpu:$MYMASKS \
+singularity exec \
+    -B /var/spool/slurmd \
+    -B /opt/cray \
+    -B /usr/lib64/libcxi.so.1 \
+    -B /usr/lib64/libjansson.so.4 \
+    -B $PWD:/workdir \
+    $CONTAINER /workdir/run-pytorch.sh
+```
+
+The important parts here are:
+
+-   We start PyTorch via `srun` and this is recommended. The `torchrun` command is not supported on LUMI. 
+
+-   We also use a 
+    particular CPU mapping so that each rank can use the corresponding GPU number (which is taken care of in the 
+    `run-pytorch.sh` script). 
+    We use the
+    ["Linear ssignment of GCD, then match the cores" strategy](http://localhost:8000/LUMI-BE-training-materials/intro-evolving/07_Binding/#linear-assignment-of-gcd-then-match-the-cores).
+
+
+
+-   Note the bindings. In this case we do not even bind the full `/project`, `/scratch` and `/flash` subdirectories,
+    but simply make the current subdirectory that we are using outside the container available as `/workdir` in 
+    the container. This also implies that any non-relative symbolic link or any relative symbolic link that takes
+    you out of the current directory and its subdirectories, will not work, which is awkward as you may want
+    several libraries to run from to have simultaneous jobs, but, e.g., don't want to copy your dataset to
+    each of those directories.
+
+
+## Example: Distributed learning with the EasyBuild-generated module
+
+**To really run this example, some additional program files and data files are needed that
+are not explained in this text. You can find more information on the 
+[PyTorch page in the LUMI Software Library](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/PyTorch).**
 
 <figure markdown style="border: 1px solid #000">
   ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIExampleEasyBuild.png){ loading=lazy }
 </figure>
 
+It turns out that the first two above scripts in the example above, are fairly generic.
+Therefore the module provides a slight variant of the second script, now called `conda-python-distributed`,
+that at the end calls python, passing it all arguments it got and hence can be used to start other Python code also.
+It is in `$CONTAINERROOT/runscripts` or in the container as `/runscripts`.
+
+As the module also takes care of bindings, the job script is simplified to
+
+``` bash
+#!/bin/bash -e
+#SBATCH --nodes=4
+#SBATCH --gpus-per-node=8
+#SBATCH --tasks-per-node=8
+#SBATCH --cpus-per-task=7
+#SBATCH --output="output_%x_%j.txt"
+#SBATCH --partition=standard-g
+#SBATCH --mem=480G
+#SBATCH --time=00:10:00
+#SBATCH --account=project_<your_project_id>
+
+module load LUMI  # Which version doesn't matter, it is only to get the container.
+module load PyTorch/2.2.0-rocm-5.6.1-python-3.10-singularity-20240315
+
+c=fe
+MYMASKS="0x${c}000000000000,0x${c}00000000000000,0x${c}0000,0x${c}000000,0x${c},0x${c}00,0x${c}00000000,0x${c}0000000000"
+
+cd mnist
+srun --cpu-bind=mask_cpu:$MYMASKS \
+  singularity exec $SIFPYTORCH \
+    conda-python-distributed -u mnist_DDP.py --gpu --modelpath model
+```
+
+So basically you only need to take care of the proper CPU bindings where we again use the
+["Linear ssignment of GCD, then match the cores" strategy](http://localhost:8000/LUMI-BE-training-materials/intro-evolving/07_Binding/#linear-assignment-of-gcd-then-match-the-cores).
+
+
+## Extending the containers
+
+We can never provide all software that is needed for every user. But there are several mechanisms that can be used to
+extend the containers that we provide:
+
+### Extending the container with `cotainr`
 
 <figure markdown style="border: 1px solid #000">
   ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/ExtendingCotainr.png){ loading=lazy }
 </figure>
 
 
+
+### Extending the container with the singularity unprivileged `proot` build 
+
 <figure markdown style="border: 1px solid #000">
   ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/ExtendingSingularityBuild.png){ loading=lazy }
 </figure>
 
+
+### Extending the container through a Python virtual environment
 
 <figure markdown style="border: 1px solid #000">
   ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/ExtendingPVenv_1.png){ loading=lazy }
@@ -619,13 +991,11 @@ with a container label.
 </figure>
 
 
+<!--
 <figure markdown style="border: 1px solid #000">
   ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/Demo.png){ loading=lazy }
 </figure>
-
-
-
-
+-->
 
 
 ## Conclusion: Container limitations on LUMI
