@@ -1213,26 +1213,31 @@ on many clusters, or <code>srun</code> on LUMI - will <em>distribute</em>  the p
 nodes. Within a node, it is possible to pin or attach processes or even individual threads
 in processes to one or more cores (actually hardware threads) and other resources, 
 which is called process binding.</p>
-<p>Linux has several mechanisms for that. Slurm uses cgroups or control groups to limit the 
+<p>The system software (Linux, ROCm<sup>TM</sup> and Slurm) 
+has several mechanisms for that. Slurm uses Linux cgroups or control groups to limit the 
 resources that a job can use within a node and thus to isolate jobs from one another on a
-node so that one job cannot deplete the resources of another job, and even uses a hierarchy
-up to the task level to restrict some resources for a task (hardware threads and GPU access).
-The second mechanism is processor affinity which works at the process and thread level and
-can be used by the OpenMP runtime to limit thread migration. It works through affinity masks
+node so that one job cannot deplete the resources of another job, and sometimes even
+uses control groups at the task level to restrict some resources for a task (currently when 
+doing task-level GPU binding via Slurm).
+The second mechanism is processor affinity which works at the process and thread level and is
+used by Slurm at the task level and 
+can be used by the OpenMP runtime to further limit thread migration. It works through affinity masks
 which indicate the hardware threads that a thread or process can use. There is also a third
-mechanism provided by the ROCm run time to control which GPUs can be used.</p>
+mechanism provided by the ROCm<sup>TM</sup> run time to control which GPUs can be used.</p>
 <p>Some of the tools in the <code>lumi-CPEtools</code> module can show the affinity mask for each thread
 (or effectively the process for single-threaded processes) so you can use these tools to
 study the affinity masks and check the distribution and binding of processes and threads.
 The <code>serial_check</code>, <code>omp_check</code>, <code>mpi_check</code> and <code>hybrid_check</code> programs can be used to
 study thread binding. In fact, <code>hybrid_check</code> can be used in all cases, but the other three
 show more compact output for serial, shared memory OpenMP and single-threaded MPI processes 
-resoectively. The <code>gpu_check</code> command can be used to study the steps in GPU binding.</p>
+respectively. The <code>gpu_check</code> command can be used to study the steps in GPU binding.</p>
 <details class="note">
 <summary>Credits for these programs</summary>
-<p>The <code>hybrid_check</code> program and its derivatives <code>serial_check</code>, 'omp_check<code>and</code>mpi_check<code>are similar to the [</code>xthi<code>program](https://support.hpe.com/hpesc/public/docDisplay?docId=a00114008en_us&amp;docLocale=en_US&amp;page=Run_an_OpenMP_Application.html)
+<p>The <code>hybrid_check</code> program and its derivatives <code>serial_check</code>, <code>omp_check</code> and <code>mpi_check</code>
+are similar to the <a href="https://support.hpe.com/hpesc/public/docDisplay?docId=a00114008en_us&amp;docLocale=en_US&amp;page=Run_an_OpenMP_Application.html"><code>xthi</code> program</a>
 used in the 4-day comprehensive LUMI course organised by the LUST in collaboration with 
-HPE Cray and AMD. Its main source of inspiration is a very similar program,</code>acheck`, written by HArvey Richardson of HPE Cray and used in an earlier course,
+HPE Cray and AMD. Its main source of inspiration is a very similar program,
+<code>acheck</code>, written by Harvey Richardson of HPE Cray and used in an earlier course,
 but it is a complete rewrite of that application.</p>
 <p>One of the advantages of <code>hybrid_check</code> and its derivatives is that the output is 
 sorted internally already and hence is more readable. The tool also has various extensions,
@@ -1278,7 +1283,8 @@ per-node per-job basis.</p>
 </li>
 </ul>
 <p>Binding only makes sense on job-exclusive nodes as only then you have full control over all available 
-resources. On "allocatable by resource" partitions you usually do not know which resources are available.
+resources. On <a href="../06_Slurm/#partitions">"allocatable by resources"</a> partitions 
+you usually do not know which resources are available.
 The advanced Slurm binding options that we will discuss do not work in those cases, and the options offered
 by the MPICH, OpenMP and ROCm runtimes may work very unpredictable. </p>
 <div class="admonition warning">
@@ -1293,9 +1299,11 @@ using <code>ROCR_VISIBLE_DEVICES</code> may also lead to surprises!</p>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Why do I need this" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-binding/WhyNeedThis.png" /></p>
 </figure>
+<!-- BELGIUM -->
 <p>As we have seen in the <a href="../01_Architecture/">"LUMI Architecture" session of this course</a> and is discussed into
 even more detail in some other courses lectures in Belgium (in particular the
-<a href="https://klust.github.io/SupercomputersForStarters/">"Supercomputers for Starters" course</a> given twice a year at VSC@UAntwerpen),
+<a href="https://klust.github.io/SupercomputersForStarters/">"Supercomputers for Starters" course</a> 
+given twice a year at VSC@UAntwerpen),
 modern supercomputer nodes have increasingly a very hierarchical architecture.  This hierarchical architecture is extremely
 pronounced on the AMD EPYC architecture used in LUMI but is also increasingly showing up with Intel processors and the ARM
 server processors, and is also relevant but often ignored in GPU clusters.</p>
@@ -1309,7 +1317,8 @@ scalability on supercomputers. </p>
 <p>Memory locality at the process level is easy as usually processes share little or no memory. So if you would have
 an MPI application where each rank needs 14 GB of memory and so only 16 ranks can run on a regular node, then it is
 essential to ensure that these ranks are spread out nicely over the whole node, with one rank per CCD. The default of 
-Slurm when allocating 8 single-thread tasks on a node would be to put them all on the first CCD, which would give
+Slurm when allocating 16 single-thread tasks on a node would be to put them all on the first two CCDs,
+so the first NUMA-domain, which would give
 very poor performance as a lot of memory accesses would have to go across sockets.</p>
 </li>
 <li>
@@ -1341,7 +1350,7 @@ also why Slurm and the various runtimes cannot take care of it automatically.</p
 <p>Linux core numbering is not hierarchical and may look a bit strange. This is because Linux core numbering was fixed
 before hardware threads were added, and later on hardware threads were simply added to the numbering scheme.</p>
 <p>As is usual with computers, numbering starts from 0. Core 0 is the first hardware thread (or we could say the actual core)
-of the first CCD (CCD 0) of the first NUMA domain (NUMA domain 0) of the first socket (socket 0). Core 1 is then the second
+of the first core of the first CCD (CCD 0) of the first NUMA domain (NUMA domain 0) of the first socket (socket 0). Core 1 is then the first hardware thread of the second
 core of the same CCD, and so on, going over all cores in a CCD, then NUMA domain and then socket. So on LUMI-C, core 0 till 63
 are on the first socket and core 64 till 127 on the second one. The numbering of the second hardware thread of each core - we could
 say the virtual core - then starts where the numbering of the actual cores ends, so 64 for LUMI-G (which has only one socket per node)
@@ -1350,9 +1359,12 @@ cores does not change. </p>
 <p>On LUMI G, core 0 and its second hardware thread 64 are reserved by the low noise mode and cannot be used by Slurm or applications.
 This is done to help reduce OS jitter which can kill scalability of large parallel applications. However, it also creates an assymetry
 that is hard to deal with. (For this reason they chose to disable the first core of every CCD on Frontier, so core 0, 8, 16, ... and 
-corresponding hardware threads 64, 72, ..., but on LUMI this is not yet the case).</p>
-<p>Note that even with <code>--hiint=nomulthread</code> the hardware threads will still be turned on at the hardware level and be visible in the 
-OS (e.c., in <code>/proc/cpuinfo</code>). In fact, the batch job step will use them, but they will not be used by applications in job steps
+corresponding hardware threads 64, 72, ..., but on LUMI this is not yet the case).
+Don't be surprised if when running a GPU code you see a lot of activity on core 0. It is caused by the ROCm<sup>TM</sup> driver
+and is precisely the reason why that core is reserved, as that activity would break scalability of applications that expect
+to have the same amount of available compute power on each core.</p>
+<p>Note that even with <code>--hint=nomulthread</code> the hardware threads will still be turned on at the hardware level and be visible in the 
+OS (e.g., in <code>/proc/cpuinfo</code>). In fact, the batch job step will use them, but they will not be used by applications in job steps
 started with subsequent <code>srun</code> commands.</p>
 <!-- Script cpu-numbering-demo1 -->
 <details class="technical">
@@ -1404,7 +1416,7 @@ and how task affinity is used to manage the CPUs for a task. Consider the job sc
 <span class="c1">#SBATCH --hint=nomultithread</span>
 <span class="c1">#SBATCH --time=5:00</span>
 
-module<span class="w"> </span>load<span class="w"> </span>LUMI/22.12<span class="w"> </span>partition/C<span class="w"> </span>lumi-CPEtools/1.1-cpeGNU-22.12
+module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09<span class="w"> </span>partition/C<span class="w"> </span>lumi-CPEtools/1.1-cpeGNU-23.09
 
 cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; task_lstopo_$SLURM_JOB_ID</span>
 <span class="s">#!/bin/bash</span>
@@ -1434,6 +1446,8 @@ srun<span class="w"> </span>-n<span class="w"> </span><span class="m">2</span><s
 <p>It creates a small test program that we will use to run lstopo and gather its output
 on two tasks with 4 cores each. All this is done in a job allocation with 16 cores on the 
 <code>small</code> partition.</p>
+<p>The results of this script will differ strongly between runs as Slurm can give different
+valid configurations for this request. Below is one possible output we got.</p>
 <p>Let's first look at the output of the <code>lstopo</code> and <code>taskset</code> commands run in the batch
 job step:</p>
 <div class="highlight"><pre><span></span><code>Full lstopo output in the job:
@@ -1531,7 +1545,7 @@ of L3 cache domains that would be possible, but across three domains. In this pa
 allocation the cores are still consecutive cores, but even that is not guaranteed
 in an "Allocatable by resources" partition.
 Despite <code>--hint=nomultithread</code> being the default behaviour, at this level we still see
-both hardware threads for each pysical core in the taskset. </p>
+both hardware threads for each physical core in the taskset. </p>
 <p>Next look at the output printed by lines 29 and 31:</p>
 <div class="highlight"><pre><span></span><code>Task 0
 Output of lstopo:
@@ -1687,15 +1701,15 @@ or in an allocation where access to some resources is limited through cgroups. I
 <p>Based on these PICe bus IDs, the OS will assign numbers to the GPU. It are those numbers that are shown
 in the figure in the
 <a href="../01_Architecture/#building-lumi-what-a-lumi-g-node-really-looks-like"> Architecture chapter - "Building LUMI: What a LUMI-G node really looks like"</a>.
-We will call this the <em>bare OS numbering</em> or * global numbering* in these notes.</p>
+We will call this the <em>bare OS numbering</em> or <em>global numbering</em> in these notes.</p>
 <p>Slurm manages GPUs for jobs through the control group mechanism. Now if a job requesting 4 GPUs would
 get the GPUs that are numbered 4 to 7 in bare OS numbering, 
 it would still see them as GPUs 0 to 3, and this is the numbering that one would have to use
 for the <code>ROCR_VISIBLE_DEVICES</code> environment variable that is used to further limit the GPUs that the ROCm runtime
-will use in an application. We will call this the job-local numbering.</p>
-<p>Inside task of a regular job step, Slurm can further restrict the GPUs that are visibile through control
+will use in an application. We will call this the <em>job-local numbering</em>.</p>
+<p>Inside task of a regular job step, Slurm can further restrict the GPUs that are visible through control
 groups at the task level, leading to yet another numbering that starts from 0 which we will call the 
-task-local numbering. </p>
+<em>task-local numbering</em>. </p>
 <p>Note also that Slurm does take care of setting the <code>ROCR_VISIBLE_DEVICES</code> environment variable. It will be set
 at the start of a batch job step giving access to all GPUs that are available in the allocation, and will also
 be set by <code>srun</code> for each task. But you don't need to know in your application which numbers these are as, e.g.,
@@ -1754,7 +1768,7 @@ Consider the job script:</p>
 <span class="c1">#SBATCH --hint=nomultithread</span>
 <span class="c1">#SBATCH --time=15:00</span>
 
-module<span class="w"> </span>load<span class="w"> </span>LUMI/22.12<span class="w"> </span>partition/G<span class="w"> </span>lumi-CPEtools/1.1-cpeCray-22.12
+module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09<span class="w"> </span>partition/G<span class="w"> </span>lumi-CPEtools/1.1-cpeCray-23.09
 
 cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; task_lstopo_$SLURM_JOB_ID</span>
 <span class="s">#!/bin/bash</span>
@@ -2000,7 +2014,7 @@ task level. </p>
 <span class="c1">#SBATCH --hint=nomultithread</span>
 <span class="c1">#SBATCH --time=5:00</span>
 
-module<span class="w"> </span>load<span class="w"> </span>LUMI/22.12<span class="w"> </span>partition/G<span class="w"> </span>lumi-CPEtools/1.1-cpeCray-22.12
+module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09<span class="w"> </span>partition/G<span class="w"> </span>lumi-CPEtools/1.1-cpeCray-23.09
 
 cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; select_1gpu_$SLURM_JOB_ID</span>
 <span class="s">#!/bin/bash</span>
@@ -2077,7 +2091,7 @@ ROCR_VISIBLE_DEVICES: 0,1,2,3
 we actually got the GPUs with regular full node numbering 2 till 5, but they have been renumbered from 
 0 to 3. And notice that <code>ROCR_VISIBLE_DEVICES</code> now also refers to this numbering and not the 
 regular full node numbering when setting which GPUs can be used. </p>
-<p>The <code>srun</code> command on line 40 will now run <code>gpu_check</code> through the <code>seledct_1gpu_$SLURM_JOB_ID</code>
+<p>The <code>srun</code> command on line 40 will now run <code>gpu_check</code> through the <code>select_1gpu_$SLURM_JOB_ID</code>
 wrapper that gives task 0 access to GPU 0 in the "local" numbering, which should be GPU2/CCD2
 in the regular full node numbering, etc. Its output is</p>
 <div class="highlight"><pre><span></span><code>MPI 000 - OMP 000 - HWT 002 (CCD0) - Node nid005350 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c9(GCD2/CCD2)
@@ -2109,7 +2123,7 @@ even across cores in the socket or NUMA domain (third level). The first level is
 the second level is sometimes used but the third level is very tricky and both the second and third level
 are often better replaced with other mechanisms that will also be discussed in this chapter on distribution
 and binding.</p>
-<p>The <a href="https://slurm.schedmd.com/archive/slurm-22.05.8/srun.html#OPT_distribution">general form of the <code>--distribution</code> option</a> is </p>
+<p>The <a href="https://slurm.schedmd.com/archive/slurm-22.05.10/srun.html#OPT_distribution">general form of the <code>--distribution</code> option</a> is </p>
 <div class="highlight"><pre><span></span><code>--distribution={*|block|cyclic|arbitrary|plane=&lt;size&gt;}[:{*|block|cyclic|fcyclic}[:{*|block|cyclic|fcyclic}]][,{Pack|NoPack}]
 </code></pre></div>
 <ul>
@@ -2152,7 +2166,7 @@ that also perform binding. In practice, this second level is less useful as ofte
 preferred for doing a proper binding, or the default behaviour is OK for simple distribution problems.</p>
 <ul>
 <li>
-<p><code>block</code> will assign whole tasks to consecutive sets of cores on the node. On LIUMI-C, it will first fill up
+<p><code>block</code> will assign whole tasks to consecutive sets of cores on the node. On LUMI-C, it will first fill up
     the first socket before moving on to the second socket.</p>
 </li>
 <li>
@@ -2199,7 +2213,7 @@ Level 2/3 control via <code>--distribution</code> sometimes also make no sense w
 <div class="highlight"><pre><span></span><code>--cpu-bind=[{quiet|verbose},]&lt;type&gt;
 </code></pre></div>
 <p>We'll describe a few of the possibilities for the <code>&lt;type&gt;</code> parameter but for a more concrete overview
-we refer to the <a href="https://slurm.schedmd.com/archive/slurm-22.05.8/srun.html#OPT_cpu-bind">Slurm <code>srun</code> manual page</a></p>
+we refer to the <a href="https://slurm.schedmd.com/archive/slurm-22.05.10/srun.html#OPT_cpu-bind">Slurm <code>srun</code> manual page</a></p>
 <ul>
 <li>
 <p><code>--cpu-bind=threads</code> is the default behaviour on LUMI.</p>
@@ -2208,9 +2222,10 @@ we refer to the <a href="https://slurm.schedmd.com/archive/slurm-22.05.8/srun.ht
 <p><code>--cpu-bind=map_cpu:&lt;cpu_id_for_task_0&gt;,&lt;cpu_id_for_task_1&gt;, ...</code> is used when tasks are bound to single
     cores. The first number is the number of the hardware thread for the task with local task ID 0, etc. 
     In other words, this option at the same time also defines the slots that can be used by the 
-    <code>--distribrution</code> option above and replaces level 2 and level 3 of that option. </p>
+    <code>--distribution</code> option above and replaces level 2 and level 3 of that option. </p>
 <p>E.g.,</p>
-<div class="highlight"><pre><span></span><code>module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeGNU-22.12
+<div class="highlight"><pre><span></span><code>salloc --nodes=1 --partition=standard-g
+module load LUMI/23.09 partition/G lumi-CPEtools/1.1-cpeGNU-23.09
 srun --ntasks=8 --cpu-bind=map_cpu:49,57,17,25,1,9,33,41 mpi_check -r
 </code></pre></div>
 <p>will run the first task on hardware threads 49, the second task on 57, third on 17, fourth on 
@@ -2226,7 +2241,8 @@ this chapter.</p>
 <code>standard-g</code> partition. Just as with <code>map_cpu</code>, this option replaces level 2 and 3 of the <code>--distribution</code>
 option. </p>
 <p>E.g.,</p>
-<div class="highlight"><pre><span></span><code>module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeGNU-22.12
+<div class="highlight"><pre><span></span><code>salloc --nodes=1 --partition=standard-g
+module load LUMI/23.09 partition/G lumi-CPEtools/1.1-cpeGNU-23.09
 srun --ntasks=8 --cpu-bind=mask_cpu:7e000000000000,7e00000000000000,7e0000,7e000000,7e,7e00,7e00000000,7e0000000000 hybrid_check -r
 </code></pre></div>
 <p>will run the first task on hardware threads 49-54, the second task on 57-62, third on 17-22, fourth on 
@@ -2253,7 +2269,7 @@ is not a problem for the application.</p>
 <p>Task-to-GPU binding is done with</p>
 <div class="highlight"><pre><span></span><code>--gpu-bind=[verbose,]&lt;type&gt;
 </code></pre></div>
-<p><a href="https://slurm.schedmd.com/archive/slurm-22.05.8/srun.html#OPT_gpu-bind">(see the Slurm manual)</a>
+<p><a href="https://slurm.schedmd.com/archive/slurm-22.05.10/srun.html#OPT_gpu-bind">(see the Slurm manual)</a>
 which is somewhat similar to <code>--cpu-binding</code> (to the extent that that makes sense).</p>
 <p>Some options for the <code>&lt;type&gt;</code> parameter that are worth considering:</p>
 <ul>
@@ -2276,7 +2292,7 @@ which is somewhat similar to <code>--cpu-binding</code> (to the extent that that
     <a href="../01_Architecture/#building-lumi-what-a-lumi-g-node-really-looks-like">"Building LUMI: What a LUMI-G really looks like</a>.</p>
 </li>
 <li>
-<p><code>--gpu-bind=mask_gpu:&gt;list&gt;</code> is the equivalent of <code>--cpu-bind=mask_cpu:&lt;list&gt;</code>. 
+<p><code>--gpu-bind=mask_gpu:&lt;list&gt;</code> is the equivalent of <code>--cpu-bind=mask_cpu:&lt;list&gt;</code>. 
     Now the bits in the mask correspond to individual GPUs, with GPU 0 the least significant bit. 
     This option again only makes sense on a job-exclusive node.</p>
 </li>
@@ -2316,8 +2332,6 @@ which is often given on day 3.</p>
 <p>Rank reordering can be used to reduce the number of inter-node messages or to spread those
 ranks that do parallel I/O over more nodes to increase the I/O bandwidth that can be
 obtained in the application.</p>
-<p>Rank reordering makes most sense if the block distribution method is used in Slurm as 
-otherwise it become very difficult to understand on which node which task will land.</p>
 <p>Possible values for <code>MPICH_RANK_REORDER_METHOD</code> are:</p>
 <ul>
 <li>
@@ -2326,7 +2340,9 @@ otherwise it become very difficult to understand on which node which task will l
 </li>
 <li>
 <p><code>export MPICH_RANK_REORDER_METHOD=1</code>: This is the default and it preserves the
-    ordering of Slurm.</p>
+    ordering of Slurm, and the only one that makes sense with other L1 Slurm distributions
+    than <code>block</code>.</p>
+<p>The Cray MPICH manual confusingly calls this "SMP-style ordering".</p>
 </li>
 <li>
 <p><code>export MPICH_RANK_REORDER_METHOD=2</code>: Folded rank placement. This is somewhat similar 
@@ -2335,11 +2351,13 @@ otherwise it become very difficult to understand on which node which task will l
 </li>
 <li>
 <p><code>export MPICH_RANK_REORDER_METHOD=3</code>: Use a custom ordering, given by the 
-    <code>MPICH_RANK_ORDER</code> environment variable which gives a comma-separated list of the MPI ranks
-    in the order they should be assigned to slots on the nodes.</p>
+    <code>MPICH_RANK_ORDER</code> file which gives a comma-separated list of the MPI ranks
+    in the order they should be assigned to slots on the nodes. The default filename 
+    <code>MPICH_RANK_ORDER</code> can be overwritten through the environment variable 
+    <code>MPICH_RANK_REORDER_FILE</code>.</p>
 </li>
 </ul>
-<p>Rank reordering does not always work well if Slurm is not using the block ordering. 
+<p>Rank reordering does not always work well if Slurm is not using the (default) block ordering. 
 As the <code>lumi-CPEtools</code> <code>mpi_check</code>, <code>hybrid_check</code> and <code>gpu_check</code> commands use Cray MPICH
 they can be used to test the Cray MPICH rank reordering also. The MPI ranks that are 
 displayed are the MPI ranks as seen through MPI calls and not the value of
@@ -2349,43 +2367,78 @@ the optimal rank ordering for a particular run, which is useful if you do a lot 
 the same problem size (and hence same number of nodes and tasks).</p>
 <details class="example">
 <summary>Try the following job script (click to expand)</summary>
-<div class="highlight"><pre><span></span><code>#!/bin/bash
-#SBATCH --account=project_46YXXXXXX
-#SBATCH --job-name=renumber-demo
-#SBATCH --output %x-%j.txt
-#SBATCH --partition=standard
-#SBATCH --nodes=2
-#SBATCH --hint=nomultithread
-#SBATCH --time=5:00
+<p><!-- Script renumber-demo.slurm -->
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH --account=project_46YXXXXXX</span>
+<span class="c1">#SBATCH --job-name=renumber-demo</span>
+<span class="c1">#SBATCH --output %x-%j.txt</span>
+<span class="c1">#SBATCH --partition=standard</span>
+<span class="c1">#SBATCH --nodes=2</span>
+<span class="c1">#SBATCH --hint=nomultithread</span>
+<span class="c1">#SBATCH --time=5:00</span>
 
-module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeGNU-22.12
+module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09<span class="w"> </span>partition/C<span class="w"> </span>lumi-CPEtools/1.1-cpeGNU-23.09
 
-set -x
-echo -e &quot;\nSMP distribution on top of block.&quot;
-export MPICH_RANK_REORDER_METHOD=1
-srun -n 8 -c 32 -m block mpi_check -r
-echo -e &quot;\nSMP distribution on top of cyclic.&quot;
-export MPICH_RANK_REORDER_METHOD=1
-srun -n 8 -c 32 -m cyclic mpi_check -r
-echo -e &quot;\nRound-robin distribution on top of block.&quot;
-export MPICH_RANK_REORDER_METHOD=0
-srun -n 8 -c 32 -m block mpi_check -r
-echo -e &quot;\nFolded distribution on top of block.&quot;
-export MPICH_RANK_REORDER_METHOD=2
-srun -n 8 -c 32 -m block mpi_check -r
-echo -e &quot;\nCustom distribution on top of block.&quot;
-export MPICH_RANK_REORDER_METHOD=3
-cat &gt;MPICH_RANK_ORDER &lt;&lt;EOF
-0,1,4,5,2,3,6,7
-EOF
-srun -n 8 -c 32 -m block mpi_check -r
-/bin/rm MPICH_RANK_ORDER
-set +x
-</code></pre></div>
+<span class="nb">set</span><span class="w"> </span>-x
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\nSMP-style distribution on top of block.&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_RANK_REORDER_METHOD</span><span class="o">=</span><span class="m">1</span>
+srun<span class="w"> </span>-n<span class="w"> </span><span class="m">8</span><span class="w"> </span>-c<span class="w"> </span><span class="m">32</span><span class="w"> </span>-m<span class="w"> </span>block<span class="w"> </span>mpi_check<span class="w"> </span>-r
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\nSMP-style distribution on top of cyclic.&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_RANK_REORDER_METHOD</span><span class="o">=</span><span class="m">1</span>
+srun<span class="w"> </span>-n<span class="w"> </span><span class="m">8</span><span class="w"> </span>-c<span class="w"> </span><span class="m">32</span><span class="w"> </span>-m<span class="w"> </span>cyclic<span class="w"> </span>mpi_check<span class="w"> </span>-r
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\nRound-robin distribution on top of block.&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_RANK_REORDER_METHOD</span><span class="o">=</span><span class="m">0</span>
+srun<span class="w"> </span>-n<span class="w"> </span><span class="m">8</span><span class="w"> </span>-c<span class="w"> </span><span class="m">32</span><span class="w"> </span>-m<span class="w"> </span>block<span class="w"> </span>mpi_check<span class="w"> </span>-r
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\nFolded distribution on top of block.&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_RANK_REORDER_METHOD</span><span class="o">=</span><span class="m">2</span>
+srun<span class="w"> </span>-n<span class="w"> </span><span class="m">8</span><span class="w"> </span>-c<span class="w"> </span><span class="m">32</span><span class="w"> </span>-m<span class="w"> </span>block<span class="w"> </span>mpi_check<span class="w"> </span>-r
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\nCustom distribution on top of block.&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_RANK_REORDER_METHOD</span><span class="o">=</span><span class="m">3</span>
+cat<span class="w"> </span>&gt;MPICH_RANK_ORDER<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<span class="s">0,1,4,5,2,3,6,7</span>
+<span class="s">EOF</span>
+cat<span class="w"> </span>MPICH_RANK_ORDER
+srun<span class="w"> </span>-n<span class="w"> </span><span class="m">8</span><span class="w"> </span>-c<span class="w"> </span><span class="m">32</span><span class="w"> </span>-m<span class="w"> </span>block<span class="w"> </span>mpi_check<span class="w"> </span>-r
+/bin/rm<span class="w"> </span>MPICH_RANK_ORDER
+<span class="nb">set</span><span class="w"> </span>+x
+</code></pre></div></td></tr></table></div></p>
 <p>Ths script starts 8 tasks that each take a quarter node. </p>
 <ol>
 <li>
-<p>The first <code>srun</code> command is just the block distribution. The first 4 MPI ranks are
+<p>The first <code>srun</code> command (on line 15) is just the block distribution. 
+    The first 4 MPI ranks are
     on the first node, the next 4 on the second node.</p>
 <div class="highlight"><pre><span></span><code>+ export MPICH_RANK_REORDER_METHOD=1
 + MPICH_RANK_REORDER_METHOD=1
@@ -2404,8 +2457,8 @@ Running 8 single-threaded MPI ranks.
 </code></pre></div>
 </li>
 <li>
-<p>The second <code>srun</code> command uses Cray MPICH rank reordering to get a round-robin ordering
-    rather than using the Slurm <code>--distribution=cyclic</code> option. MPI rank 0 now lands on the first
+<p>The second <code>srun</code> command, on line 18, is an example where the Slurm cyclic
+    distribution is preserved. MPI rank 0 now lands on the first
     32 cores of node 0 of the allocation, MPI rank 1 on the first 32 cores of node 1 of the allocation,
     then task 2 on the second 32 cores of node 0, and so on:</p>
 <div class="highlight"><pre><span></span><code>+ export MPICH_RANK_REORDER_METHOD=1
@@ -2425,8 +2478,9 @@ Running 8 single-threaded MPI ranks.
 </code></pre></div>
 </li>
 <li>
-<p>Now we use the Slurm cyclic ordering and the default of 1 for the Cray MPICH rank
-    reordering (which is no reordering) and the result is the same as the preovious case: </p>
+<p>The third <code>srun</code> command, on line 21, uses Cray MPICH rank reordering instead to get a round-robin ordering
+    rather than using the Slurm <code>--distribution=cyclic</code> option. The result is the same
+    as in the previous case:</p>
 <div class="highlight"><pre><span></span><code>+ export MPICH_RANK_REORDER_METHOD=0
 + MPICH_RANK_REORDER_METHOD=0
 + srun -n 8 -c 32 -m block mpi_check -r
@@ -2444,7 +2498,7 @@ Running 8 single-threaded MPI ranks.
 </code></pre></div>
 </li>
 <li>
-<p>The fourth <code>srun</code> command demonstrates the folded ordering: Rank 0 runs on the first 32 
+<p>The fourth <code>srun</code> command, on line 24, demonstrates the folded ordering: Rank 0 runs on the first 32 
     cores of node 0 of the allocation, rank 1 on the first 32 of node 1, then rank 2 runs on 
     the second set of 32 cores again on node 1, with rank 3 then running on the second 32 cores
     of node 0, rank 4 on the third group of 32 cores of node 0, rank 5 on the third group of
@@ -2466,9 +2520,21 @@ Running 8 single-threaded MPI ranks.
 </code></pre></div>
 </li>
 <li>
-<p>The fifth example demonstrate a custon reordering. Here we fance a 4x2-grid which we want
-    to split in 2 2x2 groups. In this example rank 0, 1, 4 and 5 will run on node 0 with rank 2, 3, 6 and 7
-    running on node 1.</p>
+<p>The fifth example ('srun' on line 31) demonstrate a custom reordering. 
+    Here we face a 4x2-grid which we want
+    to split in 2 2x2 groups. So where the ranks in our grid are numbered as</p>
+<div class="highlight"><pre><span></span><code>0 1 2 3
+4 5 6 7
+</code></pre></div>
+<p>we really want the left half of the grid on the first node of the allocation
+and the right half on the second node as this gives us less inter-node
+communication than when we would put the first line on the first node and
+the second line on the second. So basically we want ranks 0, 1, 4 and 5 on 
+the first node and ranks 2, 3, 6 and 7 on the second node, which is done
+by creating the reorder file with content</p>
+<div class="highlight"><pre><span></span><code>0,1,4,5,2,3,6,7
+</code></pre></div>
+<p>The resulting output is</p>
 <div class="highlight"><pre><span></span><code>+ export MPICH_RANK_REORDER_METHOD=3
 + MPICH_RANK_REORDER_METHOD=3
 + cat
@@ -2509,8 +2575,9 @@ In some cases you will want to manually refine the way individual threads of eac
 mapped onto the available hardware threads.</p>
 <p>In OpenMP, this is usually done through environment variables (it can also be done partially in
 the program through library calls). A number of environment variables is standardised in the 
-OpenMP standard, but some implementations offer some addtional non-standard ones. Below we discuss
-the more important of the standard ones:</p>
+OpenMP standard, but some implementations offer some additional non-standard ones, or
+non-standard values for the standard environment variables. 
+Below we discuss the more important of the standard ones:</p>
 <ul>
 <li>
 <p><code>OMP_NUM_THREADS</code> is used to set the number of CPU threads OpenMP will use. In its most basic
@@ -2534,13 +2601,17 @@ or cache constrained and using fewer threads actually gives better overall perfo
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span><span class="s2">&quot;{0:4}:4:4&quot;</span>
 </code></pre></div>
 <p>which is also equivalent to</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span><span class="s2">&quot;{0,1,2,3}.{4,5,6,7},{8.9.10.122}. {12.13.14.15}&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span><span class="s2">&quot;{0,1,2,3},{4,5,6,7},{8,9,10,11},{12,13,14,15}&quot;</span>
 </code></pre></div>
 <p>so each OpenMP thread is restricted to a different group of 4 hardware threads. The numbers in the list are not
 the physical Linux hardware thread numbers, but are relative to the hardware threads available in the 
 affinity mask of the task. </p>
+<p>More general, <code>{a:b}:c:d</code> means b numbers starting from a (so a, a+1, ..., a+b-1), repeated c times,
+at every repeat shifted by d. There are more variants to generate lists of places and we show another
+one in the example below. But in all the syntax may look strange and there are manuals that give
+the wrong information (including some versions of the manual for the GNU OpenMP runtime).</p>
 <p>Note that this is different from the core numbers that would be used in <code>--cpu-bind=map_cpu</code>
-or <code>-=-gpi-bind=mask_cpu</code> which sets the CPUs or groups of CPUs available to each thread and which always use
+or <code>--gpu-bind=mask_cpu</code> which sets the CPUs or groups of CPUs available to each thread and which always use
 the physical numbering and not a numbering that is local to the job allocation.</p>
 </li>
 </ul>
@@ -2554,7 +2625,8 @@ the physical numbering and not a numbering that is local to the job allocation.<
 </li>
 <li>
 <p><code>OMP_PROC_BIND=close</code>: If more places are available than there are OpenMP threads, then try
-    to put the OpenMP threads as close as possible to the master thread. In general, bind as close as possible
+    to put the OpenMP threads in different places as close as possible to the master thread. 
+    In general, bind as close as possible
     to the master thread while still distributing for load balancing.</p>
 </li>
 <li>
@@ -2567,8 +2639,8 @@ the physical numbering and not a numbering that is local to the job allocation.<
     thread or single core as all threads would then be competing for the resources of a single core.</p>
 </li>
 </ul>
-<p>Multiple values of <code>close</code>, <code>spread</code> and <code>master</code> in a comma-separated list are possible but this is outside of
-the scope of this tutorial. </p>
+<p>Multiple values of <code>close</code>, <code>spread</code> and <code>master</code> in a comma-separated list are possible
+to organise nested OpenMP parallelism, but this is outside of the scope of this tutorial. </p>
 <p>The Cray Compilation Environment also has an additional non-standard option <code>auto</code> which is actually the default and tries to
 do a reasonable job for most cases. On the other compilers on LUMI, the default behaviour is <code>false</code> unless the
 next environment variable, <code>OMP_PLACES</code>, is specified.</p>
@@ -2584,6 +2656,7 @@ can also be used to check the OpenMP thread binding.</p>
 <summary>Some examples (click to expand)</summary>
 <p>Consider the following job script:</p>
 <p><!-- TODO: Improve, always specify all three variables -->
+<!-- Script omp-demo.slurm -->
 <div class="highlight"><pre><span></span><code>#!/bin/bash
 #SBATCH --account=project_46YXXXXXX
 #SBATCH --job-name=omp-demo
@@ -2593,7 +2666,7 @@ can also be used to check the OpenMP thread binding.</p>
 #SBATCH --hint=multithread
 #SBATCH --time=5:00
 
-module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeCray-22.12
+module load LUMI/23.09 partition/C lumi-CPEtools/1.1-cpeCray-23.09
 
 set -x
 export OMP_NUM_THREADS=4
@@ -2830,7 +2903,7 @@ also offer additional environment variables, e.g.,
 </li>
 <li>
 <p><a href="https://www.openmp.org/spec-html/5.1/openmpch6.html#x323-4980006">A list of OMP_ environment variables in the OpenMP 5.1 standard</a> 
-    (as the current list in the HTML version of the 5.2 standard has some prorblems).</p>
+    (as the current list in the HTML version of the 5.2 standard has some problems).</p>
 </li>
 </ul>
 <h2 id="gpu-binding-with-rocr_visible_devices">GPU binding with ROCR_VISIBLE_DEVICES<a class="headerlink" href="#gpu-binding-with-rocr_visible_devices" title="Permanent link">&para;</a></h2>
@@ -2843,6 +2916,25 @@ GPU-aware Cray MPI for intra-node communication.</p>
 <p>The value of the <code>ROCR_VISIBLE_DEVICES</code> environment variable is a list of device indices that will be
 exposed to the applications. The device indices do depend on the control group. Visible devices in a control
 group are always numbered from 0.</p>
+<p>So though <code>ROCR_VISIBLE_DEVICES</code> has the same function as affinity masks for CPUs, it is different in
+many respects.</p>
+<ol>
+<li>
+<p>Affinity masks are part of the Linux kernel and fully OS-controlled, while 
+    <code>ROCR_VISIBLE_DEVICES</code> is interpreted in the ROCm<sup>TM</sup> stack.</p>
+</li>
+<li>
+<p>Affinity masks are set through an OS call and that call can enforce that the new
+    mask cannot be less restrictive than the parent mask. <code>ROCR_VISIBLE_DEVICES</code> is just
+    an environment variable, so at the time that you try to set it to a value that you 
+    shouldn't use, there is no check.</p>
+</li>
+<li>
+<p>Affinity masks always use the global numbering of hardware threads while 
+    <code>ROCR_VISIBLE_DEVICES</code> uses the local numbering in the currently active control group.
+    So the GPU that corresponds to 0 in <code>ROCR_VISIBLE_DEVICES</code> is not always the same GPU.</p>
+</li>
+</ol>
 <details class="advanced">
 <summary>Alternative values for <code>ROCR_VISIBLE_DEVICES</code></summary>
 <p>Instead of device indices, <code>ROCR_VISIBLE_DEVICES</code> also accepts GPU UUIDs that are unique to each
@@ -3004,21 +3096,25 @@ GCDs contain a number of rings:</p>
 <p>Red ring:   0 - 1 - 5 - 4 - 6 - 7 - 3 - 2 - 0</p>
 </li>
 <li>
-<p>Sharing some connections with the previous ones: 0 - 1 - 5 - 4 - 2 - 3 - 7 - 6 - 0</p>
+<p>Sharing some connections with the previous ones, but can be combined with the green ring: 
+    0 - 1 - 5 - 4 - 2 - 3 - 7 - 6 - 0</p>
 </li>
 </ol>
 <p>So if your application would use a ring mapping for communication and use communication from GPU buffers 
 for that, than it may be advantageous to map the MPI ranks on one of those rings which would mean that neither
 the order of the CCDs nor the order of the GCDs is trivial.</p>
 <p>Some other topologies can also be mapped on these connections (but unfortunately not a 3D cube).</p>
+<p>Note: The red ring and green ring correspond to the red and green rings on page 6 of the
+<a href="https://www.amd.com/content/dam/amd/en/documents/instinct-business-docs/white-papers/amd-cdna2-white-paper.pdf">"Introducing AMD CDNA<sup>TM</sup> 2 Architecture" whitepaper</a>.</p>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide GPU binding: Implementation" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-binding/ROCRMechanism.png" /></p>
 </figure>
 <p>To implement a proper CCD-to-GCD mapping we will use two mechanisms:</p>
 <ul>
 <li>
-<p>On the CPU side we'll use Slurm <code>--cpu-bind</code>. Should LUMI be reconfigured with symmetric CCDs then
-    this would not be needed in all cases anymore.</p>
+<p>On the CPU side we'll use Slurm <code>--cpu-bind</code>. Sometimes we can also simply use <code>-c</code> or 
+    <code>--cpus-per-task</code> (in particular in the case below with linear ordering of the CCDs and 
+    7 cores per task)</p>
 </li>
 <li>
 <p>On the GPU side we will manually assign GPUs via a different value of <code>ROCR_VISIBLE_DEVICES</code> for each
@@ -3036,6 +3132,7 @@ the order of the CCDs nor the order of the GCDs is trivial.</p>
 <p>One possible job script to accomplish this is:</p>
 <!-- map-linear-GCD.slurm -->
 <div class="highlight"><pre><span></span><code>#!/bin/bash
+#SBATCH --account=project_46YXXXXXX
 #SBATCH --job-name=map-linear-GCD
 #SBATCH --output %x-%j.txt
 #SBATCH --partition=standard-g
@@ -3043,7 +3140,7 @@ the order of the CCDs nor the order of the GCDs is trivial.</p>
 #SBATCH --nodes=1
 #SBATCH --time=5:00
 
-module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+module load LUMI/23.09 partition/G lumi-CPEtools/1.1-cpeCray-23.09
 
 cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
 #!/bin/bash
@@ -3078,7 +3175,8 @@ configuration of LUMI or a configuration like Frontier where the first core of e
 is reserved and not available to Slurm jobs. To select the right GPU for <code>ROCR_VISIBLE_DEVICES</code> 
 we can use the Slurm local task ID which is 
 also what the MPI rank will be. 
-We use a so-called "bash here document" to generate the script. Note that in the bash here document
+We use a so-called <a href="https://tldp.org/LDP/abs/html/here-docs.html">"bash here document"</a> 
+to generate the script. Note that in the bash here document
 we needed to protect the <code>$</code> with a backslash (so use <code>\$</code>) as otherwise the variables would
 already be expanded when generating the script file.</p>
 <p>Instead of the somewhat complicated <code>--ntasks</code> with <code>srun</code> we could have specified <code>--ntasks-per-node=8</code>
@@ -3106,13 +3204,22 @@ mapping is as intended. Note that the GCDs are indeed in the linear order starti
 <figure style="border: 1px solid #000">
 <p><img alt="Slide GPU binding: Implementation: Linear CCD, match GCD, OpenMP" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-binding/ROCRMechanismLinearCCD2.png" /></p>
 </figure>
-<p>To modify the order of the GPUs, we now use an array with the desired order in the <code>gpu_Select</code> script.
-Due to the asymmetric structure structure of the chiplets on the LUMI-G nodes, we still need to define
-task slots for each task. Should the settings of the schedulers be modified to have one reserved core
-per task, then we could simply request 7 cores per task and in case of a hybrid program needing less
-then 7 cores, restrict the number with <code>OMP_NUM_THREADS</code>. The job script now becomes:</p>
+<p>To modify the order of the GPUs, we now use an array with the desired order in the <code>select_gpu</code> script.
+With the current setup of LUMI, with one core reserved on each chiplet, there are now two options
+to get the proper CPUs:</p>
+<ol>
+<li>
+<p>We can use masks to define the cores for each slot, but they will now look more regular, or</p>
+</li>
+<li>
+<p>we can simply use <code>--cpus-per-task=7</code> and then further restrict the number of threads per task
+    with <code>OMP_NUM_THREADS</code>.</p>
+</li>
+</ol>
+<p>The job script (for option 1) now becomes:</p>
 <!-- map-linear-CCD.slurm -->
 <div class="highlight"><pre><span></span><code>#!/bin/bash
+#SBATCH --account=project_46YXXXXXX
 #SBATCH --job-name=map-linear-CCD
 #SBATCH --output %x-%j.txt
 #SBATCH --partition=standard-g
@@ -3154,10 +3261,13 @@ srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_
 them as it makes it easier to see which chiplet is used in what position.</p>
 <h3 id="the-green-ring">The green ring<a class="headerlink" href="#the-green-ring" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU binding: Implementation: Green ring, no OpenMP" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-binding/ROCRMechanismGreenRing1.png" /></p>
+<p><img alt="Slide GPU binding: Implementation: Green ring, OpenMP, slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-binding/ROCRMechanismGreenRing1.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU binding: Implementation: Green ring, OpenMP" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-binding/ROCRMechanismGreenRing2.png" /></p>
+<p><img alt="Slide GPU binding: Implementation: Green ring, OpenMP, slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-binding/ROCRMechanismGreenRing2.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide GPU binding: Implementation: Green ring, OpenMP, slide 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-binding/ROCRMechanismGreenRing3.png" /></p>
 </figure>
 <p>As a final example for whole node allocations, lets bind tasks such that the MPI ranks are
 mapped upon the green ring which is GCD 0 - 1 - 3 - 2 - 4 - 5 - 7 - 6 - 0. In other words,
@@ -3168,7 +3278,7 @@ we want to create the mapping</p>
 <th style="text-align: right;">Task</th>
 <th style="text-align: right;">GCD</th>
 <th style="text-align: right;">CCD</th>
-<th style="text-align: left;">cores</th>
+<th style="text-align: left;">Available cores</th>
 </tr>
 </thead>
 <tbody>
@@ -3176,49 +3286,49 @@ we want to create the mapping</p>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">6</td>
-<td style="text-align: left;">48-55, 112-119</td>
+<td style="text-align: left;">49-55, 113-119</td>
 </tr>
 <tr>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">7</td>
-<td style="text-align: left;">56-63, 120-127</td>
+<td style="text-align: left;">57-63, 121-127</td>
 </tr>
 <tr>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">24-32, 88-95</td>
+<td style="text-align: left;">25-32, 89-95</td>
 </tr>
 <tr>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: left;">16-23, 80-87</td>
+<td style="text-align: left;">17-23, 81-87</td>
 </tr>
 <tr>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: left;">0-7, 64-71</td>
+<td style="text-align: left;">1-7, 65-71</td>
 </tr>
 <tr>
 <td style="text-align: right;">5</td>
 <td style="text-align: right;">5</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: left;">8-15, 72-79</td>
+<td style="text-align: left;">9-15, 73-79</td>
 </tr>
 <tr>
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: right;">5</td>
-<td style="text-align: left;">40-47, 104-111</td>
+<td style="text-align: left;">41-47, 105-111</td>
 </tr>
 <tr>
 <td style="text-align: right;">7</td>
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: left;">32-39, 96-103</td>
+<td style="text-align: left;">33-39, 97-103</td>
 </tr>
 </tbody>
 </table>
@@ -3226,7 +3336,9 @@ we want to create the mapping</p>
 only communicates with tasks <em>i-1</em> and <em>i+1</em> (module 8), so the communication pattern is a ring.</p>
 <p>Now we need to reorder both the cores and the GCDs, so we basically combine the approach taken
 in the two scripts above:</p>
+<!-- Script map-ring-green.slurm -->
 <div class="highlight"><pre><span></span><code>#!/bin/bash
+#SBATCH --account=project_46YXXXXXX
 #SBATCH --job-name=map-ring-green
 #SBATCH --output %x-%j.txt
 #SBATCH --partition=standard-g
@@ -3234,19 +3346,19 @@ in the two scripts above:</p>
 #SBATCH --nodes=1
 #SBATCH --time=5:00
 
-module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+module load LUMI/23.09 partition/G lumi-CPEtools/1.1-cpeCray-23.09
 
 # Mapping:
-# | Task | GCD | CCD | cores          |
-# |-----:|----:|----:|:---------------|
-# |    0 |   0 |   6 | 48-55, 112-119 |
-# |    1 |   1 |   7 | 56-63, 120-127 |
-# |    2 |   3 |   3 | 24-32, 88-95   |
-# |    3 |   2 |   2 | 16-23, 80-87   |
-# |    4 |   4 |   0 | 0-7, 64-71     |
-# |    5 |   5 |   1 | 8-15, 72-79    |
-# |    6 |   7 |   5 | 40-47, 104-111 |
-# |    7 |   6 |   4 | 32-39, 96-103  | 
+# | Task | GCD | CCD | Available cores |
+# |-----:|----:|----:|:----------------|
+# |    0 |   0 |   6 | 49-55, 113-119  |
+# |    1 |   1 |   7 | 57-63, 121-127  |
+# |    2 |   3 |   3 | 25-32, 89-95    |
+# |    3 |   2 |   2 | 17-23, 81-87    |
+# |    4 |   4 |   0 | 1-7, 65-71      |
+# |    5 |   5 |   1 | 9-15, 73-79     |
+# |    6 |   7 |   5 | 41-47, 105-111  |
+# |    7 |   6 |   4 | 33-39, 97-103   |
 
 cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
 #!/bin/bash
@@ -3286,8 +3398,7 @@ srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_
 </code></pre></div>
 <p>The values for <code>GPU_ORDER</code> are easily read from the second column of the table with the mapping
 that we prepared. The cores to use for the pure MPI run are also easily read from the table:
-sinply take the first core of each line and add 1 to skip the reserved core on CCD0 and possible
-extra reserved cores on the other CCDs in a future update of LUMI. Finally, to build the mask,
+simply take the first core of each line. Finally, to build the mask,
 we used some bash trickery. We first define the bash array <code>CCD_MASK</code> with the mask for each chiplet.
 As this has a regular structure, this is easy to build. Then we compose the mask list for the CPUs
 by indexing in that array, where the indices are easily read from the third column in the mapping.</p>
@@ -3309,10 +3420,10 @@ MPI 005 - OMP 000 - HWT 009 (CCD1) - Node nid005083 - RT_GPU_ID 0 - GPU_ID 5 - B
 MPI 006 - OMP 000 - HWT 041 (CCD5) - Node nid005083 - RT_GPU_ID 0 - GPU_ID 7 - Bus_ID dc(GCD7/CCD5)
 MPI 007 - OMP 000 - HWT 033 (CCD4) - Node nid005083 - RT_GPU_ID 0 - GPU_ID 6 - Bus_ID d9(GCD6/CCD4)
 </code></pre></div>
-<p>Checking the last column, we see that the GCDs are indeed in the desired order for the red ring, and 
+<p>Checking the last column, we see that the GCDs are indeed in the desired order for the green ring, and 
 is is also easy to check that each task is also mapped on the optimal CCD for the GCD.</p>
 <details class="example">
-<summary>Jobscript with some more advanced bash</summary>
+<summary>Job script with some more advanced bash</summary>
 <p><!-- map-advanced-multiple.slurm -->
 <div class="highlight"><pre><span></span><code>#!/bin/bash
 #SBATCH --job-name=map-advanced-multiple
@@ -3322,7 +3433,7 @@ is is also easy to check that each task is also mapped on the optimal CCD for th
 #SBATCH --nodes=1
 #SBATCH --time=5:00
 
-module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+module load LUMI/23.09 partition/G lumi-CPEtools/1.1-cpeCray-23.09
 
 #
 # Define the order of the GPUs and the core mask for CCD0
@@ -3478,7 +3589,7 @@ resources allocated via the <code>sbatch</code> arguments (usually <code>#SBATCH
 #SBATCH --hint=nomultithread
 #SBATCH --time=5:00
 
-module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+module load LUMI/23.09 partition/G lumi-CPEtools/1.1-cpeCray-23.09
 
 cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
 #!/bin/bash
@@ -3588,7 +3699,7 @@ Task 09 or node.local_id 1.1 sees ROCR_VISIBLE_DEVICES=1
 Task 10 or node.local_id 1.2 sees ROCR_VISIBLE_DEVICES=2
 Task 11 or node.local_id 1.3 sees ROCR_VISIBLE_DEVICES=3
 </code></pre></div>
-<p>Finally, we run <code>gpu_check</code> again and see the same assignement of physica GPUs again as when we
+<p>Finally, we run <code>gpu_check</code> again and see the same assignment of physical GPUs again as when we
 started, but now with different logical device numbers passed by <code>ROCR_VISIBLE_DEVICES</code>. The device
 number for the hip runtime is always 0 though which is normal as <code>ROCR_VISIBLE_DEVICES</code> restricts the
 access of the hip runtime to one GPU.</p>
@@ -3632,7 +3743,7 @@ MPI 011 - OMP 001 - HWT 008 (CCD1) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 3 - B
 #SBATCH --hint=nomultithread
 #SBATCH --time=5:00
 
-module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+module load LUMI/23.09 partition/G lumi-CPEtools/1.1-cpeCray-23.09
 
 cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
 #!/bin/bash
@@ -3658,7 +3769,7 @@ set +x
 
 /bin/rm -f select_gpu_$SLURM_JOB_ID echo_dev_$SLURM_JOB_ID
 </code></pre></div></p>
-<p>The changes that were required are only minimal. We now assign 2 GPUs to <code>ROCR_VISIBLE_DEVICSES</code> which 
+<p>The changes that were required are only minimal. We now assign 2 GPUs to <code>ROCR_VISIBLE_DEVICES</code> which 
 is easily done with some bash arithmetic.</p>
 </details>
 <h2 id="further-material">Further material<a class="headerlink" href="#further-material" title="Permanent link">&para;</a></h2>
@@ -3672,7 +3783,7 @@ is easily done with some bash arithmetic.</p>
 website for the names of the files.</p>
 </li>
 <li>
-<p>Rank reordering in Cray MPICH is discussed is also discussed in more dteail in our
+<p>Rank reordering in Cray MPICH is discussed is also discussed in more detail in our
     <a href="https://lumi-supercomputer.github.io/LUMI-training-materials/comprehensive-latest">4-day comprehensive LUMI courses</a>,
     but in the lecture on "MPI Topics on the HPE Cray EX Supercomputer" (often on day 3 of the course)
     that discusses more advanced MPI on LUMI, including loads of environment variables that can be used to
@@ -3739,7 +3850,7 @@ website for the names of the files.</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "navigation.indexes", "header.autohide", "toc.follow"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "navigation.indexes", "header.autohide", "toc.follow", "content.code.annotate", "content.code.copy"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
