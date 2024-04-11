@@ -570,7 +570,7 @@ with a container label.
 ## Running the AI containers - complicated way without modules
 
 <figure markdown style="border: 1px solid #000">
-  ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAiComplicated.png){ loading=lazy }
+  ![Running the AI containers without EasyBuild-generated module](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAiComplicated.png){ loading=lazy }
 </figure>
 
 The containers that we provide have everything they need to use RCCL and/or MPI on LUMI.
@@ -621,7 +621,7 @@ as a command in the script that is executed in the container or on the command l
 ## Running the containers through EasyBuild-generated modules
 
 <figure markdown style="border: 1px solid #000">
-  ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIEasyBuild_1.png){ loading=lazy }
+  ![Running the AI containers with EasyBuild-generated module - slide 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIEasyBuild_1.png){ loading=lazy }
 </figure>
 
 Doing all those initialisations, is a burden. Therefore we provide EasyBuild recipes to "install" the containers
@@ -659,13 +659,13 @@ install extra packages, and we provide an example of how to do that with
 
 
 <figure markdown style="border: 1px solid #000">
-  ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIEasyBuild_2.png){ loading=lazy }
+  ![Running the AI containers with EasyBuild-generated module - slide 2](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIEasyBuild_2.png){ loading=lazy }
 </figure>
 
 Installing the EasyBuild recipes for those containers is also done via the `EasyBuild-user` module,
 but it is best to use a special trick. There is a special partition called `partition/container` that is
 only used to install those containers and when using that partition for the installation, the container
-will be available in all verions of the LUMI stack and in the CrayEnv stack.
+will be available in all versions of the LUMI stack and in the CrayEnv stack.
 
 Installation is as simple as, e.g., 
 
@@ -678,7 +678,7 @@ Before running it is best to clean up (`module purge`) or take a new shell to av
 environment variables provided by other modules.
 
 The installation with EasyBuild will make a copy from the `.sif` Singularity container image file
-that we provide somewhere in `/sppl/local/containers`
+that we provide somewhere in `/appl/local/containers`
 to the software installation subdirectory of your `$EBU_USER_PREFIX` EasyBuild installation directory.
 These files are big and you may wish to delete that file which is easily done: After loading the container
 module, the environment variable `SIF` contains the name with full path of the container file. 
@@ -699,7 +699,7 @@ are not explained in this text. You can find more information on the
 [PyTorch page in the LUMI Software Library](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/PyTorch).**
 
 <figure markdown style="border: 1px solid #000">
-  ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIExampleNoEasyBuild_1.png){ loading=lazy }
+  ![Example: Distributed learning with PyTorch, no EasyBuild-generated module - slide 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIExampleNoEasyBuild_1.png){ loading=lazy }
 </figure>
 
 We'll need to create a number of scripts before we can even run the container.
@@ -733,7 +733,7 @@ if __name__ == '__main__':
 ```
 
 <figure markdown style="border: 1px solid #000">
-  ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIExampleNoEasyBuild_2.png){ loading=lazy }
+  ![Example: Distributed learning with PyTorch, no EasyBuild-generated module - slide 2](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIExampleNoEasyBuild_2.png){ loading=lazy }
 </figure>
 
 Second, we need a script that we will run in the container. Store the script as
@@ -862,7 +862,7 @@ AMD ROCm environment. We notice a number of things:
     this version of the script.**
 
 <figure markdown style="border: 1px solid #000">
-  ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIExampleNoEasyBuild_3.png){ loading=lazy }
+  ![Example: Distributed learning with PyTorch, no EasyBuild-generated module - slide 3](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIExampleNoEasyBuild_3.png){ loading=lazy }
 </figure>
 
 And finally you need a job script that you can then submit with `sbatch`. LEts call it `my-job.sh`:
@@ -921,7 +921,7 @@ are not explained in this text. You can find more information on the
 [PyTorch page in the LUMI Software Library](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/PyTorch).**
 
 <figure markdown style="border: 1px solid #000">
-  ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIExampleEasyBuild.png){ loading=lazy }
+  ![Example: Distributed learning with PyTorch, using an EasyBuild-generated module](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/RunningAIExampleEasyBuild.png){ loading=lazy }
 </figure>
 
 It turns out that the first two above scripts in the example above, are fairly generic.
@@ -967,35 +967,176 @@ extend the containers that we provide:
 ### Extending the container with `cotainr`
 
 <figure markdown style="border: 1px solid #000">
-  ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/ExtendingCotainr.png){ loading=lazy }
+  ![Extending containers with cotainr](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/ExtendingCotainr.png){ loading=lazy }
 </figure>
 
+The LUMI Software Library offers some [container images for ROCm<sup>TM</sup>](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/r/rocm/).
+Though these images can be used simply to experiment with different versions of ROCm, an important use of those images is as base images
+for the [cotainr tool](https://docs.lumi-supercomputer.eu/software/containers/singularity/#building-containers-using-the-cotainr-tool)
+that supports Conda to install software in the container.
+
+Some care is needed though when you want to build your own AI containers. You need to ensure that binaries for AMD GPUs are used,
+as by default you may get served NVIDIA-only binaries. MPI can also be a problem, as the base image does not yet provide,
+e.g., a properly configures `mpi4py` (which would likely be installed in a way that conflicts with `cotainr`).
+
+The container images that we provide can be found in the following directories on LUMI:
+
+-   `/appl/local/containers/sif-images`: Symbolic link to the latest version of the container for each ROCm version provided. 
+    Those links can change without notice!
+
+-   `/appl/local/containers/tested-containers`: Tested containers provided as a Singularity .sif file and a docker-generated tarball. 
+    Containers in this directory are removed quickly when a new version becomes available.
+
+-   `/appl/local/containers/easybuild-sif-images` : Singularity .sif images used with the EasyConfigs that we provide. 
+    They tend to be available for a longer time than in the other two subdirectories.
+
+First you need to create a yaml file to tell Conda which is called by `cotainr` which packages need to be installed.
+An example is given in the 
+["Using the images as base image for cotainr" section of the LUMI Software Library rocm page](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/r/rocm/#using-the-images-as-base-image-for-cotainr).
+Next we need to run `cotainr` with the right base image to generate the container:
+
+``` bash
+module load LUMI/22.12 cotainr
+cotainr build my-new-image.sif \
+    --base-image=/appl/local/containers/sif-images/lumi-rocm-rocm-5.4.6.sif \
+    --conda-env=py311_rocm542_pytorch.yml
+```
+
+The `cotainr` command takes three arguments in this example:
+
+-   `my-new-image.sif` is the name of the container image that it will generate.
+
+-   `--base-image=/appl/local/containers/sif-images/lumi-rocm-rocm-5.4.6.sif` points to the base image that we will use,
+    in this case the latest version of the ROCm 5.4.6 container provided on LUMI.
+
+    This version was chosen for this case as ROCm 5.4 is the most recent version for which the driver
+    on LUMI at the time of writing (early May 2024) offers guaranteed support.
+
+-   `--conda-env=py311_rocm542_pytorch.yml`
+
+The result is a container for which you will still need to provide the proper bindings to some libraries on the system (to interface
+properly with Slurm and so that RCCL with the OFI plugin can work) and to your spaces in the file system that you want to use.
+Or you can adapt an EasyBuild-generated module for the ROCm container that you used to use your container instead (which will require
+the EasyBuild `eb` command flag `--sourcepath` to specify where it can find the container that you generated, and you cannot delete
+it from the installation afterwards). In the future, we may provide some other installable module(s) with generic bindings to use
+instead.
 
 
 ### Extending the container with the singularity unprivileged `proot` build 
 
 <figure markdown style="border: 1px solid #000">
-  ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/ExtendingSingularityBuild.png){ loading=lazy }
+  ![Extending containers with the singularity unprivileged proot build process](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/ExtendingSingularityBuild.png){ loading=lazy }
 </figure>
+
+Singularity specialist can also build upon an existing container using `singularity build`. 
+The options for build processes are limited though because we have no support for user namespaces or the fakeroot feature.
+The ["Unprivileged `proot` builds" feature from recent SingularityCE versions](https://docs.sylabs.io/guides/3.11/user-guide/build_a_container.html#unprivilged-proot-builds)
+is supported though.
+
+To use this feature, you first need to write a singularity-compatible container definition file, e.g.,
+
+```
+Bootstrap: localimage
+
+From: /appl/local/containers/easybuild-sif-images/lumi-pytorch-rocm-5.6.1-python-3.10-pytorch-v2.2.0-dockerhash-f72ddd8ef883.sif
+
+%post
+
+zypper -n install -y Mesa libglvnd libgthread-2_0-0 hostname
+```
+
+which is a definition file that will use the SUSE `zypper` software installation tool to add a number of packages
+to one of the LUMI PyTorch containers to provide support for software OpenGL rendering (the CDNA GPUs do not support
+OpenGL acceleration) and the `hostname` command.
+
+To use the `singularity build` command, we first need to make the `proot` command available. This is currently
+not installed in the LUMI system image, but is provided by the `systools/23.09` and later modules that can be
+found in the corresponding LUMI stack and in the CrayEnv environment.
+
+To update the container, run:
+
+``` bash
+module load LUMI/23.09 systools
+singularity build my-new-container.sif my-container-definition.def
+```
+
+Note:
+
+-   In this example, as we use the `LUMI/23.09` module, there is no need to specify the version of `systools` as there
+    is only one in this stack. An alternative would have been to use
+
+    ``` bash
+    module load CrayEnv systools/23.09
+    ```
+
+-   The `singularity build` command takes two options: The first one is the name of the new container image that it
+    generates and the second one is the container definition file.
+
+When starting from a base image installed with one of our EasyBuild recipes, it is possible to overwrite the image
+file and in fact, the module that was generated with EasyBuild might just work...
 
 
 ### Extending the container through a Python virtual environment
 
 <figure markdown style="border: 1px solid #000">
-  ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/ExtendingPVenv_1.png){ loading=lazy }
+  ![Extending the containers through a Python virtual environment - slide 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/ExtendingPVenv_1.png){ loading=lazy }
 </figure>
+
+Some newer containers installed with EasyBuild already include a pre-initialised virtual environment 
+(created with `venv`). The location in the filesystem of that virtual environment is:
+
+-   `/user-software/venv/MyVEnv` in the container, where `MyVEnv` is actually different in different containers.
+    We used the same name as for the Conda environment.
+
+-   `$CONTAINERROOT/user-software/venv/MyVEnv` outside the container (unless that directory structure is replaced
+    with the `$CONTAINERROOT/user-software.squashfs` file).
+
+That directory struture was chosen to (a) make it possible to install a second virtual environment in `/user-software/venv` while 
+(b) also leaving space to install software by hand in `/user-software` and hence create a `bin` and `lib` subdirectory in those
+(though they currently are not automatically added to the search paths for executables and shared libraries in the container).
+
+The whole process is very simple with those containers that already have a pre-initialised virtual environment as 
+the module already intialises several environment variables in the container that have the combined effect of
+activating both the Conda installation and then on top of it, the default Python virtual environment.
+
+Outside the container, we need to load the container module, and then we can easily go into the container using the `SIF`
+environment variable to point to its name:
+
+``` bash
+module load LUMI
+module load PyTorch/2.2.0-rocm-5.6.1-python-3.10-singularity-20240315
+singularity shell $SIF
+```
+
+and in the container, at the `Singularity>` prompt, we can use `pip install` without extra options, e.g.,
+
+``` bash
+pip install pytorch-lightning
+```
 
 
 <figure markdown style="border: 1px solid #000">
-  ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/ExtendingPVenv_2.png){ loading=lazy }
+  ![Extending the containers through a Python virtual environment - slide 2](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/ExtendingPVenv_2.png){ loading=lazy }
 </figure>
 
+As already discussed before in this session of the tutorial, such a Python virtual environment has the potential
+to create a lot of small files in the Lustre `$CONTAINERROOT/user-software` subdirectory, which can wipe out
+all benefits we got from using a container for the Python installation. But our modules with virtual environment
+support offer a solution for this also: the `make-squashfs` command (which should be run outside the container)
+will convert the `user-software` subdirectory in `$CONTAINERROOT` into the SquashFS file `user-software.squashfs`
+which, after reloading the module, will be used to provide the `/user-software` subdirectory in the container.
+The downside is that now `/user-software` is read-only as it comes from the SquashFS file. To install further
+packages, you'd have to remove the `user-software.squashfs` file again and reload the container module.
 
-<!--
-<figure markdown style="border: 1px solid #000">
-  ![TODO](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/Demo.png){ loading=lazy }
-</figure>
--->
+Currently the `make-squashfs` file will not remove the `$CONTAINERROOT/user-software` subdirectory, but once
+you have verified that the SquashFS file is OK and useable in the container, you can safely delete it yourself.
+We also provide the `unmake-squasfs` script to re-generate the `$CONTAINERROOT/user-software` subdirectory
+(though attribues such as file time, etc., will not be the same as before).
+
+It is of course possible to use this technique with all Python containers, but you may have to do a lot
+more steps by hand, such as adding the binding for a directory for the virtual environment, creating and
+activating the environment, and replacing the directory with a SquashFS file to improve file system
+performance.
 
 
 ## Conclusion: Container limitations on LUMI
