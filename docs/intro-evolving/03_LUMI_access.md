@@ -42,7 +42,7 @@ of the resources. The Belgian share is approximately 7.4%.
 
 Each LUMI consortium country can set its own policies for a national access program, within the limits of
 what the supercomputer can technically sustain. In Belgium, the 4 entities that invested in LUMI do so together
-via a competetion (3 calls a year for regular projects).
+via a competition (3 calls a year for regular projects).
 The access conditions for projects in the Belgian share are advertised via the 
 [EuroCC Belgium National Competence Centre](https://www.enccb.be/GettingAccess).
 
@@ -328,10 +328,111 @@ Web links:
 -   [CSC documentation on linking My CSC to MyAccessID](https://docs.csc.fi/accounts/how-to-manage-user-information/)
 
 
+!!! Demo "A walk through the Open OnDemand interface"
+    To enter the LUMI OpenOndemand interface, point your browser to
+    [www.lumi.csc.fi](https://www.lumi.csc.fi). You will get the screen:
+
+    <figure markdown style="border: 1px solid #000">
+      ![Open OnDemand slide 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/OpenOnDemand_01.png){ loading=lazy }
+    </figure>
+
+    Most likely you just want to log on, so click on "Go to login" and the "Select authentication provider"
+    screen should appear, with a link to give you more information about which authentication method to use:
+
+    <figure markdown style="border: 1px solid #000">
+      ![Open OnDemand slide 2](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/OpenOnDemand_02.png){ loading=lazy }
+    </figure>
+
+    Basically, if you are a CSC user (and definitely when you're on a CSC 462* project) you'll want to use the "CSC"
+    or "Haka" choice, while other users will need MyAccessID.
+
+    The whole login process is not shown, but after successful authentication, you end up at the main screen (that you can also
+    go back to by clicking the LUMI-logo in the upper left corner):
+
+    <figure markdown style="border: 1px solid #000">
+      ![Open OnDemand slide 3](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/OpenOnDemand_03.png){ loading=lazy }
+    </figure>
+
+    The list of pinned apps may change over time, and more apps are available via the menu at the top.
+    Most apps will run in the context of a job, so you will need billing units, and those apps will also
+    present you with a form to chose the resources you want to use, but that will only be discussed in
+    [the session on Slurm](06_Slurm.md).
+
+    Two apps don't run in the context of a job: The "Login node shell" and "Home Directory" apps, and we'll first
+    have a look at those.
+
+    <figure markdown style="border: 1px solid #000">
+      ![Open OnDemand slide 4](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/OpenOnDemand_04.png){ loading=lazy }
+    </figure>
+
+    The "Login node shell" does just what you expect from it": It opens a tab in the browser with a shell
+    on one of the login nodes. Open OnDemand uses its own set of login nodes, as you can see from the name
+    of the node, but these nodes are otherwise identical to the login nodes that you access via an ssh client
+    on your laptop, and the same policies apply. They should not be used for running applications and only be
+    used for small work or not too heavy compilations.
+
+    <figure markdown style="border: 1px solid #000">
+      ![Open OnDemand slide 5](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/OpenOnDemand_05.png){ loading=lazy }
+    </figure>
+
+    Let's now select the "Home Directory" app. We get:
+
+    <figure markdown style="border: 1px solid #000">
+      ![Open OnDemand slide 6](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/OpenOnDemand_06.png){ loading=lazy }
+    </figure>
+
+    The "Home Directory" app presents you with an interface through which you cannot only browse
+    your home directory, but also the project, scratch and flash directories of all your projects.
+    It can be used for some elementary file access and also to upload and download files.
+
+    It is not suitable though to upload or download very big files, or download large subdirectories
+    (multiple files will be packed in a ZIP archive) as browsers may not be reliable enough and as there
+    are also restrictions on how big an archive Open OnDemand can create.
+
+    For transferring lots of data, transfer via LUMI-O is certainly the better option at the moment.
+
+    <figure markdown style="border: 1px solid #000">
+      ![Open OnDemand slide 7](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/OpenOnDemand_07.png){ loading=lazy }
+    </figure>
+
+    Finally, let's have a look at the "Desktop" app.
+
+    <figure markdown style="border: 1px solid #000">
+      ![Open OnDemand slide 8](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/OpenOnDemand_08.png){ loading=lazy }
+    </figure>
+
+    The "Desktop" app will present you with a simple GUI desktop based on the
+    [xfce desktop environment](https://www.xfce.org/). This app needs to run in the context of a job
+    and although it can run on several partitions on LUMI, its main use is to be able to use some
+    visualisation applications, so your best choice is likely to use the partition with visualisation
+    GPUs (see the [session on Slurm](06_Slurm.md)). As we have not discussed jobs yet, we will skip
+    how to fill in the form that is presented to you.
+
+    The desktop is basically run in a [VNC session](https://en.wikipedia.org/wiki/Virtual_Network_Computing),
+    a popular protocol for remote desktop support in Linux. It can be used through a web browser, which is what
+    you get if you click the "Launch Desktop" button, but there are other choices also.
+
+    After launching/connecting to the desktop you get:
+
+    <figure markdown style="border: 1px solid #000">
+      ![Open OnDemand slide 9](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/OpenOnDemand_09.png){ loading=lazy }
+    </figure>
+
+    There is a small settings menu hidden at the left (expanded in the picture) to do some settings of the web
+    interface that we are using here. Right-clicking with the mouse on the desktop gives you a menu with a number
+    of applications.
+
+    This is in no means meant to be a replacement of your own workstation, so the software choice is limited
+    and will remain limited. It should never be your main environment for all your work. LUMI is not meant to
+    simply provide small workstations to all of Europe. And it will also react a lot slower than what you are
+    used to from a workstation in front of you. This is 100% normal and simply the result of using a computer
+    which is far away so there is a high network latency.
+
+
 ## Data transfer
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Access](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/DataTransfer.png){ loading=lazy }
+  ![Slide Data Transfer](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/DataTransfer.png){ loading=lazy }
 </figure>
 
 There are currently two main options to transfer data to and from LUMI.
@@ -363,11 +464,6 @@ the LUMI User Support Team nor the local support in Belgium can give you instruc
 for every possible tool. 
 Those tools for accessing object storage tend to set up multiple data streams and hence
 will offer a much higher effective bandwidth, even on high latency connections.
-These tools work with keys which are different from SSH keys and temporary in nature.
-They can be obtained from [auth.lumidata.eu](https://auth.lumidata.eu) where you need
-to log in either via MyAccessID (if your project is managed through Puhuri) or your
-"My CSC" account (if your project is managed via that platform).
-In the future it will also be possible to do part of that setup via the Open OnDemand platform.
 
 Alternatively, you can also chose to access external servers from LUMI if you have client
 software that runs on LUMI (or if that software is already installed on LUMI, e.g., rclone
@@ -375,10 +471,191 @@ and S3cmd),
 
 Unfortunately there is no support yet for Globus or other forms of gridFTP. 
 
-Web links:
+
+## What is LUMI-O?
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide What is LUMI-O](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIOWhatIs.png){ loading=lazy }
+</figure>
+
+LUMI-O is an object storage system (based on Ceph). Users from Finland may be familiar with 
+Allas, which is similar to the LUMI object storage system, though LUMI doesn't provide all
+the functionality of Allas.
+
+Object file systems need specific tools to access data. They are usually not mounted as a regular
+filesystem (though some tools can make them appear as a regular file system) and accessing them
+needs authentication via temporary keys that are different from your ssh keys and are not only
+bound to you, but also to the project for which you want to access LUMI-O. So if you want to use
+LUMI-O for multiple projects simultaneously, you'll need keys for each project.
+
+Object storage is not organised in files and directories. A much flatter structure is used with buckets
+that contain objects:
+
+-   **Buckets**: Containers used to store one or more objects. Object storage uses a flat structure with 
+   only one level which means that buckets cannot contain other buckets.
+
+-   **Objects**: Any type of data. An object is stored in a bucket.
+
+-   **Metadata**: Both buckets and objects have metadata specific to them. The metadata of a bucket specifies, 
+    e.g., the access rights to the bucket. While traditional file systems have fixed metadata (filename, 
+    creation date, type, etc.), an object storage allows you to add custom metadata.
+
+Objects can be served on the web also. This is in fact how recordings of some of the LUST
+courses are served currently. However, LUMI-O is not meant to be used as a data publishing
+service and is not an alternative to services provided by, e.g., EUDAT or several local
+academic service providers.
+
+
+## Accessing LUMI-O
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Accessing LUMI-O](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIOAccessing.png){ loading=lazy }
+</figure>
+
+Access to LUMI-O is based on temporary keys that need to be generated via a web interface
+(though there may be alternatives in the future).
+
+There are currently three command-line tools pre-installed on LUMI: rclone
+(which is the easiest tool if you want public and private data), s3cmd and restic.
+
+But you can also access LUMI-O with similar tools from outside LUMI. Configuring them
+may be a bit tricky and the LUMI User Support Team cannot help you with each and every client
+tool o your personal machine. However, the web interface that is used to generate the keys,
+can also generate code snippets or configuration file snippets for various tools, and
+that will make configuring them a lot easier.
+
+In the future access via Open OnDemand should also become possible.
+
+
+
+### Key generation
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Accessing LUMI-O: Key generation](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIOAccessingKeyGeneration.png){ loading=lazy }
+</figure>
+
+Keys are generated via a web interface that can be found at
+[auth.lumidata.eu](https://auth.lumidata.eu).
+In the future it should become possible to do so directly in the Open OnDemand interface,
+and may even from the command line.
+
+Let's walk through the interface:
+
+!!! Demo "A walk through the credentials management web interface of LUMI-O"
+    After entering the URL [auth.lumidata.eu](https://auth.lumidata.eu), you're presented
+    with a welcome screen on which you have to click the "Go to login" button.
+
+    <figure markdown style="border: 1px solid #000">
+      ![Slide Accessing LUMI-O: Credentials management web interface (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIOCredentialsWeb_01.png){ loading=lazy }
+    </figure>
+
+    This will present you with the already familiar (from Open OnDemand) screen to select
+    your authentication provider:
+
+    <figure markdown style="border: 1px solid #000">
+      ![Slide Accessing LUMI-O: Credentials management web interface (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIOCredentialsWeb_02.png){ loading=lazy }
+    </figure>
+
+    Proceed with login in through your relevant authentication provider (not shown here)
+    and you will be presented with a screen that show your active projects:
+
+    <figure markdown style="border: 1px solid #000">
+      ![Slide Accessing LUMI-O: Credentials management web interface (3)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIOCredentialsWeb_03.png){ loading=lazy }
+    </figure>
+
+    Click the project for which you want to generate a key, and the column to the right will appear.
+    Chose how long the key should be valid (1 week or 168 hours is the maximum currently, but the
+    life can be extended) and a description for the key. The latter is useful if you generate multiple
+    keys for different use. E.g., for security reasons you may want to use different keys from different
+    machines so that one machine can be disabled quickly if the machine would be compromised or stolen.
+
+    Next click on the "Generate key" button, and a new key will appear in the "Available keys" section:
+
+    <figure markdown style="border: 1px solid #000">
+      ![Slide Accessing LUMI-O: Credentials management web interface (4)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIOCredentialsWeb_04.png){ loading=lazy }
+    </figure>
+
+    Now click on the key to get more information about the key: 
+
+    <figure markdown style="border: 1px solid #000">
+      ![Slide Accessing LUMI-O: Credentials management web interface (5)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIOCredentialsWeb_05.png){ loading=lazy }
+    </figure>
+
+    At the top of the screen you see three elements that will be important if you use the LUMI command line tool
+    `lumi-conf` to generate configuration files for `rclone` and `s3cmd`: the project number (but you knew that one),
+    the "Access key" and "Secret key".
+
+    Scrolling down a bit more:
+
+    <figure markdown style="border: 1px solid #000">
+      ![Slide Accessing LUMI-O: Credentials management web interface (6)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIOCredentialsWeb_06.png){ loading=lazy }
+    </figure>
+
+    The "Extend key" field can be used to extend the life of the key, to a maximum of 168 hours past the current time.
+
+    The "Configuration templates" is the way to generate code snippets or configuration file snippets for various tools
+    (see the list on the slide). After selecting "rclone" and clicking the "Generate" button, a new screen opens:
+
+    <figure markdown style="border: 1px solid #000">
+      ![Slide Accessing LUMI-O: Credentials management web interface (7)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIOCredentialsWeb_07.png){ loading=lazy }
+    </figure>
+
+    This screen shows us the snippet for the rclone configuration file (on Linux it is
+    `~/.config/rclone/rclone.conf`). Notice that it creates to so-called endpoints. In the slide
+    this is `lumi-465001102-private` and `lumi-465001102-public`, for storing buckets and objects which are private
+    or public (i.e., also web-accessible).
+
+
+## Configuring LUMI-O tools
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Configuring LUMI-O tools](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIOConfiguringTools.png){ loading=lazy }
+</figure>
+
+On LUMI, you can use the `lumnio-conf` tool to configure `rclone` and `s3cmd`. 
+To access the tool, you need to load the `lumio` module first, which is always available.
+The same module will also load a module that makes `rclone`, `s3cmd` and `restic` available.
+
+Whe starting `lumio-conf`, it will present with a couple of questions: The project number
+associated with the key, the access key and the secret key. We have shown above where in the web
+interface that information can be found. A future version may or may not be more automatic.
+As we shall see in the next slide, currently the `rclone` configuration generated by this tool
+is (unfortunately) different from the one generated by the web interface.
+
+Another way to configure tools for object storage access is simply via the code snippets
+and configuration files snippets as has already been discussed before. The same snippets 
+should also work when you run the tools on a different computer.
+
+
+## rclone on LUMI-O
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide rclone on LUMI-O](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIORclone.png){ loading=lazy }
+</figure>
+
+The `rclone` configuration file for LUMI-O contains two end points, and unfortunately at the moment
+both ways discussed on the previous slide, produce different end points.
+
+-   When using `lumio-conf`, you'll get:
+    -   `lumi-o` as the end point for buckets and object that should be private, i.e., not publicly
+        accessible via the web interface, and
+    -   'lumi-pub' for buckets and objects that should be publicly accessible. It does appear to be
+        possible to have both types in a single bucket though.
+-   When using the web generator you get specific end points for each project, so it is possible
+    to access data from multiple projects simultaneously from a single configuration file:
+    - `lumi-46YXXXXXX-private` is the end point to be used for buckets and objects that should be private, and
+    - `lumi-46YXXXXXX-public` is the end point for data that should be publicly accessible.
+
+A description of the main `rclone` commands is outside the scope of this tutorial, but some options
+are discussed in [the LUMI documentation](https://docs.lumi-supercomputer.eu/storage/lumio/#rclone),
+and the same page also contains some documentation for `s3cmd` and `restic`. See the links below
+for even more documentation.
+
+
+## Further LUMI-O documentation
 
 -   [Documentation for the LUMI-O object storage service](https://docs.lumi-supercomputer.eu/storage/)
--   Software for LUMI-O on LUMI is provided throug the
+-   Software for LUMI-O on LUMI is provided through the
     [`lumio` module](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/l/lumio/) which
     provides the configuration tool on top of the software and the
     [`lumio-ext-tools` module](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/l/lumio-ext-tools/)
@@ -389,6 +666,7 @@ Web links:
     -   [restic documentation](https://restic.readthedocs.io/en/latest/)
 
 
+<!-- BELGIUM -->
 ## Local trainings in Belgium
 
 Any HPC introductory training in Belgium covers logging in via ssh and transferring files.
