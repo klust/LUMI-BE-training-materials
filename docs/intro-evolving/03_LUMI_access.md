@@ -6,22 +6,28 @@
   ![Slide Who pays the bills](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/WhoPays.png){ loading=lazy }
 </figure>
 
-LUMI is one of the larger EuroHPC supercomuters. EuroHPC currently funds 
-[supercomputers in three different clases](https://eurohpc-ju.europa.eu/supercomputers/our-supercomputers_en):
+LUMI is one of the larger EuroHPC supercomputers. EuroHPC currently funds 
+[supercomputers in three different classes](https://eurohpc-ju.europa.eu/supercomputers/our-supercomputers_en):
 
 1.  There are a number of so-called petascale supercomputers. The first ones of those are
-    Meluxina (in Luxembourg), VEGA (in Slovenia), Karolina (in the Czech Republic), 
-    Discoverr (in Bulgaria)a nd Deucalion (in Portugal).
+    [Meluxina](https://docs.lxp.lu/) (in Luxembourg), 
+    [VEGA](https://en-vegadocs.vega.izum.si/) (in Slovenia), 
+    [Karolina](https://docs.it4i.cz/karolina/introduction/) (in the Czech Republic), 
+    [Discoverer](https://docs.discoverer.bg/) (in Bulgaria) and 
+    [Deucalion](https://macc.fccn.pt/resources#deucalion) (in Portugal).
 
-2.  A number of pre-exascale supercomputers, LUMI being one of them. The other two are Leonardo (in Italy)
-    and MareNostrum 5 (in Spain)
+2.  A number of pre-exascale supercomputers, LUMI being one of them. The other two are 
+    [Leonardo](https://wiki.u-gov.it/confluence/display/SCAIUS/UG3.2%3A+LEONARDO+UserGuide) (in Italy)
+    and [MareNostrum 5](https://www.bsc.es/supportkc/docs/MareNostrum5/intro/) (in Spain)
 
-3.  A decision has already been taken on two exascale supercomputers: Jupiter (in Germany) and
-    Jules Verne (in France).
+4.  A decision has already been taken on two exascale supercomputers: 
+    [Jupiter](https://www.fz-juelich.de/en/ias/jsc/jupiter) (in Germany) and
+    [Jules Verne (consortium name)](https://eurohpc-ju.europa.eu/jules-verne-consortium-will-host-new-eurohpc-exascale-supercomputer-france-2023-06-20_en) (in France).
 
 Depending on the machine, EuroHPC pays one third up to half of the bill, while the remainder of the budget
 comes from the hosting country, usually with the help of a consortium of countries.
 
+<!-- BELGIUM -->
 LUMI is hosted in Finland but operated by a consortium of 11 countries, with Belgium being the third largest
 contributor to LUMI and the second largest in the consortium of countries. The Belgian contribution is
 brought together by 4 entities:
@@ -45,6 +51,7 @@ Web links:
 -   [EuroHPC JU supercomputers](https://eurohpc-ju.europa.eu/supercomputers/our-supercomputers_en)
 -   [EuroCC Belgium National Competence Centre](https://www.enccb.be/)
     with the [specifics of LUMI access via the Belgian share](https://www.enccb.be/GettingAccess).
+    <!-- BELGIUM -->
 
 
 ## Users and projects
@@ -55,6 +62,7 @@ Web links:
 
 LUMI works like most European large supercomputers: Users are members of projects.
 
+<!-- BELGIUM -->
 A project corresponds to a coherent amount of work that is being done by a single person or a collaboration
 of a group of people. It typically corresponds to a research project, though there are other project types also,
 e.g., to give people access in the context of a course, or for organisational issues, e.g., a project for VSC support.
@@ -80,6 +88,7 @@ and each project needs at least two of them:
         the purchase cost difference of the systems.
     3.  Storing one TB for one hour on the object based file system costs 0.5 TB-hour.
 
+<!-- BELGIUM -->
 These budgets are assigned and managed by the resource allocators, not by the LUMI User Support Team.
 For Belgium the VSC and CÉCI both have the role of resource allocator, but both use a common help desk.
 
@@ -147,9 +156,10 @@ create a workflow involving Tier-2, Tier-1 and Tier-0 resources).
 In Belgium two entities manage projects for the Belgian LUMI organisation: VSC and CÉCI.
 These entities are called the resource allocators.
 
+<!-- BELGIUM -->
 All projects allocated by Belgium ara managed through the Puhuri system, and VSC and CÉCI 
 both have their own zone in that system. For Belgium it is only used to manage access to LUMI,
-not to any of the VSC, CÉCI or Ceanero systems or other infrastructure.
+not to any of the VSC, CÉCI or Cenaero systems or other infrastructure.
 Belgian users log in to the Puhuri portal via MyAccessID, which is a GÉANT service. GÉANT is 
 the international organisation that manages the research network in Europe. 
 MyAccessID then in turn connects to your institute identity provider and a number of alternatives.
@@ -157,6 +167,7 @@ It is important that you always use the same credentials to log in via MyAccessI
 you create another user in MyAccessID that is unknown to Puhuri and get all kinds of strange
 error messages.
 
+<!-- BELGIUM -->
 The URL to the Puhuri portal is: [puhuri-portal.neic.no](https://puhuri-portal.neic.no/).
 
 Puhuri can be used to check your remaining project resources, but once your user account 
@@ -214,11 +225,13 @@ storage budget of the project.
   ![Slide File spaces 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/FileSpaces_2.png){ loading=lazy }
 </figure>
 
+<!-- BELGIUM -->
 The use of space in each file space is limited by block and file quota. Block quota limit the
 capacity you can use, while file quota limit the number of so-called inodes you can use. Each file,
 each subdirectory and each link use an inode.
 As we shall see later in this course or as you may have seen in other HPC courses already
-(e.g., the VSC "Supercomputers for Starters" course organised by UAntwerpen),
+(e.g., the VSC [Supercomputers for Starters](https://klust.github.io/SupercomputersForStarters/) 
+course organised by UAntwerpen),
 parallel file systems are not built to deal with hundreds of thousands of small files and are
 very inefficient at that. Therefore block quota on LUMI tend to be rather flexible (except for
 the home directory) but file quota are rather strict and will not easily get extended.

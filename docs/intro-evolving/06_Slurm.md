@@ -1,5 +1,6 @@
 # Slurm on LUMI
 
+<!-- BELGIUM -->
 !!! Audience "Who is this for?"
     We assume some familiarity with job scheduling in this section. The notes will cover
     some of the more basic aspects of Slurm also, though as this version of the notes is
@@ -43,6 +44,7 @@ the deep hierarcy of resources in modern supercomputers. So Slurm will not alway
 straightforward to use as we would like it, and some tricks will be needed on LUMI. Yet there
 is no better option at this moment that is sufficiently mature.
 
+<!-- BELGIUM -->
 !!! lumi-be "Other systems in Belgium"
     Previously at the VSC Torque was used as the resource manager and Moab as the scheduler.
     All VSC sites now use Slurm, though at UGent it is still hidden behind wrappers that
@@ -316,6 +318,7 @@ Some useful commands with respect to Slurm partitions:
     we were waiting for replacement parts which explains the thigh number of CPU nodes in the "other"
     field.
 
+    <!-- BELGIUM -->
     Note that this overview may show partitions that are not hidden but also not accessible to everyone. E.g., 
     the `q_nordic` and `q_fiqci` partitions are used to access experimental quantum computers that are only
     available to some users of those countries that paid for those machines, which does not include Belgium.
@@ -2102,6 +2105,7 @@ It is possible to change this behaviour or to define extra environment variables
     E.g., try the command from the previous example with `--export=ALL,PAR1='Hello, world'` 
     and it turns out that only `Hello` is passed as the value of the variable.
 
+<!-- BELGIUM -->
 !!! lumi-be "Differences with some VSC systems"
     The job environment in Slurm is different from that of some other resource managers, and in paritcular 
     Torque which was in use on VSC clusters and whose behaviour is still emulated on some. 
