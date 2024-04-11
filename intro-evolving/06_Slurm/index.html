@@ -1631,6 +1631,7 @@
 
 
 <h1 id="slurm-on-lumi">Slurm on LUMI<a class="headerlink" href="#slurm-on-lumi" title="Permanent link">&para;</a></h1>
+<!-- BELGIUM -->
 <div class="admonition audience">
 <p class="admonition-title">Who is this for?</p>
 <p>We assume some familiarity with job scheduling in this section. The notes will cover
@@ -1667,6 +1668,7 @@ familiar with, even if that other computer may have hardware that is very simila
 the deep hierarcy of resources in modern supercomputers. So Slurm will not always be as
 straightforward to use as we would like it, and some tricks will be needed on LUMI. Yet there
 is no better option at this moment that is sufficiently mature.</p>
+<!-- BELGIUM -->
 <div class="admonition lumi-be">
 <p class="admonition-title">Other systems in Belgium</p>
 <p>Previously at the VSC Torque was used as the resource manager and Moab as the scheduler.
@@ -1935,7 +1937,8 @@ user-accessible) and the total number of nodes in the partition. When these node
 a large number of nodes were suffering from hardware problems with the Slingshot network cards and
 we were waiting for replacement parts which explains the thigh number of CPU nodes in the "other"
 field.</p>
-<p>Note that this overview may show partitions that are not hidden but also not accessible to everyone. E.g., 
+<p><!-- BELGIUM -->
+Note that this overview may show partitions that are not hidden but also not accessible to everyone. E.g., 
 the <code>q_nordic</code> and <code>q_fiqci</code> partitions are used to access experimental quantum computers that are only
 available to some users of those countries that paid for those machines, which does not include Belgium.</p>
 <p>The <code>eap</code> partition will likely be phased out over time and is a remainder of a platform used for early 
@@ -3557,6 +3560,7 @@ In particular, problems can be expected when the value of the variable contains 
 <p>E.g., try the command from the previous example with <code>--export=ALL,PAR1='Hello, world'</code> 
 and it turns out that only <code>Hello</code> is passed as the value of the variable.</p>
 </div>
+<!-- BELGIUM -->
 <div class="admonition lumi-be">
 <p class="admonition-title">Differences with some VSC systems</p>
 <p>The job environment in Slurm is different from that of some other resource managers, and in paritcular 
