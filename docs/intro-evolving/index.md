@@ -82,12 +82,14 @@ You will only need an very minimum of CPU and GPU billing units for this.
 | LUMI Architecture | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-01-architecture.pdf) | [notes](01_Architecture.md) | / |
 | HPE Cray Programming Environment | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-02-CPE.pdf) | [notes](02_CPE.md) | / |
 | Getting access to LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-03-access.pdf) | [notes](03_LUMI_access.md) | / |
+| Exercises 1 | / | [notes](E03_Exercises_1.md) | / |
 | Modules on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-04-modules.pdf) | [notes](04_Modules.md) | / |
+| Exercises 2 | / | [notes](E04_Exercises_2.md) | / |
 | LUMI Software Stacks | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-05-software.pdf) | [notes](05_Software_stacks.md) | / |
-| Exercises 1 | / | [notes](06_Exercises_1.md) | / |
+| Exercises 3 | / | [notes](E05_Exercises_3.md) | / |
 | Slurm on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-06-slurm.pdf) | [notes](06_Slurm.md) | / |
 | Binding resources | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-07-binding.pdf) | [notes](07_Binding.md) | / | 
-| Exercises 2 | / | [notes](09_Exercises_2.md) | / |
+| Exercises 4 | / | [notes](E07_Exercises_4.md) | / |
 | Using Lustre | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-08-lustre.pdf) | [notes](08_Lustre.md) | / |
 | Containers on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-09-containers.pdf) | [notes](09_Containers.md) | / |
 | LUMI User Support | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-10-support.pdf) | [notes](10_Support.md) | / |
