@@ -1494,7 +1494,8 @@ object of the file.</p>
 <p>The final subcommand that we will discuss is the <code>setstripe</code> subcommand to set the striping policy
 for a file or directory.</p>
 <p>Let us first look at setting a striping policy at the directory level:</p>
-<div class="highlight"><pre><span></span><code>$ module load LUMI/23.09 lumi-training-tools
+<div class="highlight"><pre><span></span><code>$ module use /appl/local/training/modules/2day-20240502
+$ module load lumi-training-tools
 $ mkdir testdir
 $ lfs setstripe -S 2m -c 4 testdir
 $ cd testdir
