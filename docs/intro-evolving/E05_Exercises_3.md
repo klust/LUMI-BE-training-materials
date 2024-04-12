@@ -24,6 +24,39 @@ Explore the [LUMI Software Library](https://lumi-supercomputer.github.io/LUMI-Ea
     between OpenMP runtimes.
 
 
+## Using modules in the LUMI software stack
+
+41.  Search for the `bzip2` tool (and not just the `bunzip2` command as we also need the `bzip2` command) and make 
+    sure that you can use software compiled with the Cray compilers in the LUMI stacks in the same session.
+
+    ??? Solution "Click to see the solution."
+
+        ```
+        module spider bzip2
+        ```
+
+        shows that there are versions of `bzip2` for several of the `cpe*` toolchains and in several versions
+        of the LUMI software stack.
+
+        Of course we prefer to use a recent software stack, the `22.08` or `22.12` (but as of early May 2023, 
+        there is a lot more software ready-to-install for `22.08`). 
+        And since we want to use other software
+        compiled with the Cray compilers also, we really want a `cpeCray` version to avoid conflicts between 
+        different toolchains. So the module we want to load is `bzip2/1.0.8-cpeCray-22.08`.
+
+        To figure out how to load it, use
+
+        ```
+        module spider bzip2/1.0.8-cpeCray-22.08
+        ```
+
+        and see that (as expected from the name) we need to load `LUMI/22.08` and can then use it in any of the
+        partitions.
+
+
+
+
+
 ## Installing software with EasyBuild
 
 *These exercises are based on material from the [EasyBuild tutorials](http://tutorial.easybuild.io/)
