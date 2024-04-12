@@ -59,7 +59,6 @@ solution than to build the software from sources.
     traditions...)
 
 
-
 ## The operating system on LUMI
 
 <figure markdown style="border: 1px solid #000">

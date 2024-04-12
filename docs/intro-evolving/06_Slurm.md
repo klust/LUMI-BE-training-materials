@@ -10,6 +10,17 @@
     Even if you have a lot of experience with Slurm, it may still be useful to have a quick
     look at this section as Slurm is not always configured in the same way.
 
+<!-- GENERAL More general version
+!!! Audience "Who is this for?"
+    We assume some familiarity with job scheduling in this section. The notes will cover
+    some of the more basic aspects of Slurm also, though it may be rather brief on some
+    aspects of Slurm as we assume the majority of users is already rather familiar with
+    Slurm.
+
+    Even if you have a lot of experience with Slurm, it may still be useful to have a quick
+    look at this section as Slurm is not always configured in the same way.
+-->
+
 !!! Note "Links to Slurm material"
     Links to Slurm material on this web page are all for the version on LUMI at the time of
     the course. Links in the PDF of the slides however are to the newest version.
@@ -322,6 +333,12 @@ Some useful commands with respect to Slurm partitions:
     Note that this overview may show partitions that are not hidden but also not accessible to everyone. E.g., 
     the `q_nordic` and `q_fiqci` partitions are used to access experimental quantum computers that are only
     available to some users of those countries that paid for those machines, which does not include Belgium.
+
+    <!-- GENERAL More general version 
+    Note that this overview may show partitions that are not hidden but also not accessible to everyone. E.g., 
+    the `q_nordic` and `q_fiqci` partitions are used to access experimental quantum computers that are only
+    available to some users of those countries that paid for those machines.
+    -->
 
     The `eap` partition will likely be phased out over time and is a remainder of a platform used for early 
     development before LUMI-G was attached to the machine. At the moment it allows users to experiment freely 
@@ -2895,6 +2912,7 @@ it it is used to follow up your use of billing units on LUMI, but should you ins
 in the [`sreport` manual page](https://slurm.schedmd.com/archive/slurm-22.05.10/sreport.html).
 
 
+<!-- BELGIUM -->
 ## Local trainings and materials
 
 -   Docs VSC: Slurm material for the general docs is still under development and will be published
@@ -2918,4 +2936,11 @@ in the [`sreport` manual page](https://slurm.schedmd.com/archive/slurm-22.05.10/
 -   CÉCI training materials: Slurm is covered in the "Learning how to use HPC infrastructure" training.
 
     -   [2022 session: Lecture "Preparing, submitting and managing jobs with Slurm"](https://indico.cism.ucl.ac.be/event/121/contributions/60/)
+-->
 
+<!-- GENERAL More general version
+## Other trainings and materials
+
+-   DeiC, the Danish organisation in the LUMI consortium, has develop an
+    [online Slurm tutorial](http://slurmlearning.deic.dk/)
+-->

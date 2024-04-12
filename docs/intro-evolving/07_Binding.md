@@ -116,6 +116,14 @@ given twice a year at VSC@UAntwerpen),
 modern supercomputer nodes have increasingly a very hierarchical architecture.  This hierarchical architecture is extremely
 pronounced on the AMD EPYC architecture used in LUMI but is also increasingly showing up with Intel processors and the ARM
 server processors, and is also relevant but often ignored in GPU clusters.
+-->
+
+<!-- GENERAL More general version
+As we have somewhat in the ["LUMI Architecture" session of this course](01_Architecture.md) and as you may know from other courses,
+modern supercomputer nodes have increasingly a very hierarchical architecture. This hierarchical architecture is extremely
+pronounced on the AMD EPYC architecture used in LUMI but is also increasingly showing up with Intel processors and the ARM
+server processors, and is also relevant but often ignored in GPU clusters.
+-->
 
 A proper binding of resources to the application is becoming more and more essential for good performance and 
 scalability on supercomputers. 
