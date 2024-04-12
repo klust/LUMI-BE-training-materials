@@ -729,6 +729,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#using-modules-in-the-lumi-software-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using modules in the LUMI software stack
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installing-software-with-easybuild" class="md-nav__link">
     <span class="md-ellipsis">
       Installing software with EasyBuild
@@ -990,6 +999,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#using-modules-in-the-lumi-software-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using modules in the LUMI software stack
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installing-software-with-easybuild" class="md-nav__link">
     <span class="md-ellipsis">
       Installing software with EasyBuild
@@ -1067,6 +1085,30 @@ that are not trivial to compile and to port to the other compilers on the system
 strict about mixing compilers basically because it can cause a lot of problems, e.g., due to conflicts
 between OpenMP runtimes.</p>
 </details>
+<h2 id="using-modules-in-the-lumi-software-stack">Using modules in the LUMI software stack<a class="headerlink" href="#using-modules-in-the-lumi-software-stack" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Search for the <code>bzip2</code> tool (and not just the <code>bunzip2</code> command as we also need the <code>bzip2</code> command) and make 
+    sure that you can use software compiled with the Cray compilers in the LUMI stacks in the same session.</p>
+<details class="solution">
+<summary>Click to see the solution.</summary>
+<div class="highlight"><pre><span></span><code>module spider bzip2
+</code></pre></div>
+<p>shows that there are versions of <code>bzip2</code> for several of the <code>cpe*</code> toolchains and in several versions
+of the LUMI software stack.</p>
+<p>Of course we prefer to use a recent software stack, the <code>22.08</code> or <code>22.12</code> (but as of early May 2023, 
+there is a lot more software ready-to-install for <code>22.08</code>). 
+And since we want to use other software
+compiled with the Cray compilers also, we really want a <code>cpeCray</code> version to avoid conflicts between 
+different toolchains. So the module we want to load is <code>bzip2/1.0.8-cpeCray-22.08</code>.</p>
+<p>To figure out how to load it, use</p>
+<div class="highlight"><pre><span></span><code>module spider bzip2/1.0.8-cpeCray-22.08
+</code></pre></div>
+<p>and see that (as expected from the name) we need to load <code>LUMI/22.08</code> and can then use it in any of the
+partitions.</p>
+</details>
+</li>
+</ol>
 <h2 id="installing-software-with-easybuild">Installing software with EasyBuild<a class="headerlink" href="#installing-software-with-easybuild" title="Permanent link">&para;</a></h2>
 <p><em>These exercises are based on material from the <a href="http://tutorial.easybuild.io/">EasyBuild tutorials</a>
 (and we have a <a href="https://lumi-supercomputer.github.io/easybuild-tutorial/2022-CSC_and_LO/">special version for LUMI</a> also).</em></p>
