@@ -1,4 +1,4 @@
-# Demo 1: Fooocus
+# Container demo 1: Fooocus
 
 [Fooocus](https://github.com/lllyasviel/Fooocus) is an AI-based image generating
 package that is available under the

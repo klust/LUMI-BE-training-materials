@@ -1,4 +1,4 @@
-# Demo option 2: A short walk-through for distributed learning
+# Container demo 2: A short walk-through for distributed learning
 
 In this demo, we will install one of the PyTorch containers provided on LUMI
 and run a simple distributed learning example that the LUMI User Support Team also uses
