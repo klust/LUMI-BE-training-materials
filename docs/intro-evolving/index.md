@@ -92,6 +92,8 @@ You will only need an very minimum of CPU and GPU billing units for this.
 | Exercises 4 | / | [notes](E07_Exercises_4.md) | / |
 | Using Lustre | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-08-lustre.pdf) | [notes](08_Lustre.md) | / |
 | Containers on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-09-containers.pdf) | [notes](09_Containers.md) | / |
+| [Demo 1 (optional)](Demo1.md) | / | [notes](Demo1.md) | [video](Demo1.md#video-of-the-demo) |
+| [Demo 2 (optional)](Demo2.md) | / | [notes](Demo2.md) | [video](Demo2.md#video-of-the-demo) |
 | LUMI User Support | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-10-support.pdf) | [notes](10_Support.md) | / |
 | A1 Slurm issues | / | [notes](A01_Slurm_issues.md) | / | 
 | A2 Additional documentation | / | [notes](A02_Documentation.md) | / | 
