@@ -81,12 +81,7 @@ and each project needs at least two of them:
     hour on a full LUMI-G GPU node costs 4 GPU-hours.
 3.  A storage budget which is expressed in TB-hours. Only storage that is actually being used is charged
     on LUMI, to encourage users to clean up temporary storage. The rate at which storage is charged depends
-    on the file system:
-
-    1.  Storing one TB for one hour on the disk based Lustre file systems costs 1 TB-hour.
-    2.  Storing one TB for one hour on the flash based Lustre file system costs 10 TB-hour, also reflecting
-        the purchase cost difference of the systems.
-    3.  Storing one TB for one hour on the object based file system costs 0.5 TB-hour.
+    on the file system, but more about that later when we discuss the available file spaces.
 
 <!-- BELGIUM -->
 These budgets are assigned and managed by the resource allocators, not by the LUMI User Support Team.
@@ -122,7 +117,7 @@ that would not correspond to a physical person but have a specific goal
 (like organising data ingestion from an external source) but few projects are granted
 such an account.
 
-There ia a many-to-may mapping between projects and user accounts.
+There ia a many-to-many mapping between projects and user accounts.
 Projects can of course have multiple users who collaborate in the project, but a user account
 can also be part of multiple projects. The latter is more common than
 you may think, as. e.g., you may become member of a training project when
@@ -131,10 +126,11 @@ you take a LUMI training.
 Most resources are attached to projects. The one resource that is attached to a user account
 is a small home directory to store user-specific configuration files. That home directory
 is not billed but can also not be extended. For some purposes you may have to store things
-that would usually be automatically be placed in the home directory in a separate directory,
+that would usually automatically be placed in the home directory in a separate directory,
 e.g., in the project scratch space, and link to it. This may be the case when you try to convert
 big docker containers into singularity containers as the singularity cache can eat a lot of
-disk space.
+disk space. (Or sometimes setting an environment variable is enough to redirect to a different
+directory.)
 
 
 ## Project management
@@ -171,7 +167,7 @@ error messages.
 The URL to the Puhuri portal is: [puhuri-portal.neic.no](https://puhuri-portal.neic.no/).
 
 Puhuri can be used to check your remaining project resources, but once your user account 
-on LUMI is created it is very easy to do this on the command line with the
+on LUMI is created, it is very easy to do this on the command line with the
 `lumi-workspaces` command.
 
 Web links
@@ -185,11 +181,11 @@ Web links
 
 ## File spaces
 
-<figure markdown style="border: 1px solid #000">
-  ![Slide File spaces 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/FileSpaces_1.png){ loading=lazy }
-</figure>
-
 LUMI has file spaces that are linked to a user account and file spaces that are linked to projects.
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide File Spaces User](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/FileSpacesUser.png){ loading=lazy }
+</figure>
 
 The only permanent file space linked to a user account is the home directory which is of the form
 `/users/<my_uid>`. It is limited in both size and number of files it can contain, and neither limit
@@ -198,31 +194,44 @@ foremost for those things that Linux and software automatically stores in a home
 user-specific software configuration files. It is not billed as users can exist temporarily without
 an active project but therefore is also very limited in size.
 
+<figure markdown style="border: 1px solid #000">
+  ![Slide File Spaces Project](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/FileSpacesProject.png){ loading=lazy }
+</figure>
+
 Each project also has 4 permanent or semi-permanent file spaces that are all billed against the
 storage budget of the project.
 
 1.  Permanent (for the duration of the project) storage on a hard disk based Lustre filesystem
-    accessed via `/project/project_46yXXXXXX`. This is the place to perform the software installation
+    accessed via `/project/project_46YXXXXXX`. This is the place to perform the software installation
     for the project (as it is assumed that a project is a coherent amount of work it is only 
     natural to assume that everybody in the project needs the same software), or to store input data
     etc. that will be needed for the duration of the project.
+
+    Storing one TB for one hour on the disk based Lustre file systems costs 1 TB-hour.
 
 2.  Semi-permanent scratch storage on a hard disk based Lustre filesystem accessed via
     `/scratch/project_46YXXXXXX`. Files in this storage space can in principle be erased 
     automatically after 90 days. This is not happening yet on LUMI, but will be activated if
     the storage space starts to fill up.
 
+    Storing one TB for one hour on the disk based Lustre file systems costs 1 TB-hour.
+
 3.  Semi-permanent scratch storage on an SSD based Lustre filesystem accessed via
     `/flash/project_46YXXXXXX`. Files in this storage space can in principle be erased
     automatically after 30 days. This is not happening yet on LUMI, but will be activated if
     the scratch storage space starts to fill up.
 
+    Storing one TB for one hour on the flash based Lustre file system costs 10 TB-hour, also reflecting
+    the purchase cost difference of the systems.
+
 4.  Permanent (for the duration of the project) storage on the hard disk based
     object filesystem.
 
+    Storing one TB for one hour on the object based file system costs 0.5 TB-hour.
+
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide File spaces 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/FileSpaces_2.png){ loading=lazy }
+  ![Slide File Spaces Further Information](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/FileSpacesFurtherInfo.png){ loading=lazy }
 </figure>
 
 <!-- BELGIUM -->
@@ -262,9 +271,10 @@ Once a file is opened and with
 a proper data access pattern (big accesses, properly striped files which we will discuss later
 in this course) the flash file system can give a lot more bandwidth than the disk based ones.
 
-It is important to note that LUMI is not a data archiving service. "Permanent" in the
+It is important to note that LUMI is not a data archiving service or a data publishing
+service. "Permanent" in the
 above discussion only means "for the duration of the project". There is no backup, not even
-of the home directory. And three months after the end of the project all data from the
+of the home directory. And 90 days after the end of the project all data from the
 project is irrevocably deleted from the system. User accounts without project will also
 be closed, as will user accounts that remain inactive for several months, even if an
 active project is still attached to them.
@@ -451,6 +461,7 @@ the whole path from the system from which you initiate the connection to LUMI
 is responsible and every step adds to the latency. We've seen many cases where the
 biggest contributor to the latency was actually the campus network of the user.
 
+<!-- BELGIUM -->
 The second important option is to **transfer data via the object storage system LUMI-O**.
 To transfer data to LUMI, you'd first push the data to LUMI-O and then on LUMI pull it 
 from LUMI-O. When transferring data to your home institute, you'd first push it onto
@@ -465,9 +476,13 @@ for every possible tool.
 Those tools for accessing object storage tend to set up multiple data streams and hence
 will offer a much higher effective bandwidth, even on high latency connections.
 
+<!-- BELGIUM -->
 Alternatively, you can also chose to access external servers from LUMI if you have client
 software that runs on LUMI (or if that software is already installed on LUMI, e.g., rclone
-and S3cmd),
+and S3cmd), but neither the LUMI User Support Team not the Belgian local support teams
+can tell you how to configure tools to use an external service that they don't have access
+to. But, e.g., the VSC Tier-0 support team might be able to help you to configure a tool
+to access the data services that VSC offers.
 
 Unfortunately there is no support yet for Globus or other forms of gridFTP. 
 
@@ -520,7 +535,7 @@ There are currently three command-line tools pre-installed on LUMI: rclone
 
 But you can also access LUMI-O with similar tools from outside LUMI. Configuring them
 may be a bit tricky and the LUMI User Support Team cannot help you with each and every client
-tool o your personal machine. However, the web interface that is used to generate the keys,
+tool on your personal machine. However, the web interface that is used to generate the keys,
 can also generate code snippets or configuration file snippets for various tools, and
 that will make configuring them a lot easier.
 
