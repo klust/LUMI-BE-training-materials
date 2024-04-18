@@ -1387,6 +1387,7 @@ information for search and help information.</p>
     <a href="https://github.com/TACC/Lmod">Lmod development on GitHub</a></li>
 </ul>
 </details>
+<!-- BELGIUM -->
 <div class="admonition note">
 <p class="admonition-title">I know Lmod, should I continue?</p>
 <p>Lmod is a very flexible tool. Not all sites using Lmod use all features, and
@@ -1619,7 +1620,7 @@ for the command.</p>
 <p><img alt="module spider FFTW" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-modules/ModuleSpiderFFTW.png" /></p>
 </figure>
 <p>This shows that the FFTW library is actually provided by the <code>cray-fftw</code> module and was at the time
-that this was tested available in 3 versions. 
+that this was tested available in 4 versions. 
 Note that (a) it is not case sensitive as FFTW is not in capitals in the module name and (b) it
 also finds modules where the argument of module spider is only part of the name.</p>
 <p>The output also suggests us to dig a bit deeper and 
@@ -1722,7 +1723,7 @@ powers of <code>module spider</code> and try</p>
 <figure style="border: 1px solid #000">
 <p><img alt="module spider cmake" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-modules/ModuleSpiderCMake.png" /></p>
 </figure>
-<p>The output above shows us that there are actually four other versions of CMake on the system, but their
+<p>The output above shows us that there are actually 5 other versions of CMake on the system, but their
 version is followed by <code>(E)</code> which says that they are extensions of other modules.
 There is no module called <code>CMake</code> on the system. 
 But Lmod already tells us
@@ -1866,7 +1867,10 @@ from the system during the last update of the system, but version 5.2.3 can be l
 as a replacement of these modules so that software that used the removed modules may
 still work without recompiling.</p>
 <p>At the end of the overview the extensions are also shown. If this would be fully implemented on LUMI, the list
-might become very long. However, as we shall see next, there is an easy way to hide those from view.</p>
+could become very long. However, as we shall see next, there is an easy way to hide those from view.
+We haven't used them very intensely so far as there was a bug in older versions of Lmod so that turning off
+the view didn't work and so that extensions that were not in available modules, were also shown. But that
+is fixed in current versions.</p>
 <h2 id="changing-how-the-module-list-is-displayed">Changing how the module list is displayed<a class="headerlink" href="#changing-how-the-module-list-is-displayed" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Changing how the module list is displayed" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-modules/ChangingDisplayStyle.png" /></p>
