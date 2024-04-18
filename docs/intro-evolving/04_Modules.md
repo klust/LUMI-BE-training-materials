@@ -65,6 +65,7 @@ information for search and help information.
     -   [Lmod documentation](https://lmod.readthedocs.io/en/latest/) and 
         [Lmod development on GitHub](https://github.com/TACC/Lmod)
 
+<!-- BELGIUM -->
 !!! Note "I know Lmod, should I continue?"
     Lmod is a very flexible tool. Not all sites using Lmod use all features, and
     Lmod can be configured in different ways to the extent that it may even look
@@ -336,7 +337,7 @@ produces
 </figure>
 
 This shows that the FFTW library is actually provided by the `cray-fftw` module and was at the time
-that this was tested available in 3 versions. 
+that this was tested available in 4 versions. 
 Note that (a) it is not case sensitive as FFTW is not in capitals in the module name and (b) it
 also finds modules where the argument of module spider is only part of the name.
 
@@ -474,7 +475,7 @@ which produces
   ![module spider cmake](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-modules/ModuleSpiderCMake.png)
 </figure>
 
-The output above shows us that there are actually four other versions of CMake on the system, but their
+The output above shows us that there are actually 5 other versions of CMake on the system, but their
 version is followed by `(E)` which says that they are extensions of other modules.
 There is no module called `CMake` on the system. 
 But Lmod already tells us
@@ -661,7 +662,10 @@ as a replacement of these modules so that software that used the removed modules
 still work without recompiling.
 
 At the end of the overview the extensions are also shown. If this would be fully implemented on LUMI, the list
-might become very long. However, as we shall see next, there is an easy way to hide those from view.
+could become very long. However, as we shall see next, there is an easy way to hide those from view.
+We haven't used them very intensely so far as there was a bug in older versions of Lmod so that turning off
+the view didn't work and so that extensions that were not in available modules, were also shown. But that
+is fixed in current versions.
 
 
 ## Changing how the module list is displayed
