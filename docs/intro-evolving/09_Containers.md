@@ -1040,7 +1040,7 @@ instead.
   ![Extending containers with the singularity unprivileged proot build process](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-containers/ExtendingSingularityBuild.png){ loading=lazy }
 </figure>
 
-Singularity specialist can also build upon an existing container using `singularity build`. 
+Singularity specialists can also build upon an existing container using `singularity build`. 
 The options for build processes are limited though because we have no support for user namespaces or the fakeroot feature.
 The ["Unprivileged `proot` builds" feature from recent SingularityCE versions](https://docs.sylabs.io/guides/3.11/user-guide/build_a_container.html#unprivilged-proot-builds)
 is supported though.
