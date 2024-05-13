@@ -1,4 +1,4 @@
-# How to get support and documentation
+# LUMI Support and Documentation
 
 ## Distributed nature of LUMI support
 
@@ -22,8 +22,9 @@ you let expire an invite), ...
 For projects allocated in the Belgian allocation, help can be requested via the email address
 lumi-be-support@enccb.be. However, we cannot help you with similar problems for compute time directly 
 obtained via EuroHPC.
-For granted EuroHPC projects, support is available via lumi-customer-accounts@csc.fi.
-<!-- TODO: How to get help for EuroHPC? -->
+For granted EuroHPC projects, support is available via lumi-customer-accounts@csc.fi, but you will have
+to contact EuroHPC directly at access@eurohpc-ju.europa.eu if, e.g., you need more resources or an 
+extension to your project.
 
 The central LUMI User Support Team (LUST) offers L1 and basic L2 support. 
 Given that the LUST team is very small compared to the number of project granted annually on LUMI 
@@ -54,6 +55,13 @@ EuroHPC has also granted the EPICURE project that started in February 2024 to se
 advanced L2 and L3 support across EuroHPC centres. Belgium also participates in that project as a partner
 in the LUMI consortium. However, this project is also so small that it will have to select the problems
 they tackle.
+
+<!-- GENERAL More general version 
+EuroHPC has also granted the EPICURE project that started in February 2024 to set up a network for
+advanced L2 and L3 support across EuroHPC centres. At the time of the course, the project is still in
+its startup phase. Moreover, this project is also so small that it will have to select the problems
+they tackle.
+-->
 
 In principle the EuroHPC Centres of Excellence should also play a role in porting some applications in their
 field of expertise and offer some support and training, but so far especially the support and training are
@@ -92,10 +100,12 @@ with a high enough frequency to deal with the continuous inflow of new users.
 
 The LUMI User Support Team organises 2 system-specific trainings:
 
-1.  There is a 1-day introductory course entirely given by members of the LUST.
+1.  There is a 1- or 2-day introductory course entirely given by members of the LUST.
     The training does assume familiarity with HPC systems, e.g., obtained from the introductory
     courses taught by [VSC](https://www.vscentrum.be/vsctraining) and
     [CÉCI](https://www.ceci-hpc.be/training.html).
+
+    The course is basically equivalent to this training.
 
 2.  And there is a 4-day comprehensive training with more attention on how to run efficiently, and on the
     development and profiling tools. Even if you are not a developer, you may benefit from more knowledge
@@ -110,7 +120,7 @@ knowledge: Groups that develop the applications, user groups, the EuroHPC Centre
 
 Currently the training landscape in Europe is not too well organised. EuroHPC is starting some new
 training initiatives to succeed the excellent PRACE trainings.
-Moreover, the centre coordinating the National Competence Centres also 
+Moreover, CASTIEL, the centre coordinating the National Competence Centres also 
 [tries to maintain an overview of available trainings](https://www.eurocc-access.eu/services/training/)
 (and several National Competence Centres organise trainings open to others also).
 
@@ -208,6 +218,11 @@ We do not have systems in place to monitor use on a per-user, per-project basis,
 and also have no plans to develop such tools as a project is meant to be a close collaboration of all
 involved users. 
 
+LUMI events and on-site courses are also an excellent opportunity to network with more remote
+colleagues and learn from them! Which is why we favour on-site participation for courses. 
+No video conferencing system can give you the same experience as being physically present
+at a course or event.
+
 
 ## L1 and basic L2 support: LUST
 
@@ -227,11 +242,21 @@ The LUMI User Support Team is responsible for providing L1 and basic L2 support 
 Their work starts from the moment that you have userid on LUMI (the local RA is responsible for ensuring
 that you get a userid when a project has been assigned).
 
+<!-- Belgium -->
 The LUST is a distributed team roughly 10 FTE strong, with people in all LUMI consortium countries,
 but they work as a team, coordinated by CSC. The Belgian contribution currently consists of two people
 both working half time for LUMI and half time for user support in their own organisation (VSC and CÉCI).
 However, you will not necessarily be helped by one of the Belgian team members when you contact LUST, but
 by the team member who is most familiar with your problem. 
+
+<!-- GENERAL More general version 
+The LUST is a distributed team roughly 10 FTE strong, with people in all LUMI consortium countries,
+but they work as a team, coordinated by CSC. 10 of the LUMI consortium countries each have one or more
+members in LUST.
+However, you will not necessarily be helped by one of the team members from your own country,
+even when you are in a consortium country, when you contact LUST, but
+by the team member who is most familiar with your problem. 
+-->
 
 There are some problems that we need to pass on to HPE or AMD, particularly if it may be caused by 
 bugs in system software, but also because they have more experts with in-depth knowledge of very specific
@@ -566,7 +591,7 @@ As a result,
     for a longer collaboration between a LUMI project and that help desk member.
     The LUST members don't do that.
 
--   help desk team members cannot install or modify system packages or settings. 
+-   Help desk team members cannot install or modify system packages or settings. 
 
     A good sysadmin usually wouldn't do so either. You are working on a multi-user system and you 
     have to take into account that any change that is beneficial for you, may have adverse
@@ -602,6 +627,10 @@ As a result,
 
 <figure markdown style="border: 1px solid #000">
   ![What support can and cannot do (3)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-support/HelpdeskCanCannot3.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![What support can and cannot do (4)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-support/HelpdeskCanCannot4.png){ loading=lazy }
 </figure>
 
 -   The LUST and LUMI-BE help desk do not replace a good introductory HPC course nor are they a 
@@ -672,8 +701,8 @@ related to the supercomputer
 but not to take over your work."**
 
 Any support will always be a collaboration where you may have to do most of the work.
-Supercomputer support services are not a free replacement of the lab assistant that many
-experimental groups have.
+Supercomputer support services are not a free replacement of a research software engineer
+(the equivalent of the lab assistant that many experimental groups have).
 
 
 ## Links

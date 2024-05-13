@@ -22,9 +22,8 @@ In this section we discuss
         The GPU nodes are really **GPU-first**, with the **interconnect cards connected directly to the GPU packages** 
         and only one CPU socket, and another feature which is relatively new: the option to use a **partly coherent fully unified memory**
         space between the CPU and GPUs, though of course very NUMA. This is a feature that has previously
-        only been seen in some clusters with NVIDIA P100 and V100 GPUs and IBM Power 8 and 9 CPUs used
-        for some USA pre-exascale systems, and of course in Apple Silicon M-series but then without the NUMA character
-        (except maybe for the Ultra version that consists of two dies).
+        only been seen in supercomputers in some clusters with NVIDIA P100 and V100 GPUs and IBM Power 8 and 9 CPUs used
+        for some USA pre-exascale systems.
     3.  LUMI is also **inhomogeneous** because some nodes have zen2 processors while the two main compute partitions
         have zen3-based CPUs, and the compute GPU nodes have AMD GPUs while the visualisation nodes have
         NVIDIA GPUs. 
@@ -156,6 +155,16 @@ As a user, you have to realise that **not all Linux or even
 supercomputer software will work on LUMI**. This holds even more for software that comes only as
 a binary. The **biggest problems are the GPU and anything that uses distributed memory** and requires
 high performance from the interconnect. For example,
+
+<!-- GENERAL More general version 
+The LUMI User Support Team **tries to help with installations of recent software** but **porting or bug
+correction in software is not their task**. Some consortium countries may also have a local support
+team that can help.
+As a user, you have to realise that **not all Linux or even
+supercomputer software will work on LUMI**. This holds even more for software that comes only as
+a binary. The **biggest problems are the GPU and anything that uses distributed memory** and requires
+high performance from the interconnect. For example,
+-->
 
 -   software that use NVIDIA proprietary programming models and
     libraries needs to be ported. 

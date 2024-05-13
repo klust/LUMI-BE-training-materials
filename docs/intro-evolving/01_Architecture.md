@@ -110,7 +110,7 @@ Just some examples of using the wrong tools or infrastructure:
     cloud environment with virtual machines individually protected by personal firewalls and was 
     not only hard to get working on a supercomputer but also insecure.
 
--   **And supercomputer need proper software that exploits the strengths and works around the weaknesses
+-   **And supercomputers need proper software that exploits the strengths and works around the weaknesses
     of their architecture.**  
     CERN came telling on a EuroHPC Summit Week before the COVID pandemic that they would start using more
     HPC and less cloud and that they expected a 40% cost reduction that way. A few years later they
@@ -213,7 +213,8 @@ Big parallel file systems need to be used in the proper way to be able to offer 
 performance that one would expect from their specifications. This is important enough that 
 we have a separate session about that in this course.
 
-An **object based file system** similar to the Allas service of CSC that some
+There is also a 30 PB **object based file system** 
+similar to the Allas service of CSC that some
 of the Finnish users may be familiar with is also being worked on. At the 
 moment the interface to that system is still rather primitive.
 
@@ -275,7 +276,7 @@ double precision) rather than the 32 some Intel processors are capable of.
 The full processor package for the AMD EPYC processors used in LUMI have
 8 such Core Complex Dies for a total of 64 cores. The **caches are not
 shared between different CCDs**, so it also implies that the processor has
-8 so-called L3 cache regions domains. (Some cheaper variants have only 4 CCDs,
+8 so-called L3 cache regions or domains. (Some cheaper variants have only 4 CCDs,
 and some have CCDs with only 6 or fewer cores enabled but the same 32 MB of L3
 cache per CCD).
 
@@ -422,7 +423,7 @@ cache the CPU DDR and GPU HBM memory, but each GPU only coherently caches
 its own local memory.
 The second remarkable element is that the Slingshot interface cards
 connect directly to the GPUs (through a PCIe interface on the GPU) rather
-than to the CPU. The CPUs have a shorter path to the communication 
+than to the CPU. The GPUs have a shorter path to the communication 
 network than the CPU in this design. 
 
 This makes the LUMI-G compute node really a "GPU first" system. The architecture
@@ -609,6 +610,10 @@ for the launch customer, the [El Capitan supercomputer](https://asc.llnl.gov/exa
 [HLRS is building the Hunter cluster based on AMD MI300A](https://www.hlrs.de/news/detail/exascale-supercomputing-is-coming-to-stuttgart) 
 as a transitional system
 to their first exascale-class system Herder that will become operational by 2027.
+The fact that the chip has recently been selected for the Hunter development system
+also indicates that even if no successor using the same techniques to combine GPU and
+CPU compute dies and memory would be made, there should at least be a successor that
+towards software behaves very similarly.
 
 Intel at some point has shown only very conceptual drawings of its Falcon Shores chip 
 which it calls an XPU, but those drawings suggest that that chip will also support some low-bandwidth
@@ -618,9 +623,6 @@ the package. Falcon Shores will be the next generation of Intel GPUs for HPC, af
 Ponte Vecchio which will be used in the Aurora supercomputer. It is currently very likely
 though that Intel will revert to a traditional design for Falcon Shores and push
 out the integrated CPU+GPU model to a later generation.
-
-However, a CPU closely integrated with accelerators is nothing new as Apple Silicon is 
-rumoured to do exactly that in its latest generations, including the M-family chips.
 
 
 ## Building LUMI: The Slingshot interconnect

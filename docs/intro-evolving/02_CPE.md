@@ -1,4 +1,4 @@
-# The HPE Cray Programming Environment
+# HPE Cray Programming Environment
 
 In this session we discuss some of the basics of the operating system and
 programming environment on LUMI. Whether you like it or not, every user
@@ -117,10 +117,11 @@ However, it turned out that even the noise reduction described above was not yet
 pass some large-scale scalability tests, and therefore another form of "low-noise" mode is implemented
 on the GPU nodes of LUMI where OS processes are restricted to a reserved core, actually core 0.
 This leaves us with an asymmetric structure of the node, where the first CCD has 7 available cores
-while the other ones have 8, and as we shall see in the 
-["Process and thread distribution and binding" chapter](07_Binding.md),
-this will create some headaches when trying to get maximal efficiency for GPU applications.
-(For this reason some other clusters based on the same architecture reserve on core on each CCD.)
+while the other ones have 8, but as that created a headache for users to get a proper
+distribution of tasks and threads over the CPU 
+(see the ["Process and thread distribution and binding" chapter](07_Binding.md)),
+the choice was made to also disable the first core on each of the other CCDs so that
+users now effectively see a 56-core node with 8 CCDs with 7 cores each.
 
 This is actually an idea Cray has been experimenting with in the past already, ever since
 we've had nodes with 20 or more cores with the AMD Magny-Cours processors in 2010.
@@ -323,7 +324,7 @@ not be too ill-conditioned for that.
 
 There is also a GPU-optimized version of LibSci, called 
 [LibSci_ACC](https://cpe.ext.hpe.com/docs/csml/cray_libsci_acc.html), which contains a subset of the
-rroutines of LibSci. We or the LUMI USer Support Team don't have much experience with this library though.
+routines of LibSci. We or the LUMI USer Support Team don't have much experience with this library though.
 It can be compared with what Intel is doing with oneAPI MKL which also offers GPU versions of some of
 the traditional MKL routines.
 
@@ -622,9 +623,11 @@ activate:
 | PrgEnv      | Description                               | Compiler module | Compilers                            |
 |-------------|-------------------------------------------|-----------------|--------------------------------------|
 | PrgEnv-cray | Cray Compiling Environment                | `cce`           | `craycc`, `crayCC`, `crayftn`        |
-| PrgEnv-gnu  | GNU Compiler Collection                   | `gcc`           | `gcc`, `g++`, `gfortran`             |
+| PrgEnv-gnu  | GNU Compiler Collection                   | `gcc`<br/>`gcc-native`<sup>(*)</sup> | `gcc`, `g++`, `gfortran`<br/>`gcc-12`, `g++-12`, `gfortran-12` |
 | PrgEnv-aocc | AMD Optimizing Compilers<br>(CPU only)    | `aocc`          | `clang`, `clang++`, `flang`          |
 | PrgEnv-amd  | AMD ROCm LLVM compilers <br>(GPU support) | `amd`           | `amdclang`, `amdclang++`, `amdflang` |
+
+<sup>(*)</sup> See the note "Changes to the GNU compilers in 23.12".
 
 There is also a second module that offers the AMD ROCm environment, `rocm`. That module
 has to be used with `PrgEnv-cray` and `PrgEnv-gnu` to enable MPI-aware GPU,

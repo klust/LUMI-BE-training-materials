@@ -76,6 +76,17 @@ information for search and help information.
     to clusters running the C/Tcl module implementation which was used in the early
     days of the VSC.
 
+<!-- GENERAL More general version 
+!!! Note "I know Lmod, should I continue?"
+    Lmod is a very flexible tool. Not all sites using Lmod use all features, and
+    Lmod can be configured in different ways to the extent that it may even look
+    like a very different module system for people coming from another cluster.
+    So yes, it makes sense to continue reading as Lmod on LUMI may have some tricks
+    that are not available on your home cluster. E.g., several of the features that 
+    we rely upon on LUMI may be disabled on clusters where admins try to mimic the
+    old behaviour of the C/Tcl module implementation after switching to Lmod.
+-->
+
 !!! Note "Standard OS software"
     Most large HPC systems use enterprise-level Linux distributions: derivatives
     of the stable Red Hat or SUSE distributions. Those distributions typically have
@@ -711,7 +722,7 @@ from regular users.
 !!! Example
     An example that will only become clear in the next session: When working with the software stack
     called `LUMI/23.09`, which is built upon the HPE Cray Programming Environment version 23.09,
-    all (well, most) of the modules corresponding to other version of the Cray PE are hidden.
+    all (well, most) of the modules corresponding to other versions of the Cray PE are hidden.
 
 
 ## Getting help with the module help command

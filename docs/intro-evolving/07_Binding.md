@@ -1,4 +1,4 @@
-# Process and thread distribution and binding
+# Process and Thread Distribution and Binding
 
 
 ## What are we talking about in this session?
@@ -29,7 +29,7 @@ The second mechanism is processor affinity which works at the process and thread
 used by Slurm at the task level and 
 can be used by the OpenMP runtime to further limit thread migration. It works through affinity masks
 which indicate the hardware threads that a thread or process can use. There is also a third
-mechanism provided by the ROCm<sup>TM</sup> run time to control which GPUs can be used.
+mechanism provided by the ROCm<sup>TM</sup> runtime to control which GPUs can be used.
 
 Some of the tools in the `lumi-CPEtools` module can show the affinity mask for each thread
 (or effectively the process for single-threaded processes) so you can use these tools to
@@ -90,8 +90,7 @@ In this section we will consider process and thread distribution and binding at 
 
 Binding almost only makes sense on job-exclusive nodes as only then you have full control over all available 
 resources. On ["allocatable by resources"](06_Slurm.md#partitions) partitions 
-you usually do not know which resources are available. OpenMP thread binding may still help a bit with
-performance in some cases.
+you usually do not know which resources are available.
 The advanced Slurm binding options that we will discuss do not work in those cases, and the options offered
 by the MPICH, OpenMP and ROCm runtimes may work very unpredictable, though OpenMP thread binding may still 
 help a bit with performance in some cases.
@@ -121,7 +120,7 @@ server processors, and is also relevant but often ignored in GPU clusters.
 -->
 
 <!-- GENERAL More general version
-As we have somewhat in the ["LUMI Architecture" session of this course](01_Architecture.md) and as you may know from other courses,
+As we have seen in the ["LUMI Architecture" session of this course](01_Architecture.md) and as you may know from other courses,
 modern supercomputer nodes have increasingly a very hierarchical architecture. This hierarchical architecture is extremely
 pronounced on the AMD EPYC architecture used in LUMI but is also increasingly showing up with Intel processors and the ARM
 server processors, and is also relevant but often ignored in GPU clusters.
@@ -1382,13 +1381,13 @@ Below we discuss the more important of the standard ones:
     -   And it is possible to give a list with explicit values, e.g.,
 
         ``` bash
-        export OMP_PLACES="{0:4}:4:4"
+        export OMP_PLACES="{0:4}:3:8"
         ```
 
         which is also equivalent to
 
         ``` bash
-        export OMP_PLACES="{0,1,2,3},{4,5,6,7},{8,9,10,11},{12,13,14,15}"
+        export OMP_PLACES="{0,1,2,3},{8,9,10,11},{16,17,18,19}"
         ```
 
         so each OpenMP thread is restricted to a different group of 4 hardware threads. The numbers in the list are not
@@ -1733,7 +1732,7 @@ Some further documentation:
 </figure>
 
 The `ROCR_VISIBLE_DEVICES` environment variable restricts access to GPUs at the ROCm platform runtime 
-level. Contrary to control groups however this mechanism is compatible with the Peer2PEer IPC used by
+level. Contrary to control groups however this mechanism is compatible with the Peer2Peer IPC used by
 GPU-aware Cray MPI for intra-node communication.
 
 The value of the `ROCR_VISIBLE_DEVICES` environment variable is a list of device indices that will be
