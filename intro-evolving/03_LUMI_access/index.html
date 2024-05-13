@@ -652,6 +652,48 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="File spaces">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#per-user-file-spaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Per-user file spaces
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-project-file-spaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Per-project file spaces
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quota" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quota
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#some-additional-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Some additional information
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1132,6 +1174,48 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="File spaces">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#per-user-file-spaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Per-user file spaces
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-project-file-spaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Per-project file spaces
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quota" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quota
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#some-additional-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Some additional information
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1401,6 +1485,7 @@ on LUMI is created, it is very easy to do this on the command line with the
 </ul>
 <h2 id="file-spaces">File spaces<a class="headerlink" href="#file-spaces" title="Permanent link">&para;</a></h2>
 <p>LUMI has file spaces that are linked to a user account and file spaces that are linked to projects.</p>
+<h3 id="per-user-file-spaces">Per-user file spaces<a class="headerlink" href="#per-user-file-spaces" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide File Spaces User" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/FileSpacesUser.png" /></p>
 </figure>
@@ -1410,6 +1495,7 @@ can be expanded. It should only be used for things that are not project-related 
 foremost for those things that Linux and software automatically stores in a home directory like
 user-specific software configuration files. It is not billed as users can exist temporarily without
 an active project but therefore is also very limited in size.</p>
+<h3 id="per-project-file-spaces">Per-project file spaces<a class="headerlink" href="#per-project-file-spaces" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide File Spaces Project" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/FileSpacesProject.png" /></p>
 </figure>
@@ -1422,7 +1508,8 @@ storage budget of the project.</p>
     for the project (as it is assumed that a project is a coherent amount of work it is only 
     natural to assume that everybody in the project needs the same software), or to store input data
     etc. that will be needed for the duration of the project.</p>
-<p>Storing one TB for one hour on the disk based Lustre file systems costs 1 TB-hour.</p>
+<p>Storing one TB for one hour on the disk based Lustre file systems costs 1 TB-hour.
+As would storing 10 GB for 100 hours.</p>
 </li>
 <li>
 <p>Semi-permanent scratch storage on a hard disk based Lustre filesystem accessed via
@@ -1445,14 +1532,18 @@ the purchase cost difference of the systems.</p>
 <p>Storing one TB for one hour on the object based file system costs 0.5 TB-hour.</p>
 </li>
 </ol>
+<h3 id="quota">Quota<a class="headerlink" href="#quota" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide File Spaces Further Information" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/FileSpacesFurtherInfo.png" /></p>
+<p><img alt="Slide File Spaces Quota" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/FileSpacesQuota.png" /></p>
 </figure>
+<p>The slide above also shows the quota on each volume.
+This information is also <a href="https://docs.lumi-supercomputer.eu/storage/">available in the LUMI docs</a>.</p>
 <!-- BELGIUM -->
 <p>The use of space in each file space is limited by block and file quota. Block quota limit the
 capacity you can use, while file quota limit the number of so-called inodes you can use. Each file,
 each subdirectory and each link use an inode.
-As we shall see later in this course or as you may have seen in other HPC courses already
+As we shall see later in this course (in the <a href="../08_Lustre/">section on Lustre</a>)
+or as you may have seen in other HPC courses already
 (e.g., the VSC <a href="https://klust.github.io/SupercomputersForStarters/">Supercomputers for Starters</a> 
 course organised by UAntwerpen),
 parallel file systems are not built to deal with hundreds of thousands of small files and are
@@ -1461,14 +1552,72 @@ the home directory) but file quota are rather strict and will not easily get ext
 Software installations that require tens of thousands of small files should be done in 
 containers (e.g., conda installations or any big Python installation) while data should also
 be organised in proper file formats rather than being dumped on the file system abusing the file
+system as a database.</p>
+<!-- GENERAL More general version
+The use of space in each file space is limited by block and file quota. Block quota limit the
+capacity you can use, while file quota limit the number of so-called inodes you can use. Each file,
+each subdirectory and each link use an inode.
+As we shall see later in this course (in the [section on Lustre](10-Lustre.md))
+or as you may have seen in other HPC courses already,
+parallel file systems are not built to deal with hundreds of thousands of small files and are
+very inefficient at that. Therefore block quota on LUMI tend to be rather flexible (except for
+the home directory) but file quota are rather strict and will not easily get extended.
+Software installations that require tens of thousands of small files should be done in 
+containers (e.g., conda installations or any big Python installation) while data should also
+be organised in proper file formats rather than being dumped on the file system abusing the file
 system as a database.
-Quota extensions are currently handled by the central LUMI User Support Team.</p>
-<p><strong>So storage billing units come from the RA, block and file quota come from the LUMI User Support Team!</strong></p>
+-->
+
+<p>In the above slide, the "Capacity" column shows the block quota
+and the "Files" column show the total number of so-called inodes available in the file space.</p>
+<p>The project file spaces can be expanded in capacity within the limits specified.
+However, as big parallel file systems are very bad at handling lots of small files
+(see also the <a href="10-Lustre.md">session on Lustre</a>), the files quota (or more accurately
+inode quota) are rather strict and not easily raised (and if raised, not by an order
+of magnitude).</p>
+<p>So storage use on LUMI is limited in two independent ways:</p>
+<ul>
+<li>
+<p>Traditional Linux block and file quota limit the maximum capacity you can use (in volume and number of
+    inodes, roughly the number of files and directories combined).</p>
+</li>
+<li>
+<p>But actual storage use is also "billed" on a use-per-hour basis. The idea behind this is that a user may
+    run a program that generates a lot of data, but after some post-processing much of the data can be deleted
+    so that other users can use that capacity again, and to encourage that behaviour you are billed based not
+    on peak use, but based on the combination of the volume that you use and the time you use it for. </p>
+<p>Storage use is monitored hourly for the billing process. 
+If you run out of storage billing units, you will not be able to run jobs anymore.</p>
+<p>Storage in your home directory is not billed but that should not mean that you should 
+abuse your home directory for other purposes then a home directory is meant to be used, 
+and an extension of the home directory will never be granted. If you run out of space
+for, e.g., caches, you should relocate them to, e.g., your scratch space, which can sometimes
+be done by setting an environment variable and in other cases by just using symbolic
+links to preserve the structure of the caching subdirectories in your home directory while
+storing data elsewhere.</p>
+</li>
+</ul>
+<!-- BELGIUM -->
+<p><strong>Quota extensions are currently handled by the central LUMI User Support Team. 
+But storage billing units, just as any billing unit, comes from your resource allocator
+(so LUMI-BE for projects assigned through the Belgian channel and EuroHPC themselves for
+their projects),
+and the LUMI User Support Team cannot give you any storage billing units.</strong></p>
+<!-- GENERAL More general version 
+**Quota extensions are currently handled by the central LUMI User Support Team. 
+But storage billing units, just as any billing unit, comes from your resource allocator,
+and the LUMI User Support Team cannot give you any storage billing units.**
+-->
+
+<h3 id="some-additional-information">Some additional information<a class="headerlink" href="#some-additional-information" title="Permanent link">&para;</a></h3>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide File Spaces Further Information" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/FileSpacesFurtherInfo.png" /></p>
+</figure>
 <p>LUMI has four disk based Lustre file systems that house <code>/users</code>, <code>/project</code> and <code>/scratch</code>.
 The <code>/project</code> and <code>/scratch</code> directories of your project will always be on the same parallel
 file system, but your home directory may be on a different one. Both are assigned automatically
 during project and account creation and these assignments cannot be changed by the LUMI User Support Team.
-As there is a many-to-may mapping between user accounts and projects it is not possible to
+As there is a many-to-many mapping between user accounts and projects it is not possible to
 ensure that user accounts are on the same file system as their main project. In fact, many users
 enter LUMI for the first time through a course project and not through one of their main compute
 projects...</p>
@@ -1488,6 +1637,7 @@ of the home directory. And 90 days after the end of the project all data from th
 project is irrevocably deleted from the system. User accounts without project will also
 be closed, as will user accounts that remain inactive for several months, even if an
 active project is still attached to them.</p>
+<!-- BELGIUM -->
 <p>If you run out of storage billing units, access to the job queues or even to the storage 
 can be blocked and you should contact your resource allocator for extra billing units.
 Our experience within Belgium is that projects tend to heavily under-request storage
@@ -1497,6 +1647,17 @@ so right after a run, or as a job may not launch immediately, that you need to p
 data on the system long before a run starts. 
 So data needed for or resulting from a run has to stay on the system for a few days or weeks,
 and you need to budget for that in your project request.</p>
+<!-- GENERAL More general version 
+If you run out of storage billing units, access to the job queues or even to the storage 
+can be blocked and you should contact your resource allocator for extra billing units.
+It is important that you clean up after a run as LUMI is not meant for
+long-term data archiving. But at the same time it is completely normal that you cannot do 
+so right after a run, or as a job may not launch immediately, that you need to put input
+data on the system long before a run starts. 
+So data needed for or resulting from a run has to stay on the system for a few days or weeks,
+and you need to budget for that in your project request.
+-->
+
 <p>Web links:</p>
 <ul>
 <li><a href="https://docs.lumi-supercomputer.eu/storage/">Overview of storage systems on LUMI</a></li>
@@ -1628,7 +1789,7 @@ with the remote host, and the bandwidth one can reach via a single stream in the
 TCP network protocol used for such connections, is limited not only by the bandwidth of
 all links involved but also by the latency. After sending a certain amount of data, the
 sender will wait for a confirmation that the data has arrived, and if the latency is
-hight, that confirmation takes more time to reach the sender, limiting the effective
+high, that confirmation takes more time to reach the sender, limiting the effective
 bandwidth that can be reached over the connection. LUMI is not to blame for that;
 the whole path from the system from which you initiate the connection to LUMI
 is responsible and every step adds to the latency. We've seen many cases where the
@@ -1649,19 +1810,29 @@ Those tools for accessing object storage tend to set up multiple data streams an
 will offer a much higher effective bandwidth, even on high latency connections.</p>
 <!-- BELGIUM -->
 <p>Alternatively, you can also chose to access external servers from LUMI if you have client
-software that runs on LUMI (or if that software is already installed on LUMI, e.g., rclone
-and S3cmd), but neither the LUMI User Support Team not the Belgian local support teams
+software that runs on LUMI (or if that software is already installed on LUMI, e.g., <code>rclone</code>
+and <code>S3cmd</code>), but neither the LUMI User Support Team not the Belgian local support teams
 can tell you how to configure tools to use an external service that they don't have access
 to. But, e.g., the VSC Tier-0 support team might be able to help you to configure a tool
 to access the data services that VSC offers.</p>
 <p>Unfortunately there is no support yet for Globus or other forms of gridFTP. </p>
 <h2 id="what-is-lumi-o">What is LUMI-O?<a class="headerlink" href="#what-is-lumi-o" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide What is LUMI-O" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIOWhatIs.png" /></p>
+<p><img alt="Slide What is LUMI-O (1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIOWhatIs_1.png" /></p>
 </figure>
-<p>LUMI-O is an object storage system (based on Ceph). Users from Finland may be familiar with 
+<figure style="border: 1px solid #000">
+<p><img alt="Slide What is LUMI-O (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIOWhatIs_2.png" /></p>
+</figure>
+<!-- BELGIUM -->
+<p>LUMI-O is an object storage system (based on Ceph). 
+It is similar to a system that CSC, the company operating LUMI, built for users of Finland
+and is known there as Allas, though LUMI doesn't provide all the functionality of Allas.</p>
+<!-- GENERAL More general version 
+LUMI-O is an object storage system (based on Ceph). Users from Finland may be familiar with 
 Allas, which is similar to the LUMI object storage system, though LUMI doesn't provide all
-the functionality of Allas.</p>
+the functionality of Allas.
+-->
+
 <p>Object file systems need specific tools to access data. They are usually not mounted as a regular
 filesystem (though some tools can make them appear as a regular file system) and accessing them
 needs authentication via temporary keys that are different from your ssh keys and are not only
@@ -1687,14 +1858,31 @@ that contain objects:</p>
 courses are served currently. However, LUMI-O is not meant to be used as a data publishing
 service and is not an alternative to services provided by, e.g., EUDAT or several local
 academic service providers.</p>
+<p>The object storage can be easily reached from outside LUMI also. In fact, during
+downtimes, LUMI-O is often still operational as its software stack is managed completely
+independently from LUMI. It is therefore also very well suited as a mechanism for data
+transfer to and from LUMI. Moreover, tools for object storage often perform much better
+on high latency long-distance connections than tools as <code>sftp</code>.</p>
+<p>LUMI-O is based on the <a href="https://ceph.io/en/">Ceph object file system</a>. 
+It has a total capacity of 30 PB. 
+Storage is persistent for the duration of a project.
+Projects get a quota of 150 TB and can create up to 1K buckets and 500K objects per
+bucket. These quota are currently fixed and cannot be modified.
+Storage on LUMI-O is billed at 0.5 TB·hour per TB per hour, half that of
+/scratch or /project. It can be a good alternative to store data from your project
+that still needs to be transferred but is not immediately needed by jobs, or to
+maintain backups on LUMI yourself.</p>
 <h2 id="accessing-lumi-o">Accessing LUMI-O<a class="headerlink" href="#accessing-lumi-o" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Accessing LUMI-O" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIOAccessing.png" /></p>
 </figure>
 <p>Access to LUMI-O is based on temporary keys that need to be generated via a web interface
 (though there may be alternatives in the future).</p>
-<p>There are currently three command-line tools pre-installed on LUMI: rclone
-(which is the easiest tool if you want public and private data), s3cmd and restic.</p>
+<p>There are currently three command-line tools pre-installed on LUMI: 
+<a href="https://docs.lumi-supercomputer.eu/storage/lumio/#rclone">rclone</a>
+(which is the easiest tool if you want public and private data), 
+<a href="https://docs.lumi-supercomputer.eu/storage/lumio/#s3cmd">s3cmd</a> 
+and <a href="https://docs.lumi-supercomputer.eu/storage/lumio/#restic">restic</a>.</p>
 <p>But you can also access LUMI-O with similar tools from outside LUMI. Configuring them
 may be a bit tricky and the LUMI User Support Team cannot help you with each and every client
 tool on your personal machine. However, the web interface that is used to generate the keys,
@@ -1741,7 +1929,7 @@ machines so that one machine can be disabled quickly if the machine would be com
   <img alt="Slide Accessing LUMI-O: Credentials management web interface (5)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-access/LUMIOCredentialsWeb_05.png" />
 </figure></p>
 <p>At the top of the screen you see three elements that will be important if you use the LUMI command line tool
-<code>lumi-conf</code> to generate configuration files for <code>rclone</code> and <code>s3cmd</code>: the project number (but you knew that one),
+<code>lumio-conf</code> to generate configuration files for <code>rclone</code> and <code>s3cmd</code>: the project number (but you knew that one),
 the "Access key" and "Secret key".</p>
 <p>Scrolling down a bit more:</p>
 <p><figure markdown style="border: 1px solid #000">
@@ -1783,7 +1971,7 @@ both ways discussed on the previous slide, produce different end points.</p>
 <li>When using <code>lumio-conf</code>, you'll get:<ul>
 <li><code>lumi-o</code> as the end point for buckets and object that should be private, i.e., not publicly
     accessible via the web interface, and</li>
-<li>'lumi-pub' for buckets and objects that should be publicly accessible. It does appear to be
+<li><code>lumi-pub</code> for buckets and objects that should be publicly accessible. It does appear to be
     possible to have both types in a single bucket though.</li>
 </ul>
 </li>

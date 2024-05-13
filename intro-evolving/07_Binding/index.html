@@ -1290,7 +1290,7 @@
                   
 
 
-<h1 id="process-and-thread-distribution-and-binding">Process and thread distribution and binding<a class="headerlink" href="#process-and-thread-distribution-and-binding" title="Permanent link">&para;</a></h1>
+<h1 id="process-and-thread-distribution-and-binding">Process and Thread Distribution and Binding<a class="headerlink" href="#process-and-thread-distribution-and-binding" title="Permanent link">&para;</a></h1>
 <h2 id="what-are-we-talking-about-in-this-session">What are we talking about in this session?<a class="headerlink" href="#what-are-we-talking-about-in-this-session" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide What are we talking about" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-binding/WhatAbout.png" /></p>
@@ -1315,7 +1315,7 @@ The second mechanism is processor affinity which works at the process and thread
 used by Slurm at the task level and 
 can be used by the OpenMP runtime to further limit thread migration. It works through affinity masks
 which indicate the hardware threads that a thread or process can use. There is also a third
-mechanism provided by the ROCm<sup>TM</sup> run time to control which GPUs can be used.</p>
+mechanism provided by the ROCm<sup>TM</sup> runtime to control which GPUs can be used.</p>
 <p>Some of the tools in the <code>lumi-CPEtools</code> module can show the affinity mask for each thread
 (or effectively the process for single-threaded processes) so you can use these tools to
 study the affinity masks and check the distribution and binding of processes and threads.
@@ -1376,8 +1376,7 @@ per-node per-job basis.</p>
 </ul>
 <p>Binding almost only makes sense on job-exclusive nodes as only then you have full control over all available 
 resources. On <a href="../06_Slurm/#partitions">"allocatable by resources"</a> partitions 
-you usually do not know which resources are available. OpenMP thread binding may still help a bit with
-performance in some cases.
+you usually do not know which resources are available.
 The advanced Slurm binding options that we will discuss do not work in those cases, and the options offered
 by the MPICH, OpenMP and ROCm runtimes may work very unpredictable, though OpenMP thread binding may still 
 help a bit with performance in some cases.</p>
@@ -1403,7 +1402,7 @@ pronounced on the AMD EPYC architecture used in LUMI but is also increasingly sh
 server processors, and is also relevant but often ignored in GPU clusters.
 --&gt;</p>
 <!-- GENERAL More general version
-As we have somewhat in the ["LUMI Architecture" session of this course](01_Architecture.md) and as you may know from other courses,
+As we have seen in the ["LUMI Architecture" session of this course](01_Architecture.md) and as you may know from other courses,
 modern supercomputer nodes have increasingly a very hierarchical architecture. This hierarchical architecture is extremely
 pronounced on the AMD EPYC architecture used in LUMI but is also increasingly showing up with Intel processors and the ARM
 server processors, and is also relevant but often ignored in GPU clusters.
@@ -2702,10 +2701,10 @@ or cache constrained and using fewer threads actually gives better overall perfo
 <li><code>OMP_PLACES=sockets</code> to restrict each OpenMP thread to the hardware threads of a single socket</li>
 <li>
 <p>And it is possible to give a list with explicit values, e.g.,</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span><span class="s2">&quot;{0:4}:4:4&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span><span class="s2">&quot;{0:4}:3:8&quot;</span>
 </code></pre></div>
 <p>which is also equivalent to</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span><span class="s2">&quot;{0,1,2,3},{4,5,6,7},{8,9,10,11},{12,13,14,15}&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span><span class="s2">&quot;{0,1,2,3},{8,9,10,11},{16,17,18,19}&quot;</span>
 </code></pre></div>
 <p>so each OpenMP thread is restricted to a different group of 4 hardware threads. The numbers in the list are not
 the physical Linux hardware thread numbers, but are relative to the hardware threads available in the 
@@ -3015,7 +3014,7 @@ also offer additional environment variables, e.g.,
 <p><img alt="Slide GPU binding with ROCR_VISIBLE_DEVICES" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-binding/ROCRGPU.png" /></p>
 </figure>
 <p>The <code>ROCR_VISIBLE_DEVICES</code> environment variable restricts access to GPUs at the ROCm platform runtime 
-level. Contrary to control groups however this mechanism is compatible with the Peer2PEer IPC used by
+level. Contrary to control groups however this mechanism is compatible with the Peer2Peer IPC used by
 GPU-aware Cray MPI for intra-node communication.</p>
 <p>The value of the <code>ROCR_VISIBLE_DEVICES</code> environment variable is a list of device indices that will be
 exposed to the applications. The device indices do depend on the control group. Visible devices in a control

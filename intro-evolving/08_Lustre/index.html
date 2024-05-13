@@ -886,30 +886,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Lustre on LUMI">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#storage-areas" class="md-nav__link">
-    <span class="md-ellipsis">
-      Storage areas
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#object-storage-lumi-o" class="md-nav__link">
-    <span class="md-ellipsis">
-      Object storage: LUMI-O
-    </span>
-  </a>
-  
 </li>
       
         <li class="md-nav__item">
@@ -1168,30 +1144,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Lustre on LUMI">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#storage-areas" class="md-nav__link">
-    <span class="md-ellipsis">
-      Storage areas
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#object-storage-lumi-o" class="md-nav__link">
-    <span class="md-ellipsis">
-      Object storage: LUMI-O
-    </span>
-  </a>
-  
 </li>
       
         <li class="md-nav__item">
@@ -1244,11 +1196,12 @@ slower than on the SSD of a good PC.</p>
 <p>HPE Cray EX systems go even one step further. 
 Lustre is the only network file system directly served to the compute nodes.
 Other network file system come via a piece of software called Data
-Virtualisation Service (abbreviated DVS) that basically forward I/O requests
+Virtualisation Service (abbreviated DVS) that basically forwards I/O requests
 to servers in the management section of the cluster where the actual file
 system runs. 
 This is part of the measures that Cray takes in Cray Operating System to
-minimise OS jitter on the compute nodes to improve scalability of applications.</p>
+minimise OS jitter on the compute nodes to improve scalability of applications,
+and to reduce the memory footprint of the OS on the compute nodes.</p>
 <h2 id="lustre-building-blocks">Lustre building blocks<a class="headerlink" href="#lustre-building-blocks" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Lustre building blocks" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-lustre/LustreBuildingBlocks1.png" /></p>
@@ -1735,88 +1688,6 @@ is entirely based on SSDs. It currently has a capacity of approximately 8.5 PB a
 2 TB/s aggregated bandwidth. The system has 4 MDTs spread across 4 MDSes, and 72 OSTs and 72 OSSes,
 os 1 OST per OSS (as a single OST already offers a lot more bandwidth and hence needs more server
 capacity than a hard disk based OST).</p>
-<h3 id="storage-areas">Storage areas<a class="headerlink" href="#storage-areas" title="Permanent link">&para;</a></h3>
-<figure style="border: 1px solid #000">
-<p><img alt="Storage areas" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-lustre/LumiStorageAreas.png" /></p>
-</figure>
-<p>The table on the slide above summarises the available file areas on the Lustre filesystems.
-That information is also <a href="https://docs.lumi-supercomputer.eu/storage/">available in the LUMI docs</a>.</p>
-<ul>
-<li>
-<p>The home directory your personal area and mostly meant for configuration files and caches of
-    Linux commands, etc., and not meant for project-related work. It is fixed in size and number 
-    of files. No extension of those limits is ever granted.</p>
-</li>
-<li>
-<p>The persistent project directory is meant to be the main work place for your project. A LUMI
-    project is also meant to be a close collaboration between people, and not something simply provided
-    to a research group for all their work.</p>
-<p>By default users get 50 GB of storage and 100,000 inodes (files and directories). The storage
-volume can be increased to 500 GB on request to the central LUMI help desk, but the number of
-inodes is fixed (though some small extensions have been granted if the user has a very good reason)
-as we want to avoid that the filesystems get overloaded by users working with lots of small files
-directly on the Lustre filesystem.</p>
-<p>The data is persistent for the project lifetime, but removed 90 days after the end of the project.</p>
-</li>
-<li>
-<p>The project scratch space on LUMI-P is by default 50 TB but can on request be extended up to 500 TB.
-    The number of files is limited to 2M, again to discourage using many small files.</p>
-<p>Data is only guaranteed to stay on the file system for 90 days. After 90 days, an automatic cleaning
-procedure may remove data (but it has not yet been necessary so far as other policies work well to 
-keep the storage reasonably clean).</p>
-</li>
-<li>
-<p>Finally, each project also gets some fast scratch space on LUMI-F. The default amount of storage is 
-    2 TB, but can be extended to up to 100 TB. The number of inodes is limited to 1M, and data can be
-    removed automatically after 30 days (but again this has not happened yet).</p>
-</li>
-</ul>
-<p>It is important to note that LUMI is not meant to be used as a safe data archive. There is no backup of
-any of the filesystems, and there is no archiving of data of expired projects or user accounts. 
-Users are responsible for moving their data to systems suitable for archival.</p>
-<p>Storage use on LUMI is limited in two independent ways:</p>
-<ul>
-<li>
-<p>Traditional Linux block and file quota limit the maximum capacity you can use (in volume and number of
-    inodes, roughly the number of files and directories combined).</p>
-</li>
-<li>
-<p>But actual storage use is also "billed" on a use-per-hour basis. The idea behind this is that a user may
-    run a program that generates a lot of data, but after some post-processing much of the data can be deleted
-    so that other users can use that capacity again, and to encourage that behaviour you are billed based not
-    on peak use, but based on the combination of the volume that you use and the time you use it for. </p>
-<p>E.g., if you would have 10 GB on the LUMI-P storage for 100 hours, you'd be billed 1 TB hour for that.
-If subsequently you reduce your usage to 2 GB, then it would take 500 hours before you have consumed another
-TB hour. Storage use is monitored hourly for this billing process, and if you run out of storage billing units
-you will not be able to run jobs anymore.</p>
-<p>The billing rate also depends on the file system used. As the flash storage system was roughly 10 times as 
-expensive in purchase as the hard disk based file systems, storage on <code>/flash</code> is also billed at 10 times
-the rate, so with 1 TB hour you can only store 100 GB for 1 hour on that system.</p>
-</li>
-</ul>
-<p>Storage in your home directory is not billed but that should not mean that you should abuse your home directory
-for other purposes then a home directory is meant to be used, and an extension of the home directory will
-never be granted. </p>
-<h2 id="object-storage-lumi-o">Object storage: LUMI-O<a class="headerlink" href="#object-storage-lumi-o" title="Permanent link">&para;</a></h2>
-<figure style="border: 1px solid #000">
-<p><img alt="Object storage: LUMI-O" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-lustre/LumiObjectStorage.png" /></p>
-</figure>
-<p>LUMI has yet another storage system: An object storage system based on CEPH with a capacity of 30 PB.
-It can be used for storing, sharing and staging data. 
-It is not mounted on the compute nodes in a traditional way (as it is also structured differently)
-but can be accessed with tools such as <code>rclone</code> and <code>s3cmd</code>. </p>
-<p>It can also be reached easily from outside LUMI and is a proper intermediate stage to get
-data to and from LUMI, also because several object storage tools perform much better on high
-latency long-distance connections than tools as <code>sftp</code>. </p>
-<p>The downside is that to access LUMI-O, temporary authentication credentials have to be generated,
-which currently can only be done via a web interface, after which information about those credentials
-needs to be copied to configuration files or to fields in a GUI for GUI tools.</p>
-<p>Data on LUMI-O is persistent for the duration of the project. It is also billed, but as object storage
-is fairly cheap, is is billed at half the rate of LUMI-P. The quota are currently fixed at 150 TB per project, with a maximum of 1k buckets and 500k objects per bucket.</p>
-<p>This short course does not offer enough time to fully discuss working with the object storage of LUMI.
-However, it was discussed to some extent already in the 
-<a href="../03_LUMI_access/">"Getting Access to LUMI" chapter</a> and there is also some info in
-<a href="https://docs.lumi-supercomputer.eu/storage/lumio/">the LUMI documentation</a>.</p>
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <ul>
 <li>
@@ -1832,6 +1703,10 @@ However, it was discussed to some extent already in the
 <p><a href="https://www.nas.nasa.gov/hecc/support/kb/lustre-basics_224.html">Lustre Basics</a> and
     <a href="https://www.nas.nasa.gov/hecc/support/kb/lustre-best-practices_226.html">Lustre Best Practices</a>
     in the <a href="https://www.nas.nasa.gov/hecc/support/kb/">knowledge base of the NASA supercomputers</a>.</p>
+</li>
+<li>
+<p><a href="https://support.hpe.com/hpesc/public/docDisplay?docId=a00115089en_us&amp;page=Introduction_to_DVS.html">Introduction to DVS</a>
+    in an <a href="https://support.hpe.com/hpesc/public/docDisplay?docId=a00115089en_us&amp;page=index.html">administration guide</a></p>
 </li>
 </ul>
 

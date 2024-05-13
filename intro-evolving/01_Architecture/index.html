@@ -1355,7 +1355,7 @@ in that data format which is important for a lot of scientific computing applica
     not only hard to get working on a supercomputer but also insecure.</p>
 </li>
 <li>
-<p><strong>And supercomputer need proper software that exploits the strengths and works around the weaknesses
+<p><strong>And supercomputers need proper software that exploits the strengths and works around the weaknesses
     of their architecture.</strong><br />
     CERN came telling on a EuroHPC Summit Week before the COVID pandemic that they would start using more
     HPC and less cloud and that they expected a 40% cost reduction that way. A few years later they
@@ -1445,7 +1445,8 @@ as LUMI-P. </p>
 <p>Big parallel file systems need to be used in the proper way to be able to offer the
 performance that one would expect from their specifications. This is important enough that 
 we have a separate session about that in this course.</p>
-<p>An <strong>object based file system</strong> similar to the Allas service of CSC that some
+<p>There is also a 30 PB <strong>object based file system</strong> 
+similar to the Allas service of CSC that some
 of the Finnish users may be familiar with is also being worked on. At the 
 moment the interface to that system is still rather primitive.</p>
 <p>Currently LUMI has <strong>4 login nodes</strong> for ssh access, called user access nodes in the HPE Cray
@@ -1495,7 +1496,7 @@ double precision) rather than the 32 some Intel processors are capable of. </p>
 <p>The full processor package for the AMD EPYC processors used in LUMI have
 8 such Core Complex Dies for a total of 64 cores. The <strong>caches are not
 shared between different CCDs</strong>, so it also implies that the processor has
-8 so-called L3 cache regions domains. (Some cheaper variants have only 4 CCDs,
+8 so-called L3 cache regions or domains. (Some cheaper variants have only 4 CCDs,
 and some have CCDs with only 6 or fewer cores enabled but the same 32 MB of L3
 cache per CCD).</p>
 <p>Each CCD connects to the memory/IO die through an Infinity Fabric link. 
@@ -1619,7 +1620,7 @@ cache the CPU DDR and GPU HBM memory, but each GPU only coherently caches
 its own local memory.
 The second remarkable element is that the Slingshot interface cards
 connect directly to the GPUs (through a PCIe interface on the GPU) rather
-than to the CPU. The CPUs have a shorter path to the communication 
+than to the CPU. The GPUs have a shorter path to the communication 
 network than the CPU in this design. </p>
 <p>This makes the LUMI-G compute node really a "GPU first" system. The architecture
 looks more like a GPU system with a CPU as the accelerator for tasks that a GPU is
@@ -1834,7 +1835,11 @@ but presumably those were not yet available when the design of MI300A was tested
 for the launch customer, the <a href="https://asc.llnl.gov/exascale/el-capitan">El Capitan supercomputer</a>. 
 <a href="https://www.hlrs.de/news/detail/exascale-supercomputing-is-coming-to-stuttgart">HLRS is building the Hunter cluster based on AMD MI300A</a> 
 as a transitional system
-to their first exascale-class system Herder that will become operational by 2027.</p>
+to their first exascale-class system Herder that will become operational by 2027.
+The fact that the chip has recently been selected for the Hunter development system
+also indicates that even if no successor using the same techniques to combine GPU and
+CPU compute dies and memory would be made, there should at least be a successor that
+towards software behaves very similarly.</p>
 <p>Intel at some point has shown only very conceptual drawings of its Falcon Shores chip 
 which it calls an XPU, but those drawings suggest that that chip will also support some low-bandwidth
 but higher capacity external memory, similar to the approach taken in some Sapphire 
@@ -1843,8 +1848,6 @@ the package. Falcon Shores will be the next generation of Intel GPUs for HPC, af
 Ponte Vecchio which will be used in the Aurora supercomputer. It is currently very likely
 though that Intel will revert to a traditional design for Falcon Shores and push
 out the integrated CPU+GPU model to a later generation.</p>
-<p>However, a CPU closely integrated with accelerators is nothing new as Apple Silicon is 
-rumoured to do exactly that in its latest generations, including the M-family chips.</p>
 <h2 id="building-lumi-the-slingshot-interconnect">Building LUMI: The Slingshot interconnect<a class="headerlink" href="#building-lumi-the-slingshot-interconnect" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Slingshot interconnect" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-architecture/Slingshot.png" /></p>

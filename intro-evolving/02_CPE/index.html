@@ -106,7 +106,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#the-hpe-cray-programming-environment" class="md-skip">
+        <a href="#hpe-cray-programming-environment" class="md-skip">
           Skip to content
         </a>
       
@@ -1350,7 +1350,7 @@
                   
 
 
-<h1 id="the-hpe-cray-programming-environment">The HPE Cray Programming Environment<a class="headerlink" href="#the-hpe-cray-programming-environment" title="Permanent link">&para;</a></h1>
+<h1 id="hpe-cray-programming-environment">HPE Cray Programming Environment<a class="headerlink" href="#hpe-cray-programming-environment" title="Permanent link">&para;</a></h1>
 <p>In this session we discuss some of the basics of the operating system and
 programming environment on LUMI. Whether you like it or not, every user
 of a supercomputer like LUMI gets confronted with these elements at some
@@ -1448,10 +1448,11 @@ GPU-aware communication over Slingshot.</p>
 pass some large-scale scalability tests, and therefore another form of "low-noise" mode is implemented
 on the GPU nodes of LUMI where OS processes are restricted to a reserved core, actually core 0.
 This leaves us with an asymmetric structure of the node, where the first CCD has 7 available cores
-while the other ones have 8, and as we shall see in the 
-<a href="../07_Binding/">"Process and thread distribution and binding" chapter</a>,
-this will create some headaches when trying to get maximal efficiency for GPU applications.
-(For this reason some other clusters based on the same architecture reserve on core on each CCD.)</p>
+while the other ones have 8, but as that created a headache for users to get a proper
+distribution of tasks and threads over the CPU 
+(see the <a href="../07_Binding/">"Process and thread distribution and binding" chapter</a>),
+the choice was made to also disable the first core on each of the other CCDs so that
+users now effectively see a 56-core node with 8 CCDs with 7 cores each.</p>
 <p>This is actually an idea Cray has been experimenting with in the past already, ever since
 we've had nodes with 20 or more cores with the AMD Magny-Cours processors in 2010.</p>
 <h2 id="programming-models">Programming models<a class="headerlink" href="#programming-models" title="Permanent link">&para;</a></h2>
@@ -1609,7 +1610,7 @@ iterative refinement. If you are familiar with numerical analysis, you probably 
 not be too ill-conditioned for that.</p>
 <p>There is also a GPU-optimized version of LibSci, called 
 <a href="https://cpe.ext.hpe.com/docs/csml/cray_libsci_acc.html">LibSci_ACC</a>, which contains a subset of the
-rroutines of LibSci. We or the LUMI USer Support Team don't have much experience with this library though.
+routines of LibSci. We or the LUMI USer Support Team don't have much experience with this library though.
 It can be compared with what Intel is doing with oneAPI MKL which also offers GPU versions of some of
 the traditional MKL routines.</p>
 <p>Another separate component of the scientific and mathematical libraries is 
@@ -1856,8 +1857,8 @@ activate:</p>
 <tr>
 <td>PrgEnv-gnu</td>
 <td>GNU Compiler Collection</td>
-<td><code>gcc</code></td>
-<td><code>gcc</code>, <code>g++</code>, <code>gfortran</code></td>
+<td><code>gcc</code><br/><code>gcc-native</code><sup>(*)</sup></td>
+<td><code>gcc</code>, <code>g++</code>, <code>gfortran</code><br/><code>gcc-12</code>, <code>g++-12</code>, <code>gfortran-12</code></td>
 </tr>
 <tr>
 <td>PrgEnv-aocc</td>
@@ -1873,6 +1874,7 @@ activate:</p>
 </tr>
 </tbody>
 </table>
+<p><sup>(*)</sup> See the note "Changes to the GNU compilers in 23.12".</p>
 <p>There is also a second module that offers the AMD ROCm environment, <code>rocm</code>. That module
 has to be used with <code>PrgEnv-cray</code> and <code>PrgEnv-gnu</code> to enable MPI-aware GPU,
 hipcc with the GNU compilers or GPU support with the Cray compilers.</p>
