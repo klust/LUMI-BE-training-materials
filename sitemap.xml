@@ -76,6 +76,56 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/D01-Architecture/</loc>
+         <lastmod>2024-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/D02-CPE/</loc>
+         <lastmod>2024-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/D03-Access/</loc>
+         <lastmod>2024-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/D04-Modules/</loc>
+         <lastmod>2024-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/D05-SoftwareStacks/</loc>
+         <lastmod>2024-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/D06-Slurm/</loc>
+         <lastmod>2024-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/D07-Binding/</loc>
+         <lastmod>2024-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/D08-Lustre/</loc>
+         <lastmod>2024-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/D09-Containers/</loc>
+         <lastmod>2024-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/D10-Support/</loc>
+         <lastmod>2024-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/Demo1/</loc>
          <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
