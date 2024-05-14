@@ -1,4 +1,4 @@
-# I/O and file systems on LUMI
+# Using Lustre
 
 ## File systems on LUMI
 

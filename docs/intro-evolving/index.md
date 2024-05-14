@@ -77,21 +77,25 @@ You will only need an very minimum of CPU and GPU billing units for this.
 | Presentation | Slides | Notes | Exercises |
 |:-------------|:-------|:------|:----------|
 | Notes Introduction | / | [notes](00-Introduction.md) | / |
-| LUMI Architecture | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-01-Architecture.pdf) | [notes](01-Architecture.md) | / |
-| HPE Cray Programming Environment | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-02-CPE.pdf) | [notes](02-CPE.md) | [exercises](E02-CPE.md) |
-| Getting access to LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-03-Access.pdf) | [notes](03-Access.md) | [exercises](E03-Access.md) |
-| Modules on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-04-Modules.pdf) | [notes](04-Modules.md) | [exercises](E04-Modules.md) |
-| LUMI Software Stacks | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-05-SoftwareStacks.pdf) | [notes](05-SoftwareStacks.md) | [exercises](E05-SoftwareStacks.md) |
-| Slurm on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-06-Slurm.pdf) | [notes](06-Slurm.md) | [exercises](E06-Slurm.md) |
-| Binding resources | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-07-Binding.pdf) | [notes](07-Binding.md) | [exercises](E07-Binding.md) | 
-| Using Lustre | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-08-Lustre.pdf) | [notes](08-Lustre.md) | / |
-| Containers on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-09-Containers.pdf) | [notes](09-Containers.md) | / |
-| Container demo 1 | / | [notes](Demo1.md) | [video](Demo1.md#video-of-the-demo) |
-| Container demo 2 | / | [notes](Demo2.md) | [video](Demo2.md#video-of-the-demo) |
-| LUMI User Support | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-10-Support.pdf) | [notes](10-Support.md) | / |
+| [LUMI Architecture](D01-Architecture.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-01-Architecture.pdf) | [notes](01-Architecture.md) | / |
+| [HPE Cray Programming Environment](D02-CPE.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-02-CPE.pdf) | [notes](02-CPE.md) | [exercises](E02-CPE.md) |
+| [Getting access to LUMI](D03-Access.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-03-Access.pdf) | [notes](03-Access.md) | [exercises](E03-Access.md) |
+| [Modules on LUMI](D04-Modules.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-04-Modules.pdf) | [notes](04-Modules.md) | [exercises](E04-Modules.md) |
+| [LUMI Software Stacks](D05-SoftwareStacks.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-05-SoftwareStacks.pdf) | [notes](05-SoftwareStacks.md) | [exercises](E05-SoftwareStacks.md) |
+| [Slurm on LUMI](D06-Slurm.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-06-Slurm.pdf) | [notes](06-Slurm.md) | [exercises](E06-Slurm.md) |
+| [Binding resources](D07-Binding.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-07-Binding.pdf) | [notes](07-Binding.md) | [exercises](E07-Binding.md) | 
+| [Using Lustre](D08-Lustre.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-08-Lustre.pdf) | [notes](08-Lustre.md) | / |
+| [Containers on LUMI](D09-Containers.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-09-Containers.pdf) | [notes](09-Containers.md) | / |
+| Container demo 1 | / | [notes and video](Demo1.md) | / |
+| Container demo 2 | / | [notes and video](Demo2.md) | / |
+| [LUMI User Support](D10-Support.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-10-Support.pdf) | [notes](10-Support.md) | / |
 | A1 Slurm issues | / | [notes](A01-SlurmIssues.md) | / | 
 | A2 Additional documentation | / | [notes](A02-Documentation.md) | / | 
 
+<!--
+| Container demo 1 | / | [notes and video](Demo1.md) | [video](Demo1.md#video-of-the-demo) |
+| Container demo 2 | / | [notes and video](Demo2.md) | [video](Demo2.md#video-of-the-demo) |
+-->
 
 ## Web links
 
