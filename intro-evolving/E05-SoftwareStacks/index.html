@@ -8,13 +8,9 @@
       
       
       
-        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/Demo1/">
+        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/E05-SoftwareStacks/">
       
       
-        <link rel="prev" href="../09-Containers/">
-      
-      
-        <link rel="next" href="../Demo2/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +18,7 @@
     
     
       
-        <title>Container demo 1 - LUMI-BE training materials</title>
+        <title>Exercises 3: LUMI Software Stacks and EasyBuild - LUMI-BE training materials</title>
       
     
     
@@ -106,7 +102,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#container-demo-1-fooocus" class="md-skip">
+        <a href="#exercises-3-lumi-software-stacks-and-easybuild" class="md-skip">
           Skip to content
         </a>
       
@@ -224,7 +220,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Container demo 1
+              Exercises 3: LUMI Software Stacks and EasyBuild
             
           </span>
         </div>
@@ -416,8 +412,6 @@
       
   
   
-    
-  
   
   
     
@@ -460,11 +454,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           
@@ -486,7 +480,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             LUMI Intro (evolving)
@@ -709,30 +703,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Container demo 1
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../Demo1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -741,104 +715,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#video-of-the-demo" class="md-nav__link">
-    <span class="md-ellipsis">
-      Video of the demo
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-1-checking-fooocus" class="md-nav__link">
-    <span class="md-ellipsis">
-      Step 1: Checking Fooocus
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Step 1: Checking Fooocus">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#step-2-install-the-pytorch-container" class="md-nav__link">
-    <span class="md-ellipsis">
-      Step 2: Install the PyTorch container
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-3-adding-some-suse-packages" class="md-nav__link">
-    <span class="md-ellipsis">
-      Step 3: Adding some SUSE packages
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-4-adding-python-packages" class="md-nav__link">
-    <span class="md-ellipsis">
-      Step 4: Adding Python packages
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-reward-running-fooocus" class="md-nav__link">
-    <span class="md-ellipsis">
-      The reward: Running Fooocus
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#alternative-way-of-running" class="md-nav__link">
-    <span class="md-ellipsis">
-      Alternative way of running
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#further-discovery" class="md-nav__link">
-    <span class="md-ellipsis">
-      Further discovery
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -962,64 +838,55 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#video-of-the-demo" class="md-nav__link">
+  <a href="#information-in-the-lumi-software-library" class="md-nav__link">
     <span class="md-ellipsis">
-      Video of the demo
+      Information in the LUMI Software Library
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-1-checking-fooocus" class="md-nav__link">
+  <a href="#using-modules-in-the-lumi-software-stack" class="md-nav__link">
     <span class="md-ellipsis">
-      Step 1: Checking Fooocus
+      Using modules in the LUMI software stack
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Step 1: Checking Fooocus">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-software-with-easybuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing software with EasyBuild
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing software with EasyBuild">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#step-2-install-the-pytorch-container" class="md-nav__link">
+  <a href="#installing-a-simple-program-without-dependencies-with-easybuild" class="md-nav__link">
     <span class="md-ellipsis">
-      Step 2: Install the PyTorch container
+      Installing a simple program without dependencies with EasyBuild
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-3-adding-some-suse-packages" class="md-nav__link">
+  <a href="#installing-an-easyconfig-given-to-you-by-lumi-user-support" class="md-nav__link">
     <span class="md-ellipsis">
-      Step 3: Adding some SUSE packages
+      Installing an EasyConfig given to you by LUMI User Support
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-4-adding-python-packages" class="md-nav__link">
+  <a href="#installing-software-with-uninstalled-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
-      Step 4: Adding Python packages
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-reward-running-fooocus" class="md-nav__link">
-    <span class="md-ellipsis">
-      The reward: Running Fooocus
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#alternative-way-of-running" class="md-nav__link">
-    <span class="md-ellipsis">
-      Alternative way of running
+      Installing software with uninstalled dependencies
     </span>
   </a>
   
@@ -1027,15 +894,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#further-discovery" class="md-nav__link">
-    <span class="md-ellipsis">
-      Further discovery
-    </span>
-  </a>
   
 </li>
       
@@ -1054,292 +912,233 @@
                   
 
 
-<h1 id="container-demo-1-fooocus">Container demo 1: Fooocus<a class="headerlink" href="#container-demo-1-fooocus" title="Permanent link">&para;</a></h1>
-<p><a href="https://github.com/lllyasviel/Fooocus">Fooocus</a> is an AI-based image generating
-package that is available under the
-<a href="https://github.com/lllyasviel/Fooocus/blob/main/LICENSE">GNU General Public License V3</a>.</p>
-<p>The version on which we first prepared this demo,
-insists on writing in the directories with some of the Fooocus files, so we cannot put
-Fooocus in a container at the moment.</p>
-<p>It is based on PyTorch. However, we cannot use the containers provided on LUMI as-is
-as additional system level libraries are needed for the graphics.</p>
-<p>This demo shows:</p>
+<h1 id="exercises-3-lumi-software-stacks-and-easybuild">Exercises 3: LUMI Software Stacks and EasyBuild<a class="headerlink" href="#exercises-3-lumi-software-stacks-and-easybuild" title="Permanent link">&para;</a></h1>
+<p>See <a href="../#setting-up-for-the-exercises">the instructions</a>
+to set up for the exercises.</p>
+<h2 id="information-in-the-lumi-software-library">Information in the LUMI Software Library<a class="headerlink" href="#information-in-the-lumi-software-library" title="Permanent link">&para;</a></h2>
+<p>Explore the <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/">LUMI Software Library</a>.</p>
 <ul>
+<li>Search for information for the package ParaView and quickly read through the page</li>
+</ul>
+<details class="solution">
+<summary>Click to see the solution.</summary>
+<p><a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/ParaView/">Link to the ParaView documentation</a></p>
+<p>It is an example of a package for which we have both user-level and some technical information. The page
+will first show some license information, then the actual user information which in case of this package
+is very detailed and long. But it is also a somewhat complicated package to use. It will become easier
+when LUMI evolves a bit further, but there will always be some pain. Next comes the more technical
+part: Links to the EasyBuild recipe and some information about how we build the package.</p>
+<p>We currently only provide ParaView in the cpeGNU toolchain. This is because it has a lot of dependencies
+that are not trivial to compile and to port to the other compilers on the system, and EasyBuild is 
+strict about mixing compilers basically because it can cause a lot of problems, e.g., due to conflicts
+between OpenMP runtimes.</p>
+</details>
+<h2 id="using-modules-in-the-lumi-software-stack">Using modules in the LUMI software stack<a class="headerlink" href="#using-modules-in-the-lumi-software-stack" title="Permanent link">&para;</a></h2>
+<ol>
 <li>
-<p>Installing one of the containers provided on LUMI with EasyBuild,</p>
+<p>Search for the <code>bzip2</code> tool (and not just the <code>bunzip2</code> command as we also need the <code>bzip2</code> command) and make 
+    sure that you can use software compiled with the Cray compilers in the LUMI stacks in the same session.</p>
+<details class="solution">
+<summary>Click to see the solution.</summary>
+<div class="highlight"><pre><span></span><code>module spider bzip2
+</code></pre></div>
+<p>shows that there are versions of <code>bzip2</code> for several of the <code>cpe*</code> toolchains and in several versions
+of the LUMI software stack.</p>
+<p>Of course we prefer to use a recent software stack, the <code>22.08</code> or <code>22.12</code> (but as of early May 2023, 
+there is a lot more software ready-to-install for <code>22.08</code>). 
+And since we want to use other software
+compiled with the Cray compilers also, we really want a <code>cpeCray</code> version to avoid conflicts between 
+different toolchains. So the module we want to load is <code>bzip2/1.0.8-cpeCray-22.08</code>.</p>
+<p>To figure out how to load it, use</p>
+<div class="highlight"><pre><span></span><code>module spider bzip2/1.0.8-cpeCray-22.08
+</code></pre></div>
+<p>and see that (as expected from the name) we need to load <code>LUMI/22.08</code> and can then use it in any of the
+partitions.</p>
+</details>
+</li>
+</ol>
+<h2 id="installing-software-with-easybuild">Installing software with EasyBuild<a class="headerlink" href="#installing-software-with-easybuild" title="Permanent link">&para;</a></h2>
+<p><em>These exercises are based on material from the <a href="http://tutorial.easybuild.io/">EasyBuild tutorials</a>
+(and we have a <a href="https://lumi-supercomputer.github.io/easybuild-tutorial/2022-CSC_and_LO/">special version for LUMI</a> also).</em></p>
+<p><em>Note</em>: If you want to be able to uninstall all software installed through the exercises
+easily, we suggest you make a separate EasyBuild installation for the course, e.g.,
+in <code>/scratch/project_465000523/$USER/eb-course</code> if you make the exercises during the course:</p>
+<ul>
+<li>Start from a clean login shell with only the standard modules loaded.</li>
+<li>
+<p>Set <code>EBU_USER_PREFIX</code>: </p>
+<div class="highlight"><pre><span></span><code>export EBU_USER_PREFIX=/scratch/project_465000523/$USER/eb-course
+</code></pre></div>
+<p>You'll need to do that in every shell session where you want to install or use that software.</p>
 </li>
 <li>
-<p>Installing additional software in the container with the
-    <a href="https://docs.sylabs.io/guides/3.11/user-guide/build_a_container.html#unprivilged-proot-builds">SingularityCE "unprivileged proot builds" process</a>
-    and the SUSE Linux <code>zypper</code> install tool,</p>
+<p>From now on you can again safely load the necessary <code>LUMI</code> and <code>partition</code> modules for the exercise.</p>
 </li>
 <li>
-<p>Further adding packages in a virtual environment and putting them in 
-    a SquashFS file for better file system performance, and</p>
-</li>
-<li>
-<p>Using that setup with Fooocus.</p>
+<p>At the end, when you don't need the software installation anymore, you can simply remove the directory
+    that you just created.</p>
+<div class="highlight"><pre><span></span><code>rm -rf /scratch/project_465000523/$USER/eb-course
+</code></pre></div>
 </li>
 </ul>
-<h2 id="video-of-the-demo">Video of the demo<a class="headerlink" href="#video-of-the-demo" title="Permanent link">&para;</a></h2>
-<video src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/recordings/Demo1-Fooocus.mp4" controls="controls">
-</video>
-
-<h2 id="step-1-checking-fooocus">Step 1: Checking Fooocus<a class="headerlink" href="#step-1-checking-fooocus" title="Permanent link">&para;</a></h2>
-<p>Let's create an installation directory for the demo. Set the environment variable
-<code>installdir</code> to a proper value for the directories on LUMI that you have access to.</p>
-<div class="highlight"><pre><span></span><code><span class="nv">installdir</span><span class="o">=</span>/project/project_465001102/kurtlust/DEMO1
-mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$installdir</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$installdir</span><span class="s2">&quot;</span>
-</code></pre></div>
-<p>We are now in the installation directory of which we also ensured its existence first.
-Let's now download and unpack Fooocus release 2.3.1 (the one we tested for this demo)</p>
-<div class="highlight"><pre><span></span><code><span class="nv">fooocusversion</span><span class="o">=</span><span class="m">2</span>.3.1
-wget<span class="w"> </span>https://github.com/lllyasviel/Fooocus/archive/refs/tags/<span class="nv">$fooocusversion</span>.zip
-unzip<span class="w"> </span><span class="nv">$fooocusversion</span>.zip
-rm<span class="w"> </span>-f<span class="w"> </span><span class="nv">$fooocusversion</span>.zip
-</code></pre></div>
-<p>If we check what's in the Fooocus directory:</p>
-<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>Fooocus-<span class="nv">$fooocusversion</span>
-</code></pre></div>
-<p>we see a rather messy bunch of mostly Python files missing the traditional setup scripts that you 
-expect with a Python package. So installing this could become a messy thing...</p>
-<p>It also contains a <code>Dockerfile</code> (to build a base Docker container), a <code>requirements_docker.txt</code>
-and a <code>requirements_versions.txt</code> file that give hints about what exactly is needed. 
-The <code>Dockerfile</code> suggests close to the top that some OpenGL libraries will be needed.
-And the fact that it can be fully installed in a docker container also indicates that there
-must in fact be ways to run it in readonly directories, but in this demo we'll put Fooocus in
-a place were it can write. The <code>requirements_docker.txt</code> file also suggests to use Pytorch 2.0, but
-we'll take some risks though and use a newer version of PyTorch than suggested as for AMD GPUs
-it is often important to use recently enough versions (and because that version has a more sophisticated
-module better suited for what we want to demonstrate). </p>
-<h3 id="step-2-install-the-pytorch-container">Step 2: Install the PyTorch container<a class="headerlink" href="#step-2-install-the-pytorch-container" title="Permanent link">&para;</a></h3>
-<p>We can find an overview of the available PyTorch containers on the
-<a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/PyTorch/">PyTorch page in the LUMI Software Library</a>.
-We'll use a version that already has support for Python virtual environments built in as that 
-will make it a lot easier to install extra Python packages. Moreover, as we have also seen that we will
-need to change the container, we'll follow a somewhat atypical build process.</p>
-<p>Rather than installing directly from the available EasyBuild recipes, we'll edit an EasyConfig
-to change the name to reflect that we have made changes and installed Fooocus with it.
-First we must prepare a temporary directory to do this work and also set up EasyBuild:</p>
-<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$installdir</span><span class="s2">/tmp&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$installdir</span><span class="s2">/tmp&quot;</span>
-module<span class="w"> </span>purge
-module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09<span class="w"> </span>partition/container<span class="w"> </span>EasyBuild-user
-</code></pre></div>
-<p>We'll now use a function of EasyBuild to copy an existing EasyConfig file to a new location, and
-rename it in one move to reflect the module version that we want:</p>
-<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>--copy-ec<span class="w"> </span>PyTorch-2.2.0-rocm-5.6.1-python-3.10-singularity-20240315.eb<span class="w"> </span>PyTorch-2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315.eb
-</code></pre></div>
-<p>This is not enough to generate a module <code>PyTorch/2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315</code>, 
-we also need to edit the <code>versionsuffix</code> line in the EasyBuild recipe. Of course you can do this easily with
-your favourite editor, but to avoid errors we'll use a command for the demo that you only need to copy:</p>
-<div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;s|^\(versionsuffix.*\)-singularity-20240315|\1-Fooocus-singularity-20240315|&quot;</span><span class="w"> </span>-i<span class="w"> </span>PyTorch-2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315.eb
-</code></pre></div>
-<p>Let's check:</p>
-<div class="highlight"><pre><span></span><code>grep<span class="w"> </span>versionsuffix<span class="w"> </span>PyTorch-2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315.eb
-</code></pre></div>
-<p>which returns</p>
-<div class="highlight"><pre><span></span><code>versionsuffix = f&#39;-rocm-{local_c_rocm_version}-python-{local_c_python_mm}-Fooocus-singularity-20240315&#39;
-</code></pre></div>
-<p>so we see that the <code>versionsuffix</code> line looks rather strange but we do see that the <code>-Fooocus-</code> part is injected
-in the name so we assume everything is OK.</p>
-<p>We're now ready to install the container with EasyBuild:</p>
-<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>PyTorch-2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315.eb
-</code></pre></div>
-<p>The documentation in the PyTorch page in the LUMI Software Library suggests that we can now delete the
-container file in the installation directory, but this is a bad idea in this case as we want to build our
-own container and hence will not use one of the containers provided on the system while running.</p>
-<p>We're now finished with EasyBuild so don't need the modules related to EasyBuild anymore. So lets's clean
-the environment an load the PyTorch container module that we just built with EasyBuild:</p>
-<div class="highlight"><pre><span></span><code>module<span class="w"> </span>purge
-module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09
-module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315
-</code></pre></div>
-<p>Notice that we don't need to load <code>partition/container</code> anymore. Any partition would do, and in fact, we can 
-even use <code>CrayEnv</code> instead of <code>LUMI/23.09</code>.</p>
-<p>Notice that the container module provides the environment variables <code>SIF</code> and <code>SIFPYTORCH</code>, both of which 
-point to the <code>.sif</code> file of the container:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$SIF</span>
-<span class="nb">echo</span><span class="w"> </span><span class="nv">$SIFPYTORCH</span>
-</code></pre></div>
-<p>We'll make use of that when we add SUSE packages to the container.</p>
-<h3 id="step-3-adding-some-suse-packages">Step 3: Adding some SUSE packages<a class="headerlink" href="#step-3-adding-some-suse-packages" title="Permanent link">&para;</a></h3>
-<p>To update the singularity container, we need three things.</p>
-<p>First, the <code>PyTorch</code> module cannot be loaded as it sets a number of singularity-related 
-environment variables. Yet we want to use the value of <code>SIF</code>, so we will simply save it in
-a different environment variable before unloading the module:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CONTAINERFILE</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$SIF</span><span class="s2">&quot;</span>
-module<span class="w"> </span>unload<span class="w"> </span>PyTorch/2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315
-</code></pre></div>
-<p>Second, the <code>proot</code> command is not available by default on LUMI, but it can be enabled by loading
-the <code>systools</code> module in <code>LUMI/23.09</code> or newer stacks, or <code>systools/23.09</code> or newer in <code>CrayEnv</code>:</p>
-<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>systools
-</code></pre></div>
-<p>Third, we need a file defining the build process for singularity. This is a bit technical and outside
-the scope of this tutorial to explain what goes into this file. It can be created with the following shell
-command:</p>
-<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;<span class="w"> </span>lumi-pytorch-rocm-5.6.1-python-3.10-pytorch-v2.2.0-Fooocus.def<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
-
-<span class="s">Bootstrap: localimage</span>
-
-<span class="s">From: $CONTAINERFILE</span>
-
-<span class="s">%post</span>
-
-<span class="s">zypper -n install -y Mesa libglvnd libgthread-2_0-0 hostname</span>
-
-<span class="s">EOF</span>
-</code></pre></div>
-<p>You can check the file with</p>
-<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>lumi-pytorch-rocm-5.6.1-python-3.10-pytorch-v2.2.0-Fooocus.def
-</code></pre></div>
-<p>We basically install an OpenGL library that emulates on the CPU and some missing tools.
-Note that the AMD MI250X GPUs are not rendering GPUs, so we cannot run hardware accelerated
-rendering on them.</p>
-<p>An annoying element of the singularity build procedure is that it is not very friendly for
-a Lustre filesystem. We'll do the build process on a login node, where we have access
-to a personal RAM disk area that will also be cleaned automatically when we log out, which is always
-useful for a demo. Therefore we need to set two environment variables for Singularity, and
-create two directories, which is done with the following commands:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_CACHEDIR</span><span class="o">=</span><span class="nv">$XDG_RUNTIME_DIR</span>/singularity/cache
-<span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_TMPDIR</span><span class="o">=</span><span class="nv">$XDG_RUNTIME_DIR</span>/singularity/tmp
-
-mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$SINGULARITY_CACHEDIR</span>
-mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$SINGULARITY_TMPDIR</span>
-</code></pre></div>
-<p>Now we're ready to do the actual magic and rebuild the container with additional packages
-installed in it:</p>
-<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>build<span class="w"> </span><span class="nv">$CONTAINERFILE</span><span class="w"> </span>lumi-pytorch-rocm-5.6.1-python-3.10-pytorch-v2.2.0-Fooocus.def
-</code></pre></div>
-<p>The build process will ask you if you want to continue as it will overwrite the container file,
-so confirm with <code>y</code>. The whole build process may take a couple of minutes.</p>
-<p>We'll be kind to our fellow LUMI users and already clean up the directories that we just created:</p>
-<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$XDG_RUNTIME_DIR</span>/singularity
-</code></pre></div>
-<p>Let's reload the container:</p>
-<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315
-</code></pre></div>
-<p>and do some checks:</p>
-<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>shell<span class="w"> </span><span class="nv">$SIF</span>
-</code></pre></div>
-<p>brings us into the container (note that the command prompt has changed).</p>
-<p>The command</p>
-<div class="highlight"><pre><span></span><code>which<span class="w"> </span>python
-</code></pre></div>
-<p>returns</p>
-<div class="highlight"><pre><span></span><code>/user-software/venv/pytorch/bin/python
-</code></pre></div>
-<p>which shows that the virtual environment pre-installed in the container is indeed active.</p>
-<p>We do have the hostname command in the container (one of the packages mentioned in the
-container <code>.def</code> file that we created) as is easily tested:</p>
-<div class="highlight"><pre><span></span><code>hostname
-</code></pre></div>
-<p>and</p>
-<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>/usr/lib64/*mesa*
-</code></pre></div>
-<p>shows that indeed a number of MESA libraries are installed (the OpenGL installation that we did).</p>
-<p>We can now leave the container with the </p>
-<div class="highlight"><pre><span></span><code><span class="nb">exit</span>
-</code></pre></div>
-<p>command (or CTRL-D key combination).</p>
-<p>So it looks we are ready to start installing Python packages...</p>
-<h3 id="step-4-adding-python-packages">Step 4: Adding Python packages<a class="headerlink" href="#step-4-adding-python-packages" title="Permanent link">&para;</a></h3>
-<p>To install the packages, we'll use the <code>requirements_versions.txt</code> file which we found in the
-Fooocus directories. The installation has to happen from within the container though. So let's got
-to the Fooocus directory and go into the container again:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$installdir</span><span class="s2">/Fooocus-</span><span class="nv">$fooocusversion</span><span class="s2">&quot;</span>
-singularity<span class="w"> </span>shell<span class="w"> </span><span class="nv">$SIF</span>
-</code></pre></div>
-<p>We'll install the extra packages simply with the <code>pip</code> tool:</p>
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements_versions.txt
-</code></pre></div>
-<p>This process may again take a few minutes.</p>
-<p>After finishing,</p>
-<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>/user-software/venv/pytorch/lib/python3.10/site-packages/
-</code></pre></div>
-<p>shows that indeed a lot of packages have been installed. Though accessible from the container,
-they are not in the container <code>.sif</code> file as that file cannot be written.</p>
-<p>Let's leave the container again:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">exit</span>
-</code></pre></div>
-<p>Now try:</p>
-<div class="highlight"><pre><span></span><code>ls<span class="w"> </span><span class="nv">$CONTAINERROOT</span>/user-software/venv/pytorch/lib/python3.10/site-packages/
-</code></pre></div>
-<p>and notice that we see the same long list of packages. In fact, a trick to see the number of files 
-and directories is</p>
-<div class="highlight"><pre><span></span><code>lfs<span class="w"> </span>find<span class="w"> </span><span class="nv">$CONTAINERROOT</span>/user-software/venv/pytorch/lib/python3.10/site-packages<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
-</code></pre></div>
-<p>which prints the name of all files and directories and then counts the number of lines, and we see that 
-this is a considerable number. Lustre isn't really that fond of it. However, the module also provides an
-easy solution: We can convert the <code>$EBROOTPYTORCH/user-software</code> subdirectory into a SquashFS file that can
-be mounted as a filesystem in the container, and the module provides all the tools to make this easy to do.
-All we need to do is to run</p>
-<div class="highlight"><pre><span></span><code>make-squashfs
-</code></pre></div>
-<p>This will also take some time as the script limits the resources the <code>make-squashfs</code> can use to keep the 
-load on the login nodes low.
-Now we can then safely remove the <code>user-software</code> subdirectory:</p>
-<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$CONTAINERROOT</span>/user-software
-</code></pre></div>
-<p>Before continuing, we do need to reload the module so that the bindings between the container and
-files and directories on LUMI are reset:</p>
-<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315
-</code></pre></div>
-<p>Just check</p>
-<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="nv">$SIF</span><span class="w"> </span>ls<span class="w"> </span>/user-software/venv/pytorch/lib/python3.10/site-packages
-</code></pre></div>
-<p>and see that our package installation is still there!</p>
-<p>However, we can no longer write in that directory. E.g., try</p>
-<div class="highlight"><pre><span></span><code>touch<span class="w"> </span>/user-software/test
-</code></pre></div>
-<p>to create an empty file <code>test</code> in <code>/user-software</code> and note that we get an error message.</p>
-<p>So now we are ready-to-run.</p>
-<h3 id="the-reward-running-fooocus">The reward: Running Fooocus<a class="headerlink" href="#the-reward-running-fooocus" title="Permanent link">&para;</a></h3>
-<p>First confirm we'll in the directory containing the Fooocus package (which should be the case if
-you followed these instructions):</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$installdir</span><span class="s2">/Fooocus-</span><span class="nv">$fooocusversion</span><span class="s2">&quot;</span>
-</code></pre></div>
-<p>We'll start an interactive job with a single GPU:</p>
-<div class="highlight"><pre><span></span><code>srun<span class="w"> </span>-psmall-g<span class="w"> </span>-n1<span class="w"> </span>-c7<span class="w"> </span>--time<span class="o">=</span><span class="m">30</span>:00<span class="w"> </span>--gpus<span class="o">=</span><span class="m">1</span><span class="w"> </span>--mem<span class="o">=</span>60G<span class="w"> </span>-A<span class="w"> </span>project_465001102<span class="w"> </span>--pty<span class="w"> </span>bash
-</code></pre></div>
-<p>The necessary modules will still be available, but if you are running from a new shell, you 
-can load them again:</p>
-<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09
-module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315
-</code></pre></div>
-<p>Also check the hostname if it is not part of your prompt as you will need it later:</p>
-<div class="highlight"><pre><span></span><code>hostname
-</code></pre></div>
-<p>We can now go into the container:</p>
-<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>shell<span class="w"> </span><span class="nv">$SIF</span>
-</code></pre></div>
-<p>and launch Fooocus:</p>
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>launch.py<span class="w"> </span>--listen<span class="w"> </span>--disable-xformers
-</code></pre></div>
-<p>Fooocus provides a web interface. If you're the only one on the node using Fooocus, it should run
-on port 7865. To access it from our laptop, we need to create an SSH tunnel to LUMI. The precise statement
-needed for this will depend on your ssh implementation. Assuming you've define a <code>lumi</code> rule in the ssh 
-config file to make life easy and use an OpenSSH-style ssh client, you can use:</p>
-<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>-N<span class="w"> </span>-L<span class="w"> </span><span class="m">7865</span>:nid00XXXX:7865<span class="w"> </span>lumi
-</code></pre></div>
-<p><strong>replacing with the node name that we got from the <code>hostname</code> command`.</strong></p>
-<p>Next, simply open a web browser on your laptop and point to </p>
-<div class="highlight"><pre><span></span><code>http://localhost:7865
-</code></pre></div>
-<h3 id="alternative-way-of-running">Alternative way of running<a class="headerlink" href="#alternative-way-of-running" title="Permanent link">&para;</a></h3>
-<p>We can also launch Fooocus directly from the <code>srun</code> command, e.g., from the directory containing the 
-Fooocus code,</p>
-<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09
-module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315
-srun<span class="w"> </span>-psmall-g<span class="w"> </span>-n1<span class="w"> </span>-c7<span class="w"> </span>--time<span class="o">=</span><span class="m">30</span>:00<span class="w"> </span>--gpus<span class="o">=</span><span class="m">1</span><span class="w"> </span>--mem<span class="o">=</span>60G<span class="w"> </span>-A<span class="w"> </span>project_465001102<span class="w"> </span>--pty<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;echo -e &quot;Running on $(hostname)\n&quot; ; singularity exec $SIF python launch.py --listen --disable-xformers&#39;</span>
-</code></pre></div>
-<p>It will also print the host name on which the Fooocus is running, so you can connect to Fooocus using the
-same procedure as above.</p>
-<h2 id="further-discovery">Further discovery<a class="headerlink" href="#further-discovery" title="Permanent link">&para;</a></h2>
+<h3 id="installing-a-simple-program-without-dependencies-with-easybuild">Installing a simple program without dependencies with EasyBuild<a class="headerlink" href="#installing-a-simple-program-without-dependencies-with-easybuild" title="Permanent link">&para;</a></h3>
+<p>The LUMI Software Library contains the package <code>eb-tutorial</code>. Install the version of
+the package for the <code>cpeCray</code> toolchain in the 22.08 version of the software stack.</p>
+<p><em>At the time of this course, in early May 2023, we're still working on EasyBuild build
+recipes for the 22.12 version of the software stack.</em></p>
+<details class="solution">
+<summary>Click to see the solution.</summary>
 <ul>
-<li><a href="https://www.youtube.com/@JumpIntoAI">YouTube channel "Jump Into AI"</a>
-    has a <a href="https://www.youtube.com/playlist?list=PLK9cwl_eT4jKM-VwOm3zHl0lCFNnbwMD6">Fooocus playlist</a></li>
+<li>
+<p>We can check the 
+    <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/e/eb-tutorial">eb-tutorial page</a>
+    in the 
+    <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs">LUMI Software Library</a>
+    if we want to see more information about the package.</p>
+<p>You'll notice that there are versions of the EasyConfigs for <code>cpeGNU</code> and <code>cpeCray</code>.
+As we want to install software with the <code>cpeCray</code> toolchain for <code>LUMI/22.08</code>, we'll
+need the <code>cpeCray-22.08</code> version which is the EasyConfig
+<code>eb-tutorial-1.0.1-cpeCray-22.08.eb</code>.</p>
+</li>
+<li>
+<p>Obviously we need to load the <code>LUMI/22.08</code> module. If we would like to install software
+    for the CPU compute nodes, you need to also load <code>partition/C</code>.
+    To be able to use EasyBuild, we also need the <code>EasyBuild-user</code> module.</p>
+<div class="highlight"><pre><span></span><code>module load LUMI/22.08 partition/C
+module load EasyBuild-user
+</code></pre></div>
+</li>
+<li>
+<p>Now all we need to do is run the <code>eb</code> command from EasyBuild to install the software.</p>
+<p>Let's however take the slow approach and first check if what dependencies the package needs:</p>
+<div class="highlight"><pre><span></span><code>eb eb-tutorial-1.0.1-cpeCray-22.08.eb -D
+</code></pre></div>
+<p>We can do this from any directory as the EasyConfig file is already in the LUMI Software Library
+and will be located automatically by EasyBuild. You'll see that all dependencies are already on 
+the system so we can proceed with the installation:</p>
+<div class="highlight"><pre><span></span><code>eb eb-tutorial-1.0.1-cpeCray-22.08.eb 
+</code></pre></div>
+</li>
+<li>
+<p>After this you should have a module <code>eb-tutorial/1.0.1-cpeCray-22.08</code> but it may not show up 
+    yet due to the caching of Lmod. Try</p>
+<div class="highlight"><pre><span></span><code>module av eb-tutorial/1.0.1-cpeCray-22.08
+</code></pre></div>
+<p>If this produces an error message complaining that the module cannot be found, it is time to clear
+the Lmod cache:</p>
+<div class="highlight"><pre><span></span><code>rm -rf $HOME/.lmod.d/.cache
+</code></pre></div>
+</li>
+<li>
+<p>Now that we have the module, we can check what it actually does:</p>
+<div class="highlight"><pre><span></span><code>module help eb-tutorial/1.0.1-cpeCray-22.08
+</code></pre></div>
+<p>and we see that it provides the <code>eb-tutorial</code> command.</p>
+</li>
+<li>
+<p>So let's now try to run this command:</p>
+<div class="highlight"><pre><span></span><code>module load eb-tutorial/1.0.1-cpeCray-22.08
+eb-tutorial
+</code></pre></div>
+<p>Note that if you now want to install one of the other versions of this module, EasyBuild will
+complain that some modules are loaded that it doesn't like to see, including the <code>eb-tutorial</code>
+module and the <code>cpeCray</code> modules so it is better to unload those first:</p>
+<div class="highlight"><pre><span></span><code>module unload cpeCray eb-tutorial
+</code></pre></div>
+</li>
 </ul>
+</details>
+<h3 id="installing-an-easyconfig-given-to-you-by-lumi-user-support">Installing an EasyConfig given to you by LUMI User Support<a class="headerlink" href="#installing-an-easyconfig-given-to-you-by-lumi-user-support" title="Permanent link">&para;</a></h3>
+<p>Sometimes we have no solution ready in the LUMI Software Library, but we prepare one or more
+custom EasyBuild recipes for you. Let's mimic this case. In practice we would likely send 
+those as attachments to a mail from the ticketing system and you would be asked to put
+them in a separate directory (basically since putting them at the top of your home
+directory would in some cases let EasyBuild search your whole home directory for dependencies
+which would be a very slow process).</p>
+<p>You've been given two EasyConfig files to install a tool called <code>py-eb-tutorial</code> which is in fact
+a Python package that uses the <code>eb-tutorial</code> package installed in the previous exercise. These
+EasyConfig files are in the <code>EasyBuild</code> subdirectory of the exercises for this course.
+In the first exercise you are asked to install the version of <code>py-eb-tutorial</code> for the
+<code>cpeCray/22.08</code> toolchain.</p>
+<details class="solution">
+<summary>Click to see the solution.</summary>
+<ul>
+<li>
+<p>Go to the <code>EasyBuild</code> subdirectory of the exercises and check that it indeed contains the
+    <code>py-eb-tutorial-1.0.0-cpeCray-22.08-cray-python-3.9.12.1.eb</code> and
+    <code>py-eb-tutorial-1.0.0-cpeGNU-22.08-cray-python-3.9.12.1.eb</code> files.
+    It is the first one that we need for this exercise.</p>
+<p>You can see that we have used a very long name as we are also using a version suffix to
+make clear which version of Python we'll be using.</p>
+</li>
+<li>
+<p>Let's first check for the dependencies (out of curiosity):</p>
+<div class="highlight"><pre><span></span><code>eb py-eb-tutorial-1.0.0-cpeCray-22.08-cray-python-3.9.12.1.eb -D
+</code></pre></div>
+<p>and you'll see that all dependencies are found (at least if you made the previous exercise 
+successfully). You may find it strange that it shows no Python module but that is because
+we are using the <code>cray-python</code> module which is not installed through EasyBuild and only
+known to EasyBuild as an external module.</p>
+</li>
+<li>
+<p>And now we can install the package:</p>
+<div class="highlight"><pre><span></span><code>eb py-eb-tutorial-1.0.0-cpeCray-22.08-cray-python-3.9.12.1.eb
+</code></pre></div>
+</li>
+<li>
+<p>To use the package all we need to do is to load the module and to run the command that it
+    defines:</p>
+<div class="highlight"><pre><span></span><code>module load py-eb-tutorial/1.0.0-cpeCray-22.08-cray-python-3.9.12.1
+py-eb-tutorial
+</code></pre></div>
+<p>with the same remark as in the previous exercise if Lmod fails to find the module.</p>
+<p>You may want to do this step in a separate terminal session set up the same way, or you
+will get an error message in the next exercise with EasyBuild complaining that there are
+some modules loaded that should not be loaded.</p>
+</li>
+</ul>
+</details>
+<h3 id="installing-software-with-uninstalled-dependencies">Installing software with uninstalled dependencies<a class="headerlink" href="#installing-software-with-uninstalled-dependencies" title="Permanent link">&para;</a></h3>
+<p>Now you're asked to also install the version of <code>py-eb-tutorial</code> for the <code>cpeGNU</code> toolchain in <code>LUMI/22.08</code>
+(and the solution given below assumes you haven'ty accidentally installed the wrong EasyBuild recipe in one
+of the previous two exercises).</p>
+<details class="solution">
+<summary>Click to see the solution.</summary>
+<ul>
+<li>
+<p>We again work in the same environment as in the previous two exercises. Nothing has changed here.
+    Hence if not done yet we need</p>
+<div class="highlight"><pre><span></span><code>module load LUMI/22.08 partition/C
+module load EasyBuild-user
+</code></pre></div>
+</li>
+<li>
+<p>Now go to the <code>EasyBuild</code> subdirectory of the exercises (if not there yet from the previous
+    exercise) and check what the <code>py-eb-tutorial-1.0.0-cpeGNU-22.08-cray-python-3.9.12.1.eb</code> needs:</p>
+<div class="highlight"><pre><span></span><code>eb py-eb-tutorial-1.0.0-cpeGNU-22.08-cray-python-3.9.12.1.eb -D
+</code></pre></div>
+<p>We'll now see that there are two missing modules. Not only is the 
+<code>py-eb-tutorial/1.0.0-cpeGNU-22.08-cray-python-3.9.12.1</code> that we try to install missing, but also the
+<code>eb-tutorial/1.0.1-cpeGNU-22.08</code>. EasyBuild does however manage to find a recipe from which this module
+can be built in the pre-installed build recipes.</p>
+</li>
+<li>
+<p>We can install both packages separately, but it is perfectly possible to install both packages in a single
+    <code>eb</code> command by using the <code>-r</code> option to tell EasyBuild to also install all dependencies.</p>
+<div class="highlight"><pre><span></span><code>eb py-eb-tutorial-1.0.0-cpeGNU-22.08-cray-python-3.9.12.1.eb -r
+</code></pre></div>
+</li>
+<li>
+<p>At the end you'll now notice (with <code>module avail</code>) that both the module 
+    <code>eb-tutorial/1.0.1-cpeGNU-22.08</code> and <code>py-eb-tutorial/1.0.0-cpeGNU-22.08-cray-python-3.9.12.1</code>
+    are now present.</p>
+<p>To run you can use</p>
+<div class="highlight"><pre><span></span><code>module load py-eb-tutorial/1.0.0-cpeGNU-22.08-cray-python-3.9.12.1
+py-eb-tutorial
+</code></pre></div>
+</li>
+</ul>
+</details>
 
 
 

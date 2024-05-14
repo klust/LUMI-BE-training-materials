@@ -14,7 +14,7 @@
         <link rel="prev" href="../Demo1/">
       
       
-        <link rel="next" href="../10_Support/">
+        <link rel="next" href="../10-Support/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -457,14 +457,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
-        
-      
     
     
     
@@ -510,7 +502,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../00_Introduction/" class="md-nav__link">
+      <a href="../00-Introduction/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -531,7 +523,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../01_Architecture/" class="md-nav__link">
+      <a href="../01-Architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -552,7 +544,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../02_CPE/" class="md-nav__link">
+      <a href="../02-CPE/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -573,7 +565,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../03_LUMI_access/" class="md-nav__link">
+      <a href="../03-Access/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -594,28 +586,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../E03_Exercises_1/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Exercises 1
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../04_Modules/" class="md-nav__link">
+      <a href="../04-Modules/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -636,28 +607,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../E04_Exercises_2/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Exercises 2
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../05_Software_stacks/" class="md-nav__link">
+      <a href="../05-SoftwareStacks/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -678,28 +628,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../E05_Exercises_3/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Exercises 3
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../06_Slurm/" class="md-nav__link">
+      <a href="../06-Slurm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -720,7 +649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../07_Binding/" class="md-nav__link">
+      <a href="../07-Binding/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -741,28 +670,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../E07_Exercises_4/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Exercises 4
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../08_Lustre/" class="md-nav__link">
+      <a href="../08-Lustre/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -783,7 +691,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../09_Containers/" class="md-nav__link">
+      <a href="../09-Containers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -922,7 +830,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../10_Support/" class="md-nav__link">
+      <a href="../10-Support/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -943,7 +851,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../A01_Slurm_issues/" class="md-nav__link">
+      <a href="../A01-SlurmIssues/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -964,7 +872,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../A02_Documentation/" class="md-nav__link">
+      <a href="../A02-Documentation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1249,7 +1157,7 @@ but RCCL is basically the equivalent of NVIDIA NCCL.</p>
 </code></pre></div>
 <p>Fourth, we need to ensure that each task uses the proper GPU. This is one point where we 
 assume that one GPU (GCD) per task is used. The script also assumes that the
-<a href="../07_Binding/#linear-assignment-of-gcd-then-match-the-cores">"Linear assignment of GCD, then match the cores" idea</a>
+<a href="../07-Binding/#linear-assignment-of-gcd-then-match-the-cores">"Linear assignment of GCD, then match the cores" idea</a>
 is used, so we will need some more complicated CPU mapping in the job script.</p>
 <p>PyTorch also needs some initialisation that are basically the same on NVIDIA and
 AMD hardware. This includes setting a master for the communication (the first node of 
