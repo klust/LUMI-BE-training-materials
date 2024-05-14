@@ -18,4 +18,4 @@ work of other users.
 
 -   ["I/O and File Systems on LUMI" talk in the 2-day LUST introductory training in Amsterdam, May 2024](https://lumi-supercomputer.github.io/LUMI-training-materials/2day-20240502/extra_08_Lustre/)
   
-    Some of the material is covered in the ["Getting Access to LUMI" section of this tutorial](D03-Access.md)
+    Some of the material is covered in the ["Getting Access to LUMI" section of this tutorial](M03-Access.md)
