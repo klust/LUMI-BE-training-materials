@@ -10,7 +10,7 @@ In this section we discuss
 ### Design considerations
 
 <figure markdown style="border: 1px solid #000">
-  ![Software stack design considerations](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/SoftwareStacksDesignConsiderations.png){ loading=lazy }
+  ![Software stack design considerations](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/SoftwareStacksDesignConsiderations.png){ loading=lazy }
 </figure>
 
 -   LUMI is a **very leading edge** and also an **inhomogeneous machine**. Leading edge often implies
@@ -70,7 +70,7 @@ In this section we discuss
 ### The LUMI solution
 
 <figure markdown style="border: 1px solid #000">
-  ![The LUMI solution](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/SoftwareStacksTheLUMISolution.png){ loading=lazy }
+  ![The LUMI solution](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/SoftwareStacksTheLUMISolution.png){ loading=lazy }
 </figure>
 
 The LUMI User Support Team (LUST) tried to take all these considerations into account 
@@ -120,7 +120,7 @@ those packages.
 ### Software policies
 
 <figure markdown style="border: 1px solid #000">
-  ![Policies](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/SoftwareStacksPolicies.png){ loading=lazy }
+  ![Policies](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/SoftwareStacksPolicies.png){ loading=lazy }
 </figure>
 
 As any site, LUMI also has a number of policies about software installation, and these policies
@@ -222,7 +222,7 @@ Both tools are pre-installed on the system and ready-to-use.
 ### Organisation of the software in software stacks
 
 <figure markdown style="border: 1px solid #000">
-  ![Organisation"Software Stacks](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/SoftwareStacksOrganisation.png){ loading=lazy }
+  ![Organisation"Software Stacks](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/SoftwareStacksOrganisation.png){ loading=lazy }
 </figure>
 
 LUMI offers several software stacks:
@@ -256,7 +256,7 @@ the AMD GPU ecosystem, so no promises whatsoever are made about a time frame for
 #### Bare environment and CrayEnv
 
 <figure markdown style="border: 1px solid #000">
-  ![Accessing the Cray PE on LUMI slide 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/SoftwareStacksAccessingCrayPE_1.png){ loading=lazy }
+  ![Accessing the Cray PE on LUMI slide 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/SoftwareStacksAccessingCrayPE_1.png){ loading=lazy }
 </figure>
 
 Right after login you have a **very bare environment available with the Cray Programming Environment
@@ -279,7 +279,7 @@ that LUST organises**.
 #### LUMI stack
 
 <figure markdown style="border: 1px solid #000">
-  ![Accessing the Cray PE on LUMI slide 2](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/SoftwareStacksAccessingCrayPE_2.png){ loading=lazy }
+  ![Accessing the Cray PE on LUMI slide 2](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/SoftwareStacksAccessingCrayPE_2.png){ loading=lazy }
 </figure>
 
 The **third way** to access the Cray Programming Environment is through the **LUMI software stacks**, where each stack
@@ -306,7 +306,7 @@ and from the name of the modules you can see which compilers we used.
 #### LUMI stack module organisation
 
 <figure markdown style="border: 1px solid #000">
-  ![Accessing the Cray PE on LUMI slide 3](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/SoftwareStacksAccessingCrayPE_3.png){ loading=lazy }
+  ![Accessing the Cray PE on LUMI slide 3](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/SoftwareStacksAccessingCrayPE_3.png){ loading=lazy }
 </figure>
 
 To manage the heterogeneity in the hardware, the LUMI software stack uses **two levels of modules**
@@ -344,7 +344,7 @@ explicitly load the partition/L module.
 ### Installing software on HPC systems
 
 <figure markdown style="border: 1px solid #000">
-  ![Installing software on HPC systems](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildInstallingSoftwareHPC.png){ loading=lazy }
+  ![Installing software on HPC systems](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildInstallingSoftwareHPC.png){ loading=lazy }
 </figure>
 
 Software on HPC systems is **rarely installed from RPMs** (a popular format to package Linux software
@@ -376,7 +376,7 @@ And they do **take care of dependency handling** in a way that is compatible wit
 ### Extending the LUMI stack with EasyBuild
 
 <figure markdown style="border: 1px solid #000">
-  ![Extending the LUMI stack with EasyBuild](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildExtendingLUMIStack.png){ loading=lazy }
+  ![Extending the LUMI stack with EasyBuild](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildExtendingLUMIStack.png){ loading=lazy }
 </figure>
 
 On LUMI EasyBuild is the primary software installation tool. 
@@ -427,7 +427,7 @@ Spack, e.g., because it likes to write in its own directories while running.
 ### EasyBuild recipes - easyconfigs
 
 <figure markdown style="border: 1px solid #000">
-  ![EasyBuild recipes - easyconfigs](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildEasyConfig.png){ loading=lazy }
+  ![EasyBuild recipes - easyconfigs](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildEasyConfig.png){ loading=lazy }
 </figure>
 
 EasyBuild uses a build recipe for each individual package, or better said, each individual module
@@ -453,7 +453,7 @@ Most or all of these steps can be influenced by parameters in the easyconfig.
 ### The toolchain concept
 
 <figure markdown style="border: 1px solid #000">
-  ![The toolchain concept](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildToolchain_1.png){ loading=lazy }
+  ![The toolchain concept](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildToolchain_1.png){ loading=lazy }
 </figure>
 
 EasyBuild uses the toolchain concept. A toolchain consists of compilers, an MPI implementation
@@ -477,7 +477,7 @@ before.
 
 
 <figure markdown style="border: 1px solid #000">
-  ![The toolchain concept 2](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildToolchain_2.png){ loading=lazy }
+  ![The toolchain concept 2](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildToolchain_2.png){ loading=lazy }
 </figure>
 
 There is also a special toolchain called the SYSTEM toolchain that uses the compiler
@@ -517,7 +517,7 @@ this may work.
 ### EasyConfig names and module names
 
 <figure markdown style="border: 1px solid #000">
-  ![easyconfig names and module names](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyConfigModuleNames.png){ loading=lazy }
+  ![easyconfig names and module names](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyConfigModuleNames.png){ loading=lazy }
 </figure>
 
 There is a convention for the naming of an EasyConfig as shown on the slide. This is not
@@ -559,7 +559,7 @@ Hence this easyconfig file will generate the module
 #### Step 1: Where to install
 
 <figure markdown style="border: 1px solid #000">
-  ![Installing: Where to install](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildInstallingStep1.png){ loading=lazy }
+  ![Installing: Where to install](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildInstallingStep1.png){ loading=lazy }
 </figure>
 
 Let's now discuss how you can extend the central LUMI software stack with packages that you
@@ -591,7 +591,7 @@ who want to use the software should set that variable.
 #### Step 2: Configure the environment
 
 <figure markdown style="border: 1px solid #000">
-  ![Installing: Configure the environment](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildInstallingStep2_1.png){ loading=lazy }
+  ![Installing: Configure the environment](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildInstallingStep2_1.png){ loading=lazy }
 </figure>
 
 The next step is to configure your environment. First load the proper version of the LUMI
@@ -621,7 +621,7 @@ the proper value before loading the `LUMI` module.**
 #### Step 3: Install the software.
 
 <figure markdown style="border: 1px solid #000">
-  ![Installing: Install the software](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildInstallingStep3.png){ loading=lazy }
+  ![Installing: Install the software](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildInstallingStep3.png){ loading=lazy }
 </figure>
 
 Let's look at GROMACS as an example. I will not try to do this completely live though as the 
@@ -645,19 +645,19 @@ eb --search GROMACS
     section:
 
     <figure markdown style="border: 1px solid #000">
-      ![GROMACS in the LUMI Software Library](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildGROMACSSoftLib.png){ loading=lazy }
+      ![GROMACS in the LUMI Software Library](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSSoftLib.png){ loading=lazy }
     </figure>
 
     `eb --search GROMACS` produces:
 
     <figure markdown style="border: 1px solid #000">
-      ![eb --search GROMACS](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildGROMACSSearch_1.png){ loading=lazy }
+      ![eb --search GROMACS](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSSearch_1.png){ loading=lazy }
     </figure>
 
     while `eb -S GROMACS` produces:
 
     <figure markdown style="border: 1px solid #000">
-      ![eb -S GROMACS](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildGROMACSSearch_2.png){ loading=lazy }
+      ![eb -S GROMACS](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSSearch_2.png){ loading=lazy }
     </figure>
 
     The information provided by both variants of the search command is the same, but `-S` presents the information in a more
@@ -682,11 +682,11 @@ it can be turned on.
 !!! Demo "The output of this command looks like:"
 
     <figure markdown style="border: 1px solid #000">
-      ![eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb –D](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildGROMACSDep_01.png){ loading=lazy }
+      ![eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb –D](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSDep_01.png){ loading=lazy }
     </figure>
 
     <figure markdown style="border: 1px solid #000">
-      ![eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb –D (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildGROMACSDep_02.png){ loading=lazy }
+      ![eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb –D (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSDep_02.png){ loading=lazy }
     </figure>
 
 
@@ -706,14 +706,14 @@ eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r
     results in:
 
     <figure markdown style="border: 1px solid #000">
-      ![eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildGROMACSInst_01.png){ loading=lazy }
+      ![eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_01.png){ loading=lazy }
     </figure>
 
     EasyBuild detects PLUMED is a dependency and because of the `-r` option, it first installs the
     required version of PLUMED.
 
     <figure markdown style="border: 1px solid #000">
-      ![eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildGROMACSInst_02.png){ loading=lazy }
+      ![eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_02.png){ loading=lazy }
     </figure>
 
     When the installation of PLUMED finishes, EasyBuild starts the installation of GROMACS.
@@ -728,19 +728,19 @@ eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r
     MPI, so it will do 4 iterations. As EasyBuild is developed by geeks, counting starts from 0.
 
     <figure markdown style="border: 1px solid #000">
-      ![eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r (3)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildGROMACSInst_03.png){ loading=lazy }
+      ![eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r (3)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_03.png){ loading=lazy }
     </figure>
 
     <figure markdown style="border: 1px solid #000">
-      ![eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r (4)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildGROMACSInst_04.png){ loading=lazy }
+      ![eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r (4)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_04.png){ loading=lazy }
     </figure>
 
     <figure markdown style="border: 1px solid #000">
-      ![eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r (5)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildGROMACSInst_05.png){ loading=lazy }
+      ![eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r (5)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_05.png){ loading=lazy }
     </figure>
 
     <figure markdown style="border: 1px solid #000">
-      ![eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r (6)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildGROMACSInst_06.png){ loading=lazy }
+      ![eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r (6)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_06.png){ loading=lazy }
     </figure>
 
 This takes too long to wait for, but once it finished the software should be available
@@ -753,7 +753,7 @@ module avail
 #### Step 3: Install the software - Note
 
 <figure markdown style="border: 1px solid #000">
-  ![Installing: Install the software](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildInstallingStep3Note.png){ loading=lazy }
+  ![Installing: Install the software](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildInstallingStep3Note.png){ loading=lazy }
 </figure>
 
 Installing software this way is **100% equivalent to an installation in the central software
@@ -785,7 +785,7 @@ rm -rf $HOME/.cache/lmod
 ### More advanced work
 
 <figure markdown style="border: 1px solid #000">
-  ![More advanced work](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildAdvanced_1.png){ loading=lazy }
+  ![More advanced work](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildAdvanced_1.png){ loading=lazy }
 </figure>
 
 You can also install some EasyBuild recipes that you got from support. For this it is best to
@@ -819,7 +819,7 @@ eb VASP-6.4.1-cpeGNU-22.12-build01.eb –r .
 ### More advanced work (2): Repositories
 
 <figure markdown style="border: 1px solid #000">
-  ![More advanced work (2): Repositories](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildAdvanced_2.png){ loading=lazy }
+  ![More advanced work (2): Repositories](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildAdvanced_2.png){ loading=lazy }
 </figure>
 
 It is also possible to have your own clone of the `LUMI-EasyBuild-contrib` GitHub repository
@@ -843,7 +843,7 @@ easyconfig files go in `$EBU_USER_PREFIX/UserRepo/easybuild/easyconfigs`.
 ### More advanced work (3): Reproducibility
 
 <figure markdown style="border: 1px solid #000">
-  ![More advanced work (3): Reproducibility](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildAdvanced_3.png){ loading=lazy }
+  ![More advanced work (3): Reproducibility](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildAdvanced_3.png){ loading=lazy }
 </figure>
 
 EasyBuild also takes care of a **high level of reproducibility of installations**.
@@ -878,7 +878,7 @@ Moreover, EasyBuild also keeps **copies of all installed easyconfig files in two
 ### EasyBuild tips and tricks
 
 <figure markdown style="border: 1px solid #000">
-  ![EasyBuild tips and tricks](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildTipsTricks.png){ loading=lazy }
+  ![EasyBuild tips and tricks](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildTipsTricks.png){ loading=lazy }
 </figure>
 
 Updating the version of a package often requires only trivial changes in the easyconfig file.
@@ -908,7 +908,7 @@ build or modify recipes. It sometimes also tells why things are done in a partic
 ### EasyBuild training for advanced users and developers
 
 <figure markdown style="border: 1px solid #000">
-  ![EasyBuild training](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-software/EasyBuildTraining.png){ loading=lazy }
+  ![EasyBuild training](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildTraining.png){ loading=lazy }
 </figure>
 
 Pointers to all information about EasyBuild can be found on the EasyBuild web site 

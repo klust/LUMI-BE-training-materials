@@ -42,25 +42,21 @@ nav:
   - "LUMI Intro (evolving)":
     - Overview: intro-evolving/index.md
     #- Schedule: intro-evolving/schedule.md
-    - Intro to the notes: intro-evolving/00_Introduction.md
-    - Architecture: intro-evolving/01_Architecture.md
-    - Programming Environment: intro-evolving/02_CPE.md
-    - Getting access: intro-evolving/03_LUMI_access.md
-    - Exercises 1: intro-evolving/E03_Exercises_1.md
-    - Modules: intro-evolving/04_Modules.md
-    - Exercises 2: intro-evolving/E04_Exercises_2.md
-    - Software stacks: intro-evolving/05_Software_stacks.md
-    - Exercises 3: intro-evolving/E05_Exercises_3.md
-    - Slurm on LUMI: intro-evolving/06_Slurm.md
-    - Binding: intro-evolving/07_Binding.md
-    - Exercises 4: intro-evolving/E07_Exercises_4.md
-    - Lustre: intro-evolving/08_Lustre.md
-    - Containers: intro-evolving/09_Containers.md
+    - Intro to the notes: intro-evolving/00-Introduction.md
+    - Architecture: intro-evolving/01-Architecture.md
+    - Programming Environment: intro-evolving/02-CPE.md
+    - Getting access: intro-evolving/03-Access.md
+    - Modules: intro-evolving/04-Modules.md
+    - Software stacks: intro-evolving/05-SoftwareStacks.md
+    - Slurm on LUMI: intro-evolving/06-Slurm.md
+    - Binding: intro-evolving/07-Binding.md
+    - Lustre: intro-evolving/08-Lustre.md
+    - Containers: intro-evolving/09-Containers.md
     - Container demo 1: intro-evolving/Demo1.md
     - Container demo 2: intro-evolving/Demo2.md
-    - Support: intro-evolving/10_Support.md
-    - A1 Slurm issues: intro-evolving/A01_Slurm_issues.md
-    - A2 Documentation: intro-evolving/A02_Documentation.md
+    - Support: intro-evolving/10-Support.md
+    - A1 Slurm issues: intro-evolving/A01-SlurmIssues.md
+    - A2 Documentation: intro-evolving/A02-Documentation.md
      
 plugins:
   # show revision date at bottom of each page

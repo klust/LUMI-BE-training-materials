@@ -1,4 +1,4 @@
-# Exercises 2: Modules on LUMI
+# Exercises: Modules on LUMI
 
 See [the instructions](index.md#setting-up-for-the-exercises)
 to set up for the exercises.

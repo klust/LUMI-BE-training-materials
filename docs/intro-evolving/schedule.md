@@ -97,7 +97,7 @@
             15:40 CEST
         </td>
         <td>
-            Introduction to Lustre and Best Practices
+            Using Lustre
             <br/><em>Presenter: TBA</em>
         </td>
     </tr>

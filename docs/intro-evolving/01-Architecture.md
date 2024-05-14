@@ -7,7 +7,7 @@ jobs that can scale.
 ## Why do I kneed to know this?
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Why know...](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-architecture/WhyKnow.png){ loading=lazy }
+  ![Slide Why know...](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-Architecture/WhyKnow.png){ loading=lazy }
 </figure>
 
 You may wonder why you need to know about system architecture if all you want to do is to run 
@@ -59,7 +59,7 @@ do all the research that users do and much faster as they are assumed to have th
 ## LUMI is ...
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide LUMI is...](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-architecture/LUMIIs.png){ loading=lazy }
+  ![Slide LUMI is...](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-Architecture/LUMIIs.png){ loading=lazy }
 </figure>
 
 LUMI is a pre-exascale supercomputer, and not a superfast PC nor a compute cloud architecture.
@@ -146,7 +146,7 @@ hope (think of the scheduler and file system IOPS discussed later in this course
 ## LUMI spec sheet: A modular system
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide LUMI is...](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-architecture/LUMISpecs.png){ loading=lazy }
+  ![Slide LUMI is...](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-Architecture/LUMISpecs.png){ loading=lazy }
 </figure>
 
 So we've already seen that LUMI is in the first place a EuroHPC pre-exascale machine.
@@ -248,7 +248,7 @@ In this section of the course we will now build up LUMI step by step.
 ## Building LUMI: The CPU AMD 7xx3 (Milan/Zen3) CPU
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide The AMD EPYC 7xx3 (Milan/Zen3) CPU](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-architecture/AMDMilanCCD.png){ loading=lazy }
+  ![Slide The AMD EPYC 7xx3 (Milan/Zen3) CPU](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-Architecture/AMDMilanCCD.png){ loading=lazy }
 </figure>
 
 The LUMI-C and LUMI-G compute nodes use third generation AMD EPYC CPUs.
@@ -270,7 +270,7 @@ of floating point operations that a core can in theory do each clock cycle is 16
 double precision) rather than the 32 some Intel processors are capable of. 
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide The AMD EPYC 7xx3 (Milan/Zen3) CPU (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-architecture/AMDMilanCPU.png){ loading=lazy }
+  ![Slide The AMD EPYC 7xx3 (Milan/Zen3) CPU (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-Architecture/AMDMilanCPU.png){ loading=lazy }
 </figure>
 
 The full processor package for the AMD EPYC processors used in LUMI have
@@ -322,7 +322,7 @@ cores spread over all CCDs are used**.
 ## Building LUMI: a LUMI-C node
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide LUMI-C node](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-architecture/AMDMilanNode.png){ loading=lazy }
+  ![Slide LUMI-C node](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-Architecture/AMDMilanNode.png){ loading=lazy }
 </figure>
 
 A compute node is then built out of two such processor packages, connected 
@@ -337,7 +337,7 @@ high performance Slingshot interconnect though.
 ### A strong hierarchy in the node
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Strong hierarchy](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-architecture/AMDMilanHierarchy.png){ loading=lazy }
+  ![Slide Strong hierarchy](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-Architecture/AMDMilanHierarchy.png){ loading=lazy }
 </figure>
 
 As can be seen from the node architecture in the previous slide, the CPU compute
@@ -381,7 +381,7 @@ application.
 ### Hierarchy: delays in numbers
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Delays in numbers](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-architecture/AMDMilanDelays.png){ loading=lazy }
+  ![Slide Delays in numbers](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-Architecture/AMDMilanDelays.png){ loading=lazy }
 </figure>
 
 This slide shows the Advanced Configuration and Power Interface
@@ -403,7 +403,7 @@ really need (and you will be billed for them).
 ## Building LUMI: Concept LUMI-G node
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Concept LUMI-G node](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-architecture/GPUnodeConcept.png){ loading=lazy }
+  ![Slide Concept LUMI-G node](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-Architecture/GPUnodeConcept.png){ loading=lazy }
 </figure>
 
 This slide shows a conceptual view of a LUMI-G compute node. This node is
@@ -476,7 +476,7 @@ But so far for the sales presentation, let's get back to reality...
 ## Building LUMI: What a LUMI-G node really looks like
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Real LUMI-G node](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-architecture/GPUnodeReal.png){ loading=lazy }
+  ![Slide Real LUMI-G node](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-Architecture/GPUnodeReal.png){ loading=lazy }
 </figure>
 
 Or the full picture with the bandwidths added to it:
@@ -568,7 +568,7 @@ and as we shall see later in the course, exploiting this is a bit tricky at the 
 ### What the future looks like...
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide The future we're preparing for...](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-architecture/GPUnodeFuture.png){ loading=lazy }
+  ![Slide The future we're preparing for...](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-Architecture/GPUnodeFuture.png){ loading=lazy }
 </figure>
 
 Some users may be annoyed by the "small" amount of memory on each node. Others
@@ -628,7 +628,7 @@ out the integrated CPU+GPU model to a later generation.
 ## Building LUMI: The Slingshot interconnect
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Slingshot interconnect](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-architecture/Slingshot.png){ loading=lazy }
+  ![Slide Slingshot interconnect](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-Architecture/Slingshot.png){ loading=lazy }
 </figure>
 
 All nodes of LUMI, including the login, management and storage nodes, are linked
@@ -680,7 +680,7 @@ a third hop in the destination group to the switch the destination node is attac
 ## Assembling LUMI
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide HPE Cray EX System](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-architecture/AssemblyEX.png){ loading=lazy }
+  ![Slide HPE Cray EX System](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-Architecture/AssemblyEX.png){ loading=lazy }
 </figure>
 
 Let's now have a look at how everything connects together to the supercomputer LUMI.
@@ -738,7 +738,7 @@ compute blades.
 ## LUMI assembled
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide LUMI](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-architecture/AssemblyLUMI.png){ loading=lazy }
+  ![Slide LUMI](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-Architecture/AssemblyLUMI.png){ loading=lazy }
 </figure>
 
 This slide shows LUMI fully assembled (as least as it was at the end of 2022).

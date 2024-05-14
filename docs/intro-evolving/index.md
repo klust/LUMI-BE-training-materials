@@ -1,6 +1,6 @@
-# LUMI 1-day training evolving version
+# LUMI introductory training evolving version
 
-*This document includes the base materials for the 1-day training that we
+*This document includes the base materials for the introductory training that we
 provide to Belgian LUMI users. We try to evolve it as soon as possible when
 it becomes outdated due to changes on LUMI, and it is certainly more up-to-date
 than any other version you may find on this site in the future.*
@@ -74,34 +74,28 @@ You will only need an very minimum of CPU and GPU billing units for this.
 
 ## Downloads
 
-*As the course is still under development, some links are still dead.*
-
-| Presentation | Slides | Notes | recording |
+| Presentation | Slides | Notes | Exercises |
 |:-------------|:-------|:------|:----------|
-| Introduction | / | [notes](00_Introduction.md) | / |
-| LUMI Architecture | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-01-architecture.pdf) | [notes](01_Architecture.md) | / |
-| HPE Cray Programming Environment | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-02-CPE.pdf) | [notes](02_CPE.md) | / |
-| Getting access to LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-03-access.pdf) | [notes](03_LUMI_access.md) | / |
-| Exercises 1 | / | [notes](E03_Exercises_1.md) | / |
-| Modules on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-04-modules.pdf) | [notes](04_Modules.md) | / |
-| Exercises 2 | / | [notes](E04_Exercises_2.md) | / |
-| LUMI Software Stacks | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-05-software.pdf) | [notes](05_Software_stacks.md) | / |
-| Exercises 3 | / | [notes](E05_Exercises_3.md) | / |
-| Slurm on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-06-slurm.pdf) | [notes](06_Slurm.md) | / |
-| Binding resources | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-07-binding.pdf) | [notes](07_Binding.md) | / | 
-| Exercises 4 | / | [notes](E07_Exercises_4.md) | / |
-| Using Lustre | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-08-lustre.pdf) | [notes](08_Lustre.md) | / |
-| Containers on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-09-containers.pdf) | [notes](09_Containers.md) | / |
+| Notes Introduction | / | [notes](00-Introduction.md) | / |
+| LUMI Architecture | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-01-Architecture.pdf) | [notes](01-Architecture.md) | / |
+| HPE Cray Programming Environment | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-02-CPE.pdf) | [notes](02-CPE.md) | [exercises](E02-CPE.md) |
+| Getting access to LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-03-Access.pdf) | [notes](03-Access.md) | [exercises](E03-Access.md) |
+| Modules on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-04-Modules.pdf) | [notes](04-Modules.md) | [exercises](E04-Modules.md) |
+| LUMI Software Stacks | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-05-SoftwareStacks.pdf) | [notes](05-SoftwareStacks.md) | [exercises](E05-SoftwareStacks.md) |
+| Slurm on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-06-Slurm.pdf) | [notes](06-Slurm.md) | [exercises](E06-Slurm.md) |
+| Binding resources | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-07-Binding.pdf) | [notes](07-Binding.md) | [exercises](E07-Binding.md) | 
+| Using Lustre | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-08-Lustre.pdf) | [notes](08-Lustre.md) | / |
+| Containers on LUMI | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-09-Containers.pdf) | [notes](09-Containers.md) | / |
 | Container demo 1 | / | [notes](Demo1.md) | [video](Demo1.md#video-of-the-demo) |
 | Container demo 2 | / | [notes](Demo2.md) | [video](Demo2.md#video-of-the-demo) |
-| LUMI User Support | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-10-support.pdf) | [notes](10_Support.md) | / |
-| A1 Slurm issues | / | [notes](A01_Slurm_issues.md) | / | 
-| A2 Additional documentation | / | [notes](A02_Documentation.md) | / | 
+| LUMI User Support | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-10-Support.pdf) | [notes](10-Support.md) | / |
+| A1 Slurm issues | / | [notes](A01-SlurmIssues.md) | / | 
+| A2 Additional documentation | / | [notes](A02-Documentation.md) | / | 
 
 
 ## Web links
 
--   [Links to additional HPE Cray documentation](A02_Documentation.md)
+-   [Links to additional HPE Cray documentation](A02-Documentation.md)
 
 -   LUMI documentation
 
