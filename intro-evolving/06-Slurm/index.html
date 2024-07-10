@@ -1919,7 +1919,10 @@ In the overview on the slides we did not mention partitions that are hidden to r
 operation of LUMI and depending on needs observed by the system administrators and LUMI
 User Support Team, so don't take the above tables in the slide for granted.</p>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Partitions 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Slurm/PartitionsCommands.png" /></p>
+<p><img alt="Slide Partitions: Useful commands" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Slurm/PartitionsCommands.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide Partitions: Useful commands: sinfo -s example" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Slurm/PartitionsCommandsSinfo.png" /></p>
 </figure>
 <p>Some useful commands with respect to Slurm partitions:</p>
 <ul>
@@ -2290,7 +2293,35 @@ the batch script as otherwise they will be passed to the batch script as command
 that script. Likewise, with <code>srun</code> they have to be specified before the command you want to execute
 as otherwise they would be passed to that command as flags and options.</p>
 <p>Several options specified to <code>sbatch</code> or <code>salloc</code> are also forwarded to <code>srun</code> via <code>SLURM_*</code> environment
-variables set in the job by these commands.</p>
+variables set in the job by these commands. These may interfere with options specified on the <code>srun</code>
+command line and lead to unexpected behaviour. </p>
+<details class="example">
+<summary>Example: Conflict between <code>--ntasks</code> and <code>--ntasks-per-node</code></summary>
+<p>We'll meet this example later on in these notes,when we discuss
+<a href="./##resources-for-per-node-allocations">starting a job step in per-node allocations</a>.
+You'll need some Slurm experience to understand this example at this point, but keep it
+in mind when you read further in these notes.</p>
+<p>Two different options to specify the number of tasks in a job step are 
+<code>--ntasks</code> and <code>--ntasks-per-node</code>. The <code>--ntasks</code> command line options specifies the
+total number of tasks for the job step, and these will be distributed across nodes
+according to rules we will discuss later. The <code>--ntasks-per-node</code> command line option
+on the other hand requests that that number of tasks is launched on each node of
+the job (which really only makes sense if you have entire nodes, e.g., in node-exclusive
+allocations) and is attractive as it is easy to scale your allocation by just changing
+the number of nodes. </p>
+<p>Checking the 
+<a href="https://slurm.schedmd.com/archive/slurm-22.05.10/srun.html#OPT_ntasks-per-node">srun manual page for the <code>--ntasks-per-node</code> option</a>, 
+you read that the <code>--ntasks</code> option takes precedence and if present, 
+<code>--ntasks-per-node</code> will be interpreted as the <strong>maximum</strong> number of tasks per node.</p>
+<p>Now depending on how the allocation was made, Slurm may set the environment variables
+<code>SLURM_NTASKS</code> and <code>SLURM_NPROCS</code> (the latter for historical reasons) that have the
+same effect as specifying <code>--ntasks</code>. So if these environment variables are present in
+the environment of your job script, they have effectively the effect of specifying
+<code>--ntasks</code> even though you did not specify it explicitly on the <code>srun</code> command line
+and <code>--ntasks-per-node</code> will no longer be the exact number of tasks. And this may
+happen even if you have never specified any <code>--ntasks</code> flag anywhere simply because
+Slurm fills in some defaults for certain parameters when creating an allocation...</p>
+</details>
 <h2 id="specifying-options">Specifying options<a class="headerlink" href="#specifying-options" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Specifying options" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Slurm/SpecifyingOptions.png" /></p>
@@ -4014,6 +4045,11 @@ is not enough to fill an exclusive node. It does turn out to be tricky though, e
 are being used, and with proper binding of the resources. In some cases the <code>--overlap</code> parameter of
 <code>srun</code> may help a bit. (And some have reported that in some cases <code>--exact</code> is needed instead, but this
 parameter is already implied if <code>--cpus-per-task</code> can be used.)</p>
+<p>Note that we have observed unexpected behaviour when using this on nodes that were not job-exclusive,
+likely caused by Slurm bugs. It also doesn't make much sense to use this feature in that case.
+The main reason to use it, is to be able to do proper mapping/binding of resources even when
+a single job step cannot fill a whole node. In other cases it may simply be easier to have 
+multiple jobs, one for each job step that you would run simultaneously.</p>
 <details class="example">
 <summary>A longer example</summary>
 <p>Consider the bash job script for an exclusive CPU node:</p>
