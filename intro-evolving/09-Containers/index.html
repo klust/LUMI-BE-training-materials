@@ -1678,23 +1678,52 @@ Whereas cotainr fully exposes the container to users and its software is accesse
 through the regular singularity commands, Tykky tries to hide this complexity with
 wrapper scripts that take care of all bindings and calling singularity.
 On LUMI, it is provided by the <strong><code>lumi-container-wrapper</code></strong>
-module which is available in the <code>CrayEnv</code> environment and in the LUMI software stacks.
-It is also <a href="https://docs.lumi-supercomputer.eu/software/installing/container-wrapper/">documented in the LUMI documentation</a>.</p>
-<p>The basic idea is that you run the tool to either do a conda installation or an installation
-of Python packages from a file that defines the environment in either standard conda
-format (a Yaml file) or in the <code>requirements.txt</code> format used by <code>pip</code>. </p>
-<p>The container wrapper will then perform the installation in a work directory, create some
-wrapper commands in the <code>bin</code> subdirectory of the directory where you tell the container
-wrapper tool to do the installation, and it will use SquashFS to create as single file
+module which is available in the <code>CrayEnv</code> environment and in the LUMI software stacks.</p>
+<p>The tool can work in four modes:</p>
+<ol>
+<li>
+<p>It can create a conda environment based on a Conda environment file and create
+    wrapper scripts for that installation.</p>
+</li>
+<li>
+<p>It can install a number of Python packages via <code>pip</code> and create wrapper scripts. On LUMI,
+    this is done on top of one of the <code>cray-python</code> modules that already contain
+    optimised versions of NumPy, SciPy and pandas. Python packages are specified
+    in a <code>requirements.txt</code> file used by <code>pip</code>.</p>
+</li>
+<li>
+<p>It can do a combination of both of the above: Install a Conda-based Python 
+    environment and in one go also install a number of additional Python packages
+    via <code>pip</code>. </p>
+</li>
+<li>
+<p>The fourth option is to use the container wrapper to create wrapper scripts for
+    commands in an existing container.</p>
+</li>
+</ol>
+<p>For the first three options, the container wrapper will then perform the installation 
+in a work directory, create some wrapper commands in the <code>bin</code> subdirectory of the directory 
+where you tell the container wrapper tool to do the installation, 
+and it will use SquashFS to create as single file
 that contains the conda or Python installation. So strictly speaking it does not create a 
 container, but a SquashFS file that is then mounted in a small existing base container. 
 However, the wrappers created for all commands in the <code>bin</code> subdirectory of the conda or
 Python installation take care of doing the proper bindings. If you want to use the container
-through singularity commands however, you'll have to do that mounting by hand.</p>
+through singularity commands however, you'll have to do that mounting by hand, including 
+mounting the SquashFS file on the right directory in the container.</p>
+<p>Note that the wrapper scripts may seem transparent, but running a script that contains
+the wrapper commands outside the container may have different results from running the
+same script inside the container. The reason is that each of the wrapper commands 
+internally still call singularity to run the command in the container, and singularity
+does not pass the whole environment to the container, but only environment variables
+that are explicitly defined to be passed to the container by prepending their name with
+<code>SINGULARITYENV_</code>. E.g., when running AI application such as PyTorch, several environment
+variables need to be set in advance and doing so with the regular names would not work
+with the wrapper scripts.</p>
 <p>We do strongly recommend to use cotainr or the container wrapper tool for larger conda and Python installation.
 We will not raise your file quota if it is to house such installation in your <code>/project</code> directory.</p>
 <details class="demo" open="open">
-<summary>Demo lumi-container-wrapper</summary>
+<summary>Demo lumi-container-wrapper for a Conda installation</summary>
 <p>Create a subdirectory to experiment. In that subdirectory, create a file named <code>env.yml</code> with
 the content:</p>
 <div class="highlight"><pre><span></span><code>channels:
@@ -1742,7 +1771,14 @@ that run those commands in the container with the SquashFS file system mounted i
 <p>So as you can see above, we can simply use the <code>python3</code> command without realising
 what goes on behind the screen...</p>
 </details>
-<p>The wrapper module also offers a pip-based command to build upon the Cray Python modules already present on the system</p>
+<div class="admonition info">
+<p class="admonition-title">Relevant documentation for <code>lumi-container-wrapper</code></p>
+<ul>
+<li><a href="https://docs.lumi-supercomputer.eu/software/installing/container-wrapper/">Page in the main LUMI documentation</a></li>
+<li><a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/l/lumi-container-wrapper/"><code>lumi-container-wrapper</code> in the LUMI Software Library</a></li>
+<li><a href="https://docs.csc.fi/computing/containers/tykky/">Tykky page in the CSC documentation</a> </li>
+</ul>
+</div>
 <h3 id="pre-built-ai-containers">Pre-built AI containers<a class="headerlink" href="#pre-built-ai-containers" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
 <p><img alt="Environment enhancements (3): Prebuilt AI containers" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersPrebuiltAI.png" /></p>
