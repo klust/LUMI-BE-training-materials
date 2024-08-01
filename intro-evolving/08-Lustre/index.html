@@ -805,6 +805,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#related-trainings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Related trainings
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1058,6 +1067,15 @@
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       Links
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-trainings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Related trainings
     </span>
   </a>
   
@@ -1615,6 +1633,42 @@ capacity than a hard disk based OST).</p>
 <li>
 <p><a href="https://support.hpe.com/hpesc/public/docDisplay?docId=a00115089en_us&amp;page=Introduction_to_DVS.html">Introduction to DVS</a>
     in an <a href="https://support.hpe.com/hpesc/public/docDisplay?docId=a00115089en_us&amp;page=index.html">administration guide</a></p>
+</li>
+</ul>
+<h2 id="related-trainings">Related trainings<a class="headerlink" href="#related-trainings" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>Within the VSC, several of the Python trainings already pay attention to working efficiently with
+    datasets in Python.</p>
+<ul>
+<li>
+<p><a href="https://gjbex.github.io/Scientific-Python/">Scientific Python</a>. The 
+    <a href="https://github.com/gjbex/Scientific-Python/raw/master/scientific_python.pptx">current version of the slides</a>
+    contains a chapter on the use of HDF5. The GitHub repository with various examples, contains
+    <a href="https://github.com/gjbex/Scientific-Python/tree/master/source-code/hdf5">examples and a Jupyter notebook for HDF5</a> and
+    <a href="https://github.com/gjbex/Scientific-Python/tree/master/source-code/netcdf">examples and a Jupyter notebook for netCDF</a>.</p>
+</li>
+<li>
+<p><a href="https://gjbex.github.io/Python-for-HPC/">Python for HPC</a>. Not everything is mentioned on 
+    the web site, but the <a href="https://github.com/gjbex/Python-for-HPC/raw/master/python_for_hpc.pptx">current version of the slides</a>
+    has at the end a chapter on I/O, mostly discussing using HDF5 in Python.
+    See also <a href="https://github.com/gjbex/Python-for-HPC/tree/master/source-code/hdf5">these example files and Jupyter notebook on GitHub</a>.</p>
+</li>
+<li>
+<p>Sometimes other data formats may be a better idea, e.g., in AI applications. With Python (and there exist such libraries
+    for, e.g, C programmers), one can read directly from various archive file formats, e.g., gzip and tar files.
+    See <a href="https://github.com/gjbex/Python-for-systems-programming/blob/master/hands-on/compressed_files.ipynb">these examples</a>
+    from the VSC <a href="https://gjbex.github.io/Python-for-systems-programming/">Python systems programming course</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p>MPI courses will often also discuss MPI I/O which is a building block to implement proper I/O strategies
+    in parallel applications, and is also used in the implementation of HDF5, netCDF and likely other libraries.</p>
+</li>
+<li>
+<p>Jülich Supercomputer Centre (between Aachen and Köln) organises <a href="https://www.fz-juelich.de/en/ias/jsc/news/events/training-courses">a lot of trainings</a>.
+    The annual training "Parallel I/O and Data Formats" is particularly relevant for this chapter of this tutorial.</p>
 </li>
 </ul>
 
