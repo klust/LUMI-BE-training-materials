@@ -1235,7 +1235,15 @@
 
 
 <h1 id="modules-on-lumi">Modules on LUMI<a class="headerlink" href="#modules-on-lumi" title="Permanent link">&para;</a></h1>
-<div class="admonition note">
+<!-- 
+Examples still to redo:
+* module spider
+* module spider FFTW
+* module spider gnuplot would be nicer without all the Spack junk
+* module keyword https also shows too much spack junk.
+-->
+
+<div class="admonition audience">
 <p class="admonition-title">Intended audience</p>
 <p>As this course is designed for people already familiar with HPC systems and
 as virtually any cluster nowadays uses some form of module environment, this
@@ -1261,7 +1269,7 @@ of some packages, as that location may not even always support proper multi-vers
 installations and as system administrators prefer to have a software stack which is as isolated as
 possible from the system installation to keep the image that has to be loaded
 on the compute nodes small.</p>
-<p>Another use of modules not mentioned on the slide is to configure the programs
+<p>Another use of modules is to configure the programs
 that are being activated. E.g., some packages expect certain additional environment
 variables to be set and modules can often take care of that also.</p>
 <p>There are 3 systems in use for module management.
@@ -1296,7 +1304,7 @@ information for search and help information.</p>
 </ul>
 </details>
 <!-- BELGIUM -->
-<div class="admonition note">
+<div class="admonition audience">
 <p class="admonition-title">I know Lmod, should I continue?</p>
 <p>Lmod is a very flexible tool. Not all sites using Lmod use all features, and
 Lmod can be configured in different ways to the extent that it may even look
@@ -1308,7 +1316,7 @@ to clusters running the C/Tcl module implementation which was used in the early
 days of the VSC.</p>
 </div>
 <!-- GENERAL More general version 
-!!! Note "I know Lmod, should I continue?"
+!!! Audience "I know Lmod, should I continue?"
     Lmod is a very flexible tool. Not all sites using Lmod use all features, and
     Lmod can be configured in different ways to the extent that it may even look
     like a very different module system for people coming from another cluster.
@@ -1382,32 +1390,32 @@ a different one, <strong>Lmod will try to look for equivalent modules</strong> i
 available by the newly loaded module.</p>
 <p>An easy example (though a tricky one as there are other mechanisms at play also) it to load
 a different programming environment in the default login environment right after login:</p>
-<div class="highlight"><pre><span></span><code>$ module load PrgEnv-aocc
+<div class="highlight"><pre><span></span><code>$ module load PrgEnv-gnu
 </code></pre></div>
 <p>which results in the next slide:</p>
 <!-- Used window size 23x95 -->
-<!-- ![module load PrgEnv-aocc](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_BenefitsHierarchyDemo.png) -->
+<!-- ![module load PrgEnv-gnu](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_BenefitsHierarchyDemo.png) -->
 <figure style="border: 1px solid #000">
-<p><img alt="module load PrgEnv-aocc" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/BenefitsHierarchyDemo.png" /></p>
+<p><img alt="module load PrgEnv-gnu" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/BenefitsHierarchyDemo.png" /></p>
 </figure>
 <p>The first two lines of output are due to to other mechanisms that are at work here, 
 and the order of the lines may seem strange but that has to do with the way Lmod works
 internally. Each of the PrgEnv modules hard loads a compiler module which is why Lmod tells
-you that it is loading <code>aocc/3.2.0</code>. However, there is also another mechanism at work that
-causes <code>cce/16.0.0</code> and <code>PrgEnv-cray/8.4.0</code> to be unloaded, but more about that in the next
+you that it is loading <code>gcc-native/13.2</code>. However, there is also another mechanism at work that
+causes <code>cce/17.0.1</code> and <code>PrgEnv-cray/8.5.0</code> to be unloaded, but more about that in the next
 subsection (next slide).</p>
 <p>The important line for the hierarchy in the output are the lines starting with 
-"Due to MODULEPATH changes...".
+"<code>Due to MODULEPATH changes...</code>".
 Remember that we said that each module has a corresponding <strong>module file</strong>. Just as binaries
 on a system, these are <strong>organised in a directory structure</strong>, and there is a path, in this
-case MODULEPATH, that determines where Lmod will look for module files. The hierarchy is
-implemented with a directory structure and the environment variable MODULEPATH, and
-when the <code>cce/16.0.0</code> module was unloaded and <code>aocc/3.2.0</code> module was loaded, that 
-MODULEPATH was changed. As a result, the version of the cray-mpich module for the 
-<code>cce/16.0.0</code> compiler became unavailable, but one with the same module name for the
-<code>aocc/3.2.0</code> compiler became available and hence Lmod unloaded the version for the
-<code>cce/16.0.0</code> compiler as it is no longer available but loaded the matching one for
-the <code>aocc/3.2.0</code> compiler. </p>
+case <code>MODULEPATH</code>, that determines where Lmod will look for module files. The hierarchy is
+implemented with a directory structure and the environment variable <code>MODULEPATH</code>, and
+when the <code>cce/17.0.1</code> module was unloaded and <code>gcc-native/13.2</code> module was loaded, that 
+<code>MODULEPATH</code> was changed. As a result, the version of the cray-mpich module for the 
+<code>cce/17.0.1</code> compiler became unavailable, but one with the same module name for the
+<code>gcc-native/13.2</code> compiler became available and hence Lmod unloaded the version for the
+<code>cce/17.0.1</code> compiler as it is no longer available but loaded the matching one for
+the <code>gcc-native/13.2</code> compiler. </p>
 <h2 id="about-module-names-and-families">About module names and families<a class="headerlink" href="#about-module-names-and-families" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Module names and families" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleNamesFamilies.png" /></p>
@@ -1419,8 +1427,8 @@ even no need to use the <code>module swap</code> command for that (which in Lmod
 to a <code>module unload</code> of the first module and a <code>module load</code> of the second).
 This gives you an automatic protection against some conflicts if the names of the modules
 are properly chosen. </p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+<div class="admonition remark">
+<p class="admonition-title">Remark</p>
 <p>Some clusters do not allow the automatic unloading of a module with the same
 name as the one you're trying to load, but on LUMI we felt that this is a 
 necessary feature to fully exploit a hierarchy.</p>
@@ -1430,18 +1438,18 @@ necessary feature to fully exploit a hierarchy.</p>
 The family property is something that is defined in the module file. It is commonly 
 used on systems with multiple compilers and multiple MPI implementations to ensure 
 that each compiler and each MPI implementation can have a logical name without 
-encoding that name in the version string (like needing to have <code>compiler/gcc-11.2.0</code>
-or <code>compiler/gcc/11.2.0</code>
-rather than <code>gcc/11.2.0</code>), while still having an easy way to avoid having two 
+encoding that name in the version string (like needing to have <code>compiler/gcc-13.2</code>
+or <code>compiler/gcc/13.2</code>
+rather than <code>gcc-native/13.2</code>), while still having an easy way to avoid having two 
 compilers or MPI implementations loaded at the same time. 
 On LUMI, the conflicting module of the same family will be unloaded automatically
 when loading another module of that particular family.</p>
 <p>This is shown in the example in the previous subsection (the <code>module load PrgEnv-gnu</code> in 
 a fresh long shell) in two places. It is the mechanism that unloaded <code>PrgEnv-cray</code>
-when loading <code>PrgEnv-gnu</code> and that then unloaded <code>cce/16.0.1</code> when the 
-<code>PrgEnv-gnu</code> module loaded the <code>gcc/11.2.0</code> module.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+when loading <code>PrgEnv-gnu</code> and that then unloaded <code>cce/17.0.1</code> when the 
+<code>PrgEnv-gnu</code> module loaded the <code>gcc-native/13.2</code> module.</p>
+<div class="admonition remark">
+<p class="admonition-title">Remark</p>
 <p>Some clusters do not allow the automatic unloading of a module of the same
 family as the one you're trying to load and produce an error message instead.
 On LUMI, we felt that this is a necessary feature to fully exploit the 
@@ -1457,7 +1465,7 @@ packages or tens of Python packages that a software stack may contain.
 In fact, as the software for each module is installed in a separate directory
 it would also create a performance problem due to excess directory accesses simply
 to find out where a command is located, and very long search path environment
-variables such as PATH or the various variables packages such as Python, R or Julia use
+variables such as <code>PATH</code> or the various variables packages such as Python, R or Julia use
 to find extension packages.
 On LUMI related packages are often bundled in a single module. </p>
 <p>Now you may wonder: If a module cannot be simply named after the package it contains as
@@ -1503,22 +1511,14 @@ to optimised math libraries.</p>
 <h3 id="example-1-running-module-spider-on-lumi">Example 1: Running <code>module spider</code> on LUMI<a class="headerlink" href="#example-1-running-module-spider-on-lumi" title="Permanent link">&para;</a></h3>
 <p>Let's first run the <code>module spider</code> command. The output varies over time, but at the time of writing,
 and leaving out a lot of the output, one would have gotten:</p>
-<!--
-![module spider 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/imp_ModuleSpiderCommand_1.png)
-
-![module spider 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/imp_ModuleSpiderCommand_2.png)
-
-![module spider 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/imp_ModuleSpiderCommand_3.png)
--->
-
 <figure style="border: 1px solid #000">
 <p><img alt="module spider 1" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCommand_1.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="module spider 1" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCommand_2.png" /></p>
+<p><img alt="module spider 2" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCommand_2.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="module spider 1" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCommand_3.png" /></p>
+<p><img alt="module spider 3" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCommand_3.png" /></p>
 </figure>
 <p>On the second screen we see, e.g., the ARMForge module which was available in just a single version
 at that time, and then Autoconf where the version is in blue and followed by <code>(E)</code>. This denotes
@@ -1531,10 +1531,6 @@ for the command.</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>FFTW
 </code></pre></div>
 <p>produces</p>
-<!--
-![module spider FFTW](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleSpiderFFTW.png)
--->
-
 <figure style="border: 1px solid #000">
 <p><img alt="module spider FFTW" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderFFTW.png" /></p>
 </figure>
@@ -1544,20 +1540,14 @@ Note that (a) it is not case sensitive as FFTW is not in capitals in the module 
 also finds modules where the argument of module spider is only part of the name.</p>
 <p>The output also suggests us to dig a bit deeper and 
 check for a specific version, so let's run</p>
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>cray-fftw/3.3.10.3
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>cray-fftw/3.3.10.7
 </code></pre></div>
 <p>This produces:</p>
-<!--
-![module spider cray-fftw/3.3.10.5](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleSpiderFFTWVersion_1.png)
-
-![module spider cray-fftw/3.3.10.5](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleSpiderFFTWVersion_2.png)
--->
-
 <figure style="border: 1px solid #000">
-<p><img alt="module spider cray-fftw/3.3.10.5" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderFFTWVersion_1.png" /></p>
+<p><img alt="module spider cray-fftw/3.3.10.7" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderFFTWVersion_1.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="module spider cray-fftw/3.3.10.5" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderFFTWVersion_2.png" /></p>
+<p><img alt="module spider cray-fftw/3.3.10.7" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderFFTWVersion_2.png" /></p>
 </figure>
 <p>We now get a long list of possible combinations of modules that would enable us to load this module.
 What these modules are will be explained in the next session of this course. However, it does show
@@ -1565,34 +1555,30 @@ a weakness when module spider is used with the HPE Cray PE. In some cases, not a
 are shown (and this is the case here as the module is actually available directly after login and also
 via some other combinations of modules that are not shown). This is because the HPE Cray Programming
 Environment is system-installed and sits next to the application software stacks that are managed differently,
-but in some cases also because the HPE Cray PE sometimes fails to give the complete combination of modules
-that is needed. The command does work well with the software managed by the LUMI User Support Team as the
+but in some cases also because the HPE Cray PE uses Lmod in a different way than intended by the Lmod developers,
+causing the spider command to not find some combinations that would actually work.
+The command does work well with the software managed by the LUMI User Support Team as the
 next two examples will show.</p>
 <h3 id="example-3-searching-for-gnuplot">Example 3: Searching for GNUplot<a class="headerlink" href="#example-3-searching-for-gnuplot" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
 <p><img alt="module spider for a regular package" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderRegular.png" /></p>
 </figure>
 <p>To see if GNUplot is available, we'd first search for the name of the package:</p>
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>GNUplot
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>gnuplot
 </code></pre></div>
 <p>This produces:</p>
-<!--
-![module spider GNUplot](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleSpiderGnuplot_1.png)
-
-![module spider GNUplot](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleSpiderGnuplot_2.png)
--->
-
 <figure style="border: 1px solid #000">
-<p><img alt="module spider GNUplot" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderGnuplot_1.png" /></p>
+<p><img alt="module spider gnuplot screen 1" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderGnuplot_1.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="module spider GNUplot" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderGnuplot_2.png" /></p>
+<p><img alt="module spider gnuplot screen 2" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderGnuplot_2.png" /></p>
 </figure>
-<p>The output again shows that the search is not case sensitive which is fortunate as uppercase and lowercase
+<!-- The output again shows that the search is not case sensitive which is fortunate as uppercase and lowercase
 letters are not always used in the same way on different clusters. Some management tools for scientific software
-stacks will only use lowercase letters, while the package we use for the LUMI software stacks often uses both.</p>
+stacks will only use lowercase letters, while the package we use for the LUMI software stacks often uses both. -->
+
 <p>We see that there are a lot of versions installed on the system and that the version actually contains more 
-information (e.g., <code>-cpeGNU-23.09</code>) that we will explain in the next part of this course. But you might of
+information (e.g., <code>-cpeGNU-24.03</code>) that we will explain in the next part of this course. But you might of
 course guess that it has to do with the compilers that were used. It may look strange to you to have the same
 software built with different compilers. However, mixing compilers is sometimes risky as a library compiled
 with one compiler may not work in an executable compiled with another one, so to enable workflows that use
@@ -1600,20 +1586,14 @@ multiple tools we try  to offer many tools compiled with multiple compilers (as 
 don't use rpath linking which could help to solve that problem). So you want to chose the appropriate
 line in terms of the other software that you will be using.</p>
 <p>The output again suggests to dig a bit further for more information, so let's try</p>
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>gnuplot/5.4.8-cpeGNU-23.09
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>gnuplot/5.4.10-cpeGNU-24.03
 </code></pre></div>
 <p>This produces:</p>
-<!--
-![module spider gnuplot/5.4.8-cpeGNU-23.09](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleSpiderGnuplotVersion_1.png)
-
-![module spider gnuplot/5.4.8-cpeGNU-23.09](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleSpiderGnuplotVersion_2.png)
--->
-
 <figure style="border: 1px solid #000">
-<p><img alt="module spider gnuplot/5.4.8-cpeGNU-23.09" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderGnuplotVersion_1.png" /></p>
+<p><img alt="module spider gnuplot/5.4.10-cpeGNU-24.03 screen 1" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderGnuplotVersion_1.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="module spider gnuplot/5.4.8-cpeGNU-23.09" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderGnuplotVersion_2.png" /></p>
+<p><img alt="module spider gnuplot/5.4.10-cpeGNU-24.03 screen 2" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderGnuplotVersion_2.png" /></p>
 </figure>
 <p>In this case, this module is provided by 3 different combinations of modules that also will be explained
 in the next part of this course. Furthermore, the output of the command now also shows some help information
@@ -1635,39 +1615,31 @@ powers of <code>module spider</code> and try</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>CMake
 </code></pre></div>
 <p>which produces</p>
-<!--
-![module spider cmake](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleSpiderCMake.png)
--->
-
 <figure style="border: 1px solid #000">
-<p><img alt="module spider cmake" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCMake.png" /></p>
+<p><img alt="module spider CMake" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCMake.png" /></p>
 </figure>
-<p>The output above shows us that there are actually 5 other versions of CMake on the system, but their
+<p>The output above shows us that there are actually 3 other versions of CMake on the system, but their
 version is followed by <code>(E)</code> which says that they are extensions of other modules.
 There is no module called <code>CMake</code> on the system. 
 But Lmod already tells us
 how to find out which module actually provides the CMake tools. So let's try</p>
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>CMake/3.27.7
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>CMake/3.29.3
 </code></pre></div>
 <p>which produces</p>
-<!--
-![module spider CMake/3.27.7](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleSpiderCMakeVersion_1.png)
--->
-
 <figure style="border: 1px solid #000">
-<p><img alt="module spider CMake/3.27.7" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCMakeVersion_1.png" /></p>
+<p><img alt="module spider CMake/3.29.3" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCMakeVersion_1.png" /></p>
 </figure>
 <p>This shows us that the version is provided by a number of <code>buildtools</code> modules, and for each of those
 modules also shows us which other modules should be loaded to get access to the commands. E.g.,
-the first line tells us that there is a module <code>buildtools/23.09</code> that provides that version of CMake, but
-that we first need to load some other modules, with <code>LUMI/23.09</code> and <code>partition/L</code> (in that order) 
+the first line tells us that there is a module <code>buildtools/24.03</code> that provides that version of CMake, but
+that we first need to load some other modules, with <code>LUMI/24.03</code> and <code>partition/L</code> (in that order) 
 one such combination.</p>
 <p>So in this case, after</p>
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09<span class="w"> </span>partition/L<span class="w"> </span>buildtools/23.09
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>load<span class="w"> </span>LUMI/24.03<span class="w"> </span>partition/L<span class="w"> </span>buildtools/24.03
 </code></pre></div>
 <p>the <code>cmake</code> command would be available.</p>
 <p>And you could of course also use</p>
-<div class="highlight"><pre><span></span><code>$ module spider buildtools/23.09
+<div class="highlight"><pre><span></span><code>$ module spider buildtools/24.03
 </code></pre></div>
 <p>to get even more information about the buildtools module, including any help included in the module.</p>
 <h2 id="alternative-search-the-module-keyword-command">Alternative search: the module keyword command<a class="headerlink" href="#alternative-search-the-module-keyword-command" title="Permanent link">&para;</a></h2>
@@ -1685,17 +1657,11 @@ One could try</p>
 </code></pre></div>
 <p>which produces the following output:</p>
 <!-- Use a window of 105x23 -->
-<!--
-![module keyword https](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleKeywordHTTPS_1.png)
-
-![module keyword https](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleKeywordHTTPS_2.png)
--->
-
 <figure style="border: 1px solid #000">
-<p><img alt="module keyword https" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleKeywordHTTPS_1.png" /></p>
+<p><img alt="module keyword https screen 1" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleKeywordHTTPS_1.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="module keyword https" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleKeywordHTTPS_2.png" /></p>
+<p><img alt="module keyword https screen 2" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleKeywordHTTPS_2.png" /></p>
 </figure>
 <p><code>cURL</code> and <code>wget</code> are indeed 
 two tools that can be used to fetch files from the internet.</p>
@@ -1739,21 +1705,7 @@ the modules that activate a software stack so that you don't have to start from 
 chosen a software stack but want to clean up your environment.</p>
 <p>Let us look at the output of the <code>module avail</code> command, taken just after login on the system at the
 time of writing of these notes (the exact list of modules shown is a bit fluid):</p>
-<!-- Use a window of 106x23 -->
-<!--
-![module avail slide 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleAvail_1.png)
-
-![module avail slide 2](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleAvail_2.png)
-
-![module avail slide 3](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleAvail_3.png)
-
-![module avail slide 4](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleAvail_4.png)
-
-![module avail slide 5](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleAvail_5.png)
-
-![module avail slide 6](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules-img/img_ModuleAvail_6.png)
--->
-
+<!-- Use a window of 95x23 -->
 <figure style="border: 1px solid #000">
 <p><img alt="module avail slide 1" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleAvail_1.png" /></p>
 </figure>
@@ -1772,22 +1724,45 @@ time of writing of these notes (the exact list of modules shown is a bit fluid):
 <figure style="border: 1px solid #000">
 <p><img alt="module avail slide 6" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleAvail_6.png" /></p>
 </figure>
+<figure style="border: 1px solid #000">
+<p><img alt="module avail slide 7" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleAvail_7.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="module avail slide 8" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleAvail_8.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="module avail slide 9" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleAvail_9.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="module avail slide 10" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleAvail_10.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="module avail slide 11" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleAvail_11.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="module avail slide 12" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleAvail_12.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="module avail slide 13" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleAvail_13.png" /></p>
+</figure>
 <p>Next to the names of modules you sometimes see one or more letters.
 The <code>(D)</code> means that that is currently the default version of the module, the one that will be loaded
 if you do not specify a version. Note that the default version may depend on other modules that are already
 loaded as we have seen in the discussion of the programming environment.</p>
 <p>The <code>(L)</code> means that a module is currently loaded.</p>
 <p>The <code>(S)</code> means that the module is a sticky module.</p>
-<p>Next to the <code>rocm</code> module (on the fourth screen) you see <code>(D:5.0.2:5.2.0)</code>. 
-The <code>D</code> means that this version of the module, <code>5.2.3</code>, is currently the default on
-the system. The two version numbers next to this module show that the module can also 
-be loaded as <code>rocm/5.0.2</code> and <code>rocm/5.2.0</code>. These are two modules that were removed
-from the system during the last update of the system, but version 5.2.3 can be loaded
-as a replacement of these modules so that software that used the removed modules may
-still work without recompiling.</p>
+<p>Next to the <code>rocm</code> module (on the fourth screen) you see 
+<code>(5.0.2:5.1.0:5.2.0:5.2.3:5.5.1:5.7.0:6.0.0)</code>.
+This shows that the <code>rocm/6.0.3</code> module can also 
+be loaded as <code>rocm/5.0.2</code> or any of the other versions in that list.
+Some of them were old versions that have been removed from the system in later updates,
+and others are versions that are hard-coded some of the Cray PE modules and other
+files but have never been on the system as we had an already patched version.
+(E.g., the 24.03 version of the Cray PE will sometimes try to load <code>rocm/6.0.0</code> 
+while we have immediate had <code>rocm/6.0.3</code> on the system which corrects some bugs).</p>
 <p>At the end of the overview the extensions are also shown. If this would be fully implemented on LUMI, the list
 could become very long. However, as we shall see next, there is an easy way to hide those from view.
-We haven't used them very intensely so far as there was a bug in older versions of Lmod so that turning off
+We haven't used extensions very intensely so far as there was a bug in older versions of Lmod so that turning off
 the view didn't work and so that extensions that were not in available modules, were also shown. But that
 is fixed in current versions.</p>
 <h2 id="changing-how-the-module-list-is-displayed">Changing how the module list is displayed<a class="headerlink" href="#changing-how-the-module-list-is-displayed" title="Permanent link">&para;</a></h2>
@@ -1827,8 +1802,14 @@ from regular users.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>An example that will only become clear in the next session: When working with the software stack
-called <code>LUMI/23.09</code>, which is built upon the HPE Cray Programming Environment version 23.09,
+called <code>LUMI/24.03</code>, which is built upon the HPE Cray Programming Environment version 24.03,
 all (well, most) of the modules corresponding to other versions of the Cray PE are hidden.</p>
+<p>Just try</p>
+<div class="highlight"><pre><span></span><code>$ module load LUMI/24.03
+$ module avail
+</code></pre></div>
+<p>and you'll see a lot of new packages that have become available, but will also see less Cray PE 
+modules.</p>
 </div>
 <h2 id="getting-help-with-the-module-help-command">Getting help with the module help command<a class="headerlink" href="#getting-help-with-the-module-help-command" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -1843,8 +1824,8 @@ module, and with a full name and version specified it will show this information
 version of the module. But note that <code>module help</code> can only show help for currently available modules.</p>
 <p>Try, e.g., the following commands:</p>
 <div class="highlight"><pre><span></span><code>$ module help cray-mpich
-$ module help cray-python/3.10.10
-$ module help buildtools/23.09
+$ module help cray-python/3.11.7
+$ module help buildtools/24.03
 </code></pre></div>
 <p>Lmod also has another command that produces more limited information (and is currently not fully exploited
 on LUMI): <code>module whatis</code>. It is more a way to tag a module with different kinds of information, some of 
@@ -1852,7 +1833,7 @@ which has a special meaning for Lmod and is used at some places, e.g., in the ou
 arguments.</p>
 <p>Try, e.g.,:</p>
 <div class="highlight"><pre><span></span><code>$ module whatis Subversion
-$ module whatis Subversion/1.14.2
+$ module whatis Subversion/1.14.3
 </code></pre></div>
 <h2 id="a-note-on-caching">A note on caching<a class="headerlink" href="#a-note-on-caching" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -1899,7 +1880,7 @@ Inactive Modules:
 $ module load craype-network-ofi
 
 Activating Modules:
-  1) cray-mpich/8.1.27
+  1) cray-mpich/8.1.29
 </code></pre></div>
 <p>The <code>cray-mpich</code> module needs both a valid network architecture target module to be loaded
 (not <code>craype-network-none</code>) and a compiler module. Here we remove the network target module
@@ -1941,8 +1922,8 @@ so links may break over time.</strong></p>
 <p>VSC@UGent: Modules are briefly coverd in the "Introduction to HPC-UGent" course. The Lmod setup on the
     clusters at UGent is more restrictive than on LUMI with several usefull features disabled.</p>
 <ul>
-<li><a href="https://www.ugent.be/hpc/en/training/2023/introhpc202306">Slides</a> and <a href="https://www.ugent.be/hpc/en/training/introhpcugent-recording">YouTube recording</a>
-    of the June 9, 2023 session.</li>
+<li><a href="https://www.ugent.be/hpc/en/training/2024/introduction-to-hpc-ugent-2024-09-20.pdf">Slides</a> and <a href="https://www.ugent.be/hpc/en/training/introhpcugent-recording">YouTube recording</a>
+    of the September 20, 2024 session.</li>
 </ul>
 </li>
 <li>
