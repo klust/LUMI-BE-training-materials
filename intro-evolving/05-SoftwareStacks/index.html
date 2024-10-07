@@ -1699,7 +1699,7 @@ and from the name of the modules you can see which compilers we used.</p>
 <p><img alt="Accessing the Cray PE on LUMI slide 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/SoftwareStacksAccessingCrayPE_3.png" /></p>
 </figure>
 <p>To manage the heterogeneity in the hardware, the LUMI software stack uses <strong>two levels of modules</strong></p>
-<p>First there are the <strong>LUMI/22.08, LUMI/22.12, LUMI/23.03 and LUMI/23.09 modules</strong>. 
+<p>First there are the <strong>LUMI/24.03, LUMI/23.12, LUMI/23.09, LUMI/23.03, LUMI/22.12 and LUMI/22.08 modules</strong>. 
 Each of the LUMI modules loads a particular version of the LUMI stack.</p>
 <p>The <strong>second level consists of partition modules</strong>. 
 There is partition/L for the login and large memory nodes,
@@ -1899,22 +1899,22 @@ mandatory, but EasyBuild will fail to automatically locate easyconfigs for depen
 of a package that are not yet installed if the easyconfigs don't follow the naming
 convention. Each part of the name also corresponds to a parameter in the easyconfig 
 file.</p>
-<p>Consider, e.g., the easyconfig file <code>GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb</code>.</p>
+<p>Consider, e.g., the easyconfig file <code>GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.2-noPython-CPU.eb</code>.</p>
 <ol>
 <li>The first part of the name, <code>GROMACS</code>, is the name of the package, specified by the
     <code>name</code> parameter in the easyconfig, and is after installation also the name of the
     module.</li>
-<li>The second part, <code>2022.5</code>, is the version of GROMACS and specified by the
+<li>The second part, <code>2024.3</code>, is the version of GROMACS and specified by the
     <code>version</code> parameter in the easyconfig.</li>
 <li>
-<p>The next part, <code>cpeGNU-23.09</code> is the name and version of the toolchain,
+<p>The next part, <code>cpeGNU-24.03</code> is the name and version of the toolchain,
     specified by the <code>toolchain</code> parameter in the easyconfig. The version of the
     toolchain must always correspond to the version of the LUMI stack. So this is
-    an easyconfig for installation in <code>LUMI/23.09</code>.</p>
+    an easyconfig for installation in <code>LUMI/24.03</code>.</p>
 <p>This part is not present for the SYSTEM toolchain</p>
 </li>
 <li>
-<p>The final part, <code>-PLUMED-2.9.0-noPython-CPU</code>, is the version suffix and used to provide
+<p>The final part, <code>-PLUMED-2.9.2-noPython-CPU</code>, is the version suffix and used to provide
     additional information and distinguish different builds with different options
     of the same package. It is specified in the <code>versionsuffix</code> parameter of the
     easyconfig.</p>
@@ -1924,7 +1924,7 @@ file.</p>
 <p>The version, toolchain + toolchain version and versionsuffix together also combine
 to the version of the module that will be generated during the installation process.
 Hence this easyconfig file will generate the module 
-<code>GROMACS/2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU</code>.</p>
+<code>GROMACS/2024.3-cpeGNU-24.03-PLUMED-2.9.2-noPython-CPU</code>.</p>
 <h3 id="installing">Installing<a class="headerlink" href="#installing" title="Permanent link">&para;</a></h3>
 <h4 id="step-1-where-to-install">Step 1: Where to install<a class="headerlink" href="#step-1-where-to-install" title="Permanent link">&para;</a></h4>
 <figure style="border: 1px solid #000">
@@ -1975,6 +1975,9 @@ tests on the GPU, even if you tell which GPU type to use, which does not work on
 <p><strong>Note that the <code>EasyBuild-user</code> module is only needed for the installation process. For using
 the software that is installed that way it is sufficient to ensure that <code>EBU_USER_PREFIX</code> has
 the proper value before loading the <code>LUMI</code> module.</strong></p>
+<figure style="border: 1px solid #000">
+<p><img alt="Step 2: Configure the environment - Demo" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildInstallingStep2_2.png" /></p>
+</figure>
 <h4 id="step-3-install-the-software">Step 3: Install the software.<a class="headerlink" href="#step-3-install-the-software" title="Permanent link">&para;</a></h4>
 <figure style="border: 1px solid #000">
 <p><img alt="Installing: Install the software" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildInstallingStep3.png" /></p>
@@ -2009,14 +2012,14 @@ section:</p>
 <p>The information provided by both variants of the search command is the same, but <code>-S</code> presents the information in a more
 compact form.</p>
 </div>
-<p>Now let's take the variant <code>GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb</code>. 
-This is GROMACS 2022.5 with the PLUMED 2.9.0 plugin, built with the GNU compilers
-from <code>LUMI/23.09</code>, and a build meant for CPU-only systems. The <code>-CPU</code> extension is not
+<p>Now let's take the variant <code>GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.2-noPython-CPU.eb</code>. 
+This is GROMACS 2024.3 with the PLUMED 2.9.2 plugin, built with the GNU compilers
+from <code>LUMI/24.03</code>, and a build meant for CPU-only systems. The <code>-CPU</code> extension is not
 always added for CPU-only system, but in case of GROMACS there already is a GPU version
 for AMD GPUs in active development so even before LUMI-G was active we chose to ensure
 that we could distinguish between GPU and CPU-only versions.
 To install it, we first run 
-<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb<span class="w"> </span>–D
+<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.2-noPython-CPU.eb<span class="w"> </span>–D
 </code></pre></div>
 The <code>-D</code> flag tells EasyBuild to just perform a check for the dependencies that are needed
 when installing this package, while the <code>-r</code> argument is needed to tell EasyBuild to also 
@@ -2026,29 +2029,29 @@ it can be turned on.</p>
 <div class="admonition demo">
 <p class="admonition-title">The output of this command looks like:</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb –D" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSDep_01.png" />
+  <img alt="eb GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.2-noPython-CPU.eb –D" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSDep_01.png" />
 </figure></p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb –D (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSDep_02.png" />
+  <img alt="eb GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.2-noPython-CPU.eb –D (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSDep_02.png" />
 </figure></p>
 </div>
 <p>Looking at the output we see that EasyBuild will also need to install <code>PLUMED</code> for us.
 But it will do so automatically when we run
-<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb<span class="w"> </span>-r
+<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.2-noPython-CPU.eb<span class="w"> </span>-r
 </code></pre></div></p>
 <div class="admonition demo">
 <p class="admonition-title">Running EasyBuild to install GROMACS and dependency</p>
 <p>The command</p>
-<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb<span class="w"> </span>-r
+<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.2-noPython-CPU.eb<span class="w"> </span>-r
 </code></pre></div>
 <p>results in:</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_01.png" />
+  <img alt="eb GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.2-noPython-CPU.eb -r" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_01.png" />
 </figure></p>
 <p>EasyBuild detects PLUMED is a dependency and because of the <code>-r</code> option, it first installs the
 required version of PLUMED.</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_02.png" />
+  <img alt="eb GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.2-noPython-CPU.eb -r (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_02.png" />
 </figure></p>
 <p>When the installation of PLUMED finishes, EasyBuild starts the installation of GROMACS.
 It mentions something we haven't seen when installing PLUMED:</p>
@@ -2058,16 +2061,16 @@ It mentions something we haven't seen when installing PLUMED:</p>
 Our EasyConfig combines 4 popular installations in one: Single and double precision and with and without
 MPI, so it will do 4 iterations. As EasyBuild is developed by geeks, counting starts from 0.</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r (3)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_03.png" />
+  <img alt="eb GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.2-noPython-CPU.eb -r (3)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_03.png" />
 </figure></p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r (4)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_04.png" />
+  <img alt="eb GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.2-noPython-CPU.eb -r (4)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_04.png" />
 </figure></p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r (5)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_05.png" />
+  <img alt="eb GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.2-noPython-CPU.eb -r (5)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_05.png" />
 </figure></p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb GROMACS-2022.5-cpeGNU-23.09-PLUMED-2.9.0-noPython-CPU.eb -r (6)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_06.png" />
+  <img alt="eb GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.2-noPython-CPU.eb -r (6)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_06.png" />
 </figure></p>
 </div>
 <p>This takes too long to wait for, but once it finished the software should be available
@@ -2124,7 +2127,7 @@ will tell you for which versions of VASP LUMI provides EasyBuild recipes, but yo
 to download the source file that the EasyBuild recipe expects. 
 Put it somewhere in a directory, and then from that
 directory run EasyBuild, for instance for VASP 6.3.0 with the GNU compilers:
-<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>VASP-6.4.1-cpeGNU-22.12-build01.eb<span class="w"> </span>–r<span class="w"> </span>.<span class="w"> </span>
+<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>VASP-6.4.2-cpeGNU-23.09-build02.eb<span class="w"> </span>–r<span class="w"> </span>.<span class="w"> </span>
 </code></pre></div></p>
 <h3 id="more-advanced-work-2-repositories">More advanced work (2): Repositories<a class="headerlink" href="#more-advanced-work-2-repositories" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
