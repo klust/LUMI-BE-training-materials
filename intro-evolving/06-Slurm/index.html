@@ -2205,11 +2205,11 @@ that in fact can also be found on the web.</p>
 </ul>
 </li>
 <li>
-<p>To delete a job, use <a href="https://slurm.schedmd.com/archive/slurm-22.05.10/scancel.html"><code>scancel &lt;jobID&gt;</code></a></p>
+<p>To delete a job, use <a href="https://slurm.schedmd.com/archive/slurm-23.02.7/scancel.html"><code>scancel &lt;jobID&gt;</code></a></p>
 </li>
 <li>
 <p>An important command to manage jobs while they are running is 
-    <a href="https://slurm.schedmd.com/archive/slurm-22.05.10/sstat.html"><code>sstat -j &lt;jobID&gt;</code></a>.
+    <a href="https://slurm.schedmd.com/archive/slurm-23.02.7/sstat.html"><code>sstat -j &lt;jobID&gt;</code></a>.
     This command display real-time information directly gathered from the resource manager
     component of Slurm and can also be used to show information about individual job steps using
     the job step identifier (which is in most case <code>&lt;jobID&gt;.0</code> for the first regular job step and so on).
@@ -2217,7 +2217,7 @@ that in fact can also be found on the web.</p>
     <a href="./#the-sstat-command">further in the notes of this session</a>.</p>
 </li>
 <li>
-<p>The <a href="https://slurm.schedmd.com/archive/slurm-22.05.10/sacct.html"><code>sacct -j &lt;jobID&gt;</code> command</a> can be used both while the
+<p>The <a href="https://slurm.schedmd.com/archive/slurm-23.02.7/sacct.html"><code>sacct -j &lt;jobID&gt;</code> command</a> can be used both while the
     job is running and when the job has finished. It is the main command to get information about a job
     after the job has finished. All information comes from a database, also while the job is running, so 
     the information is available with some delay compared to the information obtained with <code>sstat</code> for
@@ -2278,9 +2278,9 @@ For the <code>sbatch</code> command this are the <code>SBATCH_*</code> environme
 the <code>SALLOC_*</code> environment variables and for <code>srun</code> the <code>SLURM_*</code> and some <code>SRUN_*</code> environment variables.
 For the <code>sbatch</code> command this will overwrite values on the <code>#SBATCH</code> lines. You can find
 lists in the manual pages of the 
-<a href="https://slurm.schedmd.com/archive/slurm-22.05.10/sbatch.html"><code>sbatch</code></a>,
-<a href="https://slurm.schedmd.com/archive/slurm-22.05.10/salloc.html"> <code>salloc</code></a> and
-<a href="https://slurm.schedmd.com/archive/slurm-22.05.10/srun.html"><code>srun</code></a> command.
+<a href="https://slurm.schedmd.com/archive/slurm-23.02.7/sbatch.html"><code>sbatch</code></a>,
+<a href="https://slurm.schedmd.com/archive/slurm-23.02.7/salloc.html"> <code>salloc</code></a> and
+<a href="https://slurm.schedmd.com/archive/slurm-23.02.7/srun.html"><code>srun</code></a> command.
 Specifying command line options via environment variables that are hidden in your
 <code>.profile</code> or <code>.bashrc</code> file or any script that you run before starting your work,
 is not free of risks. Users often forget that they set those environment variables and
@@ -2310,7 +2310,7 @@ the job (which really only makes sense if you have entire nodes, e.g., in node-e
 allocations) and is attractive as it is easy to scale your allocation by just changing
 the number of nodes. </p>
 <p>Checking the 
-<a href="https://slurm.schedmd.com/archive/slurm-22.05.10/srun.html#OPT_ntasks-per-node">srun manual page for the <code>--ntasks-per-node</code> option</a>, 
+<a href="https://slurm.schedmd.com/archive/slurm-23.02.7/srun.html#OPT_ntasks-per-node">srun manual page for the <code>--ntasks-per-node</code> option</a>, 
 you read that the <code>--ntasks</code> option takes precedence and if present, 
 <code>--ntasks-per-node</code> will be interpreted as the <strong>maximum</strong> number of tasks per node.</p>
 <p>Now depending on how the allocation was made, Slurm may set the environment variables
@@ -2436,8 +2436,8 @@ information. Examples are <code>%x</code> which will be replaced with the name o
 <code>--job-name</code>) and <code>%j</code> which will be replaced with the job ID (job number). It is recommended to always include 
 the latter in the template for the filename as this ensures unique names if the same job script would be run a 
 few times with different input files. Discussing all patterns that can be used for the filename is outside the
-scope of this tutorial, but you can find them all in the <a href="https://slurm.schedmd.com/archive/slurm-22.05.10/sbatch.html">sbatch manual page</a>
-in the <a href="https://slurm.schedmd.com/archive/slurm-22.05.10/sbatch.html#SECTION_%3CB%3Efilename-pattern%3C/B%3E">"filename pattern" section</a>.</p>
+scope of this tutorial, but you can find them all in the <a href="https://slurm.schedmd.com/archive/slurm-23.02.7/sbatch.html">sbatch manual page</a>
+in the <a href="https://slurm.schedmd.com/archive/slurm-23.02.7/sbatch.html#SECTION_%3CB%3Efilename-pattern%3C/B%3E">"filename pattern" section</a>.</p>
 <h2 id="requesting-resources-cpus-and-gpus">Requesting resources: CPUs and GPUs<a class="headerlink" href="#requesting-resources-cpus-and-gpus" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Requesting resources: CPUs and GPUs" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Slurm/RequestingCPUsGPUs.png" /></p>
@@ -2713,7 +2713,7 @@ resources are for each individual task, but this scheme is an easy scheme:</p>
 <ol>
 <li>
 <p>Specifying the total number of tasks: 
-    <a href="https://slurm.schedmd.com/archive/slurm-22.05.10/srun.html#OPT_ntasks"><code>--ntasks=&lt;ntasks</code> or <code>-n ntasks</code></a>.
+    <a href="https://slurm.schedmd.com/archive/slurm-23.02.7/srun.html#OPT_ntasks"><code>--ntasks=&lt;ntasks</code> or <code>-n ntasks</code></a>.
     There is a risk associated to this approach which is the same as when specifying the
     total number of GPUs for a job: If you change the number of nodes, then you should
     change the total number of tasks also. However, it is also very useful in certain cases.
@@ -2723,12 +2723,12 @@ resources are for each individual task, but this scheme is an easy scheme:</p>
 </li>
 <li>
 <p>Specifying on a per node basis: 
-    <a href="https://slurm.schedmd.com/archive/slurm-22.05.10/srun.html#OPT_ntasks-per-core"><code>--ntasks-per-node=&lt;ntasks&gt;</code></a> 
+    <a href="https://slurm.schedmd.com/archive/slurm-23.02.7/srun.html#OPT_ntasks-per-core"><code>--ntasks-per-node=&lt;ntasks&gt;</code></a> 
     is possible in combination with <code>--nodes</code> according to the Slurm manual. 
     In fact, this would be a logical thing to do in a per node allocation. 
     <strong>However, we see it fail on LUMI when it is used as an option for <code>srun</code> and not with <code>sbatch</code>, 
     even though it should work
-    <a href="https://slurm.schedmd.com/archive/slurm-22.05.10/srun.html#OPT_ntasks-per-core">according to the documentation</a>.</strong></p>
+    <a href="https://slurm.schedmd.com/archive/slurm-23.02.7/srun.html#OPT_ntasks-per-core">according to the documentation</a>.</strong></p>
 <p>The reason for the failure is that Slurm when starting a batch job defines a large number of <code>SLURM_*</code> and
 <code>SRUN_*</code> variables. Some only give information about the allocation, but others are picked up by <code>srun</code> as
 options and some of those options have a higher priority than <code>--ntasks-per-node</code>. So the trick is to 
@@ -3647,10 +3647,10 @@ It would take us too far to discuss all possible cases in this tutorial.</p>
 given jobID has ended successfully (and you may have to clean up the queue if it never ends successfully). But 
 there are other possibilities also, e.g., start another job after a list of jobs has ended, or after a job has
 failed. We refer to the 
-<a href="https://slurm.schedmd.com/archive/slurm-22.05.10/sbatch.html">sbatch manual page</a> where you should 
-<a href="https://slurm.schedmd.com/archive/slurm-22.05.10/sbatch.html#OPT_dependency">look for <code>--dependency</code> on the page</a>.</p>
+<a href="https://slurm.schedmd.com/archive/slurm-23.02.7/sbatch.html">sbatch manual page</a> where you should 
+<a href="https://slurm.schedmd.com/archive/slurm-23.02.7/sbatch.html#OPT_dependency">look for <code>--dependency</code> on the page</a>.</p>
 <p>It is also possible to automate the process of submitting a chain of dependent jobs. For this the
-<code>sbatch</code> flag <a href="https://slurm.schedmd.com/archive/slurm-22.05.10/sbatch.html#OPT_parsable"><code>--parsable</code></a>
+<code>sbatch</code> flag <a href="https://slurm.schedmd.com/archive/slurm-23.02.7/sbatch.html#OPT_parsable"><code>--parsable</code></a>
 can be used which on LUMI will only print the job number of the job being submitted. So to 
 let the job defined by <code>jobdepend.slurm</code> run after the job defined by <code>jobfirst.slurm</code> while 
 submitting both at the same time, you can use something like</p>
@@ -4169,7 +4169,7 @@ JobID            MaxRSS MaxRSSTask MaxRSSNode
 which task that is and on which node it is running.</p>
 <p>You can get a list of output fields using <code>sstat -e</code> or <code>sstat --helpformat</code>. 
 Or check the 
-<a href="https://slurm.schedmd.com/archive/slurm-22.05.10/sstat.html#SECTION_Job-Status-Fields">"Job Status Fields" section in the <code>sstat</code> manual page</a>. That page also contains further examples.</p>
+<a href="https://slurm.schedmd.com/archive/slurm-23.02.7/sstat.html#SECTION_Job-Status-Fields">"Job Status Fields" section in the <code>sstat</code> manual page</a>. That page also contains further examples.</p>
 <h3 id="the-sacct-command">The <code>sacct</code> command<a class="headerlink" href="#the-sacct-command" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Job information with sacct 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Slurm/MonitoringSacct_1.png" /></p>
@@ -4224,7 +4224,7 @@ the columns. The <code>%-13</code> tells to use a field width of 13 and to left-
 in that column.</p>
 <p>You can get a list of output fields using <code>sacct -e</code> or <code>sacct --helpformat</code>. 
 Or check the 
-<a href="https://slurm.schedmd.com/archive/slurm-22.05.10/sacct.html#SECTION_Job-Accounting-Fields">"Job Accounting Fields" section in the <code>sacct</code> manual page</a>. That page also contains further examples.</p>
+<a href="https://slurm.schedmd.com/archive/slurm-23.02.7/sacct.html#SECTION_Job-Accounting-Fields">"Job Accounting Fields" section in the <code>sacct</code> manual page</a>. That page also contains further examples.</p>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Job information with sacct 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Slurm/MonitoringSacct_3.png" /></p>
 </figure>
@@ -4236,7 +4236,7 @@ and there are even more features to filter jobs, though some of them are really 
 administrators.</p>
 <p>This is only a very brief introduction to <code>sacct</code>, basically so that you know that it exists and what
 its main purpose is. But you can find more information in the
-<a href="https://slurm.schedmd.com/archive/slurm-22.05.10/sacct.html"><code>sacct</code> manual page</a></p>
+<a href="https://slurm.schedmd.com/archive/slurm-23.02.7/sacct.html"><code>sacct</code> manual page</a></p>
 <h3 id="the-sreport-command">The <code>sreport</code> command<a class="headerlink" href="#the-sreport-command" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Job information from sreport" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Slurm/MonitoringSreport.png" /></p>
@@ -4254,7 +4254,7 @@ amount of core hours used per user for a project, but that is reported for all p
 irrelevant to get an idea of how the CPU billing units were consumed.</p>
 <p>This section is mostly to discourage you to use <code>sreport</code> as its information is often misleading and certainly
 it it is used to follow up your use of billing units on LUMI, but should you insist, there is more information
-in the <a href="https://slurm.schedmd.com/archive/slurm-22.05.10/sreport.html"><code>sreport</code> manual page</a>.</p>
+in the <a href="https://slurm.schedmd.com/archive/slurm-23.02.7/sreport.html"><code>sreport</code> manual page</a>.</p>
 <!-- BELGIUM -->
 <h2 id="local-trainings-and-materials">Local trainings and materials<a class="headerlink" href="#local-trainings-and-materials" title="Permanent link">&para;</a></h2>
 <ul>

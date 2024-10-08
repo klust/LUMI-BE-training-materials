@@ -2134,7 +2134,7 @@ even across cores in the socket or NUMA domain (third level). The first level is
 the second level is sometimes used but the third level is very tricky and both the second and third level
 are often better replaced with other mechanisms that will also be discussed in this chapter on distribution
 and binding.</p>
-<p>The <a href="https://slurm.schedmd.com/archive/slurm-22.05.10/srun.html#OPT_distribution">general form of the <code>--distribution</code> option</a> is </p>
+<p>The <a href="https://slurm.schedmd.com/archive/slurm-23.02.7/srun.html#OPT_distribution">general form of the <code>--distribution</code> option</a> is </p>
 <div class="highlight"><pre><span></span><code>--distribution={*|block|cyclic|arbitrary|plane=&lt;size&gt;}[:{*|block|cyclic|fcyclic}[:{*|block|cyclic|fcyclic}]][,{Pack|NoPack}]
 </code></pre></div>
 <ul>
@@ -2224,7 +2224,7 @@ Level 2/3 control via <code>--distribution</code> sometimes also make no sense w
 <div class="highlight"><pre><span></span><code>--cpu-bind=[{quiet|verbose},]&lt;type&gt;
 </code></pre></div>
 <p>We'll describe a few of the possibilities for the <code>&lt;type&gt;</code> parameter but for a more concrete overview
-we refer to the <a href="https://slurm.schedmd.com/archive/slurm-22.05.10/srun.html#OPT_cpu-bind">Slurm <code>srun</code> manual page</a></p>
+we refer to the <a href="https://slurm.schedmd.com/archive/slurm-23.02.7/srun.html#OPT_cpu-bind">Slurm <code>srun</code> manual page</a></p>
 <ul>
 <li>
 <p><code>--cpu-bind=threads</code> is the default behaviour on LUMI.</p>
@@ -2280,7 +2280,7 @@ is not a problem for the application.</p>
 <p>Task-to-GPU binding is done with</p>
 <div class="highlight"><pre><span></span><code>--gpu-bind=[verbose,]&lt;type&gt;
 </code></pre></div>
-<p><a href="https://slurm.schedmd.com/archive/slurm-22.05.10/srun.html#OPT_gpu-bind">(see the Slurm manual)</a>
+<p><a href="https://slurm.schedmd.com/archive/slurm-23.02.7/srun.html#OPT_gpu-bind">(see the Slurm manual)</a>
 which is somewhat similar to <code>--cpu-binding</code> (to the extent that that makes sense).</p>
 <p>Some options for the <code>&lt;type&gt;</code> parameter that are worth considering:</p>
 <ul>
