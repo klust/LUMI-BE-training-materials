@@ -1372,8 +1372,20 @@ the way the Lmod developer intended so that some features do not function as the
 <li>The <code>module avail</code> command is one that is also
     present in the various Environment Modules implementations and is the command to search in the
     available modules. </li>
-<li>But Lmod also has other commands, <code>module spider</code> and <code>module keyword</code>, to 
-    search in the list of installed modules.</li>
+<li>
+<p>But Lmod also has other commands, <code>module spider</code> and <code>module keyword</code>, to 
+    search in the list of installed modules.</p>
+<p>On LUMI, we had to restrict the search space of <code>module spider</code>. By default, <code>module spider</code>
+will only search in the Cray PE modules, the CrayEnv stack and the LUMI stacks. This is done 
+for performance reasons. However, as we shall discuss later, you can load a module or set an
+environment variable to enable searching all installed modules. The behaviour is also not
+fully consistent. Lmod uses a cache which it refreshes once every 24 hours, or after manually
+clearing the cache. If a rebuild happens while modules from another software stack are available,
+that stack will also be indexed and results for that stack shown in the results of 
+<code>module spider</code>. It is a price we had to pay though as due to the large number of modules
+and the many organisations managing modules, the user cache rebuild time became too long
+and system caches are hard to manage also.</p>
+</li>
 </ul>
 <h2 id="benefits-of-a-hierarchy">Benefits of a hierarchy<a class="headerlink" href="#benefits-of-a-hierarchy" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -1479,7 +1491,10 @@ to optimised math libraries.</p>
 <figure style="border: 1px solid #000">
 <p><img alt="module spider" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpider.png" /></p>
 </figure>
-<p>There are three ways to use <code>module spider</code>, discovering software in more and more detail.</p>
+<p>There are three ways to use <code>module spider</code>, discovering software in more and more detail.
+All variants however will by default only check the Cray PE, the CrayEnv stack and the
+LUMI stacks, unless another software stack is loaded through a module or <code>module use</code>
+statement and the cache is regenerated during that period.</p>
 <ol>
 <li>
 <p><code>module spider</code> by itself will show a list of all installed software with a short description.
@@ -1791,6 +1806,20 @@ over time (certainly if there would be Python or R modules installed with EasyBu
 all included Python or R packages in that list) you may want to hide those. You can do this by
 loading the <code>ModuleExtensions/hide</code> module and undo this again by loading
 <code>ModuleExtensions/show</code>.</p>
+<p>There are two ways to tell <code>module spider</code> to search in all installed modules. One is more meant as a 
+temporary solution: Load</p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>ModuleFullSpider/on
+</code></pre></div>
+<p>and this is turned off again by force-unloading this module or loading</p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>ModuleFullSpider/off
+</code></pre></div>
+<p>The second and permanent way is to set add the line</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">LUMI_FULL_SPIDER</span><span class="o">=</span><span class="m">1</span>
+</code></pre></div>
+<p>to your <code>.profile</code> file and from then on, <code>module spider</code> will index all modules on the system.
+Note that this can have a large impact on the performance of the <code>module spider</code> and
+<code>module avail</code> commands that can easily "hang" for a minute or more if a cache rebuild is
+needed, which is the case after installing software with EasyBuild or once every 24 hours.</p>
 <p>We also hide some modules from regular users because we think they are not useful at all for regular
 users or not useful in the context you're in at the moment. 
 You can still load them if you know they exist and specify the full version but 
@@ -1799,6 +1828,11 @@ them by loading <code>ModulePowerUser/LUMI</code>. Use this at your own risk how
 things work if you use modules that are hidden in the context you're in
 or if you try to use any module that was designed for us to maintain the system and is therefore hidden 
 from regular users.</p>
+<p>Another way to show hidden modules also, is to use the <code>--show_hidden</code> flag of the module command
+with the <code>avail</code> subcommand: <code>module --show_hidden avail</code>. </p>
+<p>With <code>ModulePowerUser</code>, all modules will be displayed as if they are regular modules, while
+<code>module --show_hidden avail</code> will still grey the hidden modules and add an <code>(H)</code> to them
+so that they are easily recognised.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>An example that will only become clear in the next session: When working with the software stack
