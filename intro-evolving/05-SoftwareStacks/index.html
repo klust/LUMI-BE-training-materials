@@ -1414,7 +1414,7 @@
 <ol>
 <li>It uses a <strong>novel interconnect</strong> which is an extension of Ethernet rather than being based on InfiniBand, 
     and that interconnect has a different software stack than your typical Mellanox InfiniBand cluster. </li>
-<li>It also uses a <strong>relatively new GPU architecture</strong>, AMD CDNA2, with an immature software ecosystem. 
+<li>It also uses a <strong>relatively new GPU architecture</strong>, AMD CDNA2, with a not fully mature software ecosystem. 
     The GPU nodes are really <strong>GPU-first</strong>, with the <strong>interconnect cards connected directly to the GPU packages</strong> 
     and only one CPU socket, and another feature which is relatively new: the option to use a <strong>partly coherent fully unified memory</strong>
     space between the CPU and GPUs, though of course very NUMA. This is a feature that has previously
@@ -1424,8 +1424,9 @@
     have zen3-based CPUs, and the compute GPU nodes have AMD GPUs while the visualisation nodes have
     NVIDIA GPUs. </li>
 </ol>
-<p>Given the novel interconnect and GPU we do expect that both system and application
-software will be immature at first and <strong>evolve quickly</strong>, hence we needed a setup that enables us
+<p>Given the rather novel interconnect and GPU we cannot expect that all system and application software
+is already fully mature and we need to be prepared for <strong>fast evolution</strong>, 
+hence we needed a setup that enables us
 to remain very agile, which leads to different compromises compared to a software stack for a more
 conventional and mature system as an x86 cluster with NVIDIA GPUs and Mellanox InfiniBand.</p>
 </li>

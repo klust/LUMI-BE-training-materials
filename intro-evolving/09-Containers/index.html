@@ -1424,13 +1424,14 @@ system and (b) we've seen incompatibilities between newer ROCm versions and the 
     performance-critical code that is compiled specifically for LUMI.</p>
 </li>
 <li>
-<p>Isolation is often considered as an advantage of containers also. Though this is certainly true and 
-    important when running multiple services on a single server (as it limits problems when the security 
-    of a container is compromised to that container), in an HPC context it is often more a pain in the butt
-    than a good feature, as debugging and performance profiling also becomes a lot harder.</p>
+<p>Isolation is often considered as an advantage of containers also. The isolation helps
+    preventing that software picks up libraries it should not pick up. In a context with 
+    multiple services running on a single server, it limits problems when the security of a container
+    is compromised to that container. However, it also comes with a big disadvantage in an
+    HPC context: Debugging and performance profiling also becomes a lot harder.</p>
 <p>In fact, with the current state of container technology, it is often a pain also when running MPI applications
 as it would be much better to have only a single container per node, running MPI inside the container at the
-node level and then betweeen containers on different nodes.</p>
+node level and then between containers on different nodes.</p>
 </li>
 </ul>
 <p>Remember though that whenever you use containers, you are the system administrator and not LUST. We can impossibly
@@ -1497,16 +1498,16 @@ be able to do, will never be supported.</p>
 <p>So you should pull containers from a container repository, or build the container on your own workstation
 and then transfer it to LUMI.</p>
 <p>There is some support for building on top of an existing singularity container using what the SingularityCE user guide
-calls <a href="https://docs.sylabs.io/guides/3.11/user-guide/build_a_container.html#unprivilged-proot-builds">"unprivileged proot builds"</a>. 
-This requires loading the <code>proot</code> command which is provided by the <code>systools/23.09</code> module or later versions provided
+calls <a href="https://docs.sylabs.io/guides/4.1/user-guide/build_a_container.html#unprivilged-proot-builds">"unprivileged proot builds"</a>.
+This requires loading the <code>proot</code> command which is provided by the <code>systools</code> module
 in CrayEnv or LUMI/23.09 or later. The SingularityCE user guide
-<a href="https://docs.sylabs.io/guides/3.11/user-guide/build_a_container.html#unprivilged-proot-builds">mentions several restrictions of this process</a>.
+<a href="https://docs.sylabs.io/guides/4.1/user-guide/build_a_container.html#unprivilged-proot-builds">mentions several restrictions of this process</a>.
 The general guideline from the manual is: "Generally, if your definition file starts from an existing SIF/OCI container image, 
 and adds software using system package managers, an unprivileged proot build is appropriate. 
 If your definition file compiles and installs large complex software from source, 
-you may wish to investigate <code>--remote</code> or <code>--fakeroot</code> builds instead." 
-But on LUMI we cannot yet
-provide <code>--fakeroot</code> builds due to security constraints (as that process also requires user namespaces).</p>
+you may wish to investigate <code>--remote</code> or <code>--fakeroot</code> builds instead." But as we just said,
+on LUMI we cannot yet
+provide <code>--fakeroot</code> builds due to security constraints.</p>
 <!-- TODO: Do not forget to correct the link above to a new version of singularity. -->
 
 <p>We are also working on a number of base images to build upon, where the base images are tested with the
