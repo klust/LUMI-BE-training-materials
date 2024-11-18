@@ -3,7 +3,7 @@
 ## Basic exercises
 
 1.  We return to the hybrid MPI/OpenMP example from the
-    [Slurm exercises](E06-Slurm.md). 
+    [Slurm exercises](E07-Slurm.md). 
    
    	```
 	#!/bin/bash -l
@@ -101,7 +101,7 @@
 		
 		We can chose between different approaches. In the example below,
 		we follow the 
-		["GPU binding: Linear GCD, match cores"](07-Binding.md#linear-assignment-of-gcd-then-match-the-cores) 
+		["GPU binding: Linear GCD, match cores"](08-Binding.md#linear-assignment-of-gcd-then-match-the-cores) 
 		slides and we only need to adapt the CPU mask:
 		
 		```

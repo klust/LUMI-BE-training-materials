@@ -451,7 +451,7 @@ Web links:
     The list of pinned apps may change over time, and more apps are available via the menu at the top.
     Most apps will run in the context of a job, so you will need billing units, and those apps will also
     present you with a form to chose the resources you want to use, but that will only be discussed in
-    [the session on Slurm](06-Slurm.md).
+    [the session on Slurm](07-Slurm.md).
 
     Two apps don't run in the context of a job: The "Login node shell" and "Home Directory" apps, and we'll first
     have a look at those.
@@ -500,7 +500,7 @@ Web links:
     [xfce desktop environment](https://www.xfce.org/). This app needs to run in the context of a job
     and although it can run on several partitions on LUMI, its main use is to be able to use some
     visualisation applications, so your best choice is likely to use the partition with visualisation
-    GPUs (see the [session on Slurm](06-Slurm.md)). As we have not discussed jobs yet, we will skip
+    GPUs (see the [session on Slurm](07-Slurm.md)). As we have not discussed jobs yet, we will skip
     how to fill in the form that is presented to you.
 
     The desktop is basically run in a [VNC session](https://en.wikipedia.org/wiki/Virtual_Network_Computing),

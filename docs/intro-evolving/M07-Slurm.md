@@ -9,9 +9,9 @@ talk to understand the particular configuration on LUMI.
 
 ## Materials
 
--   [Slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-06-Slurm.pdf)
--   [Notes](06-Slurm.md)
--   [Exercises](E06-Slurm.md)
+-   [Slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-07-Slurm.pdf)
+-   [Notes](07-Slurm.md)
+-   [Exercises](E07-Slurm.md)
 
 
 ## Similar presentations

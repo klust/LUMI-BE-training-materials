@@ -10,8 +10,8 @@ work of other users.
 
 ## Materials
 
--   [Slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-08-Lustre.pdf)
--   [Notes](08-Lustre.md)
+-   [Slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-09-Lustre.pdf)
+-   [Notes](09-Lustre.md)
 
 
 ## Similar presentations

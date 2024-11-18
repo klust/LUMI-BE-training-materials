@@ -9,8 +9,8 @@ get a quick answer without much back-and-forth mailing?
 
 ## Materials
 
--   [Slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-10-Support.pdf)
--   [Notes](10-Support.md)
+-   [Slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-06-Support.pdf)
+-   [Notes](06-Support.md)
 
 
 ## Similar presentations
