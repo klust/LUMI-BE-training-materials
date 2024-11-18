@@ -896,12 +896,12 @@ the subdirectory CPE of the download.</em></p>
 <p>Try to compile these programs using the programming environment of your choice.</p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
-<p>We'll use the default version of the programming environment (23.09 at the moment of the
-course in May 2024), but in case you want to use
-a particular version, e.g., the 22.12 version, and want to be very sure that all modules are
+<p>We'll use the default version of the programming environment (24.03 at the moment of the
+last update of this page in November 2024), but in case you want to use
+a particular version, e.g., the 23.12 version, and want to be very sure that all modules are
 loaded correctly from the start you could consider using</p>
-<div class="highlight"><pre><span></span><code>module load cpe/22.12
-module load cpe/22.12
+<div class="highlight"><pre><span></span><code>module load cpe/23.12
+module load cpe/23.12
 </code></pre></div>
 <p>So note that we do twice the same command as the first iteration does not always succeed to reload
 all modules in the correct version. Do not combine both lines into a single <code>module load</code> statement
@@ -914,10 +914,7 @@ For this all we need to do is</p>
 <div class="highlight"><pre><span></span><code>module load PrgEnv-gnu
 cc hello_world.c
 </code></pre></div>
-<p>which will generate an executable named <code>a.out</code>. 
-If you are not comfortable using the default version of <code>gcc</code> (which produces the warning message when
-loading the <code>PrgEnv-gnu</code> module) you can always load the <code>gcc/11.2.0</code> module instead after loading
-<code>PrgEnv-gnu</code>.</p>
+<p>which will generate an executable named <code>a.out</code>. </p>
 <p>Of course it is better to give the executable a proper
 name which can be done with the <code>-o</code> compiler option:</p>
 <div class="highlight"><pre><span></span><code>module load PrgEnv-gnu
@@ -948,11 +945,15 @@ Run the script using <code>1000</code> for the matrix size and see what happens.
 nodes. In the session of Slurm you'll learn how to request compute nodes and it might be
 interesting to redo this on a compute node with a larger matrix size as the with a matrix size
 of 1000 all data may stay in the third level cache and you will not notice the differences that
-you should note. Also, because these nodes are shared with a lot of people any benchmarking
+you should note. Also, because these nodes are shared with a lot of people, any benchmarking
 is completely unreliable.</p>
-<p>If this program takes more than half a minute or so before the first result line in the table,
-starting with <code>ijk-variant</code>, is printed, you've very likely done something wrong (unless the load
+<!--
+If this program takes more than half a minute or so before the first result line in the table,
+starting with `ijk-variant`, is printed, you've very likely done something wrong (unless the load
 on the system is extreme). In fact, if you've done things well the time reported for the
+`ijk`-variant should be well under 3 seconds for both the C and Fortran versions...
+-->
+<p>If you're doing things right, the time reported for the
 <code>ijk</code>-variant should be well under 3 seconds for both the C and Fortran versions...</p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
@@ -970,7 +971,7 @@ cc -O3 matrix_mult_C.c -o matrix_mult_C_gnu.x
 <p>will generate the executable <code>matrix_mult_C_gnu.x</code>.</p>
 <p>Note that we add the <code>-O3</code> option and it is very important to add either <code>-O2</code> or <code>-O3</code> as by default
 the GNU compiler will generate code without any optimization for debugging purposes, and that code is
-in this case easily five times or more slower. So if you got much longer run times than indicated this
+in this case easily four times or more slower. So if you got much longer run times than indicated this
 is likely the mistake that you made.</p>
 <p>To use the Cray C compiler instead only one small change is needed: Loading a different programming 
 environment module:</p>
@@ -1003,13 +1004,14 @@ ftn -O3 matrix_mult_F.f90 -o matrix_mult_F_aocc.x
 </code></pre></div>
 <p>for the AMD Fortran compiler.</p>
 <p>When running the program you will see that even though the 6 different loop orderings 
-produce the same result, the time needed to compile the matrix-matrix product is very
+produce the same result, the time needed to compute the matrix-matrix product is very
 different and those differences would be even more pronounced with bigger matrices
 (which you can do after the session on using Slurm).</p>
 <p>The exercise also shows that not all codes are equal even if they produce a result of the
 same quality. The six different loop orderings run at very different speed, and none of our
 simple implementations can beat a good library, in this case the BLAS library included in
-LibSci.</p>
+LibSci. The optimal variants are also different for C and Fortran as the matrix elements
+are stored in a different order in memory.</p>
 <p>The results with the Cray Fortran compiler are particularly interesting. The result for
 the BLAS library is slower which we do not yet understand, but it also turns out that 
 for four of the six loop orderings we get the same result as with the BLAS library DGEMM
@@ -1017,7 +1019,12 @@ routine. It looks like the compiler simply recognized that this was code for a m
 multiplication and replaced it with a call to the BLAS library. The Fortran 90 matrix
 multiplication is also replaced by a call of the DGEMM routine. To confirm all this,
 unload the <code>cray-libsci</code> module and try to compile again and you will see five error
-messages about not being able to find DGEMM.</p>
+messages about not being able to find DGEMM. If you don't want the Cray Fortran compiler
+to recognise patterns that it can replace with library routines, add the <code>-h nopattern</code>
+flag to the command line:</p>
+<div class="highlight"><pre><span></span><code>module load PrgEnv-cray
+ftn -O3 -h nopattern matrix_mult_F.f90 -o matrix_mult_F_cray.x
+</code></pre></div>
 </details>
 <h2 id="compilation-of-a-program-3-a-hybrid-mpiopenmp-program">Compilation of a program 3: A hybrid MPI/OpenMP program<a class="headerlink" href="#compilation-of-a-program-3-a-hybrid-mpiopenmp-program" title="Permanent link">&para;</a></h2>
 <p>The file <code>mpi_omp_hello.c</code> is a hybrid MPI and OpenMP C program that sends a message
