@@ -8,13 +8,9 @@
       
       
       
-        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/09-Containers/">
+        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/11-Containers/">
       
       
-        <link rel="prev" href="../08-Lustre/">
-      
-      
-        <link rel="next" href="../Demo1/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +18,7 @@
     
     
       
-        <title>Containers - LUMI-BE training materials</title>
+        <title>Containers on LUMI-C and LUMI-G - LUMI-BE training materials</title>
       
     
     
@@ -81,6 +77,8 @@
     
     
       <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/neoteroi-mkdocs.css">
     
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -224,7 +222,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Containers
+              Containers on LUMI-C and LUMI-G
             
           </span>
         </div>
@@ -416,8 +414,6 @@
       
   
   
-    
-  
   
   
     
@@ -460,11 +456,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           
@@ -486,7 +482,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             LUMI Intro (evolving)
@@ -628,7 +624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../06-Slurm/" class="md-nav__link">
+      <a href="../06-Slurm.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -649,7 +645,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../07-Binding/" class="md-nav__link">
+      <a href="../07-Binding.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -670,7 +666,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../08-Lustre/" class="md-nav__link">
+      <a href="../08-Lustre.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -688,30 +684,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Containers
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../09-Containers.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -720,227 +696,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-are-we-talking-about-in-this-chapter" class="md-nav__link">
-    <span class="md-ellipsis">
-      What are we talking about in this chapter?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-do-containers-not-provide" class="md-nav__link">
-    <span class="md-ellipsis">
-      What do containers not provide
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#but-what-can-they-then-do-on-lumi" class="md-nav__link">
-    <span class="md-ellipsis">
-      But what can they then do on LUMI?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#managing-containers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Managing containers
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#interacting-with-containers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Interacting with containers
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-containers-on-lumi" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running containers on LUMI
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enhancements-to-the-environment" class="md-nav__link">
-    <span class="md-ellipsis">
-      Enhancements to the environment
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Enhancements to the environment">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#bindings-for-singularity" class="md-nav__link">
-    <span class="md-ellipsis">
-      Bindings for singularity
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#vnc-container" class="md-nav__link">
-    <span class="md-ellipsis">
-      VNC container
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cotainr-build-conda-containers-on-lumi" class="md-nav__link">
-    <span class="md-ellipsis">
-      cotainr: Build Conda containers on LUMI
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#container-wrapper-for-python-packages-and-conda" class="md-nav__link">
-    <span class="md-ellipsis">
-      Container wrapper for Python packages and conda
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pre-built-ai-containers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pre-built AI containers
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-the-ai-containers-complicated-way-without-modules" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running the AI containers - complicated way without modules
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-the-containers-through-easybuild-generated-modules" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running the containers through EasyBuild-generated modules
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example-distributed-learning-without-using-easybuild" class="md-nav__link">
-    <span class="md-ellipsis">
-      Example: Distributed learning without using EasyBuild
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example-distributed-learning-with-the-easybuild-generated-module" class="md-nav__link">
-    <span class="md-ellipsis">
-      Example: Distributed learning with the EasyBuild-generated module
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#extending-the-containers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Extending the containers
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Extending the containers">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#extending-the-container-with-cotainr" class="md-nav__link">
-    <span class="md-ellipsis">
-      Extending the container with cotainr
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#extending-the-container-with-the-singularity-unprivileged-proot-build" class="md-nav__link">
-    <span class="md-ellipsis">
-      Extending the container with the singularity unprivileged proot build
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#extending-the-container-through-a-python-virtual-environment" class="md-nav__link">
-    <span class="md-ellipsis">
-      Extending the container through a Python virtual environment
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#conclusion-container-limitations-on-lumi" class="md-nav__link">
-    <span class="md-ellipsis">
-      Conclusion: Container limitations on LUMI
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -995,7 +750,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../10-Support/" class="md-nav__link">
+      <a href="../10-Support.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1303,7 +1058,7 @@
 <h1 id="containers-on-lumi-c-and-lumi-g">Containers on LUMI-C and LUMI-G<a class="headerlink" href="#containers-on-lumi-c-and-lumi-g" title="Permanent link">&para;</a></h1>
 <h2 id="what-are-we-talking-about-in-this-chapter">What are we talking about in this chapter?<a class="headerlink" href="#what-are-we-talking-about-in-this-chapter" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Containers on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersIntro.png" /></p>
+<p><img alt="Containers on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersIntro.png" /></p>
 </figure>
 <p>Let's now switch to using containers on LUMI. 
 This section is about using containers on the login nodes and compute nodes. 
@@ -1332,7 +1087,7 @@ due to a lack of personpower to get this running and then to support this.</p>
 <p>Remember though that the compute nodes of LUMI are an HPC infrastructure and not a container cloud!</p>
 <h2 id="what-do-containers-not-provide">What do containers not provide<a class="headerlink" href="#what-do-containers-not-provide" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="What do containers not provide" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersNotProvide.png" /></p>
+<p><img alt="What do containers not provide" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersNotProvide.png" /></p>
 </figure>
 <p>What is being discussed in this subsection may be a bit surprising.
 Containers are often marketed as a way to provide reproducible science and as an easy way to transfer
@@ -1374,7 +1129,7 @@ TCP sockets in MPI, completely killing scalability. Containers that expect the k
 intra-node MPI performance may not run as efficiently as LUMI uses xpmem instead.</p>
 <h2 id="but-what-can-they-then-do-on-lumi">But what can they then do on LUMI?<a class="headerlink" href="#but-what-can-they-then-do-on-lumi" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="But what can they then do on LUMI?" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersCanDoOnLUMI.png" /></p>
+<p><img alt="But what can they then do on LUMI?" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersCanDoOnLUMI.png" /></p>
 </figure>
 <ul>
 <li>
@@ -1440,7 +1195,7 @@ want to run in those containers. We provide some advice on how to build a proper
 neglect it it is up to you to solve the problems that occur.</p>
 <h2 id="managing-containers">Managing containers<a class="headerlink" href="#managing-containers" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Managing containers" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersManaging_1.png" /></p>
+<p><img alt="Managing containers" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersManaging_1.png" /></p>
 </figure>
 <p>On LUMI, we currently support only one container runtime.</p>
 <p>Docker is not available, and will never be on the regular compute nodes as it requires elevated privileges
@@ -1474,20 +1229,20 @@ pull operation so save on your storage billing units).</p>
 <p>Let's try the <code>singularity pull docker://julia</code> command:</p>
 <p><!-- Used a 105x23 window size -->
 <figure markdown style="border: 1px solid #000">
-  <img alt="Demo singularity pull slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersExamplePull_1.png" />
+  <img alt="Demo singularity pull slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExamplePull_1.png" />
 </figure></p>
 <p>We do get a lot of warnings but usually this is perfectly normal and usually they can be safely ignored.</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="Demo singularity pull slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersExamplePull_2.png" />
+  <img alt="Demo singularity pull slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExamplePull_2.png" />
 </figure></p>
 <p>The process ends with the creation of the file <code>jula_latest.sif</code>. </p>
 <p>Note however that the process has left a considerable number of files in <code>~/.singularity</code> also:</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="Demo singularity pull slide 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersExamplePull_3.png" />
+  <img alt="Demo singularity pull slide 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExamplePull_3.png" />
 </figure></p>
 </details>
 <figure style="border: 1px solid #000">
-<p><img alt="Managing containers (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersManaging_2.png" /></p>
+<p><img alt="Managing containers (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersManaging_2.png" /></p>
 </figure>
 <p>There is currently limited support for building containers on LUMI and I do not expect that to change quickly.
 Container build strategies that require elevated privileges, and even those that require user namespaces, cannot
@@ -1514,7 +1269,7 @@ provide <code>--fakeroot</code> builds due to security constraints.</p>
 OS kernel on LUMI (and some for ROCm are already there).</p>
 <h2 id="interacting-with-containers">Interacting with containers<a class="headerlink" href="#interacting-with-containers" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Interacting with containers" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersInteracting.png" /></p>
+<p><img alt="Interacting with containers" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersInteracting.png" /></p>
 </figure>
 <p>There are basically three ways to interact with containers.</p>
 <p>If you have the sif file already on the system you can enter the container with an interactive shell:</p>
@@ -1523,7 +1278,7 @@ OS kernel on LUMI (and some for ROCm are already there).</p>
 <details class="demo" open="open">
 <summary>Demo singularity shell</summary>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="Demo singularity shell" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersExampleShell.png" />
+  <img alt="Demo singularity shell" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExampleShell.png" />
 </figure></p>
 <p>In this screenshot we checked the contents of the <code>/opt</code> directory before and after the
 <code>singularity shell julia_latest.sif</code> command. This shows that we are clearly in a different
@@ -1537,7 +1292,7 @@ container has the <code>uname</code> executable installed in it,</p>
 <details class="demo" open="open">
 <summary>Demo singularity exec</summary>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="Demo singularity exec" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersExampleExec.png" />
+  <img alt="Demo singularity exec" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExampleExec.png" />
 </figure></p>
 <p>In this screenshot we execute the <code>uname -a</code> command before and with the
 <code>singularity exec julia_latest.sif</code> command. There are some slight differences in the
@@ -1557,7 +1312,7 @@ running a container means. You can check if it is present and what it does with 
 <details class="demo" open="open">
 <summary>Demo singularity run</summary>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="Demo singularity run" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersExampleRun.png" />
+  <img alt="Demo singularity run" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExampleRun.png" />
 </figure></p>
 <p>In this screenshot we start the julia interface in the container using
 <code>singularity run</code>. The second command shows that the container indeed
@@ -1582,7 +1337,7 @@ set <code>SINGULARITY_BINDPATH</code> so that all necessary system libraries are
 users can access all their files using the same paths as outside the container.</p>
 <h2 id="running-containers-on-lumi">Running containers on LUMI<a class="headerlink" href="#running-containers-on-lumi" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="/running containers on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersRunning.png" /></p>
+<p><img alt="/running containers on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersRunning.png" /></p>
 </figure>
 <p>Just as for other jobs, you need to use Slurm to run containers on the compute nodes.</p>
 <p>For MPI containers one should use <code>srun</code> to run the <code>singularity exec</code> command, e.g,,</p>
@@ -1610,7 +1365,7 @@ use the Slingshot 11 interconnect, so work is going on for better support for OF
 Cray Slingshot in particular and for full GPU support.</p>
 <h2 id="enhancements-to-the-environment">Enhancements to the environment<a class="headerlink" href="#enhancements-to-the-environment" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Environment enhancements" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersEnvironmentEnhancement_1.png" /></p>
+<p><img alt="Environment enhancements" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersEnvironmentEnhancement_1.png" /></p>
 </figure>
 <p>To make life easier, LUST with the support of CSC did implement some modules
 that are either based on containers or help you run software with containers.</p>
@@ -1655,7 +1410,7 @@ have to create an ssh tunnel to access the server. Try</p>
 be a better alternative.</p>
 <h3 id="cotainr-build-conda-containers-on-lumi">cotainr: Build Conda containers on LUMI<a class="headerlink" href="#cotainr-build-conda-containers-on-lumi" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Environment enhancements (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersEnvironmentEnhancement_2.png" /></p>
+<p><img alt="Environment enhancements (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersEnvironmentEnhancement_2.png" /></p>
 </figure>
 <p>The third tool is <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/c/cotainr/"><strong><code>cotainr</code></strong></a>, 
 a tool developed by DeIC, the Danish partner in the LUMI consortium.
@@ -1752,7 +1507,7 @@ dependencies:
 <p>and create an empty subdirectory <code>conda-cont-1</code>.</p>
 <p>Now you can follow the commands on the slides below:</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="demo lumi-container-wrapper slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersExampleWrapper_1.png" />
+  <img alt="demo lumi-container-wrapper slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExampleWrapper_1.png" />
 </figure></p>
 <p>On the slide above we prepared the environment.</p>
 <p>Now lets run the command </p>
@@ -1762,27 +1517,27 @@ dependencies:
 The screenshots don't show the full output as some parts of the screen get overwritten during
 the process:</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="demo lumi-container-wrapper slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersExampleWrapper_2.png" />
+  <img alt="demo lumi-container-wrapper slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExampleWrapper_2.png" />
 </figure></p>
 <p>The tool will first build the conda installation in a tempororary work directory
 and also uses a base container for that purpose.</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="demo lumi-container-wrapper slide 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersExampleWrapper_3.png" />
+  <img alt="demo lumi-container-wrapper slide 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExampleWrapper_3.png" />
 </figure></p>
 <p>The conda installation itself though is stored in a SquashFS file that is then
 used by the container.</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="demo lumi-container-wrapper slide 4" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersExampleWrapper_4.png" />
+  <img alt="demo lumi-container-wrapper slide 4" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExampleWrapper_4.png" />
 </figure></p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="demo lumi-container-wrapper slide 65" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersExampleWrapper_5.png" />
+  <img alt="demo lumi-container-wrapper slide 65" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExampleWrapper_5.png" />
 </figure></p>
 <p>In the slide above we see the installation contains both a singularity container
 and a SquashFS file. They work together to get a working conda installation.</p>
 <p>The <code>bin</code> directory seems to contain the commands, but these are in fact scripts 
 that run those commands in the container with the SquashFS file system mounted in it.</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="demo lumi-container-wrapper slide 6" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersExampleWrapper_6.png" />
+  <img alt="demo lumi-container-wrapper slide 6" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExampleWrapper_6.png" />
 </figure></p>
 <p>So as you can see above, we can simply use the <code>python3</code> command without realising
 what goes on behind the screen...</p>
@@ -1797,7 +1552,7 @@ what goes on behind the screen...</p>
 </div>
 <h3 id="pre-built-ai-containers">Pre-built AI containers<a class="headerlink" href="#pre-built-ai-containers" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Environment enhancements (3): Prebuilt AI containers" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersPrebuiltAI.png" /></p>
+<p><img alt="Environment enhancements (3): Prebuilt AI containers" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersPrebuiltAI.png" /></p>
 </figure>
 <p>LUST with the help of AMD is also building some containers with popular AI software.
 These containers contain a ROCm version that is appropriate for the software,
@@ -1829,7 +1584,7 @@ At the time of the course, there are containers for</p>
 </ul>
 <h2 id="running-the-ai-containers-complicated-way-without-modules">Running the AI containers - complicated way without modules<a class="headerlink" href="#running-the-ai-containers-complicated-way-without-modules" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Running the AI containers without EasyBuild-generated module" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/RunningAiComplicated.png" /></p>
+<p><img alt="Running the AI containers without EasyBuild-generated module" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/RunningAiComplicated.png" /></p>
 </figure>
 <p>The containers that we provide have everything they need to use RCCL and/or MPI on LUMI.
 It is not needed to use the <code>singularity-bindings/system</code> module described earlier as that module
@@ -1877,7 +1632,7 @@ necessary command, so in most cases you only need to run </p>
 <p>as a command in the script that is executed in the container or on the command line.</p>
 <h2 id="running-the-containers-through-easybuild-generated-modules">Running the containers through EasyBuild-generated modules<a class="headerlink" href="#running-the-containers-through-easybuild-generated-modules" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Running the AI containers with EasyBuild-generated module - slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/RunningAIEasyBuild_1.png" /></p>
+<p><img alt="Running the AI containers with EasyBuild-generated module - slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/RunningAIEasyBuild_1.png" /></p>
 </figure>
 <p>Doing all those initialisations, is a burden. Therefore we provide EasyBuild recipes to "install" the containers
 and to provide a module that helps setting environment variables in the initialisation.</p>
@@ -1907,7 +1662,7 @@ Python virtual environment by sourcing scripts.</p>
 install extra packages, and we provide an example of how to do that with 
 <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/PyTorch/">our PyTorch containers</a>.</p>
 <figure style="border: 1px solid #000">
-<p><img alt="Running the AI containers with EasyBuild-generated module - slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/RunningAIEasyBuild_2.png" /></p>
+<p><img alt="Running the AI containers with EasyBuild-generated module - slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/RunningAIEasyBuild_2.png" /></p>
 </figure>
 <p>Installing the EasyBuild recipes for those containers is also done via the <code>EasyBuild-user</code> module,
 but it is best to use a special trick. There is a special partition called <code>partition/container</code> that is
@@ -1937,7 +1692,7 @@ you don't want to rebuild whatever environment you built with the container.</p>
 are not explained in this text. You can find more information on the 
 <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/PyTorch">PyTorch page in the LUMI Software Library</a>.</strong></p>
 <figure style="border: 1px solid #000">
-<p><img alt="Example: Distributed learning with PyTorch, no EasyBuild-generated module - slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/RunningAIExampleNoEasyBuild_1.png" /></p>
+<p><img alt="Example: Distributed learning with PyTorch, no EasyBuild-generated module - slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/RunningAIExampleNoEasyBuild_1.png" /></p>
 </figure>
 <p>We'll need to create a number of scripts before we can even run the container.</p>
 <p>The first script is a Python program to extract the name of the master node from a Slurm environment
@@ -1966,7 +1721,7 @@ variable. Store it in <code>get-master.py</code>:</p>
     <span class="nb">print</span><span class="p">(</span><span class="n">first_node</span><span class="p">)</span>
 </code></pre></div>
 <figure style="border: 1px solid #000">
-<p><img alt="Example: Distributed learning with PyTorch, no EasyBuild-generated module - slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/RunningAIExampleNoEasyBuild_2.png" /></p>
+<p><img alt="Example: Distributed learning with PyTorch, no EasyBuild-generated module - slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/RunningAIExampleNoEasyBuild_2.png" /></p>
 </figure>
 <p>Second, we need a script that we will run in the container. Store the script as
 <code>run-pytorch.sh</code>:</p>
@@ -2086,7 +1841,7 @@ this version of the script.</strong></p>
 </li>
 </ul>
 <figure style="border: 1px solid #000">
-<p><img alt="Example: Distributed learning with PyTorch, no EasyBuild-generated module - slide 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/RunningAIExampleNoEasyBuild_3.png" /></p>
+<p><img alt="Example: Distributed learning with PyTorch, no EasyBuild-generated module - slide 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/RunningAIExampleNoEasyBuild_3.png" /></p>
 </figure>
 <p>And finally you need a job script that you can then submit with <code>sbatch</code>. Lets call it <code>my-job.sh</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash -e</span>
@@ -2126,7 +1881,7 @@ singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> 
     particular CPU mapping so that each rank can use the corresponding GPU number (which is taken care of in the 
     <code>run-pytorch.sh</code> script). 
     We use the
-    <a href="http://localhost:8000/LUMI-BE-training-materials/intro-evolving/07-Binding/#linear-assignment-of-gcd-then-match-the-cores">"Linear assignment of GCD, then match the cores" strategy</a>.</p>
+    <a href="http://localhost:8000/LUMI-BE-training-materials/intro-evolving/08-Binding/#linear-assignment-of-gcd-then-match-the-cores">"Linear assignment of GCD, then match the cores" strategy</a>.</p>
 </li>
 <li>
 <p>Note the bindings. In this case we do not even bind the full <code>/project</code>, <code>/scratch</code> and <code>/flash</code> subdirectories,
@@ -2142,7 +1897,7 @@ singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> 
 are not explained in this text. You can find more information on the 
 <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/PyTorch">PyTorch page in the LUMI Software Library</a>.</strong></p>
 <figure style="border: 1px solid #000">
-<p><img alt="Example: Distributed learning with PyTorch, using an EasyBuild-generated module" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/RunningAIExampleEasyBuild.png" /></p>
+<p><img alt="Example: Distributed learning with PyTorch, using an EasyBuild-generated module" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/RunningAIExampleEasyBuild.png" /></p>
 </figure>
 <p>It turns out that the first two above scripts in the example above, are fairly generic.
 Therefore the module provides a slight variant of the second script, now called <code>conda-python-distributed</code>,
@@ -2171,14 +1926,14 @@ srun<span class="w"> </span>--cpu-bind<span class="o">=</span>mask_cpu:<span cla
 <span class="w">    </span>conda-python-distributed<span class="w"> </span>-u<span class="w"> </span>mnist_DDP.py<span class="w"> </span>--gpu<span class="w"> </span>--modelpath<span class="w"> </span>model
 </code></pre></div>
 <p>So basically you only need to take care of the proper CPU bindings where we again use the
-<a href="http://localhost:8000/LUMI-BE-training-materials/intro-evolving/07-Binding/#linear-assignment-of-gcd-then-match-the-cores">"Linear ssignment of GCD, then match the cores" strategy</a>.</p>
+<a href="http://localhost:8000/LUMI-BE-training-materials/intro-evolving/08-Binding/#linear-assignment-of-gcd-then-match-the-cores">"Linear ssignment of GCD, then match the cores" strategy</a>.</p>
 <h2 id="extending-the-containers">Extending the containers<a class="headerlink" href="#extending-the-containers" title="Permanent link">&para;</a></h2>
 <p>We can never provide all software that is needed for every user in our containers. 
 But there are several mechanisms that can be used to
 extend the containers that we provide:</p>
 <h3 id="extending-the-container-with-cotainr">Extending the container with <code>cotainr</code><a class="headerlink" href="#extending-the-container-with-cotainr" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Extending containers with cotainr" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ExtendingCotainr.png" /></p>
+<p><img alt="Extending containers with cotainr" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ExtendingCotainr.png" /></p>
 </figure>
 <p>The LUMI Software Library offers some <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/r/rocm/">container images for ROCm<sup>TM</sup></a>.
 Though these images can be used simply to experiment with different versions of ROCm, an important use of those images is as base images
@@ -2234,7 +1989,7 @@ it from the installation afterwards). In the future, we may provide some other i
 instead.</p>
 <h3 id="extending-the-container-with-the-singularity-unprivileged-proot-build">Extending the container with the singularity unprivileged <code>proot</code> build<a class="headerlink" href="#extending-the-container-with-the-singularity-unprivileged-proot-build" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Extending containers with the singularity unprivileged proot build process" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ExtendingSingularityBuild.png" /></p>
+<p><img alt="Extending containers with the singularity unprivileged proot build process" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ExtendingSingularityBuild.png" /></p>
 </figure>
 <p>Singularity specialists can also build upon an existing container using <code>singularity build</code>. 
 The options for build processes are limited though because we have no support for user namespaces or the fakeroot feature.
@@ -2276,7 +2031,7 @@ singularity<span class="w"> </span>build<span class="w"> </span>my-new-container
 file and in fact, the module that was generated with EasyBuild might just work...</p>
 <h3 id="extending-the-container-through-a-python-virtual-environment">Extending the container through a Python virtual environment<a class="headerlink" href="#extending-the-container-through-a-python-virtual-environment" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Extending the containers through a Python virtual environment - slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ExtendingPVenv_1.png" /></p>
+<p><img alt="Extending the containers through a Python virtual environment - slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ExtendingPVenv_1.png" /></p>
 </figure>
 <p>Some newer containers installed with EasyBuild already include a pre-initialised virtual environment 
 (created with <code>venv</code>). The location in the filesystem of that virtual environment is:</p>
@@ -2306,7 +2061,7 @@ singularity<span class="w"> </span>shell<span class="w"> </span><span class="nv"
 <div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>pytorch-lightning
 </code></pre></div>
 <figure style="border: 1px solid #000">
-<p><img alt="Extending the containers through a Python virtual environment - slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ExtendingPVenv_2.png" /></p>
+<p><img alt="Extending the containers through a Python virtual environment - slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ExtendingPVenv_2.png" /></p>
 </figure>
 <p>As already discussed before in this session of the tutorial, such a Python virtual environment has the potential
 to create a lot of small files in the Lustre <code>$CONTAINERROOT/user-software</code> subdirectory, which can wipe out
@@ -2326,7 +2081,7 @@ activating the environment, and replacing the directory with a SquashFS file to 
 performance.</p>
 <h2 id="conclusion-container-limitations-on-lumi">Conclusion: Container limitations on LUMI<a class="headerlink" href="#conclusion-container-limitations-on-lumi" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Container limitations on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Containers/ContainersLimitations.png" /></p>
+<p><img alt="Container limitations on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersLimitations.png" /></p>
 </figure>
 <p>To conclude the information on using singularity containers on LUMI,
 we want to repeat the limitations:</p>

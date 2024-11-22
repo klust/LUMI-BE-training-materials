@@ -82,6 +82,8 @@
     
       <link rel="stylesheet" href="../stylesheets/extra.css">
     
+      <link rel="stylesheet" href="../stylesheets/neoteroi-mkdocs.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -628,7 +630,7 @@
   
   
     <li class="md-nav__item">
-      <a href="06-Slurm/" class="md-nav__link">
+      <a href="06-Slurm.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -649,7 +651,7 @@
   
   
     <li class="md-nav__item">
-      <a href="07-Binding/" class="md-nav__link">
+      <a href="07-Binding.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -670,7 +672,7 @@
   
   
     <li class="md-nav__item">
-      <a href="08-Lustre/" class="md-nav__link">
+      <a href="08-Lustre.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -691,7 +693,7 @@
   
   
     <li class="md-nav__item">
-      <a href="09-Containers/" class="md-nav__link">
+      <a href="09-Containers.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -754,7 +756,7 @@
   
   
     <li class="md-nav__item">
-      <a href="10-Support/" class="md-nav__link">
+      <a href="10-Support.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -950,108 +952,128 @@ tar -xf exercises-evolving.tar.gz
 </li>
 </ul>
 <h2 id="downloads">Downloads<a class="headerlink" href="#downloads" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
+<!-- Note: spantable fails if there are spaces after the trailing |! -->
+<div class="span-table-wrapper">
+<table class="span-table">
 <tr>
-<th style="text-align: left;">Presentation</th>
-<th style="text-align: left;">Slides</th>
-<th style="text-align: left;">Notes</th>
-<th style="text-align: left;">Exercises</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">Notes Introduction</td>
-<td style="text-align: left;">/</td>
-<td style="text-align: left;"><a href="00-Introduction/">notes</a></td>
-<td style="text-align: left;">/</td>
+<td>Presentation</td>
+<td>Slides</td>
+<td>Notes</td>
+<td>Exercises</td>
 </tr>
 <tr>
-<td style="text-align: left;"><a href="M01-Architecture/">LUMI Architecture</a></td>
-<td style="text-align: left;"><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-01-Architecture.pdf">slides</a></td>
-<td style="text-align: left;"><a href="01-Architecture/">notes</a></td>
-<td style="text-align: left;">/</td>
+<td>Notes Introduction</td>
+<td>/</td>
+<td><a href="00-Introduction/">notes</a></td>
+<td>/</td>
 </tr>
 <tr>
-<td style="text-align: left;"><a href="M02-CPE/">HPE Cray Programming Environment</a></td>
-<td style="text-align: left;"><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-02-CPE.pdf">slides</a></td>
-<td style="text-align: left;"><a href="02-CPE/">notes</a></td>
-<td style="text-align: left;"><a href="E02-CPE/">exercises</a></td>
+<td colspan="4"><strong>Theme: Exploring LUMI from the login nodes</strong></td>
 </tr>
 <tr>
-<td style="text-align: left;"><a href="M03-Access/">Getting access to LUMI</a></td>
-<td style="text-align: left;"><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-03-Access.pdf">slides</a></td>
-<td style="text-align: left;"><a href="03-Access/">notes</a></td>
-<td style="text-align: left;"><a href="E03-Access/">exercises</a></td>
+<td><a href="M01-Architecture/">LUMI Architecture</a></td>
+<td><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-01-Architecture.pdf">slides</a></td>
+<td><a href="01-Architecture/">notes</a></td>
+<td>/</td>
 </tr>
 <tr>
-<td style="text-align: left;"><a href="M04-Modules/">Modules on LUMI</a></td>
-<td style="text-align: left;"><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-04-Modules.pdf">slides</a></td>
-<td style="text-align: left;"><a href="04-Modules/">notes</a></td>
-<td style="text-align: left;"><a href="E04-Modules/">exercises</a></td>
+<td><a href="M02-CPE/">HPE Cray Programming Environment</a></td>
+<td><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-02-CPE.pdf">slides</a></td>
+<td><a href="02-CPE/">notes</a></td>
+<td><a href="E02-CPE/">exercises</a></td>
 </tr>
 <tr>
-<td style="text-align: left;"><a href="M05-SoftwareStacks/">LUMI Software Stacks</a></td>
-<td style="text-align: left;"><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-05-SoftwareStacks.pdf">slides</a></td>
-<td style="text-align: left;"><a href="05-SoftwareStacks/">notes</a></td>
-<td style="text-align: left;"><a href="E05-SoftwareStacks/">exercises</a></td>
+<td><a href="M03-Access/">Getting access to LUMI</a></td>
+<td><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-03-Access.pdf">slides</a></td>
+<td><a href="03-Access/">notes</a></td>
+<td><a href="E03-Access/">exercises</a></td>
 </tr>
 <tr>
-<td style="text-align: left;"><a href="M06-Slurm/">Slurm on LUMI</a></td>
-<td style="text-align: left;"><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-06-Slurm.pdf">slides</a></td>
-<td style="text-align: left;"><a href="06-Slurm/">notes</a></td>
-<td style="text-align: left;"><a href="E06-Slurm/">exercises</a></td>
+<td><a href="M04-Modules/">Modules on LUMI</a></td>
+<td><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-04-Modules.pdf">slides</a></td>
+<td><a href="04-Modules/">notes</a></td>
+<td><a href="E04-Modules/">exercises</a></td>
 </tr>
 <tr>
-<td style="text-align: left;"><a href="M07-Binding/">Binding resources</a></td>
-<td style="text-align: left;"><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-07-Binding.pdf">slides</a></td>
-<td style="text-align: left;"><a href="07-Binding/">notes</a></td>
-<td style="text-align: left;"><a href="E07-Binding/">exercises</a></td>
+<td><a href="M05-SoftwareStacks/">LUMI Software Stacks</a></td>
+<td><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-05-SoftwareStacks.pdf">slides</a></td>
+<td><a href="05-SoftwareStacks/">notes</a></td>
+<td><a href="E05-SoftwareStacks/">exercises</a></td>
 </tr>
 <tr>
-<td style="text-align: left;"><a href="M08-Lustre/">Using Lustre</a></td>
-<td style="text-align: left;"><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-08-Lustre.pdf">slides</a></td>
-<td style="text-align: left;"><a href="08-Lustre/">notes</a></td>
-<td style="text-align: left;">/</td>
+<td><a href="M06-Support/">LUMI User Support</a></td>
+<td><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-06-Support.pdf">slides</a></td>
+<td><a href="06-Support/">notes</a></td>
+<td>/</td>
 </tr>
 <tr>
-<td style="text-align: left;"><a href="M09-Containers/">Containers on LUMI</a></td>
-<td style="text-align: left;"><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-09-Containers.pdf">slides</a></td>
-<td style="text-align: left;"><a href="09-Containers/">notes</a></td>
-<td style="text-align: left;">/</td>
+<td colspan="4"><strong>Theme: Running jobs efficiently</strong></td>
 </tr>
 <tr>
-<td style="text-align: left;">Container demo 1</td>
-<td style="text-align: left;">/</td>
-<td style="text-align: left;"><a href="Demo1/">notes and video</a></td>
-<td style="text-align: left;">/</td>
+<td><a href="M07-Slurm/">Slurm on LUMI</a></td>
+<td><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-07-Slurm.pdf">slides</a></td>
+<td><a href="07-Slurm/">notes</a></td>
+<td><a href="E07-Slurm/">exercises</a></td>
 </tr>
 <tr>
-<td style="text-align: left;">Container demo 2</td>
-<td style="text-align: left;">/</td>
-<td style="text-align: left;"><a href="Demo2/">notes and video</a></td>
-<td style="text-align: left;">/</td>
+<td><a href="M08-Binding/">Binding resources</a></td>
+<td><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-08-Binding.pdf">slides</a></td>
+<td><a href="08-Binding/">notes</a></td>
+<td><a href="E08-Binding/">exercises</a></td>
 </tr>
 <tr>
-<td style="text-align: left;"><a href="M10-Support/">LUMI User Support</a></td>
-<td style="text-align: left;"><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-10-Support.pdf">slides</a></td>
-<td style="text-align: left;"><a href="10-Support/">notes</a></td>
-<td style="text-align: left;">/</td>
+<td colspan="4"><strong>Theme: Data on LUMI</strong></td>
 </tr>
 <tr>
-<td style="text-align: left;">A1 Slurm issues</td>
-<td style="text-align: left;">/</td>
-<td style="text-align: left;"><a href="A01-SlurmIssues/">notes</a></td>
-<td style="text-align: left;">/</td>
+<td><a href="M09-Lustre/">Using Lustre</a></td>
+<td><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-09-Lustre.pdf">slides</a></td>
+<td><a href="09-Lustre/">notes</a></td>
+<td>/</td>
 </tr>
 <tr>
-<td style="text-align: left;">A2 Additional documentation</td>
-<td style="text-align: left;">/</td>
-<td style="text-align: left;"><a href="A02-Documentation/">notes</a></td>
-<td style="text-align: left;">/</td>
+<td><a href="M10-ObjectStorage/">LUMI-O object storage</a></td>
+<td><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-10-ObjectStorage.pdf">slides</a></td>
+<td><a href="10-ObjectStorage/">notes</a></td>
+<td>/</td>
 </tr>
-</tbody>
+<tr>
+<td colspan="4"><strong>Theme: Containers on LUMI</strong></td>
+</tr>
+<tr>
+<td><a href="M11-Containers/">Containers on LUMI</a></td>
+<td><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-11-Containers.pdf">slides</a></td>
+<td><a href="11-Containers/">notes</a></td>
+<td>/</td>
+</tr>
+<tr>
+<td>Container demo 1</td>
+<td>/</td>
+<td><a href="Demo1/">notes and video</a></td>
+<td>/</td>
+</tr>
+<tr>
+<td>Container demo 2</td>
+<td>/</td>
+<td><a href="Demo2/">notes and video</a></td>
+<td>/</td>
+</tr>
+<tr>
+<td colspan="4"><strong>Appendices</strong></td>
+</tr>
+<tr>
+<td>A1 Slurm issues</td>
+<td>/</td>
+<td><a href="A01-SlurmIssues/">notes</a></td>
+<td>/</td>
+</tr>
+<tr>
+<td>A2 Additional documentation</td>
+<td>/</td>
+<td><a href="A02-Documentation/">notes</a></td>
+<td>/</td>
+</tr>
 </table>
+</div>
 <!--
 | Container demo 1 | / | [notes and video](Demo1.md) | [video](Demo1.md#video-of-the-demo) |
 | Container demo 2 | / | [notes and video](Demo2.md) | [video](Demo2.md#video-of-the-demo) |

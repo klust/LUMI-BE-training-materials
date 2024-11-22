@@ -8,13 +8,9 @@
       
       
       
-        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/07-Binding/">
+        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/08-Binding/">
       
       
-        <link rel="prev" href="../06-Slurm/">
-      
-      
-        <link rel="next" href="../08-Lustre/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +18,7 @@
     
     
       
-        <title>Binding - LUMI-BE training materials</title>
+        <title>Process and Thread Distribution and Binding - LUMI-BE training materials</title>
       
     
     
@@ -81,6 +77,8 @@
     
     
       <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/neoteroi-mkdocs.css">
     
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -224,7 +222,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Binding
+              Process and Thread Distribution and Binding
             
           </span>
         </div>
@@ -416,8 +414,6 @@
       
   
   
-    
-  
   
   
     
@@ -460,11 +456,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           
@@ -486,7 +482,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             LUMI Intro (evolving)
@@ -628,7 +624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../06-Slurm/" class="md-nav__link">
+      <a href="../06-Slurm.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -646,30 +642,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Binding
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../07-Binding.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -678,176 +654,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-are-we-talking-about-in-this-session" class="md-nav__link">
-    <span class="md-ellipsis">
-      What are we talking about in this session?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-do-i-need-this" class="md-nav__link">
-    <span class="md-ellipsis">
-      Why do I need this?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#core-numbering" class="md-nav__link">
-    <span class="md-ellipsis">
-      Core numbering
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gpu-numbering" class="md-nav__link">
-    <span class="md-ellipsis">
-      GPU numbering
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#task-distribution-with-slurm" class="md-nav__link">
-    <span class="md-ellipsis">
-      Task distribution with Slurm
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#task-to-cpu-binding-with-slurm" class="md-nav__link">
-    <span class="md-ellipsis">
-      Task-to-CPU binding with Slurm
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#task-to-gpu-binding-with-slurm" class="md-nav__link">
-    <span class="md-ellipsis">
-      Task-to-GPU binding with Slurm
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#mpi-rank-redistribution-with-cray-mpich" class="md-nav__link">
-    <span class="md-ellipsis">
-      MPI rank redistribution with Cray MPICH
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#refining-core-binding-in-openmp-applications" class="md-nav__link">
-    <span class="md-ellipsis">
-      Refining core binding in OpenMP applications
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gpu-binding-with-rocr_visible_devices" class="md-nav__link">
-    <span class="md-ellipsis">
-      GPU binding with ROCR_VISIBLE_DEVICES
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#combining-slurm-task-binding-with-rocr_visible_devices" class="md-nav__link">
-    <span class="md-ellipsis">
-      Combining Slurm task binding with ROCR_VISIBLE_DEVICES
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Combining Slurm task binding with ROCR_VISIBLE_DEVICES">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#linear-assignment-of-gcd-then-match-the-cores" class="md-nav__link">
-    <span class="md-ellipsis">
-      Linear assignment of GCD, then match the cores
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#linear-assignment-of-the-ccds-then-match-the-gcd" class="md-nav__link">
-    <span class="md-ellipsis">
-      Linear assignment of the CCDs, then match the GCD
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-green-ring" class="md-nav__link">
-    <span class="md-ellipsis">
-      The green ring
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#what-about-allocate-by-resources-partitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      What about "allocate by resources" partitions?
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#further-material" class="md-nav__link">
-    <span class="md-ellipsis">
-      Further material
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -860,7 +666,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../08-Lustre/" class="md-nav__link">
+      <a href="../08-Lustre.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -881,7 +687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../09-Containers/" class="md-nav__link">
+      <a href="../09-Containers.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -944,7 +750,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../10-Support/" class="md-nav__link">
+      <a href="../10-Support.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1201,7 +1007,7 @@
 <h1 id="process-and-thread-distribution-and-binding">Process and Thread Distribution and Binding<a class="headerlink" href="#process-and-thread-distribution-and-binding" title="Permanent link">&para;</a></h1>
 <h2 id="what-are-we-talking-about-in-this-session">What are we talking about in this session?<a class="headerlink" href="#what-are-we-talking-about-in-this-session" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide What are we talking about" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/WhatAbout.png" /></p>
+<p><img alt="Slide What are we talking about" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/WhatAbout.png" /></p>
 </figure>
 <p><strong>Distribution</strong> is the process of distributing processes and threads across the available
 resources of the job (nodes, sockets, NUMA nodes, cores, ...), and <strong>binding</strong> is the process
@@ -1250,7 +1056,7 @@ with several extensions implemented by the LUST.</p>
 node type as LUMI-G.)</p>
 </details>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide When/where is it done" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/WhenDone.png" /></p>
+<p><img alt="Slide When/where is it done" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/WhenDone.png" /></p>
 </figure>
 <p>In this section we will consider process and thread distribution and binding at several levels:</p>
 <ul>
@@ -1283,7 +1089,7 @@ per-node per-job basis.</p>
 </li>
 </ul>
 <p>Binding almost only makes sense on job-exclusive nodes as only then you have full control over all available 
-resources. On <a href="../06-Slurm/#partitions">"allocatable by resources"</a> partitions 
+resources. On <a href="../07-Slurm/#partitions">"allocatable by resources"</a> partitions 
 you usually do not know which resources are available.
 The advanced Slurm binding options that we will discuss do not work in those cases, and the options offered
 by the MPICH, OpenMP and ROCm runtimes may work very unpredictable, though OpenMP thread binding may still 
@@ -1298,7 +1104,7 @@ using <code>ROCR_VISIBLE_DEVICES</code> may also lead to surprises!</p>
 </div>
 <h2 id="why-do-i-need-this">Why do I need this?<a class="headerlink" href="#why-do-i-need-this" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Why do I need this" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/WhyNeedThis.png" /></p>
+<p><img alt="Slide Why do I need this" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/WhyNeedThis.png" /></p>
 </figure>
 <!-- BELGIUM -->
 <p>As we have seen in the <a href="../01-Architecture/">"LUMI Architecture" session of this course</a> and is discussed into
@@ -1354,7 +1160,7 @@ also why Slurm and the various runtimes cannot take care of it automatically.</p
 </ul>
 <h2 id="core-numbering">Core numbering<a class="headerlink" href="#core-numbering" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Core numbering" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/CoreNumbering.png" /></p>
+<p><img alt="Slide Core numbering" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/CoreNumbering.png" /></p>
 </figure>
 <p>Linux core numbering is not hierarchical and may look a bit strange. This is because Linux core numbering was fixed
 before hardware threads were added, and later on hardware threads were simply added to the numbering scheme.</p>
@@ -1702,10 +1508,10 @@ and will by default pin each thread to a different hardware thread if possible.<
 </details>
 <h2 id="gpu-numbering">GPU numbering<a class="headerlink" href="#gpu-numbering" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU numbering (1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/GPUNumbering_1.png" /></p>
+<p><img alt="Slide GPU numbering (1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/GPUNumbering_1.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU numbering (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/GPUNumbering_2.png" /></p>
+<p><img alt="Slide GPU numbering (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/GPUNumbering_2.png" /></p>
 </figure>
 <p>The numbering of the GPUs is a very tricky thing on LUMI.</p>
 <p>The only way to reliably identify the physical GPU is through the PCIe bus ID. This does not change over time 
@@ -1727,7 +1533,7 @@ at the start of a batch job step giving access to all GPUs that are available in
 be set by <code>srun</code> for each task. But you don't need to know in your application which numbers these are as, e.g.,
 the HIP runtime will number the GPUs that are available from 0 on.</p>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU Numbering - Remarks" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/GPUNumberingRemarks.png" /></p>
+<p><img alt="Slide GPU Numbering - Remarks" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/GPUNumberingRemarks.png" /></p>
 </figure>
 <!-- Script gpu-numbering-demo1 -->
 <!-- ``` {.bash linenos=true linenostart=1 .copy}  -->
@@ -2123,10 +1929,10 @@ communication within a node can be organised so the above examples are important
 to run MPI applications with optimal efficiency.</strong></p>
 <h2 id="task-distribution-with-slurm">Task distribution with Slurm<a class="headerlink" href="#task-distribution-with-slurm" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Task distribution with Slurm" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/SlurmTaskDistribution_1.png" /></p>
+<p><img alt="Slide Task distribution with Slurm" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/SlurmTaskDistribution_1.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Task distribution with Slurm (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/SlurmTaskDistribution_2.png" /></p>
+<p><img alt="Slide Task distribution with Slurm (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/SlurmTaskDistribution_2.png" /></p>
 </figure>
 <p>The Slurm <code>srun</code> command offers the <code>--distribution</code> option to influence the distribution of 
 tasks across nodes (level 1), sockets or NUMA domains (level 2 and sockets or NUMA) or 
@@ -2205,13 +2011,13 @@ while <code>--distribution=block</code> has the same effect as <code>--distribut
 <p><strong>This option only makes sense on job-exclusive nodes.</strong></p>
 <h2 id="task-to-cpu-binding-with-slurm">Task-to-CPU binding with Slurm<a class="headerlink" href="#task-to-cpu-binding-with-slurm" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Task-to-CPU binding with Slurm" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/SlurmTaskCPU.png" /></p>
+<p><img alt="Slide Task-to-CPU binding with Slurm" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/SlurmTaskCPU.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Task-to-CPU binding with Slurm: Masks" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/SlurmTaskCPUMasks.png" /></p>
+<p><img alt="Slide Task-to-CPU binding with Slurm: Masks" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/SlurmTaskCPUMasks.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Task-to-CPU binding with Slurm: Examples" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/SlurmTaskCPUExamples.png" /></p>
+<p><img alt="Slide Task-to-CPU binding with Slurm: Examples" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/SlurmTaskCPUExamples.png" /></p>
 </figure>
 <p>The level 2 and 3 options from the previous section already do some binding. But we will now 
 discuss a different option that enables very precise binding of tasks to hardware threads in Slurm.</p>
@@ -2268,7 +2074,7 @@ LUMI User Support is investigating whether it isn't better to change the concept
 sometimes is to carefully map onto L3 cache domains for performance.</p>
 <h2 id="task-to-gpu-binding-with-slurm">Task-to-GPU binding with Slurm<a class="headerlink" href="#task-to-gpu-binding-with-slurm" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Task-to-GPU binding with Slurm" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/SlurmTaskGPU.png" /></p>
+<p><img alt="Slide Task-to-GPU binding with Slurm" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/SlurmTaskGPU.png" /></p>
 </figure>
 <p><strong>Doing the task-to-GPU binding fully via Slurm is currently not recommended on LUMI. 
 The problem is that Slurm uses control groups at the task level rather than just <code>ROCR_VISIBLE_DEVICES</code>
@@ -2328,7 +2134,7 @@ GPU-attached memory regions are involved."</em></p>
 </details>
 <h2 id="mpi-rank-redistribution-with-cray-mpich">MPI rank redistribution with Cray MPICH<a class="headerlink" href="#mpi-rank-redistribution-with-cray-mpich" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide MPI rank redistribution with Cray MPICH" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/MPICHRankRedistribution.png" /></p>
+<p><img alt="Slide MPI rank redistribution with Cray MPICH" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/MPICHRankRedistribution.png" /></p>
 </figure>
 <p>By default MPI rank <em>i</em> will use Slurm task <em>i</em> in a parallel job step. 
 With Cray MPICH this can be changed via the environment variable 
@@ -2567,13 +2373,13 @@ Running 8 single-threaded MPI ranks.
 </details>
 <h2 id="refining-core-binding-in-openmp-applications">Refining core binding in OpenMP applications<a class="headerlink" href="#refining-core-binding-in-openmp-applications" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Refining core binding in OpenMP" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/OpenMPBinding.png" /></p>
+<p><img alt="Slide Refining core binding in OpenMP" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/OpenMPBinding.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Refining core binding in OpenMP: OMP_PLACES" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/OpenMPBindingPlaces.png" /></p>
+<p><img alt="Slide Refining core binding in OpenMP: OMP_PLACES" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/OpenMPBindingPlaces.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide Refining core binding in OpenMP: OMP_PROC_BIND" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/OpenMPBindingProcBind.png" /></p>
+<p><img alt="Slide Refining core binding in OpenMP: OMP_PROC_BIND" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/OpenMPBindingProcBind.png" /></p>
 </figure>
 <p>In a Slurm batch job step, threads of a shared memory process will be contained to all 
 hardware threads of all available cores on the first node of your allocation. To contain
@@ -2919,7 +2725,7 @@ also offer additional environment variables, e.g.,
 </ul>
 <h2 id="gpu-binding-with-rocr_visible_devices">GPU binding with ROCR_VISIBLE_DEVICES<a class="headerlink" href="#gpu-binding-with-rocr_visible_devices" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU binding with ROCR_VISIBLE_DEVICES" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/ROCRGPU.png" /></p>
+<p><img alt="Slide GPU binding with ROCR_VISIBLE_DEVICES" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRGPU.png" /></p>
 </figure>
 <p>The <code>ROCR_VISIBLE_DEVICES</code> environment variable restricts access to GPUs at the ROCm platform runtime 
 level. Contrary to control groups however this mechanism is compatible with the Peer2Peer IPC used by
@@ -2954,10 +2760,10 @@ would need to discover them first before they can be used.</p>
 </details>
 <h2 id="combining-slurm-task-binding-with-rocr_visible_devices">Combining Slurm task binding with ROCR_VISIBLE_DEVICES<a class="headerlink" href="#combining-slurm-task-binding-with-rocr_visible_devices" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU binding: Optimal mapping (1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/ROCRGPUMap_1.png" /></p>
+<p><img alt="Slide GPU binding: Optimal mapping (1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRGPUMap_1.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU binding: Optimal mapping (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/ROCRGPUMap_2.png" /></p>
+<p><img alt="Slide GPU binding: Optimal mapping (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRGPUMap_2.png" /></p>
 </figure>
 <p>In the chapter on <a href="../01-Architecture/">the architecture of LUMI</a> we discussed 
 <a href="../01-Architecture/#building-lumi-what-a-lumi-g-node-really-looks-like">what a LUMI-G really looks like</a>.</p>
@@ -3095,7 +2901,7 @@ better to ensure that each GCD collaborates with the matched CCD in an MPI rank.
 </tbody>
 </table>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU binding: Embedded rings" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/ROCRGPURing.png" /></p>
+<p><img alt="Slide GPU binding: Embedded rings" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRGPURing.png" /></p>
 </figure>
 <p>Moreover, if you look more carefully at the topology, you can see that the connections between the 
 GCDs contain a number of rings:</p>
@@ -3118,7 +2924,7 @@ the order of the CCDs nor the order of the GCDs is trivial.</p>
 <p>Note: The red ring and green ring correspond to the red and green rings on page 6 of the
 <a href="https://www.amd.com/content/dam/amd/en/documents/instinct-business-docs/white-papers/amd-cdna2-white-paper.pdf">"Introducing AMD CDNA<sup>TM</sup> 2 Architecture" whitepaper</a>.</p>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU binding: Implementation" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/ROCRMechanism.png" /></p>
+<p><img alt="Slide GPU binding: Implementation" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRMechanism.png" /></p>
 </figure>
 <p>To implement a proper CCD-to-GCD mapping we will use two mechanisms:</p>
 <ul>
@@ -3135,10 +2941,10 @@ the order of the CCDs nor the order of the GCDs is trivial.</p>
 <p>Let us start with the simplest case:</p>
 <h3 id="linear-assignment-of-gcd-then-match-the-cores">Linear assignment of GCD, then match the cores<a class="headerlink" href="#linear-assignment-of-gcd-then-match-the-cores" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU binding: Implementation: Linear GCD, match CPU, no OpenMP" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/ROCRMechanismLinearGCD1.png" /></p>
+<p><img alt="Slide GPU binding: Implementation: Linear GCD, match CPU, no OpenMP" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRMechanismLinearGCD1.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU binding: Implementation: Linear GCD, match CPU, OpenMP" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/ROCRMechanismLinearGCD2.png" /></p>
+<p><img alt="Slide GPU binding: Implementation: Linear GCD, match CPU, OpenMP" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRMechanismLinearGCD2.png" /></p>
 </figure>
 <p>One possible job script to accomplish this is:</p>
 <!-- map-linear-GCD.slurm -->
@@ -3210,13 +3016,13 @@ GCD and corresponding optimal CCD for each PCIe bus ID, which makes it very easy
 mapping is as intended. Note that the GCDs are indeed in the linear order starting with GCD0.</p>
 <h3 id="linear-assignment-of-the-ccds-then-match-the-gcd">Linear assignment of the CCDs, then match the GCD<a class="headerlink" href="#linear-assignment-of-the-ccds-then-match-the-gcd" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU binding: Implementation: Linear CCD, match GCD, no OpenMP" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/ROCRMechanismLinearCCD1.png" /></p>
+<p><img alt="Slide GPU binding: Implementation: Linear CCD, match GCD, no OpenMP" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRMechanismLinearCCD1.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU binding: Implementation: Linear CCD, match GCD, OpenMP" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/ROCRMechanismLinearCCD2.png" /></p>
+<p><img alt="Slide GPU binding: Implementation: Linear CCD, match GCD, OpenMP" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRMechanismLinearCCD2.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU binding: Implementation: Linear CCD, match GCD, with cpus-per-task" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/ROCRMechanismLinearCCD3.png" /></p>
+<p><img alt="Slide GPU binding: Implementation: Linear CCD, match GCD, with cpus-per-task" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRMechanismLinearCCD3.png" /></p>
 </figure>
 <p>To modify the order of the GPUs, we now use an array with the desired order in the <code>select_gpu</code> script.
 With the current setup of LUMI, with one core reserved on each chiplet, there are now two options
@@ -3275,13 +3081,13 @@ srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_
 them as it makes it easier to see which chiplet is used in what position.</p>
 <h3 id="the-green-ring">The green ring<a class="headerlink" href="#the-green-ring" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU binding: Implementation: Green ring, OpenMP, slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/ROCRMechanismGreenRing1.png" /></p>
+<p><img alt="Slide GPU binding: Implementation: Green ring, OpenMP, slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRMechanismGreenRing1.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU binding: Implementation: Green ring, OpenMP, slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/ROCRMechanismGreenRing2.png" /></p>
+<p><img alt="Slide GPU binding: Implementation: Green ring, OpenMP, slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRMechanismGreenRing2.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU binding: Implementation: Green ring, OpenMP, slide 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/ROCRMechanismGreenRing3.png" /></p>
+<p><img alt="Slide GPU binding: Implementation: Green ring, OpenMP, slide 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRMechanismGreenRing3.png" /></p>
 </figure>
 <p>As a final example for whole node allocations, lets bind tasks such that the MPI ranks are
 mapped upon the green ring which is GCD 0 - 1 - 3 - 2 - 4 - 5 - 7 - 6 - 0. In other words,
@@ -3568,7 +3374,7 @@ second hardware thread is not supported yet. (We use bash arithmetic internally 
 </details>
 <h3 id="what-about-allocate-by-resources-partitions">What about "allocate by resources" partitions?<a class="headerlink" href="#what-about-allocate-by-resources-partitions" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide GPU binding: Allocatable-by-resources partitions" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Binding/ROCRMechanismAllocateByResource.png" /></p>
+<p><img alt="Slide GPU binding: Allocatable-by-resources partitions" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRMechanismAllocateByResource.png" /></p>
 </figure>
 <!-- Experiments in smallg-binding-exp*.slurm -->
 <p>On partitions that are "allocatable by resource", e.g., <code>small-g</code>, you are never guaranteed that tasks 

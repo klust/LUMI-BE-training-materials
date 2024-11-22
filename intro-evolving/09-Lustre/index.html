@@ -8,13 +8,9 @@
       
       
       
-        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/08-Lustre/">
+        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/09-Lustre/">
       
       
-        <link rel="prev" href="../07-Binding/">
-      
-      
-        <link rel="next" href="../09-Containers/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +18,7 @@
     
     
       
-        <title>Lustre - LUMI-BE training materials</title>
+        <title>Using Lustre - LUMI-BE training materials</title>
       
     
     
@@ -81,6 +77,8 @@
     
     
       <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/neoteroi-mkdocs.css">
     
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -224,7 +222,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Lustre
+              Using Lustre
             
           </span>
         </div>
@@ -416,8 +414,6 @@
       
   
   
-    
-  
   
   
     
@@ -460,11 +456,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           
@@ -486,7 +482,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             LUMI Intro (evolving)
@@ -628,7 +624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../06-Slurm/" class="md-nav__link">
+      <a href="../06-Slurm.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -649,7 +645,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../07-Binding/" class="md-nav__link">
+      <a href="../07-Binding.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -667,30 +663,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Lustre
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../08-Lustre.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -699,125 +675,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#file-systems-on-lumi" class="md-nav__link">
-    <span class="md-ellipsis">
-      File systems on LUMI
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lustre-building-blocks" class="md-nav__link">
-    <span class="md-ellipsis">
-      Lustre building blocks
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#striping-large-files-are-spread-across-osts" class="md-nav__link">
-    <span class="md-ellipsis">
-      Striping: Large files are spread across OSTs
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#accessing-a-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      Accessing a file
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parallelism-is-key" class="md-nav__link">
-    <span class="md-ellipsis">
-      Parallelism is key!
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-determine-the-striping-values" class="md-nav__link">
-    <span class="md-ellipsis">
-      How to determine the striping values?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#managing-the-striping-parameters" class="md-nav__link">
-    <span class="md-ellipsis">
-      Managing the striping parameters
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-metadata-servers" class="md-nav__link">
-    <span class="md-ellipsis">
-      The metadata servers
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lustre-on-lumi" class="md-nav__link">
-    <span class="md-ellipsis">
-      Lustre on LUMI
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#links" class="md-nav__link">
-    <span class="md-ellipsis">
-      Links
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related-trainings" class="md-nav__link">
-    <span class="md-ellipsis">
-      Related trainings
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -830,7 +687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../09-Containers/" class="md-nav__link">
+      <a href="../09-Containers.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -893,7 +750,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../10-Support/" class="md-nav__link">
+      <a href="../10-Support.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1099,7 +956,7 @@
 <h1 id="using-lustre">Using Lustre<a class="headerlink" href="#using-lustre" title="Permanent link">&para;</a></h1>
 <h2 id="file-systems-on-lumi">File systems on LUMI<a class="headerlink" href="#file-systems-on-lumi" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="File systems on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Lustre/FileSystemLumi.png" /></p>
+<p><img alt="File systems on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/FileSystemLumi.png" /></p>
 </figure>
 <p>Supercomputing since the second half of the 1980s has almost always been about 
 trying to build a very fast system from relatively cheap volume components
@@ -1130,10 +987,10 @@ minimise OS jitter on the compute nodes to improve scalability of applications,
 and to reduce the memory footprint of the OS on the compute nodes.</p>
 <h2 id="lustre-building-blocks">Lustre building blocks<a class="headerlink" href="#lustre-building-blocks" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Lustre building blocks" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Lustre/LustreBuildingBlocks1.png" /></p>
+<p><img alt="Lustre building blocks" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreBuildingBlocks1.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Lustre building blocks (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Lustre/LustreBuildingBlocks2.png" /></p>
+<p><img alt="Lustre building blocks (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreBuildingBlocks2.png" /></p>
 </figure>
 <p>A key element of Lustre - but also of other parallel file systems for large parallel
 computers such as BeeGFS, Spectrum Scale (formerly GPFS) or PanFS - is the separation of
@@ -1205,7 +1062,7 @@ to do so. </p>
 </div>
 <h2 id="striping-large-files-are-spread-across-osts">Striping: Large files are spread across OSTs<a class="headerlink" href="#striping-large-files-are-spread-across-osts" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Large files are spread across OSTs" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Lustre/LustreFileStriping.png" /></p>
+<p><img alt="Large files are spread across OSTs" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreFileStriping.png" /></p>
 </figure>
 <!--
 <figure markdown>
@@ -1245,7 +1102,7 @@ ZFS or ldiskfs to store the "objects".</p>
 </div>
 <h2 id="accessing-a-file">Accessing a file<a class="headerlink" href="#accessing-a-file" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Accessing a file" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Lustre/LustreFileAccess.png" /></p>
+<p><img alt="Accessing a file" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreFileAccess.png" /></p>
 </figure>
 <p>Let's now study how Lustre will access a file for reading or writing. Let's assume that the
 second client in the above picture wants to write something to the file.</p>
@@ -1264,7 +1121,7 @@ and the OSSes/OSTs that keep the chunks of the file.</p>
 </ul>
 <h2 id="parallelism-is-key">Parallelism is key!<a class="headerlink" href="#parallelism-is-key" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Parallelism is key! (slide 1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Lustre/LustreParallelismKey_1.png" /></p>
+<p><img alt="Parallelism is key! (slide 1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreParallelismKey_1.png" /></p>
 </figure>
 <p>The metadata servers can be the bottleneck in a Lustre setup. 
 It is not easy to spread metadata across multiple MDSes efficiently.
@@ -1309,7 +1166,7 @@ in a distributed memory application from multiple nodes simultaneously as otherw
 bandwidth to the interconnect and processing capacity of the client software 
 of a single node might become the limiting factor.</p>
 <figure style="border: 1px solid #000">
-<p><img alt="Parallelism is key! (slide 2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Lustre/LustreParallelismKey_2.png" /></p>
+<p><img alt="Parallelism is key! (slide 2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreParallelismKey_2.png" /></p>
 </figure>
 <p>Not all codes are using Lustre optimally though, even with the best care of their users.</p>
 <ul>
@@ -1359,7 +1216,7 @@ but was not designed to handle large numbers of small files. Nowadays of course 
 deal better with small files are being made, but they may come at a high hardware cost.</p>
 <h2 id="how-to-determine-the-striping-values">How to determine the striping values?<a class="headerlink" href="#how-to-determine-the-striping-values" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="How to determine the striping values?" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Lustre/LustreDetermineParameters.png" /></p>
+<p><img alt="How to determine the striping values?" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreDetermineParameters.png" /></p>
 </figure>
 <p>If you only access relatively small files (up to a few hundreds of kilobytes) and access them 
 sequentially, then you are out of luck. There is not much you can do. Engaging multiple OSTs 
@@ -1397,7 +1254,7 @@ sequential or parallel I/O operation before continuing with more computations, o
 with a stripe size of 1 GB you'd be engaging only a single OST for each write operation.</p>
 <h2 id="managing-the-striping-parameters">Managing the striping parameters<a class="headerlink" href="#managing-the-striping-parameters" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Managing the striping parameters (1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Lustre/LustreManageStriping1.png" /></p>
+<p><img alt="Managing the striping parameters (1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreManageStriping1.png" /></p>
 </figure>
 <p>The basic Lustre command for regular users to do special operations on Lustre is the
 <code>lfs</code> command, which has various subcommands.</p>
@@ -1422,7 +1279,7 @@ lustref1-OST0003_UUID      121.3T       21.4T       98.6T  18% /pfs/lustref1[OST
 <p>so the command can also be used to see the number of MDTs and OSTs available in each
 filesystem, with the capacity.</p>
 <figure style="border: 1px solid #000">
-<p><img alt="Managing the striping parameters (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Lustre/LustreManageStriping2.png" /></p>
+<p><img alt="Managing the striping parameters (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreManageStriping2.png" /></p>
 </figure>
 <p>Striping in Lustre is set at a filesystem level by the sysadmins, but users can
 adjust the settings at the directory level (which then sets the default for files
@@ -1458,10 +1315,10 @@ but it will also show the OSTs that are actually used (in the column <code>obdid
 the output). The <code>lmm_stripe_offset</code> is also the number of the OST with the first
 object of the file.</p>
 <figure style="border: 1px solid #000">
-<p><img alt="Managing the striping parameters (3)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Lustre/LustreManageStriping3.png" /></p>
+<p><img alt="Managing the striping parameters (3)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreManageStriping3.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="Managing the striping parameters (4)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Lustre/LustreManageStriping4.png" /></p>
+<p><img alt="Managing the striping parameters (4)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreManageStriping4.png" /></p>
 </figure>
 <p>The final subcommand that we will discuss is the <code>setstripe</code> subcommand to set the striping policy
 for a file or directory.</p>
@@ -1529,10 +1386,10 @@ your package. Few scientific packages seem to support it though.</p>
 </div>
 <h2 id="the-metadata-servers">The metadata servers<a class="headerlink" href="#the-metadata-servers" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="The metadata servers (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Lustre/LustreMDS_1.png" /></p>
+<p><img alt="The metadata servers (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreMDS_1.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
-<p><img alt="The metadata servers (1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Lustre/LustreMDS_2.png" /></p>
+<p><img alt="The metadata servers (1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreMDS_2.png" /></p>
 </figure>
 <p>Parallelising metadata access is very difficult. Even large Lustre filesystems have very
 few metadata servers. They are a finite and shared resource, and overloading the metadata
@@ -1598,7 +1455,7 @@ about proper use of Lustre in that lecture (which is only available to actual us
 unfortunately).</p>
 <h2 id="lustre-on-lumi">Lustre on LUMI<a class="headerlink" href="#lustre-on-lumi" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Lustre on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Lustre/LumiLustreOnLumi.png" /></p>
+<p><img alt="Lustre on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LumiLustreOnLumi.png" /></p>
 </figure>
 <p>LUMI has 5 Lustre filesystems:</p>
 <p>The file storage sometimes denoted as LUMI-P consists of 4 disk based Lustre filesystems, each

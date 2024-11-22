@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/E07-Binding/">
+        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/M07-Slurm/">
       
       
       
@@ -18,7 +18,7 @@
     
     
       
-        <title>Exercises: Process and Thread Distribution and Binding - LUMI-BE training materials</title>
+        <title>Slurm on LUMI - LUMI-BE training materials</title>
       
     
     
@@ -78,6 +78,8 @@
     
       <link rel="stylesheet" href="../../stylesheets/extra.css">
     
+      <link rel="stylesheet" href="../../stylesheets/neoteroi-mkdocs.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -102,7 +104,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#exercises-process-and-thread-distribution-and-binding" class="md-skip">
+        <a href="#slurm-on-lumi" class="md-skip">
           Skip to content
         </a>
       
@@ -220,7 +222,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Exercises: Process and Thread Distribution and Binding
+              Slurm on LUMI
             
           </span>
         </div>
@@ -622,7 +624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../06-Slurm/" class="md-nav__link">
+      <a href="../06-Slurm.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -643,7 +645,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../07-Binding/" class="md-nav__link">
+      <a href="../07-Binding.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -664,7 +666,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../08-Lustre/" class="md-nav__link">
+      <a href="../08-Lustre.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -685,7 +687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../09-Containers/" class="md-nav__link">
+      <a href="../09-Containers.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -748,7 +750,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../10-Support/" class="md-nav__link">
+      <a href="../10-Support.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -838,9 +840,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#basic-exercises" class="md-nav__link">
+  <a href="#materials" class="md-nav__link">
     <span class="md-ellipsis">
-      Basic exercises
+      Materials
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#similar-presentations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Similar presentations
     </span>
   </a>
   
@@ -861,162 +872,22 @@
                   
 
 
-<h1 id="exercises-process-and-thread-distribution-and-binding">Exercises: Process and Thread Distribution and Binding<a class="headerlink" href="#exercises-process-and-thread-distribution-and-binding" title="Permanent link">&para;</a></h1>
-<h2 id="basic-exercises">Basic exercises<a class="headerlink" href="#basic-exercises" title="Permanent link">&para;</a></h2>
-<ol>
-<li>
-<p>We return to the hybrid MPI/OpenMP example from the
-    <a href="../E06-Slurm/">Slurm exercises</a>. </p>
-<div class="highlight"><pre><span></span><code>#!/bin/bash -l
-#SBATCH --partition=small           # Partition (queue) name
-#SBATCH --nodes=1                   # Total number of nodes
-#SBATCH --ntasks-per-node=8         # 8 MPI ranks per node
-#SBATCH --cpus-per-task=16          # 16 threads per task
-#SBATCH --time=5                    # Run time (minutes)
-#SBATCH --account=&lt;project_id&gt;      # Project for billing
+<h1 id="slurm-on-lumi">Slurm on LUMI<a class="headerlink" href="#slurm-on-lumi" title="Permanent link">&para;</a></h1>
+<!-- *Presenter: Kurt Lust*  -->
 
-module load LUMI/23.09
-module load lumi-CPEtools/1.1-cpeGNU-23.09
-
-srun --cpus-per-task=$SLURM_CPS_PER_TASK hybrid_check -n -r
-</code></pre></div>
-<p>Improve the thread affinity with OpenMP runtime variables. 
-Alter the script from the previous exercise and ensure that each thread is bound to
-a specific core. </p>
-<details class="solution">
-<summary>Click to see the solution.</summary>
-<p>Add the following OpenMP environment variables definition to your script:</p>
-<div class="highlight"><pre><span></span><code>export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
-export OMP_PROC_BIND=close
-export OMP_PLACES=cores
-</code></pre></div>
-<p>You can also use an MPI runtime variable to have MPI itself report a cpu mask summary for each MPI rank:</p>
-<div class="highlight"><pre><span></span><code>export MPICH_CPUMASK_DISPLAY=1
-</code></pre></div>
-<p>Note <code>hybrid_check</code> and MPICH cpu mask may not be consistent. It is found to be confusing.</p>
-<p>To avoid having to use the <code>--cpus-per-task</code> flag, you can also set the environment variable <code>SRUN_CPUS_PER_TASK</code>
-instead: </p>
-<div class="highlight"><pre><span></span><code>export SRUN_CPUS_PER_TASK=16 
-</code></pre></div>
-<p>On LUMI this is not strictly necessary as the Slurm SBATCH processing has been modified to set
-this environment variable, but that was a clunky patch to reconstruct some old behaviour of Slurm
-and we have already seen cases where the patch did not work (but that were more complex cases that
-required different environment variables for a similar function).</p>
-<p>The list of environment variables that the <code>srun</code> command can use as input, is actually confusing, as
-some start with <code>SLURM_</code> but a few start with <code>SRUN_</code> while the <code>SLURM_</code> equivalent is ignored.</p>
-<p>So we end up with the following script:</p>
-<div class="highlight"><pre><span></span><code>#!/bin/bash -l
-#SBATCH --partition=small           # Partition (queue) name
-#SBATCH --nodes=1                   # Total number of nodes
-#SBATCH --ntasks-per-node=8         # 8 MPI ranks per node
-#SBATCH --cpus-per-task=16          # 16 threads per task
-#SBATCH --time=5                    # Run time (minutes)
-#SBATCH --account=&lt;project_id&gt;      # Project for billing
-
-module load LUMI/23.09
-module load lumi-CPEtools/1.1-cpeGNU-23.09
-
-export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
-
-export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
-export OMP_PROC_BIND=close
-export OMP_PLACES=cores
-
-export MPICH_CPUMASK_DISPLAY=1
-
-srun hybrid_check -n -r
-</code></pre></div>
-<p>Note that MPI returns the CPU mask per process in binary form (a long string of zeros and ones)
-where the last number is for core 0. Also, you'll see that with the OpenMP environment variables
-set, it will look like only one core can be used by each MPI task, but that is because it only
-shows the mask for the main process which becomes OpenMP thread 0. Remove the OpenMP environment
-variables and you'll see that each task now gets 16 possible cores to run on, and the same is true
-for each OpenMP thread (at least when using the GNU compilers, the Cray compilers have different
-default behaviour for OpenMP which actually makes more sense for most scientific computing codes).</p>
-</details>
-</li>
-<li>
-<p><strong>Binding on GPU nodes:</strong>
-    Allocate one GPU node with one task per GPU and bind tasks to each CCD (8-core group sharing L3 cache) 
-    leaving the first (#0) and last (#7) cores unused. 
-    Run a program with 6 threads per task and inspect the actual task/threads affinity
-    using either the <code>hello_jobstep</code> executable generated in the previous exercise, or the
-    <code>gpu_check</code> command from tne <code>lumi-CPEtools</code> module.</p>
-<details class="solution">
-<summary>Click to see the solution.</summary>
-<p>We can chose between different approaches. In the example below,
-we follow the 
-<a href="../07-Binding/#linear-assignment-of-gcd-then-match-the-cores">"GPU binding: Linear GCD, match cores"</a> 
-slides and we only need to adapt the CPU mask:</p>
-<div class="highlight"><pre><span></span><code>#!/bin/bash -l
-#SBATCH --partition=standard-g  # Partition (queue) name
-#SBATCH --nodes=1               # Total number of nodes
-#SBATCH --ntasks-per-node=8     # 8 MPI ranks per node
-#SBATCH --gpus-per-node=8       # Allocate one gpu per MPI rank
-#SBATCH --time=5                # Run time (minutes)
-#SBATCH --account=&lt;project_id&gt;  # Project for billing
-#SBATCH --hint=nomultithread
-
-cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
-#!/bin/bash
-export ROCR_VISIBLE_DEVICES=\$SLURM_LOCALID
-exec \$*
-EOF
-chmod +x ./select_gpu_$SLURM_JOB_ID
-
-CPU_BIND=&quot;mask_cpu:0xfe000000000000,0xfe00000000000000,&quot;
-CPU_BIND=&quot;${CPU_BIND}0xfe0000,0xfe000000,&quot;
-CPU_BIND=&quot;${CPU_BIND}0xfe,0xfe00,&quot;
-CPU_BIND=&quot;${CPU_BIND}0xfe00000000,0xfe0000000000&quot;
-
-export OMP_NUM_THREADS=6
-export OMP_PROC_BIND=close
-export OMP_PLACES=cores
-
-srun --cpu-bind=${CPU_BIND} ./select_gpu_$SLURM_JOB_ID ./hello_jobstep
-</code></pre></div>
-<p>The base mask we need for this exercise, with each first and last core of a chiplet disabled,
-is <code>01111110</code> which is <code>0x7e</code> in hexadecimal notation.</p>
-<p>Save the job script as <code>job_step.sh</code> then simply submit it with sbatch from the directory
-that contains the <code>hello_jobstep</code> executable. Inspect the job output.</p>
-<p>Note that in fact as this program was compiled with the Cray compiler in the previous exercise,
-you don't even need to use the <code>OMP_*</code> environment variables above as the threads are 
-automatically pinned to a single core and as the correct number of threads is derived from
-the affinity mask for each task.</p>
-<p>Or using <code>gpu_check</code> instead (and we'll use the <code>cpeGNU</code> version again):</p>
-<div class="highlight"><pre><span></span><code>#!/bin/bash -l
-#SBATCH --partition=standard-g  # Partition (queue) name
-#SBATCH --nodes=1               # Total number of nodes
-#SBATCH --ntasks-per-node=8     # 8 MPI ranks per node
-#SBATCH --gpus-per-node=8       # Allocate one gpu per MPI rank
-#SBATCH --time=5                # Run time (minutes)
-#SBATCH --account=&lt;project_id&gt;  # Project for billing
-#SBATCH --hint=nomultithread
-
-module load LUMI/23.09
-module load lumi-CPEtools/1.1-cpeGNU-23.09
-
-cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
-#!/bin/bash
-export ROCR_VISIBLE_DEVICES=\$SLURM_LOCALID
-exec \$*
-EOF
-chmod +x ./select_gpu_$SLURM_JOB_ID
-
-CPU_BIND=&quot;mask_cpu:0xfe000000000000,0xfe00000000000000,&quot;
-CPU_BIND=&quot;${CPU_BIND}0xfe0000,0xfe000000,&quot;
-CPU_BIND=&quot;${CPU_BIND}0xfe,0xfe00,&quot;
-CPU_BIND=&quot;${CPU_BIND}0xfe00000000,0xfe0000000000&quot;
-
-export OMP_NUM_THREADS=6
-export OMP_PROC_BIND=close
-export OMP_PLACES=cores
-
-srun --cpu-bind=${CPU_BIND} ./select_gpu_$SLURM_JOB_ID gpu_check -l
-</code></pre></div>
-</details>
-</li>
-</ol>
+<p>Slurm is the batch job scheduler used on LUMI. As no two Slurm configurations are
+identical, even an experienced Slurm user should have a quick look at the notes of this
+talk to understand the particular configuration on LUMI.</p>
+<h2 id="materials">Materials<a class="headerlink" href="#materials" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-07-Slurm.pdf">Slides</a></li>
+<li><a href="../07-Slurm/">Notes</a></li>
+<li><a href="../E07-Slurm/">Exercises</a></li>
+</ul>
+<h2 id="similar-presentations">Similar presentations<a class="headerlink" href="#similar-presentations" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://lumi-supercomputer.github.io/LUMI-training-materials/2day-20240502/extra_06_Slurm/">"Slurm on LUMI" talk in the 2-day LUST introductory training in Amsterdam, May 2024</a></li>
+</ul>
 
 
 

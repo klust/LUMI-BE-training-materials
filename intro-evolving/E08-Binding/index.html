@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/E02-CPE/">
+        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/E08-Binding/">
       
       
       
@@ -18,7 +18,7 @@
     
     
       
-        <title>Exercises: HPE Cray Programming Environment - LUMI-BE training materials</title>
+        <title>Exercises: Process and Thread Distribution and Binding - LUMI-BE training materials</title>
       
     
     
@@ -104,7 +104,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#exercises-hpe-cray-programming-environment" class="md-skip">
+        <a href="#exercises-process-and-thread-distribution-and-binding" class="md-skip">
           Skip to content
         </a>
       
@@ -222,7 +222,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Exercises: HPE Cray Programming Environment
+              Exercises: Process and Thread Distribution and Binding
             
           </span>
         </div>
@@ -840,27 +840,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#compilation-of-a-program-1-a-simple-hello-world-program" class="md-nav__link">
+  <a href="#basic-exercises" class="md-nav__link">
     <span class="md-ellipsis">
-      Compilation of a program 1: A simple "Hello, world" program
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#compilation-of-a-program-2-a-program-with-blas" class="md-nav__link">
-    <span class="md-ellipsis">
-      Compilation of a program 2: A program with BLAS
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#compilation-of-a-program-3-a-hybrid-mpiopenmp-program" class="md-nav__link">
-    <span class="md-ellipsis">
-      Compilation of a program 3: A hybrid MPI/OpenMP program
+      Basic exercises
     </span>
   </a>
   
@@ -881,187 +863,162 @@
                   
 
 
-<h1 id="exercises-hpe-cray-programming-environment">Exercises: HPE Cray Programming Environment<a class="headerlink" href="#exercises-hpe-cray-programming-environment" title="Permanent link">&para;</a></h1>
-<p>See <a href="../#setting-up-for-the-exercises">the instructions</a>
-to set up for the exercises.</p>
-<p><em>These exercises are optional during the session, but useful if you expect 
-to be compiling software yourself. The source files mentioned can be found in
-the subdirectory CPE of the download.</em></p>
-<h2 id="compilation-of-a-program-1-a-simple-hello-world-program">Compilation of a program 1: A simple "Hello, world" program<a class="headerlink" href="#compilation-of-a-program-1-a-simple-hello-world-program" title="Permanent link">&para;</a></h2>
-<p>Four different implementations of a simple "Hello, World!" program are provided in the <code>CPE</code> subdirectory:</p>
-<ul>
-<li><code>hello_world.c</code> is an implementation in C,</li>
-<li><code>hello_world.cc</code> is an implementation in C++,</li>
-<li><code>hello_world.f</code> is an implementation in Fortran using the fixed format source form,</li>
-<li><code>hello_world.f90</code> is an implementation in Fortran using the more modern free format source form.</li>
-</ul>
-<p>Try to compile these programs using the programming environment of your choice.</p>
+<h1 id="exercises-process-and-thread-distribution-and-binding">Exercises: Process and Thread Distribution and Binding<a class="headerlink" href="#exercises-process-and-thread-distribution-and-binding" title="Permanent link">&para;</a></h1>
+<h2 id="basic-exercises">Basic exercises<a class="headerlink" href="#basic-exercises" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>We return to the hybrid MPI/OpenMP example from the
+    <a href="../E07-Slurm/">Slurm exercises</a>. </p>
+<div class="highlight"><pre><span></span><code>#!/bin/bash -l
+#SBATCH --partition=small           # Partition (queue) name
+#SBATCH --nodes=1                   # Total number of nodes
+#SBATCH --ntasks-per-node=8         # 8 MPI ranks per node
+#SBATCH --cpus-per-task=16          # 16 threads per task
+#SBATCH --time=5                    # Run time (minutes)
+#SBATCH --account=&lt;project_id&gt;      # Project for billing
+
+module load LUMI/23.09
+module load lumi-CPEtools/1.1-cpeGNU-23.09
+
+srun --cpus-per-task=$SLURM_CPS_PER_TASK hybrid_check -n -r
+</code></pre></div>
+<p>Improve the thread affinity with OpenMP runtime variables. 
+Alter the script from the previous exercise and ensure that each thread is bound to
+a specific core. </p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
-<p>We'll use the default version of the programming environment (24.03 at the moment of the
-last update of this page in November 2024), but in case you want to use
-a particular version, e.g., the 23.12 version, and want to be very sure that all modules are
-loaded correctly from the start you could consider using</p>
-<div class="highlight"><pre><span></span><code>module load cpe/23.12
-module load cpe/23.12
+<p>Add the following OpenMP environment variables definition to your script:</p>
+<div class="highlight"><pre><span></span><code>export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
+export OMP_PROC_BIND=close
+export OMP_PLACES=cores
 </code></pre></div>
-<p>So note that we do twice the same command as the first iteration does not always succeed to reload
-all modules in the correct version. Do not combine both lines into a single <code>module load</code> statement
-as that would again trigger the bug that prevents all modules to be reloaded in the first iteration.</p>
-<p>The sample programs that we asked you to compile do not use the GPU. So there are three programming
-environments that we can use: <code>PrgEnv-gnu</code>, <code>PrgEnv-cray</code> and <code>PrgEnv-aocc</code>. All three will work,
-and they work almost the same.</p>
-<p>Let's start with an easy case, compiling the C version of the program with the GNU C compiler.
-For this all we need to do is</p>
-<div class="highlight"><pre><span></span><code>module load PrgEnv-gnu
-cc hello_world.c
+<p>You can also use an MPI runtime variable to have MPI itself report a cpu mask summary for each MPI rank:</p>
+<div class="highlight"><pre><span></span><code>export MPICH_CPUMASK_DISPLAY=1
 </code></pre></div>
-<p>which will generate an executable named <code>a.out</code>. </p>
-<p>Of course it is better to give the executable a proper
-name which can be done with the <code>-o</code> compiler option:</p>
-<div class="highlight"><pre><span></span><code>module load PrgEnv-gnu
-cc hello_world.c -o hello_world.x
+<p>Note <code>hybrid_check</code> and MPICH cpu mask may not be consistent. It is found to be confusing.</p>
+<p>To avoid having to use the <code>--cpus-per-task</code> flag, you can also set the environment variable <code>SRUN_CPUS_PER_TASK</code>
+instead: </p>
+<div class="highlight"><pre><span></span><code>export SRUN_CPUS_PER_TASK=16 
 </code></pre></div>
-<p>Try running this program:</p>
-<div class="highlight"><pre><span></span><code>./hello_world.x
+<p>On LUMI this is not strictly necessary as the Slurm SBATCH processing has been modified to set
+this environment variable, but that was a clunky patch to reconstruct some old behaviour of Slurm
+and we have already seen cases where the patch did not work (but that were more complex cases that
+required different environment variables for a similar function).</p>
+<p>The list of environment variables that the <code>srun</code> command can use as input, is actually confusing, as
+some start with <code>SLURM_</code> but a few start with <code>SRUN_</code> while the <code>SLURM_</code> equivalent is ignored.</p>
+<p>So we end up with the following script:</p>
+<div class="highlight"><pre><span></span><code>#!/bin/bash -l
+#SBATCH --partition=small           # Partition (queue) name
+#SBATCH --nodes=1                   # Total number of nodes
+#SBATCH --ntasks-per-node=8         # 8 MPI ranks per node
+#SBATCH --cpus-per-task=16          # 16 threads per task
+#SBATCH --time=5                    # Run time (minutes)
+#SBATCH --account=&lt;project_id&gt;      # Project for billing
+
+module load LUMI/23.09
+module load lumi-CPEtools/1.1-cpeGNU-23.09
+
+export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
+
+export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
+export OMP_PROC_BIND=close
+export OMP_PLACES=cores
+
+export MPICH_CPUMASK_DISPLAY=1
+
+srun hybrid_check -n -r
 </code></pre></div>
-<p>to see that it indeed works. We did forget another important compiler option, but we'll discover
-that in the next exercise.</p>
-<p>The other programs are equally easy to compile using the compiler wrappers:</p>
-<div class="highlight"><pre><span></span><code>CC hello_world.cc -o hello_world.x
-ftn hello_world.f -o hello_world.x
-ftn hello_world.f90 -o hello_world.x
-</code></pre></div>
+<p>Note that MPI returns the CPU mask per process in binary form (a long string of zeros and ones)
+where the last number is for core 0. Also, you'll see that with the OpenMP environment variables
+set, it will look like only one core can be used by each MPI task, but that is because it only
+shows the mask for the main process which becomes OpenMP thread 0. Remove the OpenMP environment
+variables and you'll see that each task now gets 16 possible cores to run on, and the same is true
+for each OpenMP thread (at least when using the GNU compilers, the Cray compilers have different
+default behaviour for OpenMP which actually makes more sense for most scientific computing codes).</p>
 </details>
-<h2 id="compilation-of-a-program-2-a-program-with-blas">Compilation of a program 2: A program with BLAS<a class="headerlink" href="#compilation-of-a-program-2-a-program-with-blas" title="Permanent link">&para;</a></h2>
-<p>In the <code>CPE</code> subdirectory you'll find the C program <code>matrix_mult_C.c</code>
-and the Fortran program <code>matrix_mult_F.f90</code>. Both do the same thing: a matrix-matrix
-multiplication using the 6 different orders of the three nested loops involved in
-doing a matrix-matrix multiplication, and a call to the BLAS routine DGEMM that does the same
-for comparison.</p>
-<p>Compile either of these programs using the Cray LibSci library for the BLAS routine.
-Do not use OpenMP shared memory parallelisation. The code does not use MPI.</p>
-<p>The resulting executable takes one command line argument, the size of the square matrix.
-Run the script using <code>1000</code> for the matrix size and see what happens.</p>
-<p>Note that the time results may be very unreliable as we are currently doing this on the login
-nodes. In the session of Slurm you'll learn how to request compute nodes and it might be
-interesting to redo this on a compute node with a larger matrix size as the with a matrix size
-of 1000 all data may stay in the third level cache and you will not notice the differences that
-you should note. Also, because these nodes are shared with a lot of people, any benchmarking
-is completely unreliable.</p>
-<!--
-If this program takes more than half a minute or so before the first result line in the table,
-starting with `ijk-variant`, is printed, you've very likely done something wrong (unless the load
-on the system is extreme). In fact, if you've done things well the time reported for the
-`ijk`-variant should be well under 3 seconds for both the C and Fortran versions...
--->
-<p>If you're doing things right, the time reported for the
-<code>ijk</code>-variant should be well under 3 seconds for both the C and Fortran versions...</p>
+</li>
+<li>
+<p><strong>Binding on GPU nodes:</strong>
+    Allocate one GPU node with one task per GPU and bind tasks to each CCD (8-core group sharing L3 cache) 
+    leaving the first (#0) and last (#7) cores unused. 
+    Run a program with 6 threads per task and inspect the actual task/threads affinity
+    using either the <code>hello_jobstep</code> executable generated in the previous exercise, or the
+    <code>gpu_check</code> command from tne <code>lumi-CPEtools</code> module.</p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
-<p>Just as in the previous exercise, this is a pure CPU program so we can chose between the
-same three programming environments.</p>
-<p>The one additional "difficulty" is that we need to link with the BLAS library. This is very easy however in 
-the HPE Cray PE if you use the compiler wrappers rather than calling the compilers yourself:
-you only need to make sure that the <code>cray-libsci</code> module is loaded and the wrappers will take
-care of the rest. And on most systems (including LUMI) this module will be loaded automatically
-when you load the <code>PrgEnv-*</code> module.</p>
-<p>To compile with the GNU C compiler, all you need to do is</p>
-<div class="highlight"><pre><span></span><code>module load PrgEnv-gnu
-cc -O3 matrix_mult_C.c -o matrix_mult_C_gnu.x
+<p>We can chose between different approaches. In the example below,
+we follow the 
+<a href="../08-Binding/#linear-assignment-of-gcd-then-match-the-cores">"GPU binding: Linear GCD, match cores"</a> 
+slides and we only need to adapt the CPU mask:</p>
+<div class="highlight"><pre><span></span><code>#!/bin/bash -l
+#SBATCH --partition=standard-g  # Partition (queue) name
+#SBATCH --nodes=1               # Total number of nodes
+#SBATCH --ntasks-per-node=8     # 8 MPI ranks per node
+#SBATCH --gpus-per-node=8       # Allocate one gpu per MPI rank
+#SBATCH --time=5                # Run time (minutes)
+#SBATCH --account=&lt;project_id&gt;  # Project for billing
+#SBATCH --hint=nomultithread
+
+cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
+#!/bin/bash
+export ROCR_VISIBLE_DEVICES=\$SLURM_LOCALID
+exec \$*
+EOF
+chmod +x ./select_gpu_$SLURM_JOB_ID
+
+CPU_BIND=&quot;mask_cpu:0xfe000000000000,0xfe00000000000000,&quot;
+CPU_BIND=&quot;${CPU_BIND}0xfe0000,0xfe000000,&quot;
+CPU_BIND=&quot;${CPU_BIND}0xfe,0xfe00,&quot;
+CPU_BIND=&quot;${CPU_BIND}0xfe00000000,0xfe0000000000&quot;
+
+export OMP_NUM_THREADS=6
+export OMP_PROC_BIND=close
+export OMP_PLACES=cores
+
+srun --cpu-bind=${CPU_BIND} ./select_gpu_$SLURM_JOB_ID ./hello_jobstep
 </code></pre></div>
-<p>will generate the executable <code>matrix_mult_C_gnu.x</code>.</p>
-<p>Note that we add the <code>-O3</code> option and it is very important to add either <code>-O2</code> or <code>-O3</code> as by default
-the GNU compiler will generate code without any optimization for debugging purposes, and that code is
-in this case easily four times or more slower. So if you got much longer run times than indicated this
-is likely the mistake that you made.</p>
-<p>To use the Cray C compiler instead only one small change is needed: Loading a different programming 
-environment module:</p>
-<div class="highlight"><pre><span></span><code>module load PrgEnv-cray
-cc -O3 matrix_mult_C.c -o matrix_mult_C_cray.x
-</code></pre></div>
-<p>will generate the executable <code>matrix_mult_C_cray.x</code>.</p>
-<p>Likewise for the AMD AOCC compiler we can try with loading yet another <code>PrgEnv-*</code> module:</p>
-<div class="highlight"><pre><span></span><code>module load PrgEnv-aocc
-cc -O3 matrix_mult_C.c -o matrix_mult_C_aocc.x
-</code></pre></div>
-<p>but it turns out that this fails with linker error messages about not being able to find the
-<code>sin</code> and <code>cos</code> functions. When using the AOCC compiler the <code>libm</code> library with basic math functions is
-not linked automatically, but this is easily done by adding the <code>-lm</code> flag:</p>
-<div class="highlight"><pre><span></span><code>module load PrgEnv-aocc
-cc -O3 matrix_mult_C.c -lm -o matrix_mult_C_aocc.x
-</code></pre></div>
-<p>For the Fortran version of the program we have to use the <code>ftn</code> compiler wrapper instead, and the issue
-with the math libraries in the AOCC compiler does not occur. So we get</p>
-<div class="highlight"><pre><span></span><code>module load PrgEnv-gnu
-ftn -O3 matrix_mult_F.f90 -o matrix_mult_F_gnu.x
-</code></pre></div>
-<p>for the GNU Fortran compiler,</p>
-<div class="highlight"><pre><span></span><code>module load PrgEnv-cray
-ftn -O3 matrix_mult_F.f90 -o matrix_mult_F_cray.x
-</code></pre></div>
-<p>for the Cray Fortran compiler and</p>
-<div class="highlight"><pre><span></span><code>module load PrgEnv-aocc
-ftn -O3 matrix_mult_F.f90 -o matrix_mult_F_aocc.x
-</code></pre></div>
-<p>for the AMD Fortran compiler.</p>
-<p>When running the program you will see that even though the 6 different loop orderings 
-produce the same result, the time needed to compute the matrix-matrix product is very
-different and those differences would be even more pronounced with bigger matrices
-(which you can do after the session on using Slurm).</p>
-<p>The exercise also shows that not all codes are equal even if they produce a result of the
-same quality. The six different loop orderings run at very different speed, and none of our
-simple implementations can beat a good library, in this case the BLAS library included in
-LibSci. The optimal variants are also different for C and Fortran as the matrix elements
-are stored in a different order in memory.</p>
-<p>The results with the Cray Fortran compiler are particularly interesting. The result for
-the BLAS library is slower which we do not yet understand, but it also turns out that 
-for four of the six loop orderings we get the same result as with the BLAS library DGEMM
-routine. It looks like the compiler simply recognized that this was code for a matrix-matrix
-multiplication and replaced it with a call to the BLAS library. The Fortran 90 matrix
-multiplication is also replaced by a call of the DGEMM routine. To confirm all this,
-unload the <code>cray-libsci</code> module and try to compile again and you will see five error
-messages about not being able to find DGEMM. If you don't want the Cray Fortran compiler
-to recognise patterns that it can replace with library routines, add the <code>-h nopattern</code>
-flag to the command line:</p>
-<div class="highlight"><pre><span></span><code>module load PrgEnv-cray
-ftn -O3 -h nopattern matrix_mult_F.f90 -o matrix_mult_F_cray.x
+<p>The base mask we need for this exercise, with each first and last core of a chiplet disabled,
+is <code>01111110</code> which is <code>0x7e</code> in hexadecimal notation.</p>
+<p>Save the job script as <code>job_step.sh</code> then simply submit it with sbatch from the directory
+that contains the <code>hello_jobstep</code> executable. Inspect the job output.</p>
+<p>Note that in fact as this program was compiled with the Cray compiler in the previous exercise,
+you don't even need to use the <code>OMP_*</code> environment variables above as the threads are 
+automatically pinned to a single core and as the correct number of threads is derived from
+the affinity mask for each task.</p>
+<p>Or using <code>gpu_check</code> instead (and we'll use the <code>cpeGNU</code> version again):</p>
+<div class="highlight"><pre><span></span><code>#!/bin/bash -l
+#SBATCH --partition=standard-g  # Partition (queue) name
+#SBATCH --nodes=1               # Total number of nodes
+#SBATCH --ntasks-per-node=8     # 8 MPI ranks per node
+#SBATCH --gpus-per-node=8       # Allocate one gpu per MPI rank
+#SBATCH --time=5                # Run time (minutes)
+#SBATCH --account=&lt;project_id&gt;  # Project for billing
+#SBATCH --hint=nomultithread
+
+module load LUMI/23.09
+module load lumi-CPEtools/1.1-cpeGNU-23.09
+
+cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
+#!/bin/bash
+export ROCR_VISIBLE_DEVICES=\$SLURM_LOCALID
+exec \$*
+EOF
+chmod +x ./select_gpu_$SLURM_JOB_ID
+
+CPU_BIND=&quot;mask_cpu:0xfe000000000000,0xfe00000000000000,&quot;
+CPU_BIND=&quot;${CPU_BIND}0xfe0000,0xfe000000,&quot;
+CPU_BIND=&quot;${CPU_BIND}0xfe,0xfe00,&quot;
+CPU_BIND=&quot;${CPU_BIND}0xfe00000000,0xfe0000000000&quot;
+
+export OMP_NUM_THREADS=6
+export OMP_PROC_BIND=close
+export OMP_PLACES=cores
+
+srun --cpu-bind=${CPU_BIND} ./select_gpu_$SLURM_JOB_ID gpu_check -l
 </code></pre></div>
 </details>
-<h2 id="compilation-of-a-program-3-a-hybrid-mpiopenmp-program">Compilation of a program 3: A hybrid MPI/OpenMP program<a class="headerlink" href="#compilation-of-a-program-3-a-hybrid-mpiopenmp-program" title="Permanent link">&para;</a></h2>
-<p>The file <code>mpi_omp_hello.c</code> is a hybrid MPI and OpenMP C program that sends a message
-from each thread in each MPI rank. It is basically a simplified version of the
-programs found in the <code>lumi-CPEtools</code> modules that can be used to quickly check 
-the core assignment in a hybrid MPI and OpenMP job (see later in this tutorial).
-It is again just a CPU-based program.</p>
-<p>Compile the program with your favourite C compiler on LUMI.</p>
-<p>We have not yet seen how to start an MPI program. However, you can run the executable
-on the login nodes and it will then contain just a single MPI rank. </p>
-<details class="solution">
-<summary>Click to see the solution.</summary>
-<p>In the HPE Cray PE environment, you don't use <code>mpicc</code> to compile a C MPI program,
-but you just use the <code>cc</code> wrapper as for any other C program. To enable MPI you 
-have to make sure that the <code>cray-mpich</code> module is loaded. This module will usually
-be loaded by loading one of the <code>PrgEnv-*</code> modules, but only if the right network
-target module, which is <code>craype-network-ofi</code>, is also already loaded. </p>
-<p>Compiling the program is very simple:</p>
-<div class="highlight"><pre><span></span><code>module load PrgEnv-gnu
-cc -O3 -fopenmp mpi_omp_hello.c -o mpi_omp_hello_gnu.x
-</code></pre></div>
-<p>to compile with the GNU C compiler, </p>
-<div class="highlight"><pre><span></span><code>module load PrgEnv-cray
-cc -O3 -fopenmp mpi_omp_hello.c -o mpi_omp_hello_cray.x
-</code></pre></div>
-<p>to compile with the Cray C compiler, and</p>
-<div class="highlight"><pre><span></span><code>module load PrgEnv-aocc
-cc -O3 -fopenmp mpi_omp_hello.c -o mpi_omp_hello_aocc.x
-</code></pre></div>
-<p>to compile with the AMD AOCC compiler.</p>
-<p>To run the executables it is not
-even needed to have the respective <code>PrgEnv-*</code> module loaded since the binaries
-will use a copy of the libraries stored in a default directory, though there have
-been bugs in the past preventing this to work with <code>PrgEnv-aocc</code>.</p>
-</details>
+</li>
+</ol>
 
 
 
