@@ -3,11 +3,11 @@
 ## Distributed nature of LUMI support
 
 <figure markdown style="border: 1px solid #000">
-  ![Distributed nature of support (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/DistributedNature1.png){ loading=lazy }
+  ![Distributed nature of support (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/DistributedNature1.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![Distributed nature of support (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/DistributedNature2.png){ loading=lazy }
+  ![Distributed nature of support (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/DistributedNature2.png){ loading=lazy }
 </figure>
 
 User support for LUMI comes from several parties. Unfortunately, as every participating consortium countries
@@ -87,7 +87,7 @@ team in which you collaborate on a project!
 ### Take a training!
 
 <figure markdown style="border: 1px solid #000">
-  ![L0 support: Take a training!](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/L0Training.png){ loading=lazy }
+  ![L0 support: Take a training!](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/L0Training.png){ loading=lazy }
 </figure>
 
 There exist system-specific and application-specific trainings. 
@@ -135,7 +135,7 @@ The LUST has developed extensive documentation for LUMI. That documentation is s
     how to install software, etc.
 
     <figure markdown style="border: 1px solid #000">
-      ![L0 support: Check the docs! (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/L0ReadTheDocs1.png){ loading=lazy }
+      ![L0 support: Check the docs! (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/L0ReadTheDocs1.png){ loading=lazy }
     </figure>
 
 2.  The [LUMI Software Library](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/) contains
@@ -144,7 +144,7 @@ The LUST has developed extensive documentation for LUMI. That documentation is s
     on LUMI.
 
     <figure markdown style="border: 1px solid #000">
-      ![L0 support: Check the docs! (3)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/L0ReadTheDocs3.png){ loading=lazy }
+      ![L0 support: Check the docs! (3)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/L0ReadTheDocs3.png){ loading=lazy }
     </figure>
 
     That part of the documentation is generated automatically from information in the various repositories
@@ -164,7 +164,7 @@ Some examples:
     explain how much quota you have in what partition.
 
     <figure markdown style="border: 1px solid #000">
-      ![L0 support: Check the docs! (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/L0ReadTheDocs2.png){ loading=lazy }
+      ![L0 support: Check the docs! (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/L0ReadTheDocs2.png){ loading=lazy }
     </figure>
 
 2.  Users of the Finnish national systems have been told to use a tool called "Tykky"
@@ -173,7 +173,7 @@ Some examples:
     [LUMI Software Library](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/):
 
     <figure markdown style="border: 1px solid #000">
-      ![L0 support: Check the docs! (4)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/L0ReadTheDocs4.png){ loading=lazy }
+      ![L0 support: Check the docs! (4)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/L0ReadTheDocs4.png){ loading=lazy }
     </figure>
 
     It is, but with a different name as foreigners can't pronounce those Finnish names
@@ -183,7 +183,7 @@ Some examples:
     [LUMI Software Library](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/)
     
     <figure markdown style="border: 1px solid #000">
-      ![L0 support: Check the docs! (5)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/L0ReadTheDocs5.png){ loading=lazy }
+      ![L0 support: Check the docs! (5)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/L0ReadTheDocs5.png){ loading=lazy }
     </figure>
 
     So yes, `htop` is on LUMI, but if you read the page you'll see it is in a module
@@ -193,7 +193,7 @@ Some examples:
 ### Talk to your colleagues
 
 <figure markdown style="border: 1px solid #000">
-  ![L0 support: Talk to your colleagues](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/L0Colleagues.png){ loading=lazy }
+  ![L0 support: Talk to your colleagues](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/L0Colleagues.png){ loading=lazy }
 </figure>
 
 A LUMI project is meant to correspond to a coherent research project in which usually multiple
@@ -227,15 +227,15 @@ at a course or event.
 ## L1 and basic L2 support: LUST
 
 <figure markdown style="border: 1px solid #000">
-  ![L1 and basic L2: LUST (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/LUST1.png){ loading=lazy }
+  ![L1 and basic L2: LUST (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/LUST1.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![L1 and basic L2: LUST (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/LUST2.png){ loading=lazy }
+  ![L1 and basic L2: LUST (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/LUST2.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![L1 and basic L2: LUST (3)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/LUST3.png){ loading=lazy }
+  ![L1 and basic L2: LUST (3)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/LUST3.png){ loading=lazy }
 </figure>
 
 The LUMI User Support Team is responsible for providing L1 and basic L2 support to users of the system.
@@ -290,7 +290,7 @@ request may remain unnoticed for a long time.
 ### How not to write a ticket
 
 <figure markdown style="border: 1px solid #000">
-  ![How not to write a ticket](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/TicketsHowNot.png){ loading=lazy }
+  ![How not to write a ticket](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/TicketsHowNot.png){ loading=lazy }
 </figure>
 
 -   Use a meaningful subject line. All we see in the ticket overview is a number and the subject
@@ -323,7 +323,7 @@ request may remain unnoticed for a long time.
 The improved version could be something like this:
 
 <figure markdown style="border: 1px solid #000">
-  ![Improved version login ticket](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/TicketsImprovedLogin.png){ loading=lazy }
+  ![Improved version login ticket](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/TicketsImprovedLogin.png){ loading=lazy }
 </figure>
 
 -   The subject line makes it stand out as the person doing login tickets can quickly find back
@@ -350,7 +350,7 @@ The improved version could be something like this:
 ### 1 ticket = 1 issue = 1 ticket
 
 <figure markdown style="border: 1px solid #000">
-  ![1 ticket = 1 issue = 1 ticket](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/Tickets1issue1ticket.png){ loading=lazy }
+  ![1 ticket = 1 issue = 1 ticket](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/Tickets1issue1ticket.png){ loading=lazy }
 </figure>
 
 -   If you have multiple unrelated issues, submit them as multiple tickets. In a support team, each member
@@ -389,7 +389,7 @@ The improved version could be something like this:
 ### The subject line is important!
 
 <figure markdown style="border: 1px solid #000">
-  ![Subject line is important](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/TicketsSubject.png){ loading=lazy }
+  ![Subject line is important](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/TicketsSubject.png){ loading=lazy }
 </figure>
 
 -   The support team has two identifiers in your ticket: Your mail address and the subject that you 
@@ -428,11 +428,11 @@ Some proper examples are
 ### Think with us
 
 <figure markdown style="border: 1px solid #000">
-  ![Think with us (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/TicketsThinkWithUs1.png){ loading=lazy }
+  ![Think with us (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/TicketsThinkWithUs1.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![Think with us (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/TicketsThinkWithUs2.png){ loading=lazy }
+  ![Think with us (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/TicketsThinkWithUs2.png){ loading=lazy }
 </figure>
 
 -   Provide enough information for us to understand who you are:
@@ -533,7 +533,7 @@ Some proper examples are
 ### Beware of the XY-problem!
 
 <figure markdown style="border: 1px solid #000">
-  ![Beware of the XY-problem](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/TicketsXY.png){ loading=lazy }
+  ![Beware of the XY-problem](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/TicketsXY.png){ loading=lazy }
 </figure>
 
 Partly quoting from [xyproblem.info](https://xyproblem.info): 
@@ -576,7 +576,7 @@ After all, if your analysis of your problem was fully correct, you wouldn't need
 ### Restrictions
 
 <figure markdown style="border: 1px solid #000">
-  ![help desk restrictions](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/HelpdeskRestrictions.png){ loading=lazy }
+  ![help desk restrictions](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/HelpdeskRestrictions.png){ loading=lazy }
 </figure>
 
 Contrary to what you may be familiar with from your local Tier-2 system and support staff,
@@ -618,19 +618,19 @@ As a result,
 ### What support can and cannot do
 
 <figure markdown style="border: 1px solid #000">
-  ![What support can and cannot do (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/HelpdeskCanCannot1.png){ loading=lazy }
+  ![What support can and cannot do (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/HelpdeskCanCannot1.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![What support can and cannot do (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/HelpdeskCanCannot2.png){ loading=lazy }
+  ![What support can and cannot do (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/HelpdeskCanCannot2.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![What support can and cannot do (3)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/HelpdeskCanCannot3.png){ loading=lazy }
+  ![What support can and cannot do (3)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/HelpdeskCanCannot3.png){ loading=lazy }
 </figure>
 
 <figure markdown style="border: 1px solid #000">
-  ![What support can and cannot do (4)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-Support/HelpdeskCanCannot4.png){ loading=lazy }
+  ![What support can and cannot do (4)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-06-Support/HelpdeskCanCannot4.png){ loading=lazy }
 </figure>
 
 -   The LUST and LUMI-BE help desk do not replace a good introductory HPC course nor are they a 

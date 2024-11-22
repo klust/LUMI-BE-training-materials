@@ -20,9 +20,17 @@ LUMI is one of the larger EuroHPC supercomputers. EuroHPC currently funds
     [Leonardo](https://wiki.u-gov.it/confluence/display/SCAIUS/UG3.2%3A+LEONARDO+UserGuide) (in Italy)
     and [MareNostrum 5](https://www.bsc.es/supportkc/docs/MareNostrum5/intro/) (in Spain)
 
-4.  A decision has already been taken on two exascale supercomputers: 
+3.  A decision has already been taken on two exascale supercomputers: 
     [Jupiter](https://www.fz-juelich.de/en/ias/jsc/jupiter) (in Germany) and
-    [Jules Verne (consortium name)](https://eurohpc-ju.europa.eu/jules-verne-consortium-will-host-new-eurohpc-exascale-supercomputer-france-2023-06-20_en) (in France).
+    [Alice Recoque](https://eurohpc-ju.europa.eu/new-call-procure-european-exascale-supercomputer-alice-recoque-2024-09-09_en), 
+    hosted by the [Jules Verne consortium](https://eurohpc-ju.europa.eu/jules-verne-consortium-will-host-new-eurohpc-exascale-supercomputer-france-2023-06-20_en) (in France).
+    Jupiter is currently being built.
+
+    The construction of Jupiter has already started and will continue in the first half of 2025.
+
+4.  Another 4 mid-range systems are currently under procurement or under construction,
+    including [Daedalus](https://eurohpc-ju.europa.eu/daedalus-call-acquire-new-european-world-class-supercomputer-greece-2024-06-25_en) (in Greece) and
+    [Arrhenius](https://eurohpc-ju.europa.eu/sweden-will-host-new-eurohpc-supercomputer-2023-06-19_en) (in Sweden).
 
 Depending on the machine, EuroHPC pays one third up to half of the bill, while the remainder of the budget
 comes from the hosting country, usually with the help of a consortium of countries.
@@ -451,7 +459,7 @@ Web links:
     The list of pinned apps may change over time, and more apps are available via the menu at the top.
     Most apps will run in the context of a job, so you will need billing units, and those apps will also
     present you with a form to chose the resources you want to use, but that will only be discussed in
-    [the session on Slurm](06-Slurm.md).
+    [the session on Slurm](07-Slurm.md).
 
     Two apps don't run in the context of a job: The "Login node shell" and "Home Directory" apps, and we'll first
     have a look at those.
@@ -500,7 +508,7 @@ Web links:
     [xfce desktop environment](https://www.xfce.org/). This app needs to run in the context of a job
     and although it can run on several partitions on LUMI, its main use is to be able to use some
     visualisation applications, so your best choice is likely to use the partition with visualisation
-    GPUs (see the [session on Slurm](06-Slurm.md)). As we have not discussed jobs yet, we will skip
+    GPUs (see the [session on Slurm](07-Slurm.md)). As we have not discussed jobs yet, we will skip
     how to fill in the form that is presented to you.
 
     The desktop is basically run in a [VNC session](https://en.wikipedia.org/wiki/Virtual_Network_Computing),
@@ -569,231 +577,10 @@ can tell you how to configure tools to use an external service that they don't h
 to. But, e.g., the VSC Tier-0 support team might be able to help you to configure a tool
 to access the data services that VSC offers.
 
+Using the LUMI-O object storage will be further discussed in the 
+["LUMI-O Object Storage" session of this course](10-ObjectStorage.md).
+
 Unfortunately there is no support yet for Globus or other forms of gridFTP. 
-
-
-## What is LUMI-O?
-
-<figure markdown style="border: 1px solid #000">
-  ![Slide What is LUMI-O (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/LUMIOWhatIs_1.png){ loading=lazy }
-</figure>
-
-<figure markdown style="border: 1px solid #000">
-  ![Slide What is LUMI-O (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/LUMIOWhatIs_2.png){ loading=lazy }
-</figure>
-
-<!-- BELGIUM -->
-LUMI-O is an object storage system (based on Ceph). 
-It is similar to a system that CSC, the company operating LUMI, built for users of Finland
-and is known there as Allas, though LUMI doesn't provide all the functionality of Allas.
-
-<!-- GENERAL More general version 
-LUMI-O is an object storage system (based on Ceph). Users from Finland may be familiar with 
-Allas, which is similar to the LUMI object storage system, though LUMI doesn't provide all
-the functionality of Allas.
--->
-
-Object file systems need specific tools to access data. They are usually not mounted as a regular
-filesystem (though some tools can make them appear as a regular file system) and accessing them
-needs authentication via temporary keys that are different from your ssh keys and are not only
-bound to you, but also to the project for which you want to access LUMI-O. So if you want to use
-LUMI-O for multiple projects simultaneously, you'll need keys for each project.
-
-Object storage is not organised in files and directories. A much flatter structure is used with buckets
-that contain objects:
-
--   **Buckets**: Containers used to store one or more objects. Object storage uses a flat structure with 
-   only one level which means that buckets cannot contain other buckets.
-
--   **Objects**: Any type of data. An object is stored in a bucket.
-
--   **Metadata**: Both buckets and objects have metadata specific to them. The metadata of a bucket specifies, 
-    e.g., the access rights to the bucket. While traditional file systems have fixed metadata (filename, 
-    creation date, type, etc.), an object storage allows you to add custom metadata.
-
-Objects can be served on the web also. This is in fact how recordings of some of the LUST
-courses are served currently. However, LUMI-O is not meant to be used as a data publishing
-service and is not an alternative to services provided by, e.g., EUDAT or several local
-academic service providers.
-
-The object storage can be easily reached from outside LUMI also. In fact, during
-downtimes, LUMI-O is often still operational as its software stack is managed completely
-independently from LUMI. It is therefore also very well suited as a mechanism for data
-transfer to and from LUMI. Moreover, tools for object storage often perform much better
-on high latency long-distance connections than tools as `sftp`.
-
-LUMI-O is based on the [Ceph object file system](https://ceph.io/en/). 
-It has a total capacity of 30 PB. 
-Storage is persistent for the duration of a project.
-Projects get a quota of 150 TB and can create up to 1K buckets and 500K objects per
-bucket. These quota are currently fixed and cannot be modified.
-Storage on LUMI-O is billed at 0.5 TB·hour per TB per hour, half that of
-/scratch or /project. It can be a good alternative to store data from your project
-that still needs to be transferred but is not immediately needed by jobs, or to
-maintain backups on LUMI yourself.
-
-
-## Accessing LUMI-O
-
-<figure markdown style="border: 1px solid #000">
-  ![Slide Accessing LUMI-O](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/LUMIOAccessing.png){ loading=lazy }
-</figure>
-
-Access to LUMI-O is based on temporary keys that need to be generated via a web interface
-(though there may be alternatives in the future).
-
-There are currently three command-line tools pre-installed on LUMI: 
-[rclone](https://docs.lumi-supercomputer.eu/storage/lumio/#rclone)
-(which is the easiest tool if you want public and private data), 
-[s3cmd](https://docs.lumi-supercomputer.eu/storage/lumio/#s3cmd) 
-and [restic](https://docs.lumi-supercomputer.eu/storage/lumio/#restic).
-
-But you can also access LUMI-O with similar tools from outside LUMI. Configuring them
-may be a bit tricky and the LUMI User Support Team cannot help you with each and every client
-tool on your personal machine. However, the web interface that is used to generate the keys,
-can also generate code snippets or configuration file snippets for various tools, and
-that will make configuring them a lot easier.
-
-In the future access via Open OnDemand should also become possible.
-
-
-
-### Key generation
-
-<figure markdown style="border: 1px solid #000">
-  ![Slide Accessing LUMI-O: Key generation](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/LUMIOAccessingKeyGeneration.png){ loading=lazy }
-</figure>
-
-Keys are generated via a web interface that can be found at
-[auth.lumidata.eu](https://auth.lumidata.eu).
-In the future it should become possible to do so directly in the Open OnDemand interface,
-and may even from the command line.
-
-Let's walk through the interface:
-
-!!! Demo "A walk through the credentials management web interface of LUMI-O"
-    After entering the URL [auth.lumidata.eu](https://auth.lumidata.eu), you're presented
-    with a welcome screen on which you have to click the "Go to login" button.
-
-    <figure markdown style="border: 1px solid #000">
-      ![Slide Accessing LUMI-O: Credentials management web interface (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/LUMIOCredentialsWeb_01.png){ loading=lazy }
-    </figure>
-
-    This will present you with the already familiar (from Open OnDemand) screen to select
-    your authentication provider:
-
-    <figure markdown style="border: 1px solid #000">
-      ![Slide Accessing LUMI-O: Credentials management web interface (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/LUMIOCredentialsWeb_02.png){ loading=lazy }
-    </figure>
-
-    Proceed with login in through your relevant authentication provider (not shown here)
-    and you will be presented with a screen that show your active projects:
-
-    <figure markdown style="border: 1px solid #000">
-      ![Slide Accessing LUMI-O: Credentials management web interface (3)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/LUMIOCredentialsWeb_03.png){ loading=lazy }
-    </figure>
-
-    Click the project for which you want to generate a key, and the column to the right will appear.
-    Chose how long the key should be valid (1 week or 168 hours is the maximum currently, but the
-    life can be extended) and a description for the key. The latter is useful if you generate multiple
-    keys for different use. E.g., for security reasons you may want to use different keys from different
-    machines so that one machine can be disabled quickly if the machine would be compromised or stolen.
-
-    Next click on the "Generate key" button, and a new key will appear in the "Available keys" section:
-
-    <figure markdown style="border: 1px solid #000">
-      ![Slide Accessing LUMI-O: Credentials management web interface (4)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/LUMIOCredentialsWeb_04.png){ loading=lazy }
-    </figure>
-
-    Now click on the key to get more information about the key: 
-
-    <figure markdown style="border: 1px solid #000">
-      ![Slide Accessing LUMI-O: Credentials management web interface (5)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/LUMIOCredentialsWeb_05.png){ loading=lazy }
-    </figure>
-
-    At the top of the screen you see three elements that will be important if you use the LUMI command line tool
-    `lumio-conf` to generate configuration files for `rclone` and `s3cmd`: the project number (but you knew that one),
-    the "Access key" and "Secret key".
-
-    Scrolling down a bit more:
-
-    <figure markdown style="border: 1px solid #000">
-      ![Slide Accessing LUMI-O: Credentials management web interface (6)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/LUMIOCredentialsWeb_06.png){ loading=lazy }
-    </figure>
-
-    The "Extend key" field can be used to extend the life of the key, to a maximum of 168 hours past the current time.
-
-    The "Configuration templates" is the way to generate code snippets or configuration file snippets for various tools
-    (see the list on the slide). After selecting "rclone" and clicking the "Generate" button, a new screen opens:
-
-    <figure markdown style="border: 1px solid #000">
-      ![Slide Accessing LUMI-O: Credentials management web interface (7)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/LUMIOCredentialsWeb_07.png){ loading=lazy }
-    </figure>
-
-    This screen shows us the snippet for the rclone configuration file (on Linux it is
-    `~/.config/rclone/rclone.conf`). Notice that it creates to so-called endpoints. In the slide
-    this is `lumi-465001102-private` and `lumi-465001102-public`, for storing buckets and objects which are private
-    or public (i.e., also web-accessible).
-
-
-## Configuring LUMI-O tools
-
-<figure markdown style="border: 1px solid #000">
-  ![Slide Configuring LUMI-O tools](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/LUMIOConfiguringTools.png){ loading=lazy }
-</figure>
-
-On LUMI, you can use the `lumnio-conf` tool to configure `rclone` and `s3cmd`. 
-To access the tool, you need to load the `lumio` module first, which is always available.
-The same module will also load a module that makes `rclone`, `s3cmd` and `restic` available.
-
-Whe starting `lumio-conf`, it will present with a couple of questions: The project number
-associated with the key, the access key and the secret key. We have shown above where in the web
-interface that information can be found. A future version may or may not be more automatic.
-As we shall see in the next slide, currently the `rclone` configuration generated by this tool
-is (unfortunately) different from the one generated by the web interface.
-
-Another way to configure tools for object storage access is simply via the code snippets
-and configuration files snippets as has already been discussed before. The same snippets 
-should also work when you run the tools on a different computer.
-
-
-## rclone on LUMI-O
-
-<figure markdown style="border: 1px solid #000">
-  ![Slide rclone on LUMI-O](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/LUMIORclone.png){ loading=lazy }
-</figure>
-
-The `rclone` configuration file for LUMI-O contains two end points, and unfortunately at the moment
-both ways discussed on the previous slide, produce different end points.
-
--   When using `lumio-conf`, you'll get:
-    -   `lumi-o` as the end point for buckets and object that should be private, i.e., not publicly
-        accessible via the web interface, and
-    -   `lumi-pub` for buckets and objects that should be publicly accessible. It does appear to be
-        possible to have both types in a single bucket though.
--   When using the web generator you get specific end points for each project, so it is possible
-    to access data from multiple projects simultaneously from a single configuration file:
-    - `lumi-46YXXXXXX-private` is the end point to be used for buckets and objects that should be private, and
-    - `lumi-46YXXXXXX-public` is the end point for data that should be publicly accessible.
-
-A description of the main `rclone` commands is outside the scope of this tutorial, but some options
-are discussed in [the LUMI documentation](https://docs.lumi-supercomputer.eu/storage/lumio/#rclone),
-and the same page also contains some documentation for `s3cmd` and `restic`. See the links below
-for even more documentation.
-
-
-## Further LUMI-O documentation
-
--   [Documentation for the LUMI-O object storage service](https://docs.lumi-supercomputer.eu/storage/)
--   Software for LUMI-O on LUMI is provided through the
-    [`lumio` module](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/l/lumio/) which
-    provides the configuration tool on top of the software and the
-    [`lumio-ext-tools` module](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/l/lumio-ext-tools/)
-    providing rclone, S3cmd and restic and links to the documentation of those tools.
-
-    -   [rclone documentation](https://rclone.org/docs/)
-    -   [S3cmd tools usage](https://s3tools.org/usage)
-    -   [restic documentation](https://restic.readthedocs.io/en/latest/)
 
 
 <!-- BELGIUM -->

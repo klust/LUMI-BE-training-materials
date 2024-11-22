@@ -9,9 +9,9 @@ the various mechanisms available on LUMI for this.
 
 ## Materials
 
--   [Slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-07-Binding.pdf)
--   [Notes](07-Binding.md)
--   [Exercises](E07-Binding.md)
+-   [Slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-08-Binding.pdf)
+-   [Notes](08-Binding.md)
+-   [Exercises](E08-Binding.md)
 
 
 ## Similar presentations

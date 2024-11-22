@@ -7,6 +7,10 @@ The notes, and all other materials used for the course, borrow a lot from the
 course material made available by the LUMI User Support Team.
 Their course materials are avialable on the
 [LUMI training materias web site](https://lumi-supercomputer.github.io/LUMI-training-materials/).
+However, this version of the notes is not official LUMI material but material from the 
+VSC Tier-0 support team, and contains enhancements that may not occur in any version of the
+official LUMI training materials.
+
 
 Various training materials and the documentation from the Walloon HPC project [CÉCI](https://www.ceci-hpc.be/)
 were also a great source of inspiration.

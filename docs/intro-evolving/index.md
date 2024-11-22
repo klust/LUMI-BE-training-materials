@@ -74,23 +74,34 @@ You will only need an very minimum of CPU and GPU billing units for this.
 
 ## Downloads
 
+<!-- Note: spantable fails if there are spaces after the trailing |! -->
+::spantable::
+
 | Presentation | Slides | Notes | Exercises |
 |:-------------|:-------|:------|:----------|
 | Notes Introduction | / | [notes](00-Introduction.md) | / |
+| **Theme: Exploring LUMI from the login nodes** @span |  |  |  |
 | [LUMI Architecture](M01-Architecture.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-01-Architecture.pdf) | [notes](01-Architecture.md) | / |
 | [HPE Cray Programming Environment](M02-CPE.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-02-CPE.pdf) | [notes](02-CPE.md) | [exercises](E02-CPE.md) |
 | [Getting access to LUMI](M03-Access.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-03-Access.pdf) | [notes](03-Access.md) | [exercises](E03-Access.md) |
 | [Modules on LUMI](M04-Modules.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-04-Modules.pdf) | [notes](04-Modules.md) | [exercises](E04-Modules.md) |
 | [LUMI Software Stacks](M05-SoftwareStacks.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-05-SoftwareStacks.pdf) | [notes](05-SoftwareStacks.md) | [exercises](E05-SoftwareStacks.md) |
-| [Slurm on LUMI](M06-Slurm.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-06-Slurm.pdf) | [notes](06-Slurm.md) | [exercises](E06-Slurm.md) |
-| [Binding resources](M07-Binding.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-07-Binding.pdf) | [notes](07-Binding.md) | [exercises](E07-Binding.md) | 
-| [Using Lustre](M08-Lustre.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-08-Lustre.pdf) | [notes](08-Lustre.md) | / |
-| [Containers on LUMI](M09-Containers.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-09-Containers.pdf) | [notes](09-Containers.md) | / |
+| [LUMI User Support](M06-Support.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-06-Support.pdf) | [notes](06-Support.md) | / |
+| **Theme: Running jobs efficiently** @span |  |  |  |
+| [Slurm on LUMI](M07-Slurm.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-07-Slurm.pdf) | [notes](07-Slurm.md) | [exercises](E07-Slurm.md) |
+| [Binding resources](M08-Binding.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-08-Binding.pdf) | [notes](08-Binding.md) | [exercises](E08-Binding.md) |
+| **Theme: Data on LUMI** @span |  |  |  |
+| [Using Lustre](M09-Lustre.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-09-Lustre.pdf) | [notes](09-Lustre.md) | / |
+| [LUMI-O object storage](M10-ObjectStorage.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-10-ObjectStorage.pdf) | [notes](10-ObjectStorage.md) | / |
+| **Theme: Containers on LUMI** @span |  |  |  |
+| [Containers on LUMI](M11-Containers.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-11-Containers.pdf) | [notes](11-Containers.md) | / |
 | Container demo 1 | / | [notes and video](Demo1.md) | / |
 | Container demo 2 | / | [notes and video](Demo2.md) | / |
-| [LUMI User Support](M10-Support.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-10-Support.pdf) | [notes](10-Support.md) | / |
-| A1 Slurm issues | / | [notes](A01-SlurmIssues.md) | / | 
-| A2 Additional documentation | / | [notes](A02-Documentation.md) | / | 
+| **Appendices** @span |  |  |  |
+| A1 Slurm issues | / | [notes](A01-SlurmIssues.md) | / |
+| A2 Additional documentation | / | [notes](A02-Documentation.md) | / |
+
+::end-spantable::
 
 <!--
 | Container demo 1 | / | [notes and video](Demo1.md) | [video](Demo1.md#video-of-the-demo) |
