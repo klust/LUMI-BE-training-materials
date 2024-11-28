@@ -11,6 +11,10 @@
         <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/11-Containers/">
       
       
+        <link rel="prev" href="../10-ObjectStorage/">
+      
+      
+        <link rel="next" href="../Demo1/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -18,7 +22,7 @@
     
     
       
-        <title>Containers on LUMI-C and LUMI-G - LUMI-BE training materials</title>
+        <title>Containers - LUMI-BE training materials</title>
       
     
     
@@ -222,7 +226,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Containers on LUMI-C and LUMI-G
+              Containers
             
           </span>
         </div>
@@ -414,6 +418,8 @@
       
   
   
+    
+  
   
   
     
@@ -453,14 +459,16 @@
       
         
       
+        
+      
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
           
@@ -482,7 +490,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             LUMI Intro (evolving)
@@ -624,7 +632,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../06-Slurm.md" class="md-nav__link">
+      <a href="../06-Support/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Support
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-Slurm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -645,7 +674,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../07-Binding.md" class="md-nav__link">
+      <a href="../08-Binding/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -666,7 +695,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../08-Lustre.md" class="md-nav__link">
+      <a href="../09-Lustre/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -687,7 +716,48 @@
   
   
     <li class="md-nav__item">
-      <a href="../09-Containers.md" class="md-nav__link">
+      <a href="../10-ObjectStorage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LUMI-O
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Containers
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -696,6 +766,227 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-are-we-talking-about-in-this-chapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      What are we talking about in this chapter?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-do-containers-not-provide" class="md-nav__link">
+    <span class="md-ellipsis">
+      What do containers not provide
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#but-what-can-they-then-do-on-lumi" class="md-nav__link">
+    <span class="md-ellipsis">
+      But what can they then do on LUMI?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#managing-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Managing containers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interacting-with-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interacting with containers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-containers-on-lumi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running containers on LUMI
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enhancements-to-the-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enhancements to the environment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enhancements to the environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bindings-for-singularity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bindings for singularity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vnc-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      VNC container
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cotainr-build-conda-containers-on-lumi" class="md-nav__link">
+    <span class="md-ellipsis">
+      cotainr: Build Conda containers on LUMI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#container-wrapper-for-python-packages-and-conda" class="md-nav__link">
+    <span class="md-ellipsis">
+      Container wrapper for Python packages and conda
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-built-ai-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-built AI containers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-ai-containers-complicated-way-without-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running the AI containers - complicated way without modules
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-containers-through-easybuild-generated-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running the containers through EasyBuild-generated modules
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-distributed-learning-without-using-easybuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Distributed learning without using EasyBuild
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-distributed-learning-with-the-easybuild-generated-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Distributed learning with the EasyBuild-generated module
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extending-the-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extending the containers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extending the containers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extending-the-container-with-cotainr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extending the container with cotainr
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extending-the-container-with-the-singularity-unprivileged-proot-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extending the container with the singularity unprivileged proot build
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extending-the-container-through-a-python-virtual-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extending the container through a Python virtual environment
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion-container-limitations-on-lumi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion: Container limitations on LUMI
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -734,27 +1025,6 @@
   
   <span class="md-ellipsis">
     Container demo 2
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../10-Support.md" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Support
   </span>
   
 

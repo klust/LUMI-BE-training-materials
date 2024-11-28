@@ -11,6 +11,10 @@
         <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/08-Binding/">
       
       
+        <link rel="prev" href="../07-Slurm/">
+      
+      
+        <link rel="next" href="../09-Lustre/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -18,7 +22,7 @@
     
     
       
-        <title>Process and Thread Distribution and Binding - LUMI-BE training materials</title>
+        <title>Binding - LUMI-BE training materials</title>
       
     
     
@@ -222,7 +226,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Process and Thread Distribution and Binding
+              Binding
             
           </span>
         </div>
@@ -414,6 +418,8 @@
       
   
   
+    
+  
   
   
     
@@ -453,14 +459,16 @@
       
         
       
+        
+      
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
           
@@ -482,7 +490,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             LUMI Intro (evolving)
@@ -624,7 +632,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../06-Slurm.md" class="md-nav__link">
+      <a href="../06-Support/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Support
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-Slurm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -642,10 +671,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../07-Binding.md" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Binding
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -654,6 +703,176 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-are-we-talking-about-in-this-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      What are we talking about in this session?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-do-i-need-this" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why do I need this?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-numbering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core numbering
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gpu-numbering" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPU numbering
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-distribution-with-slurm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task distribution with Slurm
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-to-cpu-binding-with-slurm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task-to-CPU binding with Slurm
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-to-gpu-binding-with-slurm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task-to-GPU binding with Slurm
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mpi-rank-redistribution-with-cray-mpich" class="md-nav__link">
+    <span class="md-ellipsis">
+      MPI rank redistribution with Cray MPICH
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#refining-core-binding-in-openmp-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Refining core binding in OpenMP applications
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gpu-binding-with-rocr_visible_devices" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPU binding with ROCR_VISIBLE_DEVICES
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combining-slurm-task-binding-with-rocr_visible_devices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combining Slurm task binding with ROCR_VISIBLE_DEVICES
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Combining Slurm task binding with ROCR_VISIBLE_DEVICES">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear-assignment-of-gcd-then-match-the-cores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linear assignment of GCD, then match the cores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear-assignment-of-the-ccds-then-match-the-gcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linear assignment of the CCDs, then match the GCD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-green-ring" class="md-nav__link">
+    <span class="md-ellipsis">
+      The green ring
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-about-allocate-by-resources-partitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      What about "allocate by resources" partitions?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-material" class="md-nav__link">
+    <span class="md-ellipsis">
+      Further material
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -666,7 +885,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../08-Lustre.md" class="md-nav__link">
+      <a href="../09-Lustre/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -687,7 +906,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../09-Containers.md" class="md-nav__link">
+      <a href="../10-ObjectStorage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LUMI-O
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-Containers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -734,27 +974,6 @@
   
   <span class="md-ellipsis">
     Container demo 2
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../10-Support.md" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Support
   </span>
   
 

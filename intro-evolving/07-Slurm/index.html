@@ -11,6 +11,10 @@
         <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/07-Slurm/">
       
       
+        <link rel="prev" href="../06-Support/">
+      
+      
+        <link rel="next" href="../08-Binding/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -414,6 +418,8 @@
       
   
   
+    
+  
   
   
     
@@ -453,14 +459,16 @@
       
         
       
+        
+      
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
           
@@ -482,7 +490,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             LUMI Intro (evolving)
@@ -624,11 +632,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../06-Slurm.md" class="md-nav__link">
+      <a href="../06-Support/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Slurm on LUMI
+    Support
   </span>
   
 
@@ -642,10 +650,437 @@
                 
   
   
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Slurm on LUMI
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Slurm on LUMI
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-slurm" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is Slurm
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slurm-concepts-physical-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Slurm concepts: Physical resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slurm-concepts-logical-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Slurm concepts: Logical resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slurm-is-first-and-foremost-a-batch-scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      Slurm is first and foremost a batch scheduler
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-slurm-batch-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      A Slurm batch script
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#partitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partitions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accounting-of-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accounting of jobs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#queueing-and-fairness" class="md-nav__link">
+    <span class="md-ellipsis">
+      Queueing and fairness
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#managing-slurm-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Managing Slurm jobs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-slurm-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating a Slurm job
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passing-options-to-srun-salloc-and-sbatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Passing options to srun, salloc and sbatch
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#specifying-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Specifying options
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#some-common-options-to-all-partitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Some common options to all partitions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#redirecting-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      Redirecting output
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requesting-resources-cpus-and-gpus" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requesting resources: CPUs and GPUs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources-for-per-node-allocations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources for per-node allocations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-node-allocations-starting-a-job-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      Per-node allocations: Starting a job step
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Per-node allocations: Starting a job step">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-warning-for-gpu-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      A warning for GPU applications
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#turning-simultaneous-multithreading-on-or-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      Turning simultaneous multithreading on or off
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-core-allocations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Per-core allocations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Per-core allocations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      When to use?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resource request
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#different-job-steps-in-a-single-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Different job steps in a single job
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-job-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      The job environment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automatic-requeueing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automatic requeueing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#job-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Job dependencies
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interactive-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interactive jobs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interactive jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interactive-jobs-with-salloc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interactive jobs with salloc
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interactive-jobs-with-srun" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interactive jobs with srun
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inspecting-a-running-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inspecting a running job
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#job-arrays" class="md-nav__link">
+    <span class="md-ellipsis">
+      Job arrays
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#heterogeneous-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Heterogeneous jobs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simultaneous-job-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simultaneous job steps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slurm-job-monitoring-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Slurm job monitoring commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Slurm job monitoring commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-sstat-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      The sstat command
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-sacct-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      The sacct command
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-sreport-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      The sreport command
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#local-trainings-and-materials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Local trainings and materials
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
   
   
     <li class="md-nav__item">
-      <a href="../07-Binding.md" class="md-nav__link">
+      <a href="../08-Binding/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -666,7 +1101,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../08-Lustre.md" class="md-nav__link">
+      <a href="../09-Lustre/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -687,7 +1122,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../09-Containers.md" class="md-nav__link">
+      <a href="../10-ObjectStorage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LUMI-O
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-Containers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -734,27 +1190,6 @@
   
   <span class="md-ellipsis">
     Container demo 2
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../10-Support.md" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Support
   </span>
   
 
