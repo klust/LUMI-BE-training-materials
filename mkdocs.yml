@@ -48,13 +48,14 @@ nav:
     - Getting access: intro-evolving/03-Access.md
     - Modules: intro-evolving/04-Modules.md
     - Software stacks: intro-evolving/05-SoftwareStacks.md
-    - Slurm on LUMI: intro-evolving/06-Slurm.md
-    - Binding: intro-evolving/07-Binding.md
-    - Lustre: intro-evolving/08-Lustre.md
-    - Containers: intro-evolving/09-Containers.md
+    - Support: intro-evolving/06-Support.md
+    - Slurm on LUMI: intro-evolving/07-Slurm.md
+    - Binding: intro-evolving/08-Binding.md
+    - Lustre: intro-evolving/09-Lustre.md
+    - LUMI-O: intro-evolving/10-ObjectStorage.md
+    - Containers: intro-evolving/11-Containers.md
     - Container demo 1: intro-evolving/Demo1.md
     - Container demo 2: intro-evolving/Demo2.md
-    - Support: intro-evolving/10-Support.md
     - A1 Slurm issues: intro-evolving/A01-SlurmIssues.md
     - A2 Documentation: intro-evolving/A02-Documentation.md
      
