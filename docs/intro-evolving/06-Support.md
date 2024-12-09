@@ -55,12 +55,18 @@ EuroHPC has also granted the EPICURE project that started in February 2024 to se
 advanced L2 and L3 support across EuroHPC centres. Belgium also participates in that project as a partner
 in the LUMI consortium. However, this project is also so small that it will have to select the problems
 they tackle.
+Moreover, access is only for EuroHPC extreme scale, regular or development projects,
+though development projects are relatively easy to get without too much administration.
+Yet, this only makes sense for a sufficiently large project with a long enough duration.
 
 <!-- GENERAL More general version 
 EuroHPC has also granted the EPICURE project that started in February 2024 to set up a network for
 advanced L2 and L3 support across EuroHPC centres. At the time of the course, the project is still in
 its startup phase. Moreover, this project is also so small that it will have to select the problems
 they tackle.
+Moreover, access is only for EuroHPC extreme scale, regular or development projects,
+though development projects are relatively easy to get without too much administration.
+Yet, this only makes sense for a sufficiently large project with a long enough duration.
 -->
 
 In principle the EuroHPC Centres of Excellence should also play a role in porting some applications in their
@@ -100,7 +106,7 @@ with a high enough frequency to deal with the continuous inflow of new users.
 
 The LUMI User Support Team organises 2 system-specific trainings:
 
-1.  There is a 1- or 2-day introductory course entirely given by members of the LUST.
+1.  There is a 2-day introductory course entirely given by members of the LUST.
     The training does assume familiarity with HPC systems, e.g., obtained from the introductory
     courses taught by [VSC](https://www.vscentrum.be/vsctraining) and
     [CÉCI](https://www.ceci-hpc.be/training.html).
@@ -112,11 +118,16 @@ The LUMI User Support Team organises 2 system-specific trainings:
     about these tools as especially a profiler can give you insight in why your application does not run
     as expected.
 
-This training builds upon the 1-day LUMI training offered by the LUST, but has been enriched with 
+This training builds upon the older 1-day LUMI training offered by the LUST, but has been enriched with 
 links to the situation specifically in Belgium.
 
 Application-specific trainings should come from other instances though that have the necessary domain
 knowledge: Groups that develop the applications, user groups, the EuroHPC Centres of Excellence, ...
+
+What users really want is of course a training for a specific application on a specific system,
+but as most applications have a too small usergroup and within that usergroup often still a large variety of workflows, and teaching such a course also requires an instructor with a lot of domain knowledge in the science field of the application.
+EuroHPC is also setting up some support initiatives specifically for AI, including the AI
+factories, more oriented towards industry startups, and the MINERVA project.
 
 Currently the training landscape in Europe is not too well organised. EuroHPC is starting some new
 training initiatives to succeed the excellent PRACE trainings.
@@ -650,8 +661,10 @@ As a result,
     [the limits specified in the LUMI documentation](https://docs.lumi-supercomputer.eu/storage/#lumi-network-file-system-disk-storage-areas).
 
     If you run out of billing units for compute or storage, only the instance that granted your project
-    can help you, so contact the LUMI-BE help desk for LUMI-BE projects and CSC for EuroHPC projects
-    on the email addresses mentioned above.
+    can help you, so contact the LUMI-BE help desk for LUMI-BE projects and access@eurohpc-ju.europa.eu 
+    for EuroHPC projects (CSC EuroHPC support at lumi-customer-accounts@csc.fi cannot help you
+    directly for project extensions and increase of billing units as they can only do so
+    when EuroHPC instructs them to).
 
     Projects cannot be extended past one year unless the granting instance is willing to take a 
     charge on the annual budget for the remaining billing units.
@@ -679,7 +692,7 @@ As a result,
     most of these resources are for users eligible for VSC-use only currently.
 
 -   The LUST can help with analysing the source of crashes or poor performance (with the emphasis on 
-    help as they rarely have all the application knowledge required to dig deep).
+    "help" as they rarely have all the application knowledge required to dig deep).
     There are some resources within LUMI-BE also, again mostly on the VSC side.
 
 -   However, neither LUST nor the LUMI-BE help desk is a debugging service (though of course we do
