@@ -939,7 +939,8 @@
 
 <h1 id="exercises-lumi-software-stacks">Exercises: LUMI Software Stacks<a class="headerlink" href="#exercises-lumi-software-stacks" title="Permanent link">&para;</a></h1>
 <p>See <a href="../#setting-up-for-the-exercises">the instructions</a>
-to set up for the exercises.</p>
+to set up for the exercises. For these exercises, you'll need the
+files in the <code>EasyBuild</code> subdirectory.</p>
 <h2 id="information-in-the-lumi-software-library">Information in the LUMI Software Library<a class="headerlink" href="#information-in-the-lumi-software-library" title="Permanent link">&para;</a></h2>
 <p>Explore the <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/">LUMI Software Library</a>.</p>
 <!--
@@ -969,9 +970,10 @@ to set up for the exercises.</p>
 <p>It is an example of a package for which we have both user-level and some technical information. The page
 will first show some license information, then the actual user information which in this case also contains
 a link to training materials used by a course at CSC.</p>
-<p>Newer versions of GROMACS for CPU are only compiled with the GNU compilers. Though it may be worthwhile to
-investigate if the Cray or AMD compilers offer better performance, it is outside the scope of what the 
-main LUMI User Support Team can do given its small size and the amount of domain expertise needed to 
+<p>Some versions are available for multiple compilers to let you experiment
+which one works best, but this is not the case for all versions as that
+is outside the scope of what the main LUMI User Support Team can do given
+its small size and the amount of domain expertise that is needed to
 select a set of relevant benchmarks for GROMACS.</p>
 </details>
 </li>
@@ -979,21 +981,21 @@ select a set of relevant benchmarks for GROMACS.</p>
 <h2 id="using-modules-in-the-lumi-software-stack">Using modules in the LUMI software stack<a class="headerlink" href="#using-modules-in-the-lumi-software-stack" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
-<p>Search for the <code>bzip2</code> tool (and not just the <code>bunzip2</code> command as we also need the <code>bzip2</code> command) and make 
+<p>Search for the <code>brotli</code> tool and make 
     sure that you can use software compiled with the Cray compilers in the LUMI stacks in the same session.</p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
-<div class="highlight"><pre><span></span><code>module spider bzip2
+<div class="highlight"><pre><span></span><code>module spider brotli
 </code></pre></div>
-<p>shows that there are versions of <code>bzip2</code> for several of the <code>cpe*</code> toolchains and in several versions
+<p>shows that there are versions of <code>brotli</code> for several of the <code>cpe*</code> toolchains and in several versions
 of the LUMI software stack.</p>
 <p>Of course we prefer to use a recent software stack, the <code>23.12</code> or <code>24.03</code> (and preferably the <code>24.03</code> as 
 that is the best supported on at this time, early December 2024). 
 Since we want to use other software
 compiled with the Cray compilers also, we really want a <code>cpeCray</code> version to avoid conflicts between 
-different toolchains. So the module we want to load is <code>bzip2/1.0.8-cpeCray-24.03</code>.</p>
+different toolchains. So the module we want to load is <code>Brotli/1.1.0-cpeCray-24.03</code>.</p>
 <p>To figure out how to load it, use</p>
-<div class="highlight"><pre><span></span><code>module spider bzip2/1.0.8-cpeCray-24.03
+<div class="highlight"><pre><span></span><code>module spider Brotli/1.1.0-cpeCray-24.03
 </code></pre></div>
 <p>and see that (as expected from the name) we need to load <code>LUMI/24.03</code> and can then use it in any of the
 partitions.</p>
@@ -1026,7 +1028,8 @@ in <code>/scratch/project_465001102/$USER/eb-course</code> if you make the exerc
 </ul>
 <h3 id="installing-a-simple-program-without-dependencies-with-easybuild">Installing a simple program without dependencies with EasyBuild<a class="headerlink" href="#installing-a-simple-program-without-dependencies-with-easybuild" title="Permanent link">&para;</a></h3>
 <p>The LUMI Software Library contains the package <code>eb-tutorial</code>. Install the version of
-the package for the <code>cpeCray</code> toolchain in the 24.03 version of the software stack.</p>
+the package for the <code>cpeCray</code> toolchain in the 24.03 version of the software stack.
+Install the software for the LUMI-C compute nodes.</p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
 <ul>
@@ -1065,7 +1068,6 @@ the system so we can proceed with the installation:</p>
     yet due to the caching of Lmod. Try</p>
 <div class="highlight"><pre><span></span><code>module av eb-tutorial/1.0.1-cpeCray-24.03
 </code></pre></div>
-<p>```</p>
 </li>
 <li>
 <p>Now that we have the module, we can check what it actually does:</p>

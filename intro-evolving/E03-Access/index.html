@@ -881,6 +881,15 @@ to set up for the exercises.</p>
 <p>How to check your quota and status of your allocation, is explained in
 the message-of-the-day at the bottom of the "Announcements" section:
 you can use the <code>lumi-workspaces</code> command.</p>
+<p>The <code>lumi-workspaces</code> command uses Lustre commands to check the quota
+in real-time. It will however get stuck if one of the Lustre filesystems
+used by your project or user account, is unavailable. In that case we still
+have the <code>lumi-ldap-userinfo</code> and <code>lumi-ldap-projectinfo</code> commands. Don't try
+to understand all output of those commands. They are meant to be used by the 
+LUMI User Support Team in the first place. However, it does show the last
+stored quota. But it can take a while after, e.g., deleting files before
+that shows up in this data (typically up to one hour, but longer in case
+of technical problems on the system which you may not always notice).</p>
 </details>
 </li>
 <li>
@@ -899,15 +908,29 @@ created before.</p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
 <ul>
-<li>Point your web browser to <code>https://www.lumi.csc.fi</code>. With some browsers
+<li>Point your web browser to 
+    <a href="https://www.lumi.csc.fi"><code>https://www.lumi.csc.fi</code></a>. 
+    With some browsers
     it is sufficient to type <code>lumi.csc.fi</code> in the address bar while others
     require <code>www.lumi.csc.fi</code>.</li>
 <li>Click the "Go to login" button. What you need to do here, depends on how
     you got your account. For the course you will have to proceed with the 
     "MyAccessID" option "Login Puhuri" in most cases.</li>
-<li>Once you're in the web interface, click on "Login node shell" (likely the third
+<li>
+<p>Once you're in the web interface, click on "Login node shell" (likely the third
     choice on the first line). It will open a new tab in the browser with a login shell
-    on LUMI. Note that Open OnDemand uses a different set of login nodes.</li>
+    on LUMI. Note that Open OnDemand uses a different set of login nodes.</p>
+<p>The "Login node shell" app does not require billing units, but has the
+same restrictions on use as the regular login nodes. It should not be
+used for heavy computations. The "Compute node shell" app will give you
+an interactive shell on a specific set of compute nodes set aside for
+interactive use, but will be charged to your billing units. It will give
+you exclusive access to a number of cores and associated memory. 
+The "Desktop" app gives you a richer environment, but will also require
+billing units. Depending on the type of node that you use for this,
+this will require either CPU or GPU billing units, but more about 
+that in the <a href="../M07-Slurm/">session on Slurm</a> on day 2 of this course.</p>
+</li>
 </ul>
 </details>
 </li>

@@ -929,8 +929,8 @@ Submit with <code>sbatch</code> on the CPU partition and check task and thread a
 #SBATCH --time=5                    # Run time (minutes)
 #SBATCH --account=&lt;project_id&gt;      # Project for billing
 
-module load LUMI/23.09
-module load lumi-CPEtools/1.1-cpeGNU-23.09
+module load LUMI/24.03
+module load lumi-CPEtools/1.1-cpeGNU-24.03
 
 srun --cpus-per-task=$SLURM_CPS_PER_TASK hybrid_check -n -r
 </code></pre></div>
@@ -954,16 +954,29 @@ starts the correct number of threads.</p>
 </li>
 </ol>
 <h2 id="advanced-exercises">Advanced exercises<a class="headerlink" href="#advanced-exercises" title="Permanent link">&para;</a></h2>
-<p>These exercises combine material from several chapters of the tutorial.</p>
+<p>These exercises combine material from several chapters of the tutorial.
+This particular exercise makes most sense if you will be building software
+on LUMI (but remember that this will be more of you than you may expect)!</p>
 <ol>
 <li>
-<p>Build the <code>hello_jobstep</code> program tool using interactive shell on a GPU node. 
+<p>Build the <code>hello_jobstep</code> program tool using interactive shell on a GPU node
+    (small-g<code>partition, 1 GPU, 7 cores and 60 GB of memory should be more
+    than enough). 
     You can pull the source code for the program from git repository 
-    <a href="https://code.ornl.gov/olcf/hello_jobstep"><code>https://code.ornl.gov/olcf/hello_jobstep.git</code></a>. 
-    It uses a <code>Makefile</code> for building and requires Clang and HIP. 
-    The <code>hello_jobstep</code> program is actually the main source of inspiration for the 
-    <code>gpu_check</code> program in the <code>lumi-CPEtools</code> modules for <code>partition/G</code>.
+    [</code>https://code.ornl.gov/olcf/hello_jobstep.git<code>](https://code.ornl.gov/olcf/hello_jobstep). 
+    It uses a</code>Makefile<code>for building and requires Clang and HIP. The code also
+    contains a</code>README.md<code>file with instructions, but they will need some changes.
+    The</code>hello_jobstep<code>program is actually the main source of inspiration for the</code>gpu_check<code>program in the</code>lumi-CPEtools<code>modules for</code>partition/G`.
     Try to run the program interactively. </p>
+<p>The <code>Makefile</code> contains a conditional section to set proper arguments for the
+compiler. LUMI is very similar to Frontier, so when calling the <code>make</code> program
+to build the code from the Makefile, don't use simply <code>make</code> as suggested in the
+<code>README.md</code>, but use</p>
+<div class="highlight"><pre><span></span><code>make LMOD_SYSTEM_NAME=&quot;frontier&quot;
+</code></pre></div>
+<p><em>Note:</em> Given that the reservation is on <code>standard-g</code> where you can only get
+whole nodes, which is rather stupid for this example, it is better to try to
+get a single GPU with 7 cores and 60GB of memory on the <code>small-g</code> partition.</p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
 <p>Clone the code using <code>git</code> command:</p>
@@ -971,7 +984,7 @@ starts the correct number of threads.</p>
 </code></pre></div>
 <p>It will create <code>hello_jobstep</code> directory consisting source code and <code>Makefile</code>.</p>
 <p>Allocate resources for a single task with a single GPU with <code>salloc</code>:</p>
-<div class="highlight"><pre><span></span><code>salloc --partition=small-g --nodes=1 --tasks=1 --cpus-per-task=1 --gpus-per-node=1 --time=10 --account=&lt;project_id&gt;
+<div class="highlight"><pre><span></span><code>salloc --partition=small-g --tasks=1 --cpus-per-task=7 --gpus=1 --mem=60G --time=10 --account=&lt;project_id&gt;
 </code></pre></div>
 <p>Note that, after allocation is granted, you receive new shell but are still on the compute node. 
 You need to use the <code>srun</code> command to run on the allocated node. </p>
@@ -979,13 +992,17 @@ You need to use the <code>srun</code> command to run on the allocated node. </p>
 <div class="highlight"><pre><span></span><code>srun --pty bash -i
 </code></pre></div>
 <p>Note now you are on the compute node. <code>--pty</code> option for <code>srun</code> is required to interact with the remote shell.</p>
-<p>Enter the <code>hello_jobstep</code> directory and issue <code>make</code> command. </p>
+<p>Enter the <code>hello_jobstep</code> directory. There is a Makefile to build the
+code using the <code>make</code> command, but first we need to make sure that there
+is a proper programming environment loaded. </p>
 <p>As an example we will built with the system default programming environment, <code>PrgEnv-cray</code> in <code>CrayEnv</code>. 
 Just to be sure we'll load even the programming environment module explicitly.</p>
-<p>The build will fail if the <code>rocm</code> module is not loaded when using <code>PrgEnv-cray</code>.</p>
+<p>The build will fail if the <code>rocm/6.0.3</code> module is not loaded when using <code>PrgEnv-cray</code>. Whereas the instructions suggest to simply use the <code>rocm</code> 
+module, we're specifying a version as at the time of the course, there 
+was a newer but not fully supported <code>rocm</code> module on the system.</p>
 <div class="highlight"><pre><span></span><code>module load CrayEnv
 module load PrgEnv-cray
-module load rocm
+module load rocm/6.0.3
 </code></pre></div>
 <p>To build the code, use</p>
 <div class="highlight"><pre><span></span><code>make LMOD_SYSTEM_NAME=&quot;frontier&quot;
