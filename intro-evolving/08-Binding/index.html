@@ -1450,7 +1450,7 @@ and how task affinity is used to manage the CPUs for a task. Consider the job sc
 <span class="c1">#SBATCH --hint=nomultithread</span>
 <span class="c1">#SBATCH --time=5:00</span>
 
-module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09<span class="w"> </span>partition/C<span class="w"> </span>lumi-CPEtools/1.1-cpeGNU-23.09
+module<span class="w"> </span>load<span class="w"> </span>LUMI/24.03<span class="w"> </span>partition/C<span class="w"> </span>lumi-CPEtools/1.1-cpeGNU-24.03
 
 cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; task_lstopo_$SLURM_JOB_ID</span>
 <span class="s">#!/bin/bash</span>
@@ -1746,7 +1746,10 @@ for the <code>ROCR_VISIBLE_DEVICES</code> environment variable that is used to f
 will use in an application. We will call this the <em>job-local numbering</em>.</p>
 <p>Inside task of a regular job step, Slurm can further restrict the GPUs that are visible through control
 groups at the task level, leading to yet another numbering that starts from 0 which we will call the 
-<em>task-local numbering</em>. </p>
+<em>task-local numbering</em>. 
+That kind of control group should be avoided though at any price as it stops direct 
+communication between GPUs with MPI or RCCL (a ROCm communication library popular in 
+AI applications).</p>
 <p>Note also that Slurm does take care of setting the <code>ROCR_VISIBLE_DEVICES</code> environment variable. It will be set
 at the start of a batch job step giving access to all GPUs that are available in the allocation, and will also
 be set by <code>srun</code> for each task. But you don't need to know in your application which numbers these are as, e.g.,
@@ -1805,7 +1808,7 @@ Consider the job script:</p>
 <span class="c1">#SBATCH --hint=nomultithread</span>
 <span class="c1">#SBATCH --time=15:00</span>
 
-module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09<span class="w"> </span>partition/G<span class="w"> </span>lumi-CPEtools/1.1-cpeCray-23.09
+module<span class="w"> </span>load<span class="w"> </span>LUMI/24.03<span class="w"> </span>partition/G<span class="w"> </span>lumi-CPEtools/1.1-cpeCray-24.03
 
 cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; task_lstopo_$SLURM_JOB_ID</span>
 <span class="s">#!/bin/bash</span>
@@ -2050,7 +2053,7 @@ task level. </p>
 <span class="c1">#SBATCH --hint=nomultithread</span>
 <span class="c1">#SBATCH --time=5:00</span>
 
-module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09<span class="w"> </span>partition/G<span class="w"> </span>lumi-CPEtools/1.1-cpeCray-23.09
+module<span class="w"> </span>load<span class="w"> </span>LUMI/24.03<span class="w"> </span>partition/G<span class="w"> </span>lumi-CPEtools/1.1-cpeCray-24.03
 
 cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; select_1gpu_$SLURM_JOB_ID</span>
 <span class="s">#!/bin/bash</span>
@@ -2261,7 +2264,7 @@ we refer to the <a href="https://slurm.schedmd.com/archive/slurm-23.02.7/srun.ht
     <code>--distribution</code> option above and replaces level 2 and level 3 of that option. </p>
 <p>E.g.,</p>
 <div class="highlight"><pre><span></span><code>salloc --nodes=1 --partition=standard-g
-module load LUMI/23.09 partition/G lumi-CPEtools/1.1-cpeGNU-23.09
+module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeGNU-24.03
 srun --ntasks=8 --cpu-bind=map_cpu:49,57,17,25,1,9,33,41 mpi_check -r
 </code></pre></div>
 <p>will run the first task on hardware threads 49, the second task on 57, third on 17, fourth on 
@@ -2278,7 +2281,7 @@ this chapter.</p>
 option. </p>
 <p>E.g.,</p>
 <div class="highlight"><pre><span></span><code>salloc --nodes=1 --partition=standard-g
-module load LUMI/23.09 partition/G lumi-CPEtools/1.1-cpeGNU-23.09
+module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeGNU-24.03
 srun --ntasks=8 --cpu-bind=mask_cpu:7e000000000000,7e00000000000000,7e0000,7e000000,7e,7e00,7e00000000,7e0000000000 hybrid_check -r
 </code></pre></div>
 <p>will run the first task on hardware threads 49-54, the second task on 57-62, third on 17-22, fourth on 
@@ -2286,7 +2289,7 @@ srun --ntasks=8 --cpu-bind=mask_cpu:7e000000000000,7e00000000000000,7e0000,7e000
 </li>
 </ul>
 <p>The <code>--cpu-bind=map_cpu</code> and <code>--cpu-bind=mask_gpu</code> options also do not go together with <code>-c</code> / <code>--cpus-per-task</code>.
-Both commands define a binding (the latter in combination with the default <code>--gpu-bind=threads</code>) 
+Both commands define a binding (the latter in combination with the default <code>--cpu-bind=threads</code>) 
 and these will usually conflict.</p>
 <p>There are more options, but these are currently most relevant ones on LUMI. That may change in the future as
 LUMI User Support is investigating whether it isn't better to change the concept of "socket" in Slurm given how important it
@@ -2361,7 +2364,7 @@ With Cray MPICH this can be changed via the environment variable
 of reordering MPI ranks than the Slurm <code>--distribution</code> option as one
 can define fully custom orderings.</p>
 <p>Rank reordering is an advanced topic that is discussed in more detail in the
-4-day LUMI comprehensive courses organised by the LUMI User Support Team.
+4/5-day Advanced LUMI courses organised by the LUMI User Support Team.
 The <a href="https://lumi-supercomputer.github.io/LUMI-training-materials/comprehensive-latest">material of the latest one can be found via the course archive web page</a>
 and is discussed in the  "MPI Topics on the HPE Cray EX Supercomputer"
 which is often given on day 3.</p>
@@ -2445,7 +2448,7 @@ the same problem size (and hence same number of nodes and tasks).</p>
 <span class="c1">#SBATCH --hint=nomultithread</span>
 <span class="c1">#SBATCH --time=5:00</span>
 
-module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09<span class="w"> </span>partition/C<span class="w"> </span>lumi-CPEtools/1.1-cpeGNU-23.09
+module<span class="w"> </span>load<span class="w"> </span>LUMI/24.03<span class="w"> </span>partition/C<span class="w"> </span>lumi-CPEtools/1.1-cpeGNU-24.03
 
 <span class="nb">set</span><span class="w"> </span>-x
 <span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\nSMP-style distribution on top of block.&quot;</span>
@@ -2702,7 +2705,7 @@ can also be used to check the OpenMP thread binding.</p>
 #SBATCH --hint=multithread
 #SBATCH --time=5:00
 
-module load LUMI/23.09 partition/C lumi-CPEtools/1.1-cpeCray-23.09
+module load LUMI/24.03 partition/C lumi-CPEtools/1.1-cpeCray-24.03
 
 set -x
 export OMP_NUM_THREADS=4
@@ -3176,7 +3179,7 @@ the order of the CCDs nor the order of the GCDs is trivial.</p>
 #SBATCH --nodes=1
 #SBATCH --time=5:00
 
-module load LUMI/23.09 partition/G lumi-CPEtools/1.1-cpeCray-23.09
+module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
 
 cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
 #!/bin/bash
@@ -3385,7 +3388,7 @@ in the two scripts above:</p>
 #SBATCH --nodes=1
 #SBATCH --time=5:00
 
-module load LUMI/23.09 partition/G lumi-CPEtools/1.1-cpeCray-23.09
+module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
 
 # Mapping:
 # | Task | GCD | CCD | Available cores |
@@ -3472,7 +3475,7 @@ is is also easy to check that each task is also mapped on the optimal CCD for th
 #SBATCH --nodes=1
 #SBATCH --time=5:00
 
-module load LUMI/23.09 partition/G lumi-CPEtools/1.1-cpeCray-23.09
+module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
 
 #
 # Define the order of the GPUs and the core mask for CCD0
@@ -3629,7 +3632,7 @@ resources allocated via the <code>sbatch</code> arguments (usually <code>#SBATCH
 #SBATCH --hint=nomultithread
 #SBATCH --time=5:00
 
-module load LUMI/23.09 partition/G lumi-CPEtools/1.1-cpeCray-23.09
+module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
 
 cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
 #!/bin/bash
@@ -3784,7 +3787,7 @@ MPI 011 - OMP 001 - HWT 008 (CCD1) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 3 - B
 #SBATCH --hint=nomultithread
 #SBATCH --time=5:00
 
-module load LUMI/23.09 partition/G lumi-CPEtools/1.1-cpeCray-23.09
+module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
 
 cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
 #!/bin/bash
