@@ -51,7 +51,7 @@ So do not expect that Slurm will behave the same on LUMI as on that other comput
 familiar with, even if that other computer may have hardware that is very similar to LUMI.
 
 Slurm is starting to show its age and has trouble dealing in an elegant and proper way with
-the deep hierarcy of resources in modern supercomputers. So Slurm will not always be as
+the deep hierarchy of resources in modern supercomputers. So Slurm will not always be as
 straightforward to use as we would like it, and some tricks will be needed on LUMI. Yet there
 is no better option at this moment that is sufficiently mature.
 
@@ -1007,7 +1007,7 @@ partition, but note that running on these nodes is expensive!)
     #SBATCH --output=%x-%j.txt
     #SBATCH --account=project_46YXXXXXX
 
-    module load LUMI/23.09 partition/G lumi-CPEtools/1.1-cpeCray-23.09
+    module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
 
     gpu_check
 
@@ -1028,7 +1028,7 @@ partition, but note that running on these nodes is expensive!)
     #SBATCH --output=%x-%j.txt
     #SBATCH --account=project_46YXXXXXX
 
-    module load LUMI/23.09 partition/C lumi-CPEtools/1.1-cpeCray-23.09
+    module load LUMI/24.03 partition/C lumi-CPEtools/1.1-cpeCray-24.03
 
     omp_check
 
@@ -1118,7 +1118,7 @@ If you insist, slurm has several options to specify the number of GPUs for this 
         Assuming `SLURM_ACCOUNT` is set to a valid project with access to the partition used: 
 
         ```
-        module load LUMI/23.09 partition/G lumi-CPEtools
+        module load LUMI/24.03 partition/G lumi-CPEtools
         srun --partition standard-g --time 5:00 --nodes 2 --tasks-per-node 1 --gpus 8 gpu_check
         ```
 
@@ -1234,7 +1234,7 @@ to do so. Otherwise the developers of Slurm wouldn't have changed that behaviour
     #SBATCH --time=2:00
     #SBATCH --output=%x-%j.txt
 
-    module load LUMI/23.09 partition/C lumi-CPEtools/1.1-cpeCray-23.09
+    module load LUMI/24.03 partition/C lumi-CPEtools/1.1-cpeCray-24.03
 
     echo "Submitted from $SLURM_SUBMIT_HOST"
     echo "Running on $SLURM_JOB_NODELIST"
@@ -1327,7 +1327,7 @@ core. This is illustrated with the example below.
     #SBATCH --output=%x-%j.txt
     #SBATCH --account=project_46YXXXXXX
 
-    module load LUMI/23.09 partition/C lumi-CPEtools/1.1-cpeGNU-23.09
+    module load LUMI/24.03 partition/C lumi-CPEtools/1.1-cpeGNU-24.03
 
     echo -e "Job script:\n$(cat $0)\n"
 
@@ -2696,7 +2696,7 @@ multiple jobs, one for each job step that you would run simultaneously.
     #SBATCH --time=2:00
     #SBATCH --output %x-%j.txt
 
-    module load LUMI/23.09 partition/C lumi-CPEtools/1.1-cpeCray-23.09
+    module load LUMI/24.03 partition/C lumi-CPEtools/1.1-cpeCray-24.03
 
     echo "Submitted from $SLURM_SUBMIT_HOST"
     echo "Running on $SLURM_JOB_NODELIST"
