@@ -14,13 +14,14 @@
 		```
 		
 		Note that you need to replace `<project_id>` with the actual project account ID of the 
-		form  `project_` plus a 9 digits number.
+		form  `project_` plus a 9 digits number (and this argument can be omitted
+		if you use the `exercises/small` module during the course).
 		
 		The command runs a single process (`bash` shell with the native Linux `taskset` tool showing 
 		process's CPU affinity) on a compute node. 
 		You can use the `man taskset` command to see how the tool works.
 
-2.  Next we'll try to start a hybrid MPI/OpenMP program.
+2.  Next we'll try a hybrid MPI/OpenMP program.
     For this we will use the `hybrid_check` tool from the `lumi-CPEtools` module of the LUMI Software Stack. 
 	This module is preinstalled on the system and has versions for all versions of the `LUMI` software stack
 	and all toolchains and partitions in those stacks.
@@ -40,7 +41,7 @@
 	module load LUMI/24.03
 	module load lumi-CPEtools/1.1-cpeGNU-24.03
 
-	srun --cpus-per-task=$SLURM_CPS_PER_TASK hybrid_check -n -r
+	srun --cpus-per-task=$SLURM_CPUS_PER_TASK hybrid_check -n -r
 	``` 
 
 	Be careful with copy/paste of the script body as copy problems with special characters or a double dash may 
@@ -49,7 +50,7 @@
 	??? Solution "Click to see the solution."
 		
 		Save the script contents into the file  `job.sh` (you can use the `nano` console text editor for instance). 
-		Remember to use valid project account name.
+		Remember to use valid project account name (or omit the line if you are using the `exercises/small` module).
 		
 		Submit the job script using the `sbatch` command:
 		
@@ -62,9 +63,6 @@
 		
 		The actual task/threads affinity may depend on the specific OpenMP runtime 
 		(if you literally use this job script it will be the GNU OpenMP runtime).
-		However, in all cases, even without setting `OMP_NUM_THREADS` the OpenMP runtime 
-		detects the correct number of hardware threads available to the program and
-		starts the correct number of threads.
 
 
 ## Advanced exercises
@@ -166,7 +164,7 @@ on LUMI (but remember that this will be more of you than you may expect)!
 		```
 		exit
 		``` 
-		and then do the same for the shell created by `salloc` also.
 
+		and then do the same for the shell created by `salloc` also.
 
 

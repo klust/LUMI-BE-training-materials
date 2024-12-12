@@ -127,7 +127,7 @@ A Lustre system consists of the following blocks:
 
 <!--
 <figure markdown>
-  ![Figure striping](../img/10_Lustre_chunks_of_File.svg)
+  ![Figure striping](../img/09_Lustre_chunks_of_File.svg)
    <caption>Striping a file across 4 (non-consecutive) OSTs</caption>
 </figure>
 -->

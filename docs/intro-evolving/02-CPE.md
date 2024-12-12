@@ -633,8 +633,8 @@ activate:
 those from SUSE, and the module name was changed to `gcc-native` to reflect this change.
 
 There is also a second module that offers the AMD ROCm environment, `rocm`. That module
-has to be used with `PrgEnv-cray` and `PrgEnv-gnu` to enable MPI-aware GPU,
-hipcc with the GNU compilers or GPU support with the Cray compilers.
+has to be used with `PrgEnv-cray`, `PrgEnv-gnu` and recently also with `PrgEnv-amd` to 
+enable MPI-aware GPU, hipcc with the GNU compilers or GPU support with the Cray compilers.
 
 ??? Note "Changes to the GNU compilers since 23.12"
     The HPE Cray PE has changed the way it offers the GNU compilers in releases starting from 23.12.

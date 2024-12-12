@@ -707,7 +707,7 @@ command line and lead to unexpected behaviour.
 ??? Example "Example: Conflict between `--ntasks` and `--ntasks-per-node`"
 
     We'll meet this example later on in these notes,when we discuss
-    [starting a job step in per-node allocations](07-Slurm.md##resources-for-per-node-allocations).
+    [starting a job step in per-node allocations](07-Slurm.md#per-node-allocations-starting-a-job-step).
     You'll need some Slurm experience to understand this example at this point, but keep it
     in mind when you read further in these notes.
 
@@ -946,7 +946,7 @@ The number of nodes is specified with `--nodes=<number_of_nodes>` or its short f
 `-N <number_of_nodes>`.
 
 If you want to use a per-node allocation on a partition which is allocatable-by-resources such as `small`
-and `small-g,` you also need to specify the `--exclusive` flag. On LUMI this flag does not have the same
+and `small-g`, you also need to specify the `--exclusive` flag. On LUMI this flag does not have the same
 effect as running on a partition that is allocatable-by-node. The `--exclusive` flag does allocate
 all cores and GPUs on the node to your job, but the memory use is still limited by other parameters in
 the Slurm configuration. In fact, this can also be the case for allocatable-by-node partitions, but there 
