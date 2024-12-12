@@ -908,14 +908,15 @@
 <div class="highlight"><pre><span></span><code>srun --partition=small --nodes=1 --tasks=1 --cpus-per-task=16 --time=5 --account=&lt;project_id&gt; bash -c &#39;taskset -cp $$&#39; 
 </code></pre></div>
 <p>Note that you need to replace <code>&lt;project_id&gt;</code> with the actual project account ID of the 
-form  <code>project_</code> plus a 9 digits number.</p>
+form  <code>project_</code> plus a 9 digits number (and this argument can be omitted
+if you use the <code>exercises/small</code> module during the course).</p>
 <p>The command runs a single process (<code>bash</code> shell with the native Linux <code>taskset</code> tool showing 
 process's CPU affinity) on a compute node. 
 You can use the <code>man taskset</code> command to see how the tool works.</p>
 </details>
 </li>
 <li>
-<p>Next we'll try to start a hybrid MPI/OpenMP program.
+<p>Next we'll try a hybrid MPI/OpenMP program.
     For this we will use the <code>hybrid_check</code> tool from the <code>lumi-CPEtools</code> module of the LUMI Software Stack. 
     This module is preinstalled on the system and has versions for all versions of the <code>LUMI</code> software stack
     and all toolchains and partitions in those stacks.</p>
@@ -932,24 +933,21 @@ Submit with <code>sbatch</code> on the CPU partition and check task and thread a
 module load LUMI/24.03
 module load lumi-CPEtools/1.1-cpeGNU-24.03
 
-srun --cpus-per-task=$SLURM_CPS_PER_TASK hybrid_check -n -r
+srun --cpus-per-task=$SLURM_CPUS_PER_TASK hybrid_check -n -r
 </code></pre></div>
 <p>Be careful with copy/paste of the script body as copy problems with special characters or a double dash may 
 occur, depending on the editor you use.</p>
 <details class="solution">
 <summary>Click to see the solution.</summary>
 <p>Save the script contents into the file  <code>job.sh</code> (you can use the <code>nano</code> console text editor for instance). 
-Remember to use valid project account name.</p>
+Remember to use valid project account name (or omit the line if you are using the <code>exercises/small</code> module).</p>
 <p>Submit the job script using the <code>sbatch</code> command:</p>
 <div class="highlight"><pre><span></span><code>sbatch job.sh
 </code></pre></div>
 <p>The job output is saved in the <code>slurm-&lt;job_id&gt;.out</code> file. 
 You can view its content with either the <code>less</code> or <code>more</code> shell commands.</p>
 <p>The actual task/threads affinity may depend on the specific OpenMP runtime 
-(if you literally use this job script it will be the GNU OpenMP runtime).
-However, in all cases, even without setting <code>OMP_NUM_THREADS</code> the OpenMP runtime 
-detects the correct number of hardware threads available to the program and
-starts the correct number of threads.</p>
+(if you literally use this job script it will be the GNU OpenMP runtime).</p>
 </details>
 </li>
 </ol>
@@ -1016,9 +1014,9 @@ and doesn't know LUMI.</p>
 <p>Note that executing the program with <code>srun</code> in the srun interactive session will result in a hang.
 You need to work with <code>--overlap</code> option for srun to mitigate this.</p>
 <p>Remember to terminate your interactive session with <code>exit</code> command.</p>
-<p><div class="highlight"><pre><span></span><code>exit
+<div class="highlight"><pre><span></span><code>exit
 </code></pre></div>
-and then do the same for the shell created by <code>salloc</code> also.</p>
+<p>and then do the same for the shell created by <code>salloc</code> also.</p>
 </details>
 </li>
 </ol>

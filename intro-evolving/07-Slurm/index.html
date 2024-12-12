@@ -2323,7 +2323,7 @@ command line and lead to unexpected behaviour. </p>
 <details class="example">
 <summary>Example: Conflict between <code>--ntasks</code> and <code>--ntasks-per-node</code></summary>
 <p>We'll meet this example later on in these notes,when we discuss
-<a href="./##resources-for-per-node-allocations">starting a job step in per-node allocations</a>.
+<a href="./#per-node-allocations-starting-a-job-step">starting a job step in per-node allocations</a>.
 You'll need some Slurm experience to understand this example at this point, but keep it
 in mind when you read further in these notes.</p>
 <p>Two different options to specify the number of tasks in a job step are 
@@ -2544,7 +2544,7 @@ also.</p>
 <p>The number of nodes is specified with <code>--nodes=&lt;number_of_nodes&gt;</code> or its short form 
 <code>-N &lt;number_of_nodes&gt;</code>.</p>
 <p>If you want to use a per-node allocation on a partition which is allocatable-by-resources such as <code>small</code>
-and <code>small-g,</code> you also need to specify the <code>--exclusive</code> flag. On LUMI this flag does not have the same
+and <code>small-g</code>, you also need to specify the <code>--exclusive</code> flag. On LUMI this flag does not have the same
 effect as running on a partition that is allocatable-by-node. The <code>--exclusive</code> flag does allocate
 all cores and GPUs on the node to your job, but the memory use is still limited by other parameters in
 the Slurm configuration. In fact, this can also be the case for allocatable-by-node partitions, but there 
