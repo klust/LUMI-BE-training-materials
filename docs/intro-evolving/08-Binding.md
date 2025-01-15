@@ -2151,7 +2151,7 @@ Let us start with the simplest case:
 </figure>
 
 
-In this scenario, task 0 uses GCD 0 and the matching CCD, CCD 6, taks 1 uses GCD 1 and the matching CCD 7,
+In this scenario, task 0 uses GCD 0 and the matching CCD, CCD 6, task 1 uses GCD 1 and the matching CCD 7,
 etc. So the following table is the relevant one to use:
 
 | GCD | CCD | HWTs           | Available HWTs | CPU mask (without HWTs) |
@@ -2186,6 +2186,19 @@ One possible job script to implement this order is:
 
 module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
 
+# Mapping:
+# | Task | GCD | CCD | HWTs           | Available HWTs | CPU mask (w/o HWTs) |
+# |-----:|----:|----:|:---------------|:---------------|--------------------:|
+# |    0 |   0 |   6 | 48-55, 112-119 | 49-55, 113-119 |   0xfe000000000000  |
+# |    1 |   1 |   7 | 56-63, 120-127 | 57-63, 121-127 | 0xfe00000000000000  |
+# |    2 |   2 |   2 | 16-23, 80-87   | 17-23, 81-87   |           0xfe0000  |
+# |    3 |   3 |   3 | 24-32, 88-95   | 25-32, 89-95   |         0xfe000000  |
+# |    4 |   4 |   0 | 0-7, 64-71     | 1-7, 65-71     |               0xfe  |
+# |    5 |   5 |   1 | 8-15, 72-79    | 9-15, 73-79    |             0xfe00  |
+# |    6 |   6 |   4 | 32-39, 96-103  | 33-39, 97-103  |       0xfe00000000  |
+# |    7 |   7 |   5 | 40-47, 104-111 | 41-47, 105-111 |     0xfe0000000000  |
+
+# Mapping from column 2 (GCD)
 cat << EOF > select_gpu_$SLURM_JOB_ID
 #!/bin/bash
 export ROCR_VISIBLE_DEVICES=\$SLURM_LOCALID
@@ -2193,8 +2206,10 @@ exec \$*
 EOF
 chmod +x select_gpu_$SLURM_JOB_ID
 
+# Mapping from column 5 (Available HWTs)
 CPU_BIND1="map_cpu:49,57,17,25,1,9,33,41"
 
+# Mapping from column 6 (CPU mask)
 CPU_BIND2="mask_cpu:0xfe000000000000,0xfe00000000000000"
 CPU_BIND2="$CPU_BIND2,0xfe0000,0xfe000000"
 CPU_BIND2="$CPU_BIND2,0xfe,0xfe00"
@@ -2303,6 +2318,19 @@ The job script (for option 1) now becomes:
 
 module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
 
+# Mapping:
+# | Task | CCD | HWTs           | Available HWTs | CPU mask (w/o HWTs) | GCD |
+# |-----:|----:|:---------------|:---------------|--------------------:|----:|
+# |    0 |   0 | 0-7, 64-71     | 1-7, 65-71     |               0xfe  |   4 |
+# |    1 |   1 | 8-15, 72-79    | 9-15, 73-79    |             0xfe00  |   5 |
+# |    2 |   2 | 16-23, 80-87   | 17-23, 81-87   |           0xfe0000  |   2 |
+# |    3 |   3 | 24-32, 88-95   | 25-32, 89-95   |         0xfe000000  |   3 |
+# |    4 |   4 | 32-39, 96-103  | 33-39, 97-103  |       0xfe00000000  |   6 |
+# |    5 |   5 | 40-47, 104-111 | 41-47, 105-111 |     0xfe0000000000  |   7 |
+# |    6 |   6 | 48-55, 112-119 | 49-55, 113-119 |   0xfe000000000000  |   0 |
+# |    7 |   7 | 56-63, 120-127 | 57-63, 121-127 | 0xfe00000000000000  |   1 |
+
+# Mapping from column 6 (GCD)
 cat << EOF > select_gpu_$SLURM_JOB_ID
 #!/bin/bash
 GPU_ORDER=(4 5 2 3 6 7 0 1)
@@ -2311,8 +2339,10 @@ exec \$*
 EOF
 chmod +x select_gpu_$SLURM_JOB_ID
 
+# Mapping from column 4 (Available HWTs)
 CPU_BIND1="map_cpu:1,9,17,25,33,41,49,57"
 
+# Mapping from column 5 (CPU masks)
 CPU_BIND2="mask_cpu"
 CPU_BIND2="$CPU_BIND2:0x00000000000000fe,0x000000000000fe00"
 CPU_BIND2="$CPU_BIND2,0x0000000000fe0000,0x00000000fe000000"
@@ -2399,6 +2429,7 @@ module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
 # |    6 |   7 |   5 | 41-47, 105-111  |     0xfe0000000000  |
 # |    7 |   6 |   4 | 33-39, 97-103   |       0xfe00000000  |
 
+# Mapping from column 2 (GCD)
 cat << EOF > select_gpu_$SLURM_JOB_ID
 #!/bin/bash
 # GPU order: Column 2 of the table
@@ -2408,10 +2439,10 @@ exec \$*
 EOF
 chmod +x select_gpu_$SLURM_JOB_ID
 
-# Core order: Column 4 of the table
+# Core order: Column 4 (Available cores)
 CPU_BIND1="map_cpu:49,57,25,17,1,9,41,33"
 
-# Mask: Column 5 of the table, top to bottom, or column 3 for the trick we use here.
+# Mask: Column 5 of the table, top to bottom, or column 3 (CCD) for the trick we use here.
 CCD_MASK=( 0x00000000000000fe \
            0x000000000000fe00 \
            0x0000000000fe0000 \
