@@ -2078,29 +2078,29 @@ Note that the numbering of GCDs does not correspond to the numbering of CCDs/cor
 memory transfers (and certainly if cache-coherent memory access from CPU to GPU would be used) it is 
 better to ensure that each GCD collaborates with the matched CCD in an MPI rank. So we have the mapping:
 
-| CCD | HWTs           | Available HWTs | GCD |
-|----:|:---------------|:---------------|----:|
-|   0 | 0-7, 64-71     | 1-7, 65-71     |   4 |
-|   1 | 8-15, 72-79    | 9-15, 73-79    |   5 |
-|   2 | 16-23, 80-87   | 17-23, 81-87   |   2 |
-|   3 | 24-32, 88-95   | 25-32, 89-95   |   3 |
-|   4 | 32-39, 96-103  | 33-39, 97-103  |   6 |
-|   5 | 40-47, 104-111 | 41-47, 105-111 |   7 |
-|   6 | 48-55, 112-119 | 49-55, 113-119 |   0 |
-|   7 | 56-63, 120-127 | 57-63, 121-127 |   1 |
+| CCD | HWTs           | Available HWTs | CPU mask (without HWTs) | GCD |
+|----:|:---------------|:---------------|------------------------:|----:|
+|   0 | 0-7, 64-71     | 1-7, 65-71     |               0xfe      |   4 |
+|   1 | 8-15, 72-79    | 9-15, 73-79    |             0xfe00      |   5 |
+|   2 | 16-23, 80-87   | 17-23, 81-87   |           0xfe0000      |   2 |
+|   3 | 24-32, 88-95   | 25-32, 89-95   |         0xfe000000      |   3 |
+|   4 | 32-39, 96-103  | 33-39, 97-103  |       0xfe00000000      |   6 |
+|   5 | 40-47, 104-111 | 41-47, 105-111 |     0xfe0000000000      |   7 |
+|   6 | 48-55, 112-119 | 49-55, 113-119 |   0xfe000000000000      |   0 |
+|   7 | 56-63, 120-127 | 57-63, 121-127 | 0xfe00000000000000      |   1 |
 
 or the reverse mapping
 
-| GCD | CCD | HWTs           | Available HWTs |
-|----:|----:|:---------------|:---------------|
-|   0 |   6 | 48-55, 112-119 | 49-55, 113-119 |
-|   1 |   7 | 56-63, 120-127 | 57-63, 121-127 |
-|   2 |   2 | 16-23, 80-87   | 17-23, 81-87   |
-|   3 |   3 | 24-32, 88-95   | 25-32, 89-95   |
-|   4 |   0 | 0-7, 64-71     | 1-7, 65-71     |
-|   5 |   1 | 8-15, 72-79    | 9-15, 73-79    |
-|   6 |   4 | 32-39, 96-103  | 33-39, 97-103  | 
-|   7 |   5 | 40-47, 104-111 | 41-47, 105-111 |
+| GCD | CCD | HWTs           | Available HWTs | CPU mask (without HWTs) |
+|----:|----:|:---------------|:---------------|------------------------:|
+|   0 |   6 | 48-55, 112-119 | 49-55, 113-119 |   0xfe000000000000      |
+|   1 |   7 | 56-63, 120-127 | 57-63, 121-127 | 0xfe00000000000000      |
+|   2 |   2 | 16-23, 80-87   | 17-23, 81-87   |           0xfe0000      |
+|   3 |   3 | 24-32, 88-95   | 25-32, 89-95   |         0xfe000000      |
+|   4 |   0 | 0-7, 64-71     | 1-7, 65-71     |               0xfe      |
+|   5 |   1 | 8-15, 72-79    | 9-15, 73-79    |             0xfe00      |
+|   6 |   4 | 32-39, 96-103  | 33-39, 97-103  |       0xfe00000000      |
+|   7 |   5 | 40-47, 104-111 | 41-47, 105-111 |     0xfe0000000000      |
 
 <figure markdown style="border: 1px solid #000">
   ![Slide GPU binding: Embedded rings](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRGPURing.png){ loading=lazy }
@@ -2150,7 +2150,28 @@ Let us start with the simplest case:
   ![Slide GPU binding: Implementation: Linear GCD, match CPU, OpenMP](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRMechanismLinearGCD2.png){ loading=lazy }
 </figure>
 
-One possible job script to accomplish this is:
+
+In this scenario, task 0 uses GCD 0 and the matching CCD, CCD 6, taks 1 uses GCD 1 and the matching CCD 7,
+etc. So the following table is the relevant one to use:
+
+| GCD | CCD | HWTs           | Available HWTs | CPU mask (without HWTs) |
+|----:|----:|:---------------|:---------------|------------------------:|
+|   0 |   6 | 48-55, 112-119 | 49-55, 113-119 |   0xfe000000000000      |
+|   1 |   7 | 56-63, 120-127 | 57-63, 121-127 | 0xfe00000000000000      |
+|   2 |   2 | 16-23, 80-87   | 17-23, 81-87   |           0xfe0000      |
+|   3 |   3 | 24-32, 88-95   | 25-32, 89-95   |         0xfe000000      |
+|   4 |   0 | 0-7, 64-71     | 1-7, 65-71     |               0xfe      |
+|   5 |   1 | 8-15, 72-79    | 9-15, 73-79    |             0xfe00      |
+|   6 |   4 | 32-39, 96-103  | 33-39, 97-103  |       0xfe00000000      |
+|   7 |   5 | 40-47, 104-111 | 41-47, 105-111 |     0xfe0000000000      |
+
+Mapping each task to a GCD is easy in this case, as the Slurm task with local
+task ID $SLURM_LOCALID is mapped on GCD $SLURM_LOCALID. However,
+the CPU mapping is more complex, but to build the CPU mask or list, we simply 
+have to read the 4th or 5th column from the above table from the first to
+the last line.
+
+One possible job script to implement this order is:
 
 <!-- map-linear-GCD.slurm -->
 ```
@@ -2242,7 +2263,23 @@ mapping is as intended. Note that the GCDs are indeed in the linear order starti
   ![Slide GPU binding: Implementation: Linear CCD, match GCD, with cpus-per-task](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRMechanismLinearCCD3.png){ loading=lazy }
 </figure>
 
-To modify the order of the GPUs, we now use an array with the desired order in the `select_gpu` script.
+Modifying the order of the GPUs to match the CCDs which are assigned as CCD *i* for local task *i*,
+is a bit more complicated as we still need to ensure that each task lands on a different CCD while
+assigning the GPU is more difficult. The relevant table for this example is:
+
+| CCD | HWTs           | Available HWTs | CPU mask (without HWTs) | GCD |
+|----:|:---------------|:---------------|------------------------:|----:|
+|   0 | 0-7, 64-71     | 1-7, 65-71     |               0xfe      |   4 |
+|   1 | 8-15, 72-79    | 9-15, 73-79    |             0xfe00      |   5 |
+|   2 | 16-23, 80-87   | 17-23, 81-87   |           0xfe0000      |   2 |
+|   3 | 24-32, 88-95   | 25-32, 89-95   |         0xfe000000      |   3 |
+|   4 | 32-39, 96-103  | 33-39, 97-103  |       0xfe00000000      |   6 |
+|   5 | 40-47, 104-111 | 41-47, 105-111 |     0xfe0000000000      |   7 |
+|   6 | 48-55, 112-119 | 49-55, 113-119 |   0xfe000000000000      |   0 |
+|   7 | 56-63, 120-127 | 57-63, 121-127 | 0xfe00000000000000      |   1 |
+
+To modify the order of the GPUs, we now use an array with the desired order in the `select_gpu` script,
+and that order can be read from the last column in the above table.
 With the current setup of LUMI, with one core reserved on each chiplet, there are now two options
 to get the proper CPUs:
 
@@ -2295,6 +2332,9 @@ srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_
 /bin/rm -f select_gpu_$SLURM_JOB_ID
 ```
 
+The order of the elements in `GPU_ORDER` comes from the last column of the table, while the values
+for `map_cpu` or `mask_cpu` can be read from the 3rd or 4th column respectively.
+
 The leading zeros in the masks in the `CPU_BIND2` environment variable are not needed but we added
 them as it makes it easier to see which chiplet is used in what position.
 
@@ -2317,16 +2357,16 @@ As a final example for whole node allocations, lets bind tasks such that the MPI
 mapped upon the green ring which is GCD 0 - 1 - 3 - 2 - 4 - 5 - 7 - 6 - 0. In other words,
 we want to create the mapping
 
-| Task | GCD | CCD | Available cores |
-|-----:|----:|----:|:----------------|
-|    0 |   0 |   6 | 49-55, 113-119  |
-|    1 |   1 |   7 | 57-63, 121-127  |
-|    2 |   3 |   3 | 25-32, 89-95    |
-|    3 |   2 |   2 | 17-23, 81-87    |
-|    4 |   4 |   0 | 1-7, 65-71      |
-|    5 |   5 |   1 | 9-15, 73-79     |
-|    6 |   7 |   5 | 41-47, 105-111  |
-|    7 |   6 |   4 | 33-39, 97-103   | 
+| Task | GCD | CCD | Available cores | CPU mask (without HWTs) |
+|-----:|----:|----:|:----------------|------------------------:|
+|    0 |   0 |   6 | 49-55, 113-119  |   0xfe000000000000      |
+|    1 |   1 |   7 | 57-63, 121-127  | 0xfe00000000000000      |
+|    2 |   3 |   3 | 25-32, 89-95    |         0xfe000000      |
+|    3 |   2 |   2 | 17-23, 81-87    |           0xfe0000      |
+|    4 |   4 |   0 | 1-7, 65-71      |               0xfe      |
+|    5 |   5 |   1 | 9-15, 73-79     |             0xfe00      |
+|    6 |   7 |   5 | 41-47, 105-111  |     0xfe0000000000      |
+|    7 |   6 |   4 | 33-39, 97-103   |       0xfe00000000      |
 
 This mapping would be useful when using GPU-to-GPU communication in a scenario where task *i*
 only communicates with tasks *i-1* and *i+1* (module 8), so the communication pattern is a ring.
@@ -2348,27 +2388,30 @@ in the two scripts above:
 module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
 
 # Mapping:
-# | Task | GCD | CCD | Available cores |
-# |-----:|----:|----:|:----------------|
-# |    0 |   0 |   6 | 49-55, 113-119  |
-# |    1 |   1 |   7 | 57-63, 121-127  |
-# |    2 |   3 |   3 | 25-32, 89-95    |
-# |    3 |   2 |   2 | 17-23, 81-87    |
-# |    4 |   4 |   0 | 1-7, 65-71      |
-# |    5 |   5 |   1 | 9-15, 73-79     |
-# |    6 |   7 |   5 | 41-47, 105-111  |
-# |    7 |   6 |   4 | 33-39, 97-103   |
+# | Task | GCD | CCD | Available cores | CPU mask (w/o HWTs) |
+# |-----:|----:|----:|:----------------|--------------------:|
+# |    0 |   0 |   6 | 49-55, 113-119  |   0xfe000000000000  |
+# |    1 |   1 |   7 | 57-63, 121-127  | 0xfe00000000000000  |
+# |    2 |   3 |   3 | 25-32, 89-95    |         0xfe000000  |
+# |    3 |   2 |   2 | 17-23, 81-87    |           0xfe0000  |
+# |    4 |   4 |   0 | 1-7, 65-71      |               0xfe  |
+# |    5 |   5 |   1 | 9-15, 73-79     |             0xfe00  |
+# |    6 |   7 |   5 | 41-47, 105-111  |     0xfe0000000000  |
+# |    7 |   6 |   4 | 33-39, 97-103   |       0xfe00000000  |
 
 cat << EOF > select_gpu_$SLURM_JOB_ID
 #!/bin/bash
+# GPU order: Column 2 of the table
 GPU_ORDER=(0 1 3 2 4 5 7 6)
 export ROCR_VISIBLE_DEVICES=\${GPU_ORDER[\$SLURM_LOCALID]}
 exec \$*
 EOF
 chmod +x select_gpu_$SLURM_JOB_ID
 
+# Core order: Column 4 of the table
 CPU_BIND1="map_cpu:49,57,25,17,1,9,41,33"
 
+# Mask: Column 5 of the table, top to bottom, or column 3 for the trick we use here.
 CCD_MASK=( 0x00000000000000fe \
            0x000000000000fe00 \
            0x0000000000fe0000 \
@@ -2397,11 +2440,11 @@ srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_
 ```
 
 The values for `GPU_ORDER` are easily read from the second column of the table with the mapping
-that we prepared. The cores to use for the pure MPI run are also easily read from the table:
+that we prepared. The cores to use for the pure MPI run are easily read from the fourth column of the table:
 simply take the first core of each line. Finally, to build the mask,
 we used some bash trickery. We first define the bash array `CCD_MASK` with the mask for each chiplet.
 As this has a regular structure, this is easy to build. Then we compose the mask list for the CPUs
-by indexing in that array, where the indices are easily read from the third column in the mapping.
+by indexing in that array, where the indices are easily read from the third column in the mapping table.
 
 The alternative code to build `CPU_BIND2` is
 
@@ -2414,6 +2457,7 @@ CPU_BIND2="$CPU_BIND2,0x0000fe0000000000,0x000000fe00000000"
 ```
 
 which may be shorter, but requires some puzzling to build and hence is more prone to error.
+These values can be read from the last column of the table.
 
 The output of the second `srun` command is now
 
