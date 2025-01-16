@@ -67,6 +67,14 @@ if the binding is OK.
     The HPC Affinity Tracker tool is developed by HPE and made 
     [publicly available in GitHub](https://github.com/HewlettPackard/hpcat).
 
+??? Bug "`hpcat` on multiple nodes"
+    As of the time of the last update of this paragraph, `hpcat` runs fine when started from an
+    interactive session created with `sallc`, using `srun` to launch the application on the compute
+    node(s), but it crashes when this is done in a batch script that uses more than one node. 
+    So we do not really use it yet in the slides and notes. When fully stable, it would be a better
+    replacement for the `gpu_check -l` command used in several of the examples.
+
+
 <figure markdown style="border: 1px solid #000">
   ![Slide When/where is it done](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/WhenDone.png){ loading=lazy }
 </figure>
@@ -2296,12 +2304,10 @@ export MPICH_OFI_NIC_POLICY=GPU
 echo -e "\nPure MPI:\n"
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID mpi_check -r
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID gpu_check -l
-srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID hpcat
 
 echo -e "\nHybrid:\n"
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID hybrid_check -r
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID gpu_check -l
-srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID hpcat
 
 /bin/rm -f select_gpu_$SLURM_JOB_ID
 ```
@@ -2433,12 +2439,10 @@ export MPICH_OFI_NIC_POLICY=GPU
 echo -e "\nPure MPI:\n"
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID mpi_check -r
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID gpu_check -l
-srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID hpcat
 
 echo -e "\nHybrid:\n"
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID hybrid_check -r
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID gpu_check -l
-srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID hpcat
 
 /bin/rm -f select_gpu_$SLURM_JOB_ID
 ```
@@ -2544,12 +2548,10 @@ export MPICH_OFI_NIC_POLICY=GPU
 echo -e "\nPure MPI:\n"
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID mpi_check -r
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID gpu_check -l
-srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID hpcat
 
 echo -e "\nHybrid:\n"
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID hybrid_check -r
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID gpu_check -l
-srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID hpcat
 
 /bin/rm -f select_gpu_$SLURM_JOB_ID
 ```
@@ -2681,31 +2683,34 @@ is is also easy to check that each task is also mapped on the optimal CCD for th
     
     echo -e "\nTest runs:\n"
     
+    # Use either "hpcat" (once bugs are fixed) or "gpu_check -l"
+    exe="gpu_check -l"
+
     echo -e "\nConsecutive CCDs:\n"
     srun --ntasks=$((SLURM_NNODES*8)) \
          --cpu-bind=mask_cpu:$(generate_mask $coremask $linear_CCD) \
-         ./run_gpu_$SLURM_JOB_ID "$linear_CCD" gpu_check -l
+         ./run_gpu_$SLURM_JOB_ID "$linear_CCD" $exe
     
     echo -e "\nConsecutive GCDs:\n"
     srun --ntasks=$((SLURM_NNODES*8)) \
          --cpu-bind=mask_cpu:$(generate_mask $coremask $linear_GCD) \
-         ./run_gpu_$SLURM_JOB_ID "$linear_GCD" gpu_check -l
+         ./run_gpu_$SLURM_JOB_ID "$linear_GCD" $exe
      
     echo -e "\nGreen ring:\n"
     srun --ntasks=$((SLURM_NNODES*8)) \
          --cpu-bind=mask_cpu:$(generate_mask $coremask $ring_green) \
-         ./run_gpu_$SLURM_JOB_ID "$ring_green" gpu_check -l
+         ./run_gpu_$SLURM_JOB_ID "$ring_green" $exe
      
     echo -e "\nRed ring:\n"
     srun --ntasks=$((SLURM_NNODES*8)) \
          --cpu-bind=mask_cpu:$(generate_mask $coremask $ring_red) \
-         ./run_gpu_$SLURM_JOB_ID "$ring_red" gpu_check -l
+         ./run_gpu_$SLURM_JOB_ID "$ring_red" $exe
     
-    echo -e "\nFirst two CPU NUMA domains (assuming one node in the allocation):"
+    echo -e "\nFirst two CPU NUMA domains (assuming one node in the allocation):\n"
     half="4 5 2 3"
     srun --ntasks=4 \
          --cpu-bind=mask_cpu:$(generate_mask $coremask $half) \
-         ./run_gpu_$SLURM_JOB_ID "$half" gpu_check -l
+         ./run_gpu_$SLURM_JOB_ID "$half" $exe
      
     /bin/rm -f run_gpu_$SLURM_JOB_ID
     ```
