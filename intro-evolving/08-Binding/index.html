@@ -1280,7 +1280,7 @@ affinity, GPUs used and, when running on more than one node, the network adapter
 each MPI rank. It shows the NUMA node for all these resources so that it is easy to check
 if the binding is OK.</p>
 <details class="note">
-<summary>Credits for these programs</summary>
+<summary>Credits for these programs (click to expand)</summary>
 <p>The <code>hybrid_check</code> program and its derivatives <code>serial_check</code>, <code>omp_check</code> and <code>mpi_check</code>
 are similar to the <a href="https://support.hpe.com/hpesc/public/docDisplay?docId=a00114008en_us&amp;docLocale=en_US&amp;page=Run_an_OpenMP_Application.html"><code>xthi</code> program</a>
 used in the 4-day comprehensive LUMI course organised by the LUST in collaboration with 
@@ -1300,7 +1300,7 @@ node type as LUMI-G.)</p>
 <a href="https://github.com/HewlettPackard/hpcat">publicly available in GitHub</a>.</p>
 </details>
 <details class="bug">
-<summary><code>hpcat</code> on multiple nodes</summary>
+<summary><code>hpcat</code> on multiple nodes (click to expand)</summary>
 <p>As of the time of the last update of this paragraph, <code>hpcat</code> runs fine when started from an
 interactive session created with <code>sallc</code>, using <code>srun</code> to launch the application on the compute
 node(s), but it crashes when this is done in a batch script that uses more than one node. 
@@ -1438,7 +1438,7 @@ OS (e.g., in <code>/proc/cpuinfo</code>). In fact, the batch job step will use t
 started with subsequent <code>srun</code> commands.</p>
 <!-- Script cpu-numbering-demo1 -->
 <details class="technical">
-<summary>Slurm under-the-hoods example</summary>
+<summary>Slurm under-the-hoods example (click to expand)</summary>
 <p>We will use the Linux <code>lstopo</code> and <code>taskset</code> commands to study how a job step sees the system
 and how task affinity is used to manage the CPUs for a task. Consider the job script:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -2331,7 +2331,7 @@ and these will usually conflict.</p>
 LUMI User Support is investigating whether it isn't better to change the concept of "socket" in Slurm given how important it
 sometimes is to carefully map onto L3 cache domains for performance.</p>
 <details class="note">
-<summary>How to understand masks?</summary>
+<summary>How to understand masks? (Click to expand)</summary>
 <p>Masks indicate which (virtual) cores can be used. A mask is really a series of bits with 
 each bit corresponding to a virtual core. The least significant bit corresponds to core 0,
 the next one to core 1, etc. A 1-bit indicates that the corresponding virtual core can be used
@@ -3336,7 +3336,7 @@ many respects.</p>
 </li>
 </ol>
 <details class="advanced">
-<summary>Alternative values for <code>ROCR_VISIBLE_DEVICES</code></summary>
+<summary>Alternative values for <code>ROCR_VISIBLE_DEVICES</code> (click to expand)</summary>
 <p>Instead of device indices, <code>ROCR_VISIBLE_DEVICES</code> also accepts GPU UUIDs that are unique to each
 GPU. This is less practical then it seems as the UUIDs of GPUs are different on each node so one
 would need to discover them first before they can be used.</p>
@@ -4047,7 +4047,7 @@ MPI 007 - OMP 000 - HWT 033 (CCD4) - Node nid005083 - RT_GPU_ID 0 - GPU_ID 6 - B
 <p>Checking the last column, we see that the GCDs are indeed in the desired order for the green ring, and 
 is is also easy to check that each task is also mapped on the optimal CCD for the GCD.</p>
 <details class="example">
-<summary>Job script with some more advanced bash</summary>
+<summary>Job script with some more advanced bash (click to expand)</summary>
 <p><!-- map-advanced-multiple.slurm -->
 <div class="highlight"><pre><span></span><code>#!/bin/bash
 #SBATCH --job-name=map-advanced-multiple
@@ -4360,7 +4360,7 @@ MPI 011 - OMP 001 - HWT 008 (CCD1) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 3 - B
 </code></pre></div>
 </div>
 <details class="example">
-<summary>Example job script when using 2 GPUs per task.</summary>
+<summary>Example job script when using 2 GPUs per task (click to expand)</summary>
 <p><!-- map-smallg-2gpt.slurm -->
 <div class="highlight"><pre><span></span><code>#! /bin/bash
 #SBATCH --account=project_46YXXXXXX
