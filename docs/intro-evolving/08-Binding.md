@@ -19,7 +19,7 @@ nodes. Within a node, it is possible to pin or attach processes or even individu
 in processes to one or more cores (actually hardware threads) and other resources, 
 which is called process binding.
 
-The system software (Linux, ROCm<sup>TM</sup> and Slurm) 
+The system software (Linux, ROCm(tm) and Slurm) 
 has several mechanisms for that. Slurm uses Linux cgroups or control groups to limit the 
 resources that a job can use within a node and thus to isolate jobs from one another on a
 node so that one job cannot deplete the resources of another job, and sometimes even
@@ -29,7 +29,7 @@ The second mechanism is processor affinity which works at the process and thread
 used by Slurm at the task level and 
 can be used by the OpenMP runtime to further limit thread migration. It works through affinity masks
 which indicate the hardware threads that a thread or process can use. There is also a third
-mechanism provided by the ROCm<sup>TM</sup> runtime to control which GPUs can be used.
+mechanism provided by the ROCm(tm)) runtime to control which GPUs can be used.
 
 Some of the tools in the `lumi-CPEtools` module can show the affinity mask for each thread
 (or effectively the process for single-threaded processes) so you can use these tools to
@@ -38,6 +38,11 @@ The `serial_check`, `omp_check`, `mpi_check` and `hybrid_check` programs can be 
 study thread binding. In fact, `hybrid_check` can be used in all cases, but the other three
 show more compact output for serial, shared memory OpenMP and single-threaded MPI processes 
 respectively. The `gpu_check` command can be used to study the steps in GPU binding.
+From version 1.2 onwards, the module also contains the `hpcat` command, which stands for
+HPC Affinity Tracker. This tool can only be compiled with Cray MPICH, but it shows core
+affinity, GPUs used and, when running on more than one node, the network adapter used by
+each MPI rank. It shows the NUMA node for all these resources so that it is easy to check
+if the binding is OK.
 
 ??? Note "Credits for these programs"
     The `hybrid_check` program and its derivatives `serial_check`, `omp_check` and `mpi_check`
@@ -58,6 +63,9 @@ respectively. The `gpu_check` command can be used to study the steps in GPU bind
 
     (ORNL is the national lab that operates Frontier, an exascale supercomputer based on the same
     node type as LUMI-G.)
+
+    The HPC Affinity Tracker tool is developed by HPE and made 
+    [publicly available in GitHub](https://github.com/HewlettPackard/hpcat).
 
 <figure markdown style="border: 1px solid #000">
   ![Slide When/where is it done](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/WhenDone.png){ loading=lazy }
@@ -85,14 +93,14 @@ In this section we will consider process and thread distribution and binding at 
     use different OpenMP runtimes so the default behaviour will not be the same for all compilers,
     and on LUMI is different for the Cray compiler compared to the GNU and AMD compilers.
 
--   Finally, the ROCm runtime also can limit the use of GPUs by a process to a subset of the ones that
+-   Finally, the ROCm(tm) runtime also can limit the use of GPUs by a process to a subset of the ones that
     are available to the process through the use of the `ROCR_VISIBLE_DEVICES` environment variable.
 
 Binding almost only makes sense on job-exclusive nodes as only then you have full control over all available 
 resources. On ["allocatable by resources"](07-Slurm.md#partitions) partitions 
 you usually do not know which resources are available.
 The advanced Slurm binding options that we will discuss do not work in those cases, and the options offered
-by the MPICH, OpenMP and ROCm runtimes may work very unpredictable, though OpenMP thread binding may still 
+by the MPICH, OpenMP and ROCm(tm) runtimes may work very unpredictable, though OpenMP thread binding may still 
 help a bit with performance in some cases.
 
 !!! Warning
@@ -117,14 +125,14 @@ given twice a year at VSC@UAntwerpen),
 modern supercomputer nodes have increasingly a very hierarchical architecture.  This hierarchical architecture is extremely
 pronounced on the AMD EPYC architecture used in LUMI but is also increasingly showing up with Intel processors and the ARM
 server processors, and is also relevant but often ignored in GPU clusters.
--->
+<!-- END BELGIUM -->
 
 <!-- GENERAL More general version
 As we have seen in the ["LUMI Architecture" session of this course](01-Architecture.md) and as you may know from other courses,
 modern supercomputer nodes have increasingly a very hierarchical architecture. This hierarchical architecture is extremely
 pronounced on the AMD EPYC architecture used in LUMI but is also increasingly showing up with Intel processors and the ARM
 server processors, and is also relevant but often ignored in GPU clusters.
--->
+END GENERAL -->
 
 A proper binding of resources to the application is becoming more and more essential for good performance and 
 scalability on supercomputers. 
@@ -176,11 +184,13 @@ say the virtual core - then starts where the numbering of the actual cores ends,
 or 128 for LUMI-C. This has the advantage that if hardware threading is turned off at the BIOS/UEFI level, the numbering of the actual 
 cores does not change. 
 
-On LUMI G, core 0 and its second hardware thread 64 are reserved by the low noise mode and cannot be used by Slurm or applications.
-This is done to help reduce OS jitter which can kill scalability of large parallel applications. However, it also creates an assymetry
-that is hard to deal with. (For this reason they chose to disable the first core of every CCD on Frontier, so core 0, 8, 16, ... and 
-corresponding hardware threads 64, 72, ..., but on LUMI this is not yet the case).
-Don't be surprised if when running a GPU code you see a lot of activity on core 0. It is caused by the ROCm<sup>TM</sup> driver
+On LUMI G, the first core of each CCD, so core 0, 8, ... and the corresponding second hardware threads 64, 72, ..., 
+is not available for user threads. Basically, physical core 0 had to be reserved for OS processes 
+to help reduce OS jitter which can kill scalability of large parallel applications. 
+But as only reserving physical core 0 creates an asymmetry in the node which is difficult to deal
+with for users, the decision was made to - similar as on Frontier - reserve the first core of each CCD.
+Don't be surprised if when running a GPU code you see a lot of activity on core 0. It is caused by the ROCm(tm)) driver
+and often also by Lustre processes,
 and is precisely the reason why that core is reserved, as that activity would break scalability of applications that expect
 to have the same amount of available compute power on each core.
 
@@ -762,7 +772,7 @@ the HIP runtime will number the GPUs that are available from 0 on.
 
 The above example is very technical and not suited for every reader. One important conclusion though
 that is of use when running on LUMI is that **Slurm works differently with CPUs and GPUs on LUMI**. 
-Cores and GPUs are treated differently. Cores access is controlled by control groups at the
+Cores and GPUs are treated differently. Core access is controlled by control groups at the
 job step level on each node and at the task level by affinity masks. 
 The equivalent for GPUs would be to also use control groups at the job step level and then
 `ROCR_VISIBLE_DEVICES` to further set access to GPUs for each task, but this is not what 
@@ -986,7 +996,7 @@ discuss a different option that enables very precise binding of tasks to hardwar
 The mechanism does conflict with some Slurm options that implicitly already do some binding, e.g., 
 it will not always work together with `--cpus-per-task` and `--hint=[no]multithread` may also not 
 act as expected depending on how the options are used. 
-Level 2/3 control via `--distribution` sometimes also make no sense when this option is used
+Level 2 and 3 control via `--distribution` sometimes also makes no sense when this option is used
 (and will be ignored).
 
 Task-to-CPU binding is controlled through the Slurm option 
@@ -1039,7 +1049,7 @@ we refer to the [Slurm `srun` manual page](https://slurm.schedmd.com/archive/slu
     will run the first task on hardware threads 49-54, the second task on 57-62, third on 17-22, fourth on 
     25-30, fifth on 1-6, sixth on 9-14, seventh on 33-38 and eight on 41-46.
 
-The `--cpu-bind=map_cpu` and `--cpu-bind=mask_gpu` options also do not go together with `-c` / `--cpus-per-task`.
+**The `--cpu-bind=map_cpu` and `--cpu-bind=mask_gpu` options also do not go together with `-c` / `--cpus-per-task`.**
 Both commands define a binding (the latter in combination with the default `--cpu-bind=threads`) 
 and these will usually conflict.
 
@@ -1075,7 +1085,7 @@ sometimes is to carefully map onto L3 cache domains for performance.
     Hence this masks indicates that cores 1, 3, 4, 6, 12, 13, 14 and 15 can be used.
 
     Now using such long bit strings is awkward. There is a long tradition among computer
-    scientists to represent such bit strings instead as hexadecimal numbers, numbers base 16,
+    scientists to represent such bit strings instead as hexadecimal numbers: numbers base 16,
     instead of as bit strings, numbers base 2. Each hexadecimal digit then corresponds with 
     4 bits, and we start assigning those again from the 4 least significant bits to the 
     most significant bits, adding 0s at the front to get a multiple of 4 bits. The conversion
@@ -1173,7 +1183,7 @@ sometimes is to carefully map onto L3 cache domains for performance.
     </tbody>
     </table>
 
-    So our mask `1111000001011010` is more conveniently written as `f05a`:
+    So our mask `1111000001011010` is more conveniently written as `f05a` of `F05A`:
 
     <table style="border-collapse: collapse; border: none;">
       <tbody style="border: none;">
@@ -1207,8 +1217,8 @@ sometimes is to carefully map onto L3 cache domains for performance.
 
     The primary use case for all this will be core mapping on the GPU nodes to get an optimal binding
     between the cores and GCDs used by a Slurm task / MPI rank. On each CCD of a LUMI-G processor,
-    core 0 cannot be used by the user. So building a mask that includes all available cores (cores 1-7) of
-    a CCD is done as follows:
+    core 0 cannot be used by the user. So building a mask that includes the first hardware thread of
+    all available cores (cores 1-7) of a CCD is done as follows:
 
     <table style="border-collapse: collapse; border: none;">
       <tbody style="border: none;">
@@ -1253,7 +1263,7 @@ sometimes is to carefully map onto L3 cache domains for performance.
       </tbody>
     </table>
 
-    of `0xfe00`, so really just our pattern for CCD0 shifted by two positions by adding two 
+    of `0xfe00`, so really just our pattern for CCD 0 shifted by two positions by adding two 
     zeros at the end. 
 
     For the example above, with 
@@ -1279,7 +1289,7 @@ sometimes is to carefully map onto L3 cache domains for performance.
       </tbody>
     </table>
 
-    or cores 1 till 6.
+    or cores 1 till 6. For the whole mask, we get: 
 
     <table style="border-collapse: collapse; border: none;">
       <tbody style="border: none;">
@@ -1287,46 +1297,55 @@ sometimes is to carefully map onto L3 cache domains for performance.
           <td style="padding:0px 10px 0px 0px; border: none;"><b>CCD</b></td>
           <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
           &nbsp;7 &nbsp;6 &nbsp;5 &nbsp;4 &nbsp;3 &nbsp;2 &nbsp;1 &nbsp;0</td>
+          <td style="padding:0px 0px 0px 10px; border: none;"><b>using</b></td>
         </tr>
         <tr style="border: none;">
           <td style="padding:0px 10px 0px 0px; border: none;"><b>Element 1</b></td>
           <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
           &nbsp;&nbsp; 7e 00 00 00 00 00 00</td>
+          <td style="padding:0px 0px 0px 10px; border: none;">CCD 6, cores 49-54</td>
         </tr>
         <tr style="border: none;">
           <td style="padding:0px 10px 0px 0px; border: none;"><b>Element 2</b></td>
           <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
           7e 00 00 00 00 00 00 00</td>
+          <td style="padding:0px 0px 0px 10px; border: none;">CCD 7, cores 57-62</td>
         </tr>
         <tr style="border: none;">
           <td style="padding:0px 10px 0px 0px; border: none;"><b>Element 3</b></td>
           <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
           &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 7e 00 00</td>
+          <td style="padding:0px 0px 0px 10px; border: none;">CCD 2, cores 17-22</td>
         </tr>
         <tr style="border: none;">
           <td style="padding:0px 10px 0px 0px; border: none;"><b>Element 4</b></td>
           <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
           &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 7e 00 00 00</td>
+          <td style="padding:0px 0px 0px 10px; border: none;">CCD 3, cores 25-30</td>
         </tr>
         <tr style="border: none;">
           <td style="padding:0px 10px 0px 0px; border: none;"><b>Element 5</b></td>
           <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
           &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 7e</td>
+          <td style="padding:0px 0px 0px 10px; border: none;">CCD 0, cores 1-6</td>
         </tr>
         <tr style="border: none;">
           <td style="padding:0px 10px 0px 0px; border: none;"><b>Element 6</b></td>
           <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
           &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 7e 00</td>
+          <td style="padding:0px 0px 0px 10px; border: none;">CCD 1, cores 9-14</td>
         </tr>
         <tr style="border: none;">
           <td style="padding:0px 10px 0px 0px; border: none;"><b>Element 7</b></td>
           <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
           &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 7e 00 00 00 00</td>
+          <td style="padding:0px 0px 0px 10px; border: none;">CCD 4, cores 33-38</td>
         </tr>
         <tr style="border: none;">
           <td style="padding:0px 10px 0px 0px; border: none;"><b>Element 1</b></td>
           <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
           &nbsp;&nbsp; &nbsp;&nbsp; 7e 00 00 00 00 00</td>
+          <td style="padding:0px 0px 0px 10px; border: none;">CCD 5, cores 41-46</td>
         </tr>
       </tbody>
     </table>
@@ -1374,7 +1393,7 @@ Some options for the `<type>` parameter that are worth considering:
     This option only makes sense on a job-exclusive node and is for jobs that need a single 
     GPU per task. It defines the list of GPUs that should be used, with the task with local ID 0
     using the first one in the list, etc.
-    The numbering and topology was already discussed in the "LUMI ARchitecture" chapter, section
+    The numbering and topology was already discussed in the "LUMI Architecture" chapter, section
     ["Building LUMI: What a LUMI-G really looks like](01-Architecture.md#building-lumi-what-a-lumi-g-node-really-looks-like).
    
 -   `--gpu-bind=mask_gpu:<list>` is the equivalent of `--cpu-bind=mask_cpu:<list>`. 
@@ -1414,7 +1433,7 @@ of reordering MPI ranks than the Slurm `--distribution` option as one
 can define fully custom orderings.
 
 Rank reordering is an advanced topic that is discussed in more detail in the
-4/5-day Advanced LUMI courses organised by the LUMI User Support Team.
+4 or 5-day Advanced LUMI courses organised by the LUMI User Support Team.
 The [material of the latest one can be found via the course archive web page](https://lumi-supercomputer.github.io/LUMI-training-materials/comprehensive-latest)
 and is discussed in the  "MPI Topics on the HPE Cray EX Supercomputer"
 which is often given on day 3.
@@ -1623,6 +1642,56 @@ the same problem size (and hence same number of nodes and tasks).
         ```
 
 
+## MPI network adapter binding with Cray MPICH
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide MPI network adapter binding with Cray MPICH](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/MPICHNICSelection.png){ loading=lazy }
+</figure>
+
+Binding network interface controllers (NICs) to MPI ranks can help to improve 
+inter-node communication on nodes with more than one NIC for the high-speed interconnect.
+On LUMI, this is the case for the GPU nodes, but there are also many Cray systems out in
+the world with multiple NICs in CPU nodes, usually one per socket. 
+
+On LUMI, this matters only on LUMI-G, and in fact, the default binding is usually not optimal
+so it is useful to change the default NIC binding.
+
+This is done through the environment variable `MPICH_OFI_NIC_POLICY`. 
+We did already briefly discuss this environment variable when discussing
+[GPU-aware MPI](02-CPE.md#gpu-aware-mpi) in the 
+[HPE Cray Programming Environment chapter](02-CPE.md).
+
+Several values are possible, but the first two are the most relevant ones for LUMI:
+
+-   `MPICH_OFI_NIC_POLICY=GPU`: Cray MPICH will try to use the NIC that is closest to the
+    GPU used by the MPI rank. This is the most useful value if most MPI communications are done
+    directly from or to GPU-attached memory regions. Obviously this only makes sense if GPU-aware MPI
+    is enabled through `MPICH_GPU_SUPPORT_ENABLED=1`.
+
+-   `MPICH_OFI_NIC_POLICY=NUMA`: Cray MPICH will try to use the NIC that is closest to the NUMA domain
+    of the CPU cores assigned to an MPI rank. This value is useful if most MPI operations are done
+    to or from buffers in CPU-attached memory.
+
+    Note that if an optimal mapping between GCDs and CCDs is done (discussed later in this chapter),
+    both values are equivalent. However, on shared nodes where a proper mapping between CPU cores and
+    GCDs is not possible, selecting the right value for a particular code may help a lot to improve 
+    performance.
+
+-   `MPICH_OFI_NIC_POLICY=BLOCK`: Consecutive local ranks are equally distributed among NICs. E.g.,
+    with 8 ranks and 4 NICs, rank 0 an 1 would use NIC 0, rank 1 and 2 NIC 1, etc. 
+
+    **This is the default value** but on the LUMI-G nodes often not the proper one.
+
+-   `MPICH_OFI_NIC_POLICY=ROUND-ROBIN`: With 4 NICs: rank 0 goes to NIC 0, rank 1 to NIC 1, rank 2 to NIC 2,
+    rank 3 to NIC 3, rank 4 again to NIC 0, etc. So basically rank *i* goes to NIC *i* mod *#NICs*. 
+
+-   User defined mappings are also possible by combining `MPICH_OFI_NIC_POLICY=USER` with defining a mapping
+    through `MPICH_OFI_NIC_MAPPING`. 
+
+More information on these environment variables can be found in the `intro_mpi` man page on the system or
+the [ `intro_mpi` page in the online CPE documentation](https://cpe.ext.hpe.com/docs/latest/mpt/mpich/intro_mpi.html).
+
+
 ## Refining core binding in OpenMP applications
 
 <figure markdown style="border: 1px solid #000">
@@ -1714,8 +1783,9 @@ Below we discuss the more important of the standard ones:
     Multiple values of `close`, `spread` and `master` in a comma-separated list are possible
     to organise nested OpenMP parallelism, but this is outside of the scope of this tutorial. 
 
-    The Cray Compilation Environment also has an additional non-standard option `auto` which is actually the default and tries to
-    do a reasonable job for most cases. On the other compilers on LUMI, the default behaviour is `false` unless the
+    The Cray Compilation Environment also has an additional non-standard option `auto`, 
+    which is actually the default and tries to do a reasonable job for most cases. 
+    On the other compilers on LUMI, the default behaviour is `false` unless the
     next environment variable, `OMP_PLACES`, is specified.
 
 -    `OMP_DISPLAY_AFFINITY`: When set tot `TRUE` information about the affinity binding of each thread will be 
@@ -2010,7 +2080,7 @@ Some further documentation:
 
 -   The `OMP_*` environment variables and a number of environment variables specific for the runtime libraries
     of the Cray Compiling Environment are discussed in the 
-    [`intro_openmp` manual page, section "Environment variables"](https://cpe.ext.hpe.com/docs/cce/man7/intro_openmp.7.html#environment-variables).
+    [`intro_openmp` manual page, section "Environment variables"](https://cpe.ext.hpe.com/docs/latest/cce/man7/intro_openmp.7.html#environment-variables).
 
 -   [A list of OMP_ environment variables in the OpenMP 5.1 standard](https://www.openmp.org/spec-html/5.1/openmpch6.html#x323-4980006) 
     (as the current list in the HTML version of the 5.2 standard has some problems).
@@ -2034,7 +2104,7 @@ So though `ROCR_VISIBLE_DEVICES` has the same function as affinity masks for CPU
 many respects.
 
 1.  Affinity masks are part of the Linux kernel and fully OS-controlled, while 
-    `ROCR_VISIBLE_DEVICES` is interpreted in the ROCm<sup>TM</sup> stack.
+    `ROCR_VISIBLE_DEVICES` is interpreted in the ROCm(tm) stack.
 
 2.  Affinity masks are set through an OS call and that call can enforce that the new
     mask cannot be less restrictive than the parent mask. `ROCR_VISIBLE_DEVICES` is just
@@ -2129,14 +2199,19 @@ Note: The red ring and green ring correspond to the red and green rings on page 
   ![Slide GPU binding: Implementation](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRMechanism.png){ loading=lazy }
 </figure>
 
-To implement a proper CCD-to-GCD mapping we will use two mechanisms:
+To implement a proper CCD-to-GCD mapping we will use three mechanisms:
 
--   On the CPU side we'll use Slurm `--cpu-bind`. Sometimes we can also simply use `-c` or 
+-   On the **CPU side** we'll use Slurm `--cpu-bind`. Sometimes we can also simply use `-c` or 
     `--cpus-per-task` (in particular in the case below with linear ordering of the CCDs and 
     7 cores per task)
 
--   On the GPU side we will manually assign GPUs via a different value of `ROCR_VISIBLE_DEVICES` for each
+-   On the **GPU side** we will manually assign GPUs via a different value of `ROCR_VISIBLE_DEVICES` for each
     thread. To accomplish this we will have to write a wrapper script which we will generate in the job script.
+
+-   On the **NIC side**, one can then ensure that the proper NIC will be used by each MPI rank by setting
+    `MPICH_OFI_NIC_POLICY` to either `GPU` or `NUMA`. Which one does not matter as when the proper mappings
+    are used, the CPU cores and GCD used by an MPI rank are in the same NUMA node.
+
 
 Let us start with the simplest case:
 
@@ -2181,10 +2256,10 @@ One possible job script to implement this order is:
 #SBATCH --output %x-%j.txt
 #SBATCH --partition=standard-g
 #SBATCH --gpus-per-node=8
-#SBATCH --nodes=1
+#SBATCH --nodes=2
 #SBATCH --time=5:00
 
-module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
+module load LUMI/24.03 partition/G lumi-CPEtools/1.2-cpeCray-24.03
 
 # Mapping:
 # | Task | GCD | CCD | HWTs           | Available HWTs | CPU mask (w/o HWTs) |
@@ -2215,15 +2290,18 @@ CPU_BIND2="$CPU_BIND2,0xfe0000,0xfe000000"
 CPU_BIND2="$CPU_BIND2,0xfe,0xfe00"
 CPU_BIND2="$CPU_BIND2,0xfe00000000,0xfe0000000000"
 
-export MPICH_GPU_SUPPORT_ENABLED=0
+export MPICH_GPU_SUPPORT_ENABLED=1
+export MPICH_OFI_NIC_POLICY=GPU
 
 echo -e "\nPure MPI:\n"
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID mpi_check -r
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID gpu_check -l
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID hpcat
 
 echo -e "\nHybrid:\n"
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID hybrid_check -r
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID gpu_check -l
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID hpcat
 
 /bin/rm -f select_gpu_$SLURM_JOB_ID
 ```
@@ -2259,7 +2337,7 @@ MPI 006 - OMP 000 - HWT 033 (CCD4) - Node nid006872 - RT_GPU_ID 0 - GPU_ID 6 - B
 MPI 007 - OMP 000 - HWT 041 (CCD5) - Node nid006872 - RT_GPU_ID 0 - GPU_ID 7 - Bus_ID dc(GCD7/CCD5)
 ```
 
-With the `-l` option we also print some information about the CCD that a core belongs to and the 
+With the `-l` option of `gpu_check`, we also print some information about the CCD that a core belongs to and the 
 GCD and corresponding optimal CCD for each PCIe bus ID, which makes it very easy to check if the
 mapping is as intended. Note that the GCDs are indeed in the linear order starting with GCD0.
 
@@ -2313,10 +2391,10 @@ The job script (for option 1) now becomes:
 #SBATCH --output %x-%j.txt
 #SBATCH --partition=standard-g
 #SBATCH --gpus-per-node=8
-#SBATCH --nodes=1
+#SBATCH --nodes=2
 #SBATCH --time=5:00
 
-module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+module load LUMI/24.03 partition/G lumi-CPEtools/1.2-cpeCray-24.03
 
 # Mapping:
 # | Task | CCD | HWTs           | Available HWTs | CPU mask (w/o HWTs) | GCD |
@@ -2349,15 +2427,18 @@ CPU_BIND2="$CPU_BIND2,0x0000000000fe0000,0x00000000fe000000"
 CPU_BIND2="$CPU_BIND2,0x000000fe00000000,0x0000fe0000000000"
 CPU_BIND2="$CPU_BIND2,0x00fe000000000000,0xfe00000000000000"
 
-export MPICH_GPU_SUPPORT_ENABLED=0
+export MPICH_GPU_SUPPORT_ENABLED=1
+export MPICH_OFI_NIC_POLICY=GPU
 
 echo -e "\nPure MPI:\n"
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID mpi_check -r
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID gpu_check -l
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID hpcat
 
 echo -e "\nHybrid:\n"
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID hybrid_check -r
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID gpu_check -l
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID hpcat
 
 /bin/rm -f select_gpu_$SLURM_JOB_ID
 ```
@@ -2412,10 +2493,10 @@ in the two scripts above:
 #SBATCH --output %x-%j.txt
 #SBATCH --partition=standard-g
 #SBATCH --gpus-per-node=8
-#SBATCH --nodes=1
+#SBATCH --nodes=2
 #SBATCH --time=5:00
 
-module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
+module load LUMI/24.03 partition/G lumi-CPEtools/1.2-cpeCray-24.03
 
 # Mapping:
 # | Task | GCD | CCD | Available cores | CPU mask (w/o HWTs) |
@@ -2457,15 +2538,18 @@ CPU_BIND2="$CPU_BIND2,${CCD_MASK[3]},${CCD_MASK[2]}"
 CPU_BIND2="$CPU_BIND2,${CCD_MASK[0]},${CCD_MASK[1]}"
 CPU_BIND2="$CPU_BIND2,${CCD_MASK[5]},${CCD_MASK[4]}"
 
-export MPICH_GPU_SUPPORT_ENABLED=0
+export MPICH_GPU_SUPPORT_ENABLED=1
+export MPICH_OFI_NIC_POLICY=GPU
 
 echo -e "\nPure MPI:\n"
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID mpi_check -r
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID gpu_check -l
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID hpcat
 
 echo -e "\nHybrid:\n"
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID hybrid_check -r
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID gpu_check -l
+srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_ID hpcat
 
 /bin/rm -f select_gpu_$SLURM_JOB_ID
 ```
@@ -2518,7 +2602,7 @@ is is also easy to check that each task is also mapped on the optimal CCD for th
     #SBATCH --nodes=1
     #SBATCH --time=5:00
     
-    module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
+    module load LUMI/24.03 partition/G lumi-CPEtools/1.2-cpeCray-24.03
     
     #
     # Define the order of the GPUs and the core mask for CCD0
@@ -2587,6 +2671,7 @@ is is also easy to check that each task is also mapped on the optimal CCD for th
     #
     
     export MPICH_GPU_SUPPORT_ENABLED=1
+    export MPICH_OFI_NIC_POLICY=GPU
     
     # Some mappings:
     linear_CCD="4 5 2 3 6 7 0 1"
@@ -2678,7 +2763,7 @@ resources allocated via the `sbatch` arguments (usually `#SBATCH` lines), and re
     #SBATCH --hint=nomultithread
     #SBATCH --time=5:00
 
-    module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
+    module load LUMI/24.03 partition/G lumi-CPEtools/1.2-cpeCray-24.03
 
     cat << EOF > select_gpu_$SLURM_JOB_ID
     #!/bin/bash
@@ -2852,7 +2937,7 @@ resources allocated via the `sbatch` arguments (usually `#SBATCH` lines), and re
     #SBATCH --hint=nomultithread
     #SBATCH --time=5:00
     
-    module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
+    module load LUMI/24.03 partition/G lumi-CPEtools/1.2-cpeCray-24.03
     
     cat << EOF > select_gpu_$SLURM_JOB_ID
     #!/bin/bash
