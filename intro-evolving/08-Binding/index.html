@@ -792,6 +792,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#mpi-network-adapter-binding-with-cray-mpich" class="md-nav__link">
+    <span class="md-ellipsis">
+      MPI network adapter binding with Cray MPICH
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#refining-core-binding-in-openmp-applications" class="md-nav__link">
     <span class="md-ellipsis">
       Refining core binding in OpenMP applications
@@ -1131,6 +1140,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#mpi-network-adapter-binding-with-cray-mpich" class="md-nav__link">
+    <span class="md-ellipsis">
+      MPI network adapter binding with Cray MPICH
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#refining-core-binding-in-openmp-applications" class="md-nav__link">
     <span class="md-ellipsis">
       Refining core binding in OpenMP applications
@@ -1238,7 +1256,7 @@ on many clusters, or <code>srun</code> on LUMI - will <em>distribute</em>  the p
 nodes. Within a node, it is possible to pin or attach processes or even individual threads
 in processes to one or more cores (actually hardware threads) and other resources, 
 which is called process binding.</p>
-<p>The system software (Linux, ROCm<sup>TM</sup> and Slurm) 
+<p>The system software (Linux, ROCm&trade; and Slurm) 
 has several mechanisms for that. Slurm uses Linux cgroups or control groups to limit the 
 resources that a job can use within a node and thus to isolate jobs from one another on a
 node so that one job cannot deplete the resources of another job, and sometimes even
@@ -1248,14 +1266,19 @@ The second mechanism is processor affinity which works at the process and thread
 used by Slurm at the task level and 
 can be used by the OpenMP runtime to further limit thread migration. It works through affinity masks
 which indicate the hardware threads that a thread or process can use. There is also a third
-mechanism provided by the ROCm<sup>TM</sup> runtime to control which GPUs can be used.</p>
+mechanism provided by the ROCm&trade;) runtime to control which GPUs can be used.</p>
 <p>Some of the tools in the <code>lumi-CPEtools</code> module can show the affinity mask for each thread
 (or effectively the process for single-threaded processes) so you can use these tools to
 study the affinity masks and check the distribution and binding of processes and threads.
 The <code>serial_check</code>, <code>omp_check</code>, <code>mpi_check</code> and <code>hybrid_check</code> programs can be used to
 study thread binding. In fact, <code>hybrid_check</code> can be used in all cases, but the other three
 show more compact output for serial, shared memory OpenMP and single-threaded MPI processes 
-respectively. The <code>gpu_check</code> command can be used to study the steps in GPU binding.</p>
+respectively. The <code>gpu_check</code> command can be used to study the steps in GPU binding.
+From version 1.2 onwards, the module also contains the <code>hpcat</code> command, which stands for
+HPC Affinity Tracker. This tool can only be compiled with Cray MPICH, but it shows core
+affinity, GPUs used and, when running on more than one node, the network adapter used by
+each MPI rank. It shows the NUMA node for all these resources so that it is easy to check
+if the binding is OK.</p>
 <details class="note">
 <summary>Credits for these programs</summary>
 <p>The <code>hybrid_check</code> program and its derivatives <code>serial_check</code>, <code>omp_check</code> and <code>mpi_check</code>
@@ -1273,6 +1296,16 @@ migration as the Linux scheduler tries to distribute the load in a good way.</p>
 with several extensions implemented by the LUST.</p>
 <p>(ORNL is the national lab that operates Frontier, an exascale supercomputer based on the same
 node type as LUMI-G.)</p>
+<p>The HPC Affinity Tracker tool is developed by HPE and made 
+<a href="https://github.com/HewlettPackard/hpcat">publicly available in GitHub</a>.</p>
+</details>
+<details class="bug">
+<summary><code>hpcat</code> on multiple nodes</summary>
+<p>As of the time of the last update of this paragraph, <code>hpcat</code> runs fine when started from an
+interactive session created with <code>sallc</code>, using <code>srun</code> to launch the application on the compute
+node(s), but it crashes when this is done in a batch script that uses more than one node. 
+So we do not really use it yet in the slides and notes. When fully stable, it would be a better
+replacement for the <code>gpu_check -l</code> command used in several of the examples.</p>
 </details>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide When/where is it done" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/WhenDone.png" /></p>
@@ -1303,7 +1336,7 @@ per-node per-job basis.</p>
     and on LUMI is different for the Cray compiler compared to the GNU and AMD compilers.</p>
 </li>
 <li>
-<p>Finally, the ROCm runtime also can limit the use of GPUs by a process to a subset of the ones that
+<p>Finally, the ROCm&trade; runtime also can limit the use of GPUs by a process to a subset of the ones that
     are available to the process through the use of the <code>ROCR_VISIBLE_DEVICES</code> environment variable.</p>
 </li>
 </ul>
@@ -1311,7 +1344,7 @@ per-node per-job basis.</p>
 resources. On <a href="../07-Slurm/#partitions">"allocatable by resources"</a> partitions 
 you usually do not know which resources are available.
 The advanced Slurm binding options that we will discuss do not work in those cases, and the options offered
-by the MPICH, OpenMP and ROCm runtimes may work very unpredictable, though OpenMP thread binding may still 
+by the MPICH, OpenMP and ROCm&trade; runtimes may work very unpredictable, though OpenMP thread binding may still 
 help a bit with performance in some cases.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -1332,14 +1365,15 @@ even more detail in some other courses lectures in Belgium (in particular the
 given twice a year at VSC@UAntwerpen),
 modern supercomputer nodes have increasingly a very hierarchical architecture.  This hierarchical architecture is extremely
 pronounced on the AMD EPYC architecture used in LUMI but is also increasingly showing up with Intel processors and the ARM
-server processors, and is also relevant but often ignored in GPU clusters.
---&gt;</p>
+server processors, and is also relevant but often ignored in GPU clusters.</p>
+<!-- END BELGIUM -->
+
 <!-- GENERAL More general version
 As we have seen in the ["LUMI Architecture" session of this course](01-Architecture.md) and as you may know from other courses,
 modern supercomputer nodes have increasingly a very hierarchical architecture. This hierarchical architecture is extremely
 pronounced on the AMD EPYC architecture used in LUMI but is also increasingly showing up with Intel processors and the ARM
 server processors, and is also relevant but often ignored in GPU clusters.
--->
+END GENERAL -->
 
 <p>A proper binding of resources to the application is becoming more and more essential for good performance and 
 scalability on supercomputers. </p>
@@ -1390,11 +1424,13 @@ are on the first socket and core 64 till 127 on the second one. The numbering of
 say the virtual core - then starts where the numbering of the actual cores ends, so 64 for LUMI-G (which has only one socket per node)
 or 128 for LUMI-C. This has the advantage that if hardware threading is turned off at the BIOS/UEFI level, the numbering of the actual 
 cores does not change. </p>
-<p>On LUMI G, core 0 and its second hardware thread 64 are reserved by the low noise mode and cannot be used by Slurm or applications.
-This is done to help reduce OS jitter which can kill scalability of large parallel applications. However, it also creates an assymetry
-that is hard to deal with. (For this reason they chose to disable the first core of every CCD on Frontier, so core 0, 8, 16, ... and 
-corresponding hardware threads 64, 72, ..., but on LUMI this is not yet the case).
-Don't be surprised if when running a GPU code you see a lot of activity on core 0. It is caused by the ROCm<sup>TM</sup> driver
+<p>On LUMI G, the first core of each CCD, so core 0, 8, ... and the corresponding second hardware threads 64, 72, ..., 
+is not available for user threads. Basically, physical core 0 had to be reserved for OS processes 
+to help reduce OS jitter which can kill scalability of large parallel applications. 
+But as only reserving physical core 0 creates an asymmetry in the node which is difficult to deal
+with for users, the decision was made to - similar as on Frontier - reserve the first core of each CCD.
+Don't be surprised if when running a GPU code you see a lot of activity on core 0. It is caused by the ROCm&trade;) driver
+and often also by Lustre processes,
 and is precisely the reason why that core is reserved, as that activity would break scalability of applications that expect
 to have the same amount of available compute power on each core.</p>
 <p>Note that even with <code>--hint=nomultithread</code> the hardware threads will still be turned on at the hardware level and be visible in the 
@@ -1992,7 +2028,7 @@ and <code>Bus_ID</code> shows the relevant part of the PCIe bus ID.</p>
 </details>
 <p>The above example is very technical and not suited for every reader. One important conclusion though
 that is of use when running on LUMI is that <strong>Slurm works differently with CPUs and GPUs on LUMI</strong>. 
-Cores and GPUs are treated differently. Cores access is controlled by control groups at the
+Cores and GPUs are treated differently. Core access is controlled by control groups at the
 job step level on each node and at the task level by affinity masks. 
 The equivalent for GPUs would be to also use control groups at the job step level and then
 <code>ROCR_VISIBLE_DEVICES</code> to further set access to GPUs for each task, but this is not what 
@@ -2246,7 +2282,7 @@ discuss a different option that enables very precise binding of tasks to hardwar
 <p>The mechanism does conflict with some Slurm options that implicitly already do some binding, e.g., 
 it will not always work together with <code>--cpus-per-task</code> and <code>--hint=[no]multithread</code> may also not 
 act as expected depending on how the options are used. 
-Level 2/3 control via <code>--distribution</code> sometimes also make no sense when this option is used
+Level 2 and 3 control via <code>--distribution</code> sometimes also makes no sense when this option is used
 (and will be ignored).</p>
 <p>Task-to-CPU binding is controlled through the Slurm option </p>
 <div class="highlight"><pre><span></span><code>--cpu-bind=[{quiet|verbose},]&lt;type&gt;
@@ -2288,12 +2324,289 @@ srun --ntasks=8 --cpu-bind=mask_cpu:7e000000000000,7e00000000000000,7e0000,7e000
 25-30, fifth on 1-6, sixth on 9-14, seventh on 33-38 and eight on 41-46.</p>
 </li>
 </ul>
-<p>The <code>--cpu-bind=map_cpu</code> and <code>--cpu-bind=mask_gpu</code> options also do not go together with <code>-c</code> / <code>--cpus-per-task</code>.
+<p><strong>The <code>--cpu-bind=map_cpu</code> and <code>--cpu-bind=mask_gpu</code> options also do not go together with <code>-c</code> / <code>--cpus-per-task</code>.</strong>
 Both commands define a binding (the latter in combination with the default <code>--cpu-bind=threads</code>) 
 and these will usually conflict.</p>
 <p>There are more options, but these are currently most relevant ones on LUMI. That may change in the future as
 LUMI User Support is investigating whether it isn't better to change the concept of "socket" in Slurm given how important it
 sometimes is to carefully map onto L3 cache domains for performance.</p>
+<details class="note">
+<summary>How to understand masks?</summary>
+<p>Masks indicate which (virtual) cores can be used. A mask is really a series of bits with 
+each bit corresponding to a virtual core. The least significant bit corresponds to core 0,
+the next one to core 1, etc. A 1-bit indicates that the corresponding virtual core can be used
+while a 0-bit indicates that it cannot be used. </p>
+<p>Consider the mask <code>1111000001011010</code>. For readability, we split it up in groups of 4 from right to left: </p>
+<p><table style="border-collapse: collapse; border: none;">
+  <tbody style="border: none;">
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Core</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; line-height: 0.85; padding:0px 0px 0px 0px; border: none;">
+             1111 1100 0000 0000
+        </br>5432 1098 7654 3210</td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Mask</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      1111 0000 0101 1010</td>
+    </tr>
+  </tbody>
+</table></p>
+<p>Hence this masks indicates that cores 1, 3, 4, 6, 12, 13, 14 and 15 can be used.</p>
+<p>Now using such long bit strings is awkward. There is a long tradition among computer
+scientists to represent such bit strings instead as hexadecimal numbers: numbers base 16,
+instead of as bit strings, numbers base 2. Each hexadecimal digit then corresponds with 
+4 bits, and we start assigning those again from the 4 least significant bits to the 
+most significant bits, adding 0s at the front to get a multiple of 4 bits. The conversion
+is given by the following table.</p>
+<p><table>
+<thead>
+  <tr>
+    <td style="font-weight: bold;">decimal</tc>
+    <td style="font-weight: bold;">binary</td>
+    <td style="font-weight: bold;">hexadecimal</td>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">0</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">0000</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">0</td>
+  </tr>
+  <tr>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">1</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">0001</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">1</td>
+  </tr>
+  <tr>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">2</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">0010</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">2</td>
+  </tr>
+  <tr>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">3</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">0011</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">3</td>
+  </tr>
+  <tr>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">4</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">0100</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">4</td>
+  </tr>
+  <tr>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">5</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">0101</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">5</td>
+  </tr>
+  <tr>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">6</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">0110</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">6</td>
+  </tr>
+  <tr>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">7</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">0111</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">7</td>
+  </tr>
+  <tr>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">8</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">1000</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">8</td>
+  </tr>
+  <tr>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">9</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">1001</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">9</td>
+  </tr>
+  <tr>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">10</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">1010</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">a</td>
+  </tr>
+  <tr>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">11</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">1011</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">b</td>
+  </tr>
+  <tr>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">12</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">1100</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">c</td>
+  </tr>
+  <tr>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">13</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">1101</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">d</td>
+  </tr>
+  <tr>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">14</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">1110</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">e</td>
+  </tr>
+  <tr>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">15</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">1111</td>
+    <td style="text-align: right; font-family: SFMono-Regular, Consolas, Menlo, monospace;">f</td>
+  </tr>
+</tbody>
+</table></p>
+<p>So our mask <code>1111000001011010</code> is more conveniently written as <code>f05a</code> of <code>F05A</code>:</p>
+<p><table style="border-collapse: collapse; border: none;">
+  <tbody style="border: none;">
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Core</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; line-height: 0.85; padding:0px 0px 0px 0px; border: none;">
+             1111 1100 0000 0000
+        </br>5432 1098 7654 3210</td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Mask</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      1111 0000 0101 1010</td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Hexadecimal</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      &nbsp;&nbsp;f&nbsp; &nbsp;&nbsp;0&nbsp; &nbsp;&nbsp;5&nbsp; &nbsp;&nbsp;a </td>
+    </tr>
+  </tbody>
+</table></p>
+<p>To indicate that a number is a hexadecimal number, there are several conventions, but the
+one which is usually used, is preceding the number with <code>0x</code>, so our mask then becomes 
+<code>0xf05a</code>.  This convention is used by bash and can also be used in Slurm masks.</p>
+<p>Since CCDs on the zen3-based LUMI CPUs have 8 cores, they correspond to exactly 2 hexadecimal
+digits. This also implies that if we want to use the same cores on each CCD, building the mask
+becomes simple as we only need to look at CCD 0 and then shift the pattern two positions for each
+subsequent CCD. </p>
+<p>The primary use case for all this will be core mapping on the GPU nodes to get an optimal binding
+between the cores and GCDs used by a Slurm task / MPI rank. On each CCD of a LUMI-G processor,
+core 0 cannot be used by the user. So building a mask that includes the first hardware thread of
+all available cores (cores 1-7) of a CCD is done as follows:</p>
+<p><table style="border-collapse: collapse; border: none;">
+  <tbody style="border: none;">
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Core</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">7654 3210</td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Mask</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      1111 1110</td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Hexadecimal</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      &nbsp;&nbsp;f&nbsp; &nbsp;&nbsp;e</td>
+    </tr>
+  </tbody>
+</table></p>
+<p>so the mask is <code>0xfe</code>. Suppose that we want to use all 7 available cores on CCD 1, i.e., cores 9 till 15,
+we get</p>
+<p><table style="border-collapse: collapse; border: none;">
+  <tbody style="border: none;">
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Core</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; line-height: 0.85; padding:0px 0px 0px 0px; border: none;">
+             1111 1100 0000 0000
+        </br>5432 1098 7654 3210</td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Mask</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      1111 1110 0000 0000</td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Hexadecimal</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      &nbsp;&nbsp;f&nbsp; &nbsp;&nbsp;e&nbsp; &nbsp;&nbsp;0&nbsp; &nbsp;&nbsp;0 </td>
+    </tr>
+  </tbody>
+</table></p>
+<p>of <code>0xfe00</code>, so really just our pattern for CCD 0 shifted by two positions by adding two 
+zeros at the end. </p>
+<p>For the example above, with 
+<code>--cpu-bind=mask_cpu:7e000000000000,7e00000000000000,7e0000,7e000000,7e,7e00,7e00000000,7e0000000000</code>,
+the basic building block is <code>0x7e</code>, so</p>
+<p><table style="border-collapse: collapse; border: none;">
+  <tbody style="border: none;">
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Hexadecimal</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      &nbsp;&nbsp;7&nbsp; &nbsp;&nbsp;e</td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Mask</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      0111 1110</td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Core</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">7654 3210</td>
+    </tr>
+  </tbody>
+</table></p>
+<p>or cores 1 till 6. For the whole mask, we get: </p>
+<p><table style="border-collapse: collapse; border: none;">
+  <tbody style="border: none;">
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>CCD</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      &nbsp;7 &nbsp;6 &nbsp;5 &nbsp;4 &nbsp;3 &nbsp;2 &nbsp;1 &nbsp;0</td>
+      <td style="padding:0px 0px 0px 10px; border: none;"><b>using</b></td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Element 1</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      &nbsp;&nbsp; 7e 00 00 00 00 00 00</td>
+      <td style="padding:0px 0px 0px 10px; border: none;">CCD 6, cores 49-54</td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Element 2</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      7e 00 00 00 00 00 00 00</td>
+      <td style="padding:0px 0px 0px 10px; border: none;">CCD 7, cores 57-62</td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Element 3</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 7e 00 00</td>
+      <td style="padding:0px 0px 0px 10px; border: none;">CCD 2, cores 17-22</td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Element 4</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 7e 00 00 00</td>
+      <td style="padding:0px 0px 0px 10px; border: none;">CCD 3, cores 25-30</td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Element 5</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 7e</td>
+      <td style="padding:0px 0px 0px 10px; border: none;">CCD 0, cores 1-6</td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Element 6</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 7e 00</td>
+      <td style="padding:0px 0px 0px 10px; border: none;">CCD 1, cores 9-14</td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Element 7</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 7e 00 00 00 00</td>
+      <td style="padding:0px 0px 0px 10px; border: none;">CCD 4, cores 33-38</td>
+    </tr>
+    <tr style="border: none;">
+      <td style="padding:0px 10px 0px 0px; border: none;"><b>Element 1</b></td>
+      <td style="font-family: SFMono-Regular, Consolas, Menlo, monospace; padding:0px 0px 0px 0px; border: none;">
+      &nbsp;&nbsp; &nbsp;&nbsp; 7e 00 00 00 00 00</td>
+      <td style="padding:0px 0px 0px 10px; border: none;">CCD 5, cores 41-46</td>
+    </tr>
+  </tbody>
+</table></p>
+<p>So basically this mask means that we are creating slots for 8 tasks that each use 6 cores on a single 
+CCD (cores 1 till 6), in the order CCD 6, CCD 7, CCD 2, CCD 3, CCD 0, CCD 1, CCD 4 and CCD 5.</p>
+</details>
 <h2 id="task-to-gpu-binding-with-slurm">Task-to-GPU binding with Slurm<a class="headerlink" href="#task-to-gpu-binding-with-slurm" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Task-to-GPU binding with Slurm" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/SlurmTaskGPU.png" /></p>
@@ -2327,7 +2640,7 @@ which is somewhat similar to <code>--cpu-binding</code> (to the extent that that
     This option only makes sense on a job-exclusive node and is for jobs that need a single 
     GPU per task. It defines the list of GPUs that should be used, with the task with local ID 0
     using the first one in the list, etc.
-    The numbering and topology was already discussed in the "LUMI ARchitecture" chapter, section
+    The numbering and topology was already discussed in the "LUMI Architecture" chapter, section
     <a href="../01-Architecture/#building-lumi-what-a-lumi-g-node-really-looks-like">"Building LUMI: What a LUMI-G really looks like</a>.</p>
 </li>
 <li>
@@ -2364,7 +2677,7 @@ With Cray MPICH this can be changed via the environment variable
 of reordering MPI ranks than the Slurm <code>--distribution</code> option as one
 can define fully custom orderings.</p>
 <p>Rank reordering is an advanced topic that is discussed in more detail in the
-4/5-day Advanced LUMI courses organised by the LUMI User Support Team.
+4 or 5-day Advanced LUMI courses organised by the LUMI User Support Team.
 The <a href="https://lumi-supercomputer.github.io/LUMI-training-materials/comprehensive-latest">material of the latest one can be found via the course archive web page</a>
 and is discussed in the  "MPI Topics on the HPE Cray EX Supercomputer"
 which is often given on day 3.</p>
@@ -2593,6 +2906,53 @@ Running 8 single-threaded MPI ranks.
 </li>
 </ol>
 </details>
+<h2 id="mpi-network-adapter-binding-with-cray-mpich">MPI network adapter binding with Cray MPICH<a class="headerlink" href="#mpi-network-adapter-binding-with-cray-mpich" title="Permanent link">&para;</a></h2>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide MPI network adapter binding with Cray MPICH" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/MPICHNICSelection.png" /></p>
+</figure>
+<p>Binding network interface controllers (NICs) to MPI ranks can help to improve 
+inter-node communication on nodes with more than one NIC for the high-speed interconnect.
+On LUMI, this is the case for the GPU nodes, but there are also many Cray systems out in
+the world with multiple NICs in CPU nodes, usually one per socket. </p>
+<p>On LUMI, this matters only on LUMI-G, and in fact, the default binding is usually not optimal
+so it is useful to change the default NIC binding.</p>
+<p>This is done through the environment variable <code>MPICH_OFI_NIC_POLICY</code>. 
+We did already briefly discuss this environment variable when discussing
+<a href="../02-CPE/#gpu-aware-mpi">GPU-aware MPI</a> in the 
+<a href="../02-CPE/">HPE Cray Programming Environment chapter</a>.</p>
+<p>Several values are possible, but the first two are the most relevant ones for LUMI:</p>
+<ul>
+<li>
+<p><code>MPICH_OFI_NIC_POLICY=GPU</code>: Cray MPICH will try to use the NIC that is closest to the
+    GPU used by the MPI rank. This is the most useful value if most MPI communications are done
+    directly from or to GPU-attached memory regions. Obviously this only makes sense if GPU-aware MPI
+    is enabled through <code>MPICH_GPU_SUPPORT_ENABLED=1</code>.</p>
+</li>
+<li>
+<p><code>MPICH_OFI_NIC_POLICY=NUMA</code>: Cray MPICH will try to use the NIC that is closest to the NUMA domain
+    of the CPU cores assigned to an MPI rank. This value is useful if most MPI operations are done
+    to or from buffers in CPU-attached memory.</p>
+<p>Note that if an optimal mapping between GCDs and CCDs is done (discussed later in this chapter),
+both values are equivalent. However, on shared nodes where a proper mapping between CPU cores and
+GCDs is not possible, selecting the right value for a particular code may help a lot to improve 
+performance.</p>
+</li>
+<li>
+<p><code>MPICH_OFI_NIC_POLICY=BLOCK</code>: Consecutive local ranks are equally distributed among NICs. E.g.,
+    with 8 ranks and 4 NICs, rank 0 an 1 would use NIC 0, rank 1 and 2 NIC 1, etc. </p>
+<p><strong>This is the default value</strong> but on the LUMI-G nodes often not the proper one.</p>
+</li>
+<li>
+<p><code>MPICH_OFI_NIC_POLICY=ROUND-ROBIN</code>: With 4 NICs: rank 0 goes to NIC 0, rank 1 to NIC 1, rank 2 to NIC 2,
+    rank 3 to NIC 3, rank 4 again to NIC 0, etc. So basically rank <em>i</em> goes to NIC <em>i</em> mod <em>#NICs</em>. </p>
+</li>
+<li>
+<p>User defined mappings are also possible by combining <code>MPICH_OFI_NIC_POLICY=USER</code> with defining a mapping
+    through <code>MPICH_OFI_NIC_MAPPING</code>. </p>
+</li>
+</ul>
+<p>More information on these environment variables can be found in the <code>intro_mpi</code> man page on the system or
+the <a href="https://cpe.ext.hpe.com/docs/latest/mpt/mpich/intro_mpi.html"> <code>intro_mpi</code> page in the online CPE documentation</a>.</p>
 <h2 id="refining-core-binding-in-openmp-applications">Refining core binding in OpenMP applications<a class="headerlink" href="#refining-core-binding-in-openmp-applications" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Refining core binding in OpenMP" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/OpenMPBinding.png" /></p>
@@ -2680,8 +3040,9 @@ the physical numbering and not a numbering that is local to the job allocation.<
 </ul>
 <p>Multiple values of <code>close</code>, <code>spread</code> and <code>master</code> in a comma-separated list are possible
 to organise nested OpenMP parallelism, but this is outside of the scope of this tutorial. </p>
-<p>The Cray Compilation Environment also has an additional non-standard option <code>auto</code> which is actually the default and tries to
-do a reasonable job for most cases. On the other compilers on LUMI, the default behaviour is <code>false</code> unless the
+<p>The Cray Compilation Environment also has an additional non-standard option <code>auto</code>, 
+which is actually the default and tries to do a reasonable job for most cases. 
+On the other compilers on LUMI, the default behaviour is <code>false</code> unless the
 next environment variable, <code>OMP_PLACES</code>, is specified.</p>
 </li>
 <li>
@@ -2938,7 +3299,7 @@ also offer additional environment variables, e.g.,
 <li>
 <p>The <code>OMP_*</code> environment variables and a number of environment variables specific for the runtime libraries
     of the Cray Compiling Environment are discussed in the 
-    <a href="https://cpe.ext.hpe.com/docs/cce/man7/intro_openmp.7.html#environment-variables"><code>intro_openmp</code> manual page, section "Environment variables"</a>.</p>
+    <a href="https://cpe.ext.hpe.com/docs/latest/cce/man7/intro_openmp.7.html#environment-variables"><code>intro_openmp</code> manual page, section "Environment variables"</a>.</p>
 </li>
 <li>
 <p><a href="https://www.openmp.org/spec-html/5.1/openmpch6.html#x323-4980006">A list of OMP_ environment variables in the OpenMP 5.1 standard</a> 
@@ -2960,7 +3321,7 @@ many respects.</p>
 <ol>
 <li>
 <p>Affinity masks are part of the Linux kernel and fully OS-controlled, while 
-    <code>ROCR_VISIBLE_DEVICES</code> is interpreted in the ROCm<sup>TM</sup> stack.</p>
+    <code>ROCR_VISIBLE_DEVICES</code> is interpreted in the ROCm&trade; stack.</p>
 </li>
 <li>
 <p>Affinity masks are set through an OS call and that call can enforce that the new
@@ -3007,6 +3368,7 @@ better to ensure that each GCD collaborates with the matched CCD in an MPI rank.
 <th style="text-align: right;">CCD</th>
 <th style="text-align: left;">HWTs</th>
 <th style="text-align: left;">Available HWTs</th>
+<th style="text-align: right;">CPU mask (without HWTs)</th>
 <th style="text-align: right;">GCD</th>
 </tr>
 </thead>
@@ -3015,48 +3377,56 @@ better to ensure that each GCD collaborates with the matched CCD in an MPI rank.
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">0-7, 64-71</td>
 <td style="text-align: left;">1-7, 65-71</td>
+<td style="text-align: right;">0xfe</td>
 <td style="text-align: right;">4</td>
 </tr>
 <tr>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">8-15, 72-79</td>
 <td style="text-align: left;">9-15, 73-79</td>
+<td style="text-align: right;">0xfe00</td>
 <td style="text-align: right;">5</td>
 </tr>
 <tr>
 <td style="text-align: right;">2</td>
 <td style="text-align: left;">16-23, 80-87</td>
 <td style="text-align: left;">17-23, 81-87</td>
+<td style="text-align: right;">0xfe0000</td>
 <td style="text-align: right;">2</td>
 </tr>
 <tr>
 <td style="text-align: right;">3</td>
 <td style="text-align: left;">24-32, 88-95</td>
 <td style="text-align: left;">25-32, 89-95</td>
+<td style="text-align: right;">0xfe000000</td>
 <td style="text-align: right;">3</td>
 </tr>
 <tr>
 <td style="text-align: right;">4</td>
 <td style="text-align: left;">32-39, 96-103</td>
 <td style="text-align: left;">33-39, 97-103</td>
+<td style="text-align: right;">0xfe00000000</td>
 <td style="text-align: right;">6</td>
 </tr>
 <tr>
 <td style="text-align: right;">5</td>
 <td style="text-align: left;">40-47, 104-111</td>
 <td style="text-align: left;">41-47, 105-111</td>
+<td style="text-align: right;">0xfe0000000000</td>
 <td style="text-align: right;">7</td>
 </tr>
 <tr>
 <td style="text-align: right;">6</td>
 <td style="text-align: left;">48-55, 112-119</td>
 <td style="text-align: left;">49-55, 113-119</td>
+<td style="text-align: right;">0xfe000000000000</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr>
 <td style="text-align: right;">7</td>
 <td style="text-align: left;">56-63, 120-127</td>
 <td style="text-align: left;">57-63, 121-127</td>
+<td style="text-align: right;">0xfe00000000000000</td>
 <td style="text-align: right;">1</td>
 </tr>
 </tbody>
@@ -3069,6 +3439,7 @@ better to ensure that each GCD collaborates with the matched CCD in an MPI rank.
 <th style="text-align: right;">CCD</th>
 <th style="text-align: left;">HWTs</th>
 <th style="text-align: left;">Available HWTs</th>
+<th style="text-align: right;">CPU mask (without HWTs)</th>
 </tr>
 </thead>
 <tbody>
@@ -3077,48 +3448,56 @@ better to ensure that each GCD collaborates with the matched CCD in an MPI rank.
 <td style="text-align: right;">6</td>
 <td style="text-align: left;">48-55, 112-119</td>
 <td style="text-align: left;">49-55, 113-119</td>
+<td style="text-align: right;">0xfe000000000000</td>
 </tr>
 <tr>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: left;">56-63, 120-127</td>
 <td style="text-align: left;">57-63, 121-127</td>
+<td style="text-align: right;">0xfe00000000000000</td>
 </tr>
 <tr>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: left;">16-23, 80-87</td>
 <td style="text-align: left;">17-23, 81-87</td>
+<td style="text-align: right;">0xfe0000</td>
 </tr>
 <tr>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: left;">24-32, 88-95</td>
 <td style="text-align: left;">25-32, 89-95</td>
+<td style="text-align: right;">0xfe000000</td>
 </tr>
 <tr>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">0-7, 64-71</td>
 <td style="text-align: left;">1-7, 65-71</td>
+<td style="text-align: right;">0xfe</td>
 </tr>
 <tr>
 <td style="text-align: right;">5</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">8-15, 72-79</td>
 <td style="text-align: left;">9-15, 73-79</td>
+<td style="text-align: right;">0xfe00</td>
 </tr>
 <tr>
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: left;">32-39, 96-103</td>
 <td style="text-align: left;">33-39, 97-103</td>
+<td style="text-align: right;">0xfe00000000</td>
 </tr>
 <tr>
 <td style="text-align: right;">7</td>
 <td style="text-align: right;">5</td>
 <td style="text-align: left;">40-47, 104-111</td>
 <td style="text-align: left;">41-47, 105-111</td>
+<td style="text-align: right;">0xfe0000000000</td>
 </tr>
 </tbody>
 </table>
@@ -3148,16 +3527,21 @@ the order of the CCDs nor the order of the GCDs is trivial.</p>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide GPU binding: Implementation" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRMechanism.png" /></p>
 </figure>
-<p>To implement a proper CCD-to-GCD mapping we will use two mechanisms:</p>
+<p>To implement a proper CCD-to-GCD mapping we will use three mechanisms:</p>
 <ul>
 <li>
-<p>On the CPU side we'll use Slurm <code>--cpu-bind</code>. Sometimes we can also simply use <code>-c</code> or 
+<p>On the <strong>CPU side</strong> we'll use Slurm <code>--cpu-bind</code>. Sometimes we can also simply use <code>-c</code> or 
     <code>--cpus-per-task</code> (in particular in the case below with linear ordering of the CCDs and 
     7 cores per task)</p>
 </li>
 <li>
-<p>On the GPU side we will manually assign GPUs via a different value of <code>ROCR_VISIBLE_DEVICES</code> for each
+<p>On the <strong>GPU side</strong> we will manually assign GPUs via a different value of <code>ROCR_VISIBLE_DEVICES</code> for each
     thread. To accomplish this we will have to write a wrapper script which we will generate in the job script.</p>
+</li>
+<li>
+<p>On the <strong>NIC side</strong>, one can then ensure that the proper NIC will be used by each MPI rank by setting
+    <code>MPICH_OFI_NIC_POLICY</code> to either <code>GPU</code> or <code>NUMA</code>. Which one does not matter as when the proper mappings
+    are used, the CPU cores and GCD used by an MPI rank are in the same NUMA node.</p>
 </li>
 </ul>
 <p>Let us start with the simplest case:</p>
@@ -3168,7 +3552,83 @@ the order of the CCDs nor the order of the GCDs is trivial.</p>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide GPU binding: Implementation: Linear GCD, match CPU, OpenMP" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRMechanismLinearGCD2.png" /></p>
 </figure>
-<p>One possible job script to accomplish this is:</p>
+<p>In this scenario, task 0 uses GCD 0 and the matching CCD, CCD 6, task 1 uses GCD 1 and the matching CCD 7,
+etc. So the following table is the relevant one to use:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">GCD</th>
+<th style="text-align: right;">CCD</th>
+<th style="text-align: left;">HWTs</th>
+<th style="text-align: left;">Available HWTs</th>
+<th style="text-align: right;">CPU mask (without HWTs)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">48-55, 112-119</td>
+<td style="text-align: left;">49-55, 113-119</td>
+<td style="text-align: right;">0xfe000000000000</td>
+</tr>
+<tr>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">56-63, 120-127</td>
+<td style="text-align: left;">57-63, 121-127</td>
+<td style="text-align: right;">0xfe00000000000000</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">16-23, 80-87</td>
+<td style="text-align: left;">17-23, 81-87</td>
+<td style="text-align: right;">0xfe0000</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">24-32, 88-95</td>
+<td style="text-align: left;">25-32, 89-95</td>
+<td style="text-align: right;">0xfe000000</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">0-7, 64-71</td>
+<td style="text-align: left;">1-7, 65-71</td>
+<td style="text-align: right;">0xfe</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">8-15, 72-79</td>
+<td style="text-align: left;">9-15, 73-79</td>
+<td style="text-align: right;">0xfe00</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">32-39, 96-103</td>
+<td style="text-align: left;">33-39, 97-103</td>
+<td style="text-align: right;">0xfe00000000</td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">40-47, 104-111</td>
+<td style="text-align: left;">41-47, 105-111</td>
+<td style="text-align: right;">0xfe0000000000</td>
+</tr>
+</tbody>
+</table>
+<p>Mapping each task to a GCD is easy in this case, as the Slurm task with local
+task ID $SLURM_LOCALID is mapped on GCD $SLURM_LOCALID. However,
+the CPU mapping is more complex, but to build the CPU mask or list, we simply 
+have to read the 4<sup>th</sup> or 5<sup>th</sup> column from the above table from the first to
+the last line.</p>
+<p>One possible job script to implement this order is:</p>
 <!-- map-linear-GCD.slurm -->
 <div class="highlight"><pre><span></span><code>#!/bin/bash
 #SBATCH --account=project_46YXXXXXX
@@ -3176,11 +3636,24 @@ the order of the CCDs nor the order of the GCDs is trivial.</p>
 #SBATCH --output %x-%j.txt
 #SBATCH --partition=standard-g
 #SBATCH --gpus-per-node=8
-#SBATCH --nodes=1
+#SBATCH --nodes=2
 #SBATCH --time=5:00
 
-module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
+module load LUMI/24.03 partition/G lumi-CPEtools/1.2-cpeCray-24.03
 
+# Mapping:
+# | Task | GCD | CCD | HWTs           | Available HWTs | CPU mask (w/o HWTs) |
+# |-----:|----:|----:|:---------------|:---------------|--------------------:|
+# |    0 |   0 |   6 | 48-55, 112-119 | 49-55, 113-119 |   0xfe000000000000  |
+# |    1 |   1 |   7 | 56-63, 120-127 | 57-63, 121-127 | 0xfe00000000000000  |
+# |    2 |   2 |   2 | 16-23, 80-87   | 17-23, 81-87   |           0xfe0000  |
+# |    3 |   3 |   3 | 24-32, 88-95   | 25-32, 89-95   |         0xfe000000  |
+# |    4 |   4 |   0 | 0-7, 64-71     | 1-7, 65-71     |               0xfe  |
+# |    5 |   5 |   1 | 8-15, 72-79    | 9-15, 73-79    |             0xfe00  |
+# |    6 |   6 |   4 | 32-39, 96-103  | 33-39, 97-103  |       0xfe00000000  |
+# |    7 |   7 |   5 | 40-47, 104-111 | 41-47, 105-111 |     0xfe0000000000  |
+
+# Mapping from column 2 (GCD)
 cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
 #!/bin/bash
 export ROCR_VISIBLE_DEVICES=\$SLURM_LOCALID
@@ -3188,14 +3661,17 @@ exec \$*
 EOF
 chmod +x select_gpu_$SLURM_JOB_ID
 
+# Mapping from column 5 (Available HWTs)
 CPU_BIND1=&quot;map_cpu:49,57,17,25,1,9,33,41&quot;
 
+# Mapping from column 6 (CPU mask)
 CPU_BIND2=&quot;mask_cpu:0xfe000000000000,0xfe00000000000000&quot;
 CPU_BIND2=&quot;$CPU_BIND2,0xfe0000,0xfe000000&quot;
 CPU_BIND2=&quot;$CPU_BIND2,0xfe,0xfe00&quot;
 CPU_BIND2=&quot;$CPU_BIND2,0xfe00000000,0xfe0000000000&quot;
 
-export MPICH_GPU_SUPPORT_ENABLED=0
+export MPICH_GPU_SUPPORT_ENABLED=1
+export MPICH_OFI_NIC_POLICY=GPU
 
 echo -e &quot;\nPure MPI:\n&quot;
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID mpi_check -r
@@ -3233,7 +3709,7 @@ MPI 005 - OMP 000 - HWT 009 (CCD1) - Node nid006872 - RT_GPU_ID 0 - GPU_ID 5 - B
 MPI 006 - OMP 000 - HWT 033 (CCD4) - Node nid006872 - RT_GPU_ID 0 - GPU_ID 6 - Bus_ID d9(GCD6/CCD4)
 MPI 007 - OMP 000 - HWT 041 (CCD5) - Node nid006872 - RT_GPU_ID 0 - GPU_ID 7 - Bus_ID dc(GCD7/CCD5)
 </code></pre></div>
-<p>With the <code>-l</code> option we also print some information about the CCD that a core belongs to and the 
+<p>With the <code>-l</code> option of <code>gpu_check</code>, we also print some information about the CCD that a core belongs to and the 
 GCD and corresponding optimal CCD for each PCIe bus ID, which makes it very easy to check if the
 mapping is as intended. Note that the GCDs are indeed in the linear order starting with GCD0.</p>
 <h3 id="linear-assignment-of-the-ccds-then-match-the-gcd">Linear assignment of the CCDs, then match the GCD<a class="headerlink" href="#linear-assignment-of-the-ccds-then-match-the-gcd" title="Permanent link">&para;</a></h3>
@@ -3246,7 +3722,80 @@ mapping is as intended. Note that the GCDs are indeed in the linear order starti
 <figure style="border: 1px solid #000">
 <p><img alt="Slide GPU binding: Implementation: Linear CCD, match GCD, with cpus-per-task" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-08-Binding/ROCRMechanismLinearCCD3.png" /></p>
 </figure>
-<p>To modify the order of the GPUs, we now use an array with the desired order in the <code>select_gpu</code> script.
+<p>Modifying the order of the GPUs to match the CCDs which are assigned as CCD <em>i</em> for local task <em>i</em>,
+is a bit more complicated as we still need to ensure that each task lands on a different CCD while
+assigning the GPU is more difficult. The relevant table for this example is:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">CCD</th>
+<th style="text-align: left;">HWTs</th>
+<th style="text-align: left;">Available HWTs</th>
+<th style="text-align: right;">CPU mask (without HWTs)</th>
+<th style="text-align: right;">GCD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">0-7, 64-71</td>
+<td style="text-align: left;">1-7, 65-71</td>
+<td style="text-align: right;">0xfe</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">8-15, 72-79</td>
+<td style="text-align: left;">9-15, 73-79</td>
+<td style="text-align: right;">0xfe00</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">16-23, 80-87</td>
+<td style="text-align: left;">17-23, 81-87</td>
+<td style="text-align: right;">0xfe0000</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">24-32, 88-95</td>
+<td style="text-align: left;">25-32, 89-95</td>
+<td style="text-align: right;">0xfe000000</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">32-39, 96-103</td>
+<td style="text-align: left;">33-39, 97-103</td>
+<td style="text-align: right;">0xfe00000000</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">40-47, 104-111</td>
+<td style="text-align: left;">41-47, 105-111</td>
+<td style="text-align: right;">0xfe0000000000</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">48-55, 112-119</td>
+<td style="text-align: left;">49-55, 113-119</td>
+<td style="text-align: right;">0xfe000000000000</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">56-63, 120-127</td>
+<td style="text-align: left;">57-63, 121-127</td>
+<td style="text-align: right;">0xfe00000000000000</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+<p>To modify the order of the GPUs, we now use an array with the desired order in the <code>select_gpu</code> script,
+and that order can be read from the last column in the above table.
 With the current setup of LUMI, with one core reserved on each chiplet, there are now two options
 to get the proper CPUs:</p>
 <ol>
@@ -3266,11 +3815,24 @@ to get the proper CPUs:</p>
 #SBATCH --output %x-%j.txt
 #SBATCH --partition=standard-g
 #SBATCH --gpus-per-node=8
-#SBATCH --nodes=1
+#SBATCH --nodes=2
 #SBATCH --time=5:00
 
-module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+module load LUMI/24.03 partition/G lumi-CPEtools/1.2-cpeCray-24.03
 
+# Mapping:
+# | Task | CCD | HWTs           | Available HWTs | CPU mask (w/o HWTs) | GCD |
+# |-----:|----:|:---------------|:---------------|--------------------:|----:|
+# |    0 |   0 | 0-7, 64-71     | 1-7, 65-71     |               0xfe  |   4 |
+# |    1 |   1 | 8-15, 72-79    | 9-15, 73-79    |             0xfe00  |   5 |
+# |    2 |   2 | 16-23, 80-87   | 17-23, 81-87   |           0xfe0000  |   2 |
+# |    3 |   3 | 24-32, 88-95   | 25-32, 89-95   |         0xfe000000  |   3 |
+# |    4 |   4 | 32-39, 96-103  | 33-39, 97-103  |       0xfe00000000  |   6 |
+# |    5 |   5 | 40-47, 104-111 | 41-47, 105-111 |     0xfe0000000000  |   7 |
+# |    6 |   6 | 48-55, 112-119 | 49-55, 113-119 |   0xfe000000000000  |   0 |
+# |    7 |   7 | 56-63, 120-127 | 57-63, 121-127 | 0xfe00000000000000  |   1 |
+
+# Mapping from column 6 (GCD)
 cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
 #!/bin/bash
 GPU_ORDER=(4 5 2 3 6 7 0 1)
@@ -3279,15 +3841,18 @@ exec \$*
 EOF
 chmod +x select_gpu_$SLURM_JOB_ID
 
+# Mapping from column 4 (Available HWTs)
 CPU_BIND1=&quot;map_cpu:1,9,17,25,33,41,49,57&quot;
 
+# Mapping from column 5 (CPU masks)
 CPU_BIND2=&quot;mask_cpu&quot;
 CPU_BIND2=&quot;$CPU_BIND2:0x00000000000000fe,0x000000000000fe00&quot;
 CPU_BIND2=&quot;$CPU_BIND2,0x0000000000fe0000,0x00000000fe000000&quot;
 CPU_BIND2=&quot;$CPU_BIND2,0x000000fe00000000,0x0000fe0000000000&quot;
 CPU_BIND2=&quot;$CPU_BIND2,0x00fe000000000000,0xfe00000000000000&quot;
 
-export MPICH_GPU_SUPPORT_ENABLED=0
+export MPICH_GPU_SUPPORT_ENABLED=1
+export MPICH_OFI_NIC_POLICY=GPU
 
 echo -e &quot;\nPure MPI:\n&quot;
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID mpi_check -r
@@ -3299,6 +3864,8 @@ srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_
 
 /bin/rm -f select_gpu_$SLURM_JOB_ID
 </code></pre></div>
+<p>The order of the elements in <code>GPU_ORDER</code> comes from the last column of the table, while the values
+for <code>map_cpu</code> or <code>mask_cpu</code> can be read from the 3<sup>rd</sup> or 4<sup>th</sup> column respectively.</p>
 <p>The leading zeros in the masks in the <code>CPU_BIND2</code> environment variable are not needed but we added
 them as it makes it easier to see which chiplet is used in what position.</p>
 <h3 id="the-green-ring">The green ring<a class="headerlink" href="#the-green-ring" title="Permanent link">&para;</a></h3>
@@ -3321,6 +3888,7 @@ we want to create the mapping</p>
 <th style="text-align: right;">GCD</th>
 <th style="text-align: right;">CCD</th>
 <th style="text-align: left;">Available cores</th>
+<th style="text-align: right;">CPU mask (without HWTs)</th>
 </tr>
 </thead>
 <tbody>
@@ -3329,48 +3897,56 @@ we want to create the mapping</p>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">6</td>
 <td style="text-align: left;">49-55, 113-119</td>
+<td style="text-align: right;">0xfe000000000000</td>
 </tr>
 <tr>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: left;">57-63, 121-127</td>
+<td style="text-align: right;">0xfe00000000000000</td>
 </tr>
 <tr>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: left;">25-32, 89-95</td>
+<td style="text-align: right;">0xfe000000</td>
 </tr>
 <tr>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: left;">17-23, 81-87</td>
+<td style="text-align: right;">0xfe0000</td>
 </tr>
 <tr>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">1-7, 65-71</td>
+<td style="text-align: right;">0xfe</td>
 </tr>
 <tr>
 <td style="text-align: right;">5</td>
 <td style="text-align: right;">5</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">9-15, 73-79</td>
+<td style="text-align: right;">0xfe00</td>
 </tr>
 <tr>
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: right;">5</td>
 <td style="text-align: left;">41-47, 105-111</td>
+<td style="text-align: right;">0xfe0000000000</td>
 </tr>
 <tr>
 <td style="text-align: right;">7</td>
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: left;">33-39, 97-103</td>
+<td style="text-align: right;">0xfe00000000</td>
 </tr>
 </tbody>
 </table>
@@ -3385,33 +3961,37 @@ in the two scripts above:</p>
 #SBATCH --output %x-%j.txt
 #SBATCH --partition=standard-g
 #SBATCH --gpus-per-node=8
-#SBATCH --nodes=1
+#SBATCH --nodes=2
 #SBATCH --time=5:00
 
-module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
+module load LUMI/24.03 partition/G lumi-CPEtools/1.2-cpeCray-24.03
 
 # Mapping:
-# | Task | GCD | CCD | Available cores |
-# |-----:|----:|----:|:----------------|
-# |    0 |   0 |   6 | 49-55, 113-119  |
-# |    1 |   1 |   7 | 57-63, 121-127  |
-# |    2 |   3 |   3 | 25-32, 89-95    |
-# |    3 |   2 |   2 | 17-23, 81-87    |
-# |    4 |   4 |   0 | 1-7, 65-71      |
-# |    5 |   5 |   1 | 9-15, 73-79     |
-# |    6 |   7 |   5 | 41-47, 105-111  |
-# |    7 |   6 |   4 | 33-39, 97-103   |
+# | Task | GCD | CCD | Available cores | CPU mask (w/o HWTs) |
+# |-----:|----:|----:|:----------------|--------------------:|
+# |    0 |   0 |   6 | 49-55, 113-119  |   0xfe000000000000  |
+# |    1 |   1 |   7 | 57-63, 121-127  | 0xfe00000000000000  |
+# |    2 |   3 |   3 | 25-32, 89-95    |         0xfe000000  |
+# |    3 |   2 |   2 | 17-23, 81-87    |           0xfe0000  |
+# |    4 |   4 |   0 | 1-7, 65-71      |               0xfe  |
+# |    5 |   5 |   1 | 9-15, 73-79     |             0xfe00  |
+# |    6 |   7 |   5 | 41-47, 105-111  |     0xfe0000000000  |
+# |    7 |   6 |   4 | 33-39, 97-103   |       0xfe00000000  |
 
+# Mapping from column 2 (GCD)
 cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
 #!/bin/bash
+# GPU order: Column 2 of the table
 GPU_ORDER=(0 1 3 2 4 5 7 6)
 export ROCR_VISIBLE_DEVICES=\${GPU_ORDER[\$SLURM_LOCALID]}
 exec \$*
 EOF
 chmod +x select_gpu_$SLURM_JOB_ID
 
+# Core order: Column 4 (Available cores)
 CPU_BIND1=&quot;map_cpu:49,57,25,17,1,9,41,33&quot;
 
+# Mask: Column 5 of the table, top to bottom, or column 3 (CCD) for the trick we use here.
 CCD_MASK=( 0x00000000000000fe \
            0x000000000000fe00 \
            0x0000000000fe0000 \
@@ -3426,7 +4006,8 @@ CPU_BIND2=&quot;$CPU_BIND2,${CCD_MASK[3]},${CCD_MASK[2]}&quot;
 CPU_BIND2=&quot;$CPU_BIND2,${CCD_MASK[0]},${CCD_MASK[1]}&quot;
 CPU_BIND2=&quot;$CPU_BIND2,${CCD_MASK[5]},${CCD_MASK[4]}&quot;
 
-export MPICH_GPU_SUPPORT_ENABLED=0
+export MPICH_GPU_SUPPORT_ENABLED=1
+export MPICH_OFI_NIC_POLICY=GPU
 
 echo -e &quot;\nPure MPI:\n&quot;
 srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND1 ./select_gpu_$SLURM_JOB_ID mpi_check -r
@@ -3439,11 +4020,11 @@ srun --ntasks=$((SLURM_NNODES*8)) --cpu-bind=$CPU_BIND2 ./select_gpu_$SLURM_JOB_
 /bin/rm -f select_gpu_$SLURM_JOB_ID
 </code></pre></div>
 <p>The values for <code>GPU_ORDER</code> are easily read from the second column of the table with the mapping
-that we prepared. The cores to use for the pure MPI run are also easily read from the table:
+that we prepared. The cores to use for the pure MPI run are easily read from the fourth column of the table:
 simply take the first core of each line. Finally, to build the mask,
 we used some bash trickery. We first define the bash array <code>CCD_MASK</code> with the mask for each chiplet.
 As this has a regular structure, this is easy to build. Then we compose the mask list for the CPUs
-by indexing in that array, where the indices are easily read from the third column in the mapping.</p>
+by indexing in that array, where the indices are easily read from the third column in the mapping table.</p>
 <p>The alternative code to build <code>CPU_BIND2</code> is</p>
 <div class="highlight"><pre><span></span><code>CPU_BIND2=&quot;mask_cpu&quot;
 CPU_BIND2=&quot;$CPU_BIND2:0x00fe000000000000,0xfe00000000000000&quot;
@@ -3451,7 +4032,8 @@ CPU_BIND2=&quot;$CPU_BIND2,0x00000000fe000000,0x0000000000fe0000&quot;
 CPU_BIND2=&quot;$CPU_BIND2,0x00000000000000fe,0x000000000000fe00&quot;
 CPU_BIND2=&quot;$CPU_BIND2,0x0000fe0000000000,0x000000fe00000000&quot;
 </code></pre></div>
-<p>which may be shorter, but requires some puzzling to build and hence is more prone to error.</p>
+<p>which may be shorter, but requires some puzzling to build and hence is more prone to error.
+These values can be read from the last column of the table.</p>
 <p>The output of the second <code>srun</code> command is now</p>
 <div class="highlight"><pre><span></span><code>MPI 000 - OMP 000 - HWT 049 (CCD6) - Node nid005083 - RT_GPU_ID 0 - GPU_ID 0 - Bus_ID c1(GCD0/CCD6)
 MPI 001 - OMP 000 - HWT 057 (CCD7) - Node nid005083 - RT_GPU_ID 0 - GPU_ID 1 - Bus_ID c6(GCD1/CCD7)
@@ -3475,7 +4057,7 @@ is is also easy to check that each task is also mapped on the optimal CCD for th
 #SBATCH --nodes=1
 #SBATCH --time=5:00
 
-module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
+module load LUMI/24.03 partition/G lumi-CPEtools/1.2-cpeCray-24.03
 
 #
 # Define the order of the GPUs and the core mask for CCD0
@@ -3544,6 +4126,7 @@ function generate_mask {
 #
 
 export MPICH_GPU_SUPPORT_ENABLED=1
+export MPICH_OFI_NIC_POLICY=GPU
 
 # Some mappings:
 linear_CCD=&quot;4 5 2 3 6 7 0 1&quot;
@@ -3553,31 +4136,34 @@ ring_red=&quot;0 1 5 4 6 7 3 2&quot;
 
 echo -e &quot;\nTest runs:\n&quot;
 
+# Use either &quot;hpcat&quot; (once bugs are fixed) or &quot;gpu_check -l&quot;
+exe=&quot;gpu_check -l&quot;
+
 echo -e &quot;\nConsecutive CCDs:\n&quot;
 srun --ntasks=$((SLURM_NNODES*8)) \
      --cpu-bind=mask_cpu:$(generate_mask $coremask $linear_CCD) \
-     ./run_gpu_$SLURM_JOB_ID &quot;$linear_CCD&quot; gpu_check -l
+     ./run_gpu_$SLURM_JOB_ID &quot;$linear_CCD&quot; $exe
 
 echo -e &quot;\nConsecutive GCDs:\n&quot;
 srun --ntasks=$((SLURM_NNODES*8)) \
      --cpu-bind=mask_cpu:$(generate_mask $coremask $linear_GCD) \
-     ./run_gpu_$SLURM_JOB_ID &quot;$linear_GCD&quot; gpu_check -l
+     ./run_gpu_$SLURM_JOB_ID &quot;$linear_GCD&quot; $exe
 
 echo -e &quot;\nGreen ring:\n&quot;
 srun --ntasks=$((SLURM_NNODES*8)) \
      --cpu-bind=mask_cpu:$(generate_mask $coremask $ring_green) \
-     ./run_gpu_$SLURM_JOB_ID &quot;$ring_green&quot; gpu_check -l
+     ./run_gpu_$SLURM_JOB_ID &quot;$ring_green&quot; $exe
 
 echo -e &quot;\nRed ring:\n&quot;
 srun --ntasks=$((SLURM_NNODES*8)) \
      --cpu-bind=mask_cpu:$(generate_mask $coremask $ring_red) \
-     ./run_gpu_$SLURM_JOB_ID &quot;$ring_red&quot; gpu_check -l
+     ./run_gpu_$SLURM_JOB_ID &quot;$ring_red&quot; $exe
 
-echo -e &quot;\nFirst two CPU NUMA domains (assuming one node in the allocation):&quot;
+echo -e &quot;\nFirst two CPU NUMA domains (assuming one node in the allocation):\n&quot;
 half=&quot;4 5 2 3&quot;
 srun --ntasks=4 \
      --cpu-bind=mask_cpu:$(generate_mask $coremask $half) \
-     ./run_gpu_$SLURM_JOB_ID &quot;$half&quot; gpu_check -l
+     ./run_gpu_$SLURM_JOB_ID &quot;$half&quot; $exe
 
 /bin/rm -f run_gpu_$SLURM_JOB_ID
 </code></pre></div></p>
@@ -3632,7 +4218,7 @@ resources allocated via the <code>sbatch</code> arguments (usually <code>#SBATCH
 #SBATCH --hint=nomultithread
 #SBATCH --time=5:00
 
-module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
+module load LUMI/24.03 partition/G lumi-CPEtools/1.2-cpeCray-24.03
 
 cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
 #!/bin/bash
@@ -3787,7 +4373,7 @@ MPI 011 - OMP 001 - HWT 008 (CCD1) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 3 - B
 #SBATCH --hint=nomultithread
 #SBATCH --time=5:00
 
-module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
+module load LUMI/24.03 partition/G lumi-CPEtools/1.2-cpeCray-24.03
 
 cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
 #!/bin/bash
