@@ -85,6 +85,10 @@ markdown_extensions:
           format: !!python/name:pymdownx.superfences.fence_code_format
   # clickable details
   - pymdownx.details
+  # Caret notation for superscripts and inserts
+  - pymdownx.caret
+  # Smart symbols for TM etc, and automatic processing of 1st 2nd.
+  - pymdownx.smartsymbols
   # tabbed contents
   - pymdownx.tabbed
   - toc:
