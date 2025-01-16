@@ -44,7 +44,7 @@ affinity, GPUs used and, when running on more than one node, the network adapter
 each MPI rank. It shows the NUMA node for all these resources so that it is easy to check
 if the binding is OK.
 
-??? Note "Credits for these programs"
+??? Note "Credits for these programs (click to expand)"
     The `hybrid_check` program and its derivatives `serial_check`, `omp_check` and `mpi_check`
     are similar to the [`xthi` program](https://support.hpe.com/hpesc/public/docDisplay?docId=a00114008en_us&docLocale=en_US&page=Run_an_OpenMP_Application.html)
     used in the 4-day comprehensive LUMI course organised by the LUST in collaboration with 
@@ -67,7 +67,7 @@ if the binding is OK.
     The HPC Affinity Tracker tool is developed by HPE and made 
     [publicly available in GitHub](https://github.com/HewlettPackard/hpcat).
 
-??? Bug "`hpcat` on multiple nodes"
+??? Bug "`hpcat` on multiple nodes (click to expand)"
     As of the time of the last update of this paragraph, `hpcat` runs fine when started from an
     interactive session created with `sallc`, using `srun` to launch the application on the compute
     node(s), but it crashes when this is done in a batch script that uses more than one node. 
@@ -207,7 +207,7 @@ OS (e.g., in `/proc/cpuinfo`). In fact, the batch job step will use them, but th
 started with subsequent `srun` commands.
 
 <!-- Script cpu-numbering-demo1 -->
-??? technical "Slurm under-the-hoods example"
+??? technical "Slurm under-the-hoods example (click to expand)"
     We will use the Linux `lstopo` and `taskset` commands to study how a job step sees the system
     and how task affinity is used to manage the CPUs for a task. Consider the job script:
 
@@ -1065,7 +1065,7 @@ There are more options, but these are currently most relevant ones on LUMI. That
 LUMI User Support is investigating whether it isn't better to change the concept of "socket" in Slurm given how important it
 sometimes is to carefully map onto L3 cache domains for performance.
 
-??? Note "How to understand masks?"
+??? Note "How to understand masks? (Click to expand)"
 
     Masks indicate which (virtual) cores can be used. A mask is really a series of bits with 
     each bit corresponding to a virtual core. The least significant bit corresponds to core 0,
@@ -2123,7 +2123,7 @@ many respects.
     `ROCR_VISIBLE_DEVICES` uses the local numbering in the currently active control group.
     So the GPU that corresponds to 0 in `ROCR_VISIBLE_DEVICES` is not always the same GPU.
 
-??? advanced "Alternative values for `ROCR_VISIBLE_DEVICES`"
+??? advanced "Alternative values for `ROCR_VISIBLE_DEVICES` (click to expand)"
     Instead of device indices, `ROCR_VISIBLE_DEVICES` also accepts GPU UUIDs that are unique to each
     GPU. This is less practical then it seems as the UUIDs of GPUs are different on each node so one
     would need to discover them first before they can be used.
@@ -2592,7 +2592,7 @@ MPI 007 - OMP 000 - HWT 033 (CCD4) - Node nid005083 - RT_GPU_ID 0 - GPU_ID 6 - B
 Checking the last column, we see that the GCDs are indeed in the desired order for the green ring, and 
 is is also easy to check that each task is also mapped on the optimal CCD for the GCD.
 
-??? example "Job script with some more advanced bash"
+??? example "Job script with some more advanced bash (click to expand)"
 
     <!-- map-advanced-multiple.slurm -->
     ```
@@ -2928,7 +2928,7 @@ resources allocated via the `sbatch` arguments (usually `#SBATCH` lines), and re
     MPI 011 - OMP 001 - HWT 008 (CCD1) - Node nid007380 - RT_GPU_ID 0 - GPU_ID 3 - Bus_ID cc(GCD3/CCD3)
     ```
 
-??? example "Example job script when using 2 GPUs per task."
+??? example "Example job script when using 2 GPUs per task (click to expand)"
     <!-- map-smallg-2gpt.slurm -->
     ```
     #! /bin/bash
