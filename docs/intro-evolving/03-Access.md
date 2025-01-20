@@ -350,7 +350,7 @@ and the "Files" column show the total number of so-called inodes available in th
 
 The project file spaces can be expanded in capacity within the limits specified.
 However, as big parallel file systems are very bad at handling lots of small files
-(see also the [session on Lustre](08-Lustre.md)), the files quota (or more accurately
+(see also the [session on Lustre](09-Lustre.md)), the files quota (or more accurately
 inode quota) are rather strict and not easily raised (and if raised, not by an order
 of magnitude).
 
