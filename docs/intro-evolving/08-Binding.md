@@ -1,5 +1,6 @@
-# Process and Thread Distribution and Binding
+Last update of this page: {{ git_revision_date_localized }}
 
+# Process and Thread Distribution and Binding
 
 ## What are we talking about in this session?
 

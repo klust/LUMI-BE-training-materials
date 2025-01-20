@@ -1,3 +1,5 @@
+Last update of this page: {{ git_revision_date_localized }}
+
 # HPE Cray Programming Environment
 
 In this session we discuss some of the basics of the operating system and

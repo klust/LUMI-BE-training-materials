@@ -60,11 +60,9 @@ nav:
     - A2 Documentation: intro-evolving/A02-Documentation.md
      
 plugins:
-  # show revision date at bottom of each page
-  # - git-revision-date-localized
   # necessary for search to work
   - search
-  # Last revision of a page
+  # show revision date at bottom of each page
   - git-revision-date-localized
   # redirects to avoid broken URLs in original version of the tutorial (June 2020)
   - redirects:
