@@ -1,3 +1,5 @@
+Last update of this page: {{ git_revision_date_localized }}
+
 # LUMI Software Stacks
 
 In this section we discuss

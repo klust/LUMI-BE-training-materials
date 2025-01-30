@@ -1,3 +1,5 @@
+Last update of this page: {{ git_revision_date_localized }}
+
 # Getting Access to LUMI
 
 ## LUMI is part of the EuroHPC ecosystem
