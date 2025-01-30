@@ -1,3 +1,5 @@
+Last update of this page: {{ git_revision_date_localized }}
+
 # LUMI Support and Documentation
 
 ## Distributed nature of LUMI support
@@ -51,7 +53,7 @@ help desk that you need to contact for allocation problems).
 In the Walloon region, there is some limited advanced support via Orian Louant. However, this is only a part of
 all his tasks. Here also the lumi-be-support@enccb.be mail address can be used.
 
-EuroHPC has also granted the EPICURE project that started in February 2024 to set up a network for
+EuroHPC has also granted the [EPICURE project](https://epicure-hpc.eu/) that started in February 2024 to set up a network for
 advanced L2 and L3 support across EuroHPC centres. Belgium also participates in that project as a partner
 in the LUMI consortium. However, this project is also so small that it will have to select the problems
 they tackle.
@@ -60,7 +62,7 @@ though development projects are relatively easy to get without too much administ
 Yet, this only makes sense for a sufficiently large project with a long enough duration.
 
 <!-- GENERAL More general version 
-EuroHPC has also granted the EPICURE project that started in February 2024 to set up a network for
+EuroHPC has also granted the [EPICURE project](https://epicure-hpc.eu/) that started in February 2024 to set up a network for
 advanced L2 and L3 support across EuroHPC centres. At the time of the course, the project is still in
 its startup phase. Moreover, this project is also so small that it will have to select the problems
 they tackle.
@@ -97,7 +99,7 @@ team in which you collaborate on a project!
 </figure>
 
 There exist system-specific and application-specific trainings. 
-Ideally of course a user would want a one-step solution, having a specific training for a specific application on
+Ideally of course a user would want a one-step solution, having a training for a specific application on
 a specific system (and preferably with the workflow tools they will be using, if any), but that is simply
 not possible. The group that would be interested in such a training is for most packages too small, and
 it is nearly impossible to find suitable teachers for such course given the amount of expertise that is needed
@@ -113,12 +115,14 @@ The LUMI User Support Team organises 2 system-specific trainings:
 
     The course is basically equivalent to this training.
 
-2.  And there is a 4-day comprehensive training with more attention on how to run efficiently, and on the
+2.  And there is a 4-day advanced training or 5-day training that includes the introductory one
+    with more attention on how to run efficiently, and on the
     development and profiling tools. Even if you are not a developer, you may benefit from more knowledge
     about these tools as especially a profiler can give you insight in why your application does not run
     as expected.
 
-This training builds upon the older 1-day LUMI training offered by the LUST, but has been enriched with 
+This particular training is similar to the 2-day LUMI training offered by the LUST
+(in fact, the LUST training borrowed a lot of materials from this one), but has been enriched with 
 links to the situation specifically in Belgium.
 
 Application-specific trainings should come from other instances though that have the necessary domain
@@ -250,7 +254,7 @@ at a course or event.
 </figure>
 
 The LUMI User Support Team is responsible for providing L1 and basic L2 support to users of the system.
-Their work starts from the moment that you have userid on LUMI (the local RA is responsible for ensuring
+Their work starts from the moment that you have userid on LUMI (the local Resource Allocator is responsible for ensuring
 that you get a userid when a project has been assigned).
 
 <!-- Belgium -->
