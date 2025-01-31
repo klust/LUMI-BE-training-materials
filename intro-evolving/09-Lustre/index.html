@@ -1124,15 +1124,16 @@
                   
 
 
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 31, 2025</span></p>
 <h1 id="using-lustre">Using Lustre<a class="headerlink" href="#using-lustre" title="Permanent link">&para;</a></h1>
 <h2 id="file-systems-on-lumi">File systems on LUMI<a class="headerlink" href="#file-systems-on-lumi" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="File systems on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/FileSystemLumi.png" /></p>
 </figure>
-<p>Supercomputing since the second half of the 1980s has almost always been about 
+<p>Supercomputing since the second half of the 1980s, has almost always been about 
 trying to build a very fast system from relatively cheap volume components
 or technologies (as low as you
-can go without loosing too much reliability) and very cleverly written software
+can go without loosing too much reliability), and very cleverly written software
 both at the system level (to make the system look like a true single system as
 much as possible) and at the application level (to deal with the restrictions that
 inevitably come with such a setup).</p>
@@ -1147,8 +1148,9 @@ scale as well or as easily as bandwidth and capacity so this comes with
 usage restrictions on large clusters that may a lot more severe than you are used
 to from small systems. And yes, it is completely normal that some file operations are
 slower than on the SSD of a good PC.</p>
-<p>HPE Cray EX systems go even one step further. 
-Lustre is the only network file system directly served to the compute nodes.
+<p>Lustre is the main filesystem on many large supercomputers and on all Cray EX systems.</p>
+<p>HPE Cray EX systems go even one step further than many other systems. 
+On HPE Cray EX systems, Lustre is the only network file system directly served to the compute nodes.
 Other network file system come via a piece of software called Data
 Virtualisation Service (abbreviated DVS) that basically forwards I/O requests
 to servers in the management section of the cluster where the actual file
@@ -1169,7 +1171,7 @@ metadata and the actual file data, as the way both are accessed and used is very
 <p>A Lustre system consists of the following blocks:</p>
 <ol>
 <li>
-<p>Metadata servers (MDSes) with one or more metadata targets (MDTs) each store
+<p><strong>Metadata servers (MDSes)</strong> with one or more <strong>metadata targets (MDTs)</strong> each store
     namespace metadata such as filenames, directories and access permissions, and the
     file layout.</p>
 <p>Each MDT is a filesystem, usually with some level of RAID or similar technologies
@@ -1182,7 +1184,7 @@ storage possible even if that storage is very expensive per terabyte. On LUMI al
 metadata servers use SSDs.</p>
 </li>
 <li>
-<p>Object storage servers (OSSes) with one or more object storage targets (OSTs) each
+<p><strong>Object storage servers (OSSes)</strong> with one or more <strong>object storage targets (OSTs)</strong> each
     store the actual data. Data from a single file can be distributed across multiple
     OSTs and even multiple OSSes. As we shall see, this is also the key to getting very
     high bandwidth access to the data.</p>
@@ -1195,14 +1197,14 @@ Lustre file system. Lustre file systems are often many petabytes large.</p>
 and SSDs, but SSDs of data centre quality are still up to 10 times as expensive as 
 hard drives of data centre quality. Building a file system of several tens of petabytes
 out of SSDs is still extremely expensive and rarely done, certainly in an environment 
-with a high write pressure on the file system as that requires the highest quality SSDs.
+with a high write pressure on the file system, as that requires the highest quality SSDs.
 Hence it is not uncommon that supercomputers will use mostly hard drives for their large
 storage systems.</p>
 <p>On LUMI there is roughly 80 PB spread across 4 large hard disk based Lustre file systems, and
 8.5 PB in an SSD-based Lustre file system. However, all MDSes use SSD storage.</p>
 </li>
 <li>
-<p>Lustre clients access and use the data. They make the whole Lustre file system look like
+<p><strong>Lustre clients</strong> access and use the data. They make the whole Lustre file system look like
     a single file system.</p>
 <p>Lustre is <strong>transparent in functionality</strong>. You can use a Lustre file system just as any 
 other regular file system, with all your regular applications. However, it is <strong>not
@@ -1217,13 +1219,13 @@ performance. On LUMI we do advise Python users or users who install software thr
 to do so. </p>
 </li>
 <li>
-<p>All these components are linked together through a high performance interconnect. On HPE Cray EX
+<p>All these components are linked together through a <strong>high performance interconnect</strong>. On HPE Cray EX
     systems - but on more an more other systems also - there is no separate network anymore for 
     storage access and the same high performance interconnect that is also used for internode
     communication by applications (through, e.g., MPI) is used for that purpose.</p>
 </li>
 <li>
-<p>There is also a management server which is not mentioned on the slides, but that component
+<p>There is also a <strong>management server</strong> which is not mentioned on the slides, but that component
     is not essential to understand the behaviour of Lustre for the purpose of this lecture.</p>
 </li>
 </ol>
@@ -1242,21 +1244,21 @@ to do so. </p>
 </figure>
 -->
 
-<p>On Lustre, large files are typically broken into blocks called <em>stripes</em> or <em>chunks</em> that are then
-cyclically spread across a number of chunk files called <em>objects</em> in LUSTRE, each on
+<p>On Lustre, large files are typically broken into blocks called <strong>stripes</strong> or <strong>chunks</strong> that are then
+cyclically spread across a number of chunk files called <strong>objects</strong> in LUSTRE, each on
 a separate OST. 
 In the figure in the slide above, the file is spread across the OSTs 0, 2, 4 and 6.</p>
 <p>This process is completely transparent to the user with respect to correctness. The Lustre client
 takes care of the process and presents a traditional file to the application program.
 It is however not transparent with respect to performance. The performance of reading and
 writing a file depends a lot on how the file is spread across the OSTs of a file system.</p>
-<p>Basically, there are two parameters that have to be chosen: The size of the stripes (all stripes have
-the same size in this example, except for the last one which may be smaller) and the number of OSTs 
+<p>Basically, there are two parameters that have to be chosen: The <strong>size of the stripes</strong> (all stripes have
+the same size in this example, except for the last one which may be smaller) and the <strong>number of OSTs</strong> 
 that should be used for a file. Lustre itself takes care of choosing the OSTs in general.</p>
 <p>There are variants of Lustre where one has multiple layouts per file which can come in handy if one 
 doesn't know the size of the file in advance. The first part of the file will then typically be written
 with fewer OSTs and/or smaller chunks, but this is outside the scope of this course.
-The feature is known as Progressive File Layout.</p>
+The feature is known as <em>Progressive File Layout</em>.</p>
 <p>The stripe size and number of OSTs used can be chosen on a file-by-file basis. The default on LUMI
 is to use only one OST for a file. This is done because that is the most reasonable choice for the many
 small files that many unsuspecting users have, and as we shall see, it is sometimes even the best choice
@@ -1766,7 +1768,7 @@ capacity than a hard disk based OST).</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">December 12, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 31, 2025</span>
   </span>
 
      -->
