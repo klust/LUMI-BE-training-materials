@@ -1,3 +1,5 @@
+Last update of this page: {{ git_revision_date_localized }}
+
 # Slurm on LUMI
 
 <!-- BELGIUM -->
@@ -64,6 +66,7 @@ is no better option at this moment that is sufficiently mature.
     already trouble dealing well with the hierarchy of resources in a modern supercomputer.
     Yet it is still a lot better at it than Torque and Moab. So no, the wrappers used on
     the HPC systems managed by UGent will not be installed on LUMI.
+<!-- -->
 
 !!! nice-to-know "Nice to know..."
     Lawrence Livermore National Laboratory, the USA national laboratory that 
@@ -101,12 +104,13 @@ On the CPU side it knows:
     On LUMI a Slurm CPU corresponds to a physical core, but Slurm could also be configured to let it correspond
     to a hardware thread.
 
-The first three bullets already show the problem we have with Slurm on LUMI: For three levels in the hierarchy
+The first four bullets already show the problem we have with Slurm on LUMI: For three levels in the hierarchy
 of CPU resources on a node: the socket, the NUMA domain and the L3 cache domain, there is only one concept in
 Slurm, so we are not able to fully specify the hierarchy in resources that we want when sharing nodes with 
 other jobs.
 
 A **GPU** in Slurm is an accelerator and on LUMI corresponds to one GCD of an MI250X, so one half of an MI250X.
+
 
 ## Slurm concepts: Logical resources
 
@@ -182,7 +186,7 @@ to select the next job in a fair way based on available resources and scheduling
 compute centre.
 
 LUMI does have some facilities for interactive jobs, and with the introduction of Open On Demand some more
-may be available. But it is far from ideal, and you will also be billed for the idle time of the resources
+became available. But it is far from ideal, and you will also be billed for the idle time of the resources
 you request. In fact, if you only need some interactive resources for a quick 10-minute experiment and don't 
 need too many resources, the wait may be minimal thanks to a scheduler mechanism called backfill where the
 scheduler looks for small and short jobs to fill up the gaps left while the scheduler is collecting resources
@@ -198,7 +202,6 @@ for a big job.
 Slurm batch scripts (also called job scripts) are conceptually not that different from batch scripts for other HPC schedulers.
 A typical batch script will have 4 parts:
 
-<!-- BELGIUM Some Belgian elements in here... -->
 1.  The shebang line with the shell to use. We advise to use the bash shell (`/bin/bash` or `/usr/bin/bash`)
     If omitted, a very restricted shell will be used and some commands (e.g., related to modules)
     may fail. In principle any shell language that uses a hashtag to denote comments can be used, but
@@ -211,7 +214,7 @@ A typical batch script will have 4 parts:
     the command line can be very tedious.
 
 3.  Building a suitable environment for the job. This part is also optional as on LUMI, Slurm will copy the
-    environment from the node from which the job was submitted. This may not be the ideal envrionment for your job,
+    environment from the node from which the job was submitted. This may not be the ideal environment for your job,
     and if you later resubmit the job you may do so accidentally from a different environment so it is a good practice
     to specify the environment.
 
@@ -286,6 +289,11 @@ desired effect) may result in unexpected conflicts between parameters and error 
 </figure>
 -->
 
+<!-- Data for the table: a combination of
+scontrol show partitions
+sacctmgr show assoc where account=project_462000008 user=kurtlust
+-->
+
 For the overview of Slurm partitions, see the [LUMI documentation, "Slurm partitions" page](https://docs.lumi-supercomputer.eu/runjobs/scheduled-jobs/partitions/).
 In the overview on the slides we did not mention partitions that are hidden to regular users.
 
@@ -337,6 +345,7 @@ Some useful commands with respect to Slurm partitions:
     Note that this overview may show partitions that are not hidden but also not accessible to everyone. E.g., 
     the `q_nordic` and `q_fiqci` partitions are used to access experimental quantum computers that are only
     available to some users of those countries that paid for those machines, which does not include Belgium.
+    <!-- END BELGIUM -->
 
     <!-- GENERAL More general version 
     Note that this overview may show partitions that are not hidden but also not accessible to everyone. E.g., 
@@ -344,12 +353,17 @@ Some useful commands with respect to Slurm partitions:
     available to some users of those countries that paid for those machines.
     -->
 
-    It is not clear to the LUMI Support Team what the `interactive` partition, that uses dome GPU nodes, is 
-    meant for as it was introduced without informing the support. The resources in that partition are very
-    limited so it is not meant for widespread use.
+    The `interactive` partition is used by the Open OnDemand web interface.
 
 -   For technically-oriented people, some more details about a partition can be obtained with
-    `scontrol show partition <partition-name>`.
+    ```
+    scontrol show partition <partition-name>
+    ```
+
+    Another interesting command that will show you how many jobs you can have running in each partition, is 
+    ```
+    sacctmgr show assoc where account=<my project number> user=$USER
+    ```
 
 ??? example "Additional example with `sinfo`"
     Try
@@ -357,74 +371,55 @@ Some useful commands with respect to Slurm partitions:
     ```
     $ sinfo --format "%4D %10P %25f %.4c %.8m %25G %N"
     NODE PARTITION  AVAIL_FEATURES            CPUS   MEMORY GRES                      NODELIST
+    2    debug      AMD_EPYC_7763,x1004        256   229376 (null)                    nid[002275-002276]
     5    debug      AMD_EPYC_7763,x1005        256   229376 (null)                    nid[002500-002501,002504-002506]
     3    debug      AMD_EPYC_7763,x1006        256   229376 (null)                    nid[002595-002597]
+    2    interactiv AMD_EPYC_7763,x1004        256   229376 (null)                    nid[002278-002279]
     2    interactiv AMD_EPYC_7763,x1005        256   229376 (null)                    nid[002502,002507]
     2    interactiv AMD_EPYC_7763,x1006        256   229376 (null)                    nid[002594,002599]
-    256  ju-standar AMD_EPYC_7763,x1001        256   229376 (null)                    nid[001256-001511]
-    256  ju-standar AMD_EPYC_7763,x1004        256   229376 (null)                    nid[002024-002279]
-    96   ju-standar AMD_EPYC_7763,x1006        256   229376 (null)                    nid[002600-002695]
-    256  ju-strateg AMD_EPYC_7763,x1000        256   229376 (null)                    nid[001000-001255]
-    1    q_fiqci    AMD_EPYC_7763,x1006        256   229376 (null)                    nid002598
-    1    q_industry AMD_EPYC_7763,x1006        256   229376 (null)                    nid002598
+    1    q_fiqci    AMD_EPYC_7763,x1005        256   491520 (null)                    nid002343
+    1    q_industry AMD_EPYC_7763,x1005        256   491520 (null)                    nid002343
     1    q_nordiq   AMD_EPYC_7763,x1005        256   229376 (null)                    nid002503
-    248  small      AMD_EPYC_7763,x1005        256  229376+ (null)                    nid[002280-002499,002508-002535]
+    247  small      AMD_EPYC_7763,x1005        256  229376+ (null)                    nid[002280-002342,002344-002499,002508-002535]
     58   small      AMD_EPYC_7763,x1006        256   229376 (null)                    nid[002536-002593]
-    256  standard   AMD_EPYC_7763,x1003        256   229376 (null)                    nid[001768-002023]
+    256  standard   AMD_EPYC_7763,x1000        256   229376 (null)                    nid[001000-001255]
+    256  standard   AMD_EPYC_7763,x1001        256   229376 (null)                    nid[001256-001511]
     256  standard   AMD_EPYC_7763,x1002        256   229376 (null)                    nid[001512-001767]
+    256  standard   AMD_EPYC_7763,x1003        256   229376 (null)                    nid[001768-002023]
+    251  standard   AMD_EPYC_7763,x1004        256   229376 (null)                    nid[002024-002274]
+    192  standard   AMD_EPYC_7763,x1006        256   229376 (null)                    nid[002600-002791]
     256  standard   AMD_EPYC_7763,x1007        256   229376 (null)                    nid[002792-003047]
-    96   standard   AMD_EPYC_7763,x1006        256   229376 (null)                    nid[002696-002791]
-    2    dev-g      AMD_EPYC_7A53,x1405        128   491520 gpu:mi250:8               nid[007974-007975]
-    22   dev-g      AMD_EPYC_7A53,x1405        128   491520 gpu:mi250:8(S:0)          nid[007954-007973,007976-007977]
+    24   dev-g      AMD_EPYC_7A53,x1405        128   491520 gpu:mi250:8(S:0)          nid[007954-007977]
     24   dev-g      AMD_EPYC_7A53,x1100        128   491520 gpu:mi250:8(S:0)          nid[005002-005025]
-    2    ju-standar AMD_EPYC_7A53,x1102        128   491520 gpu:mi250:8               nid[005356-005357]
-    7    ju-standar AMD_EPYC_7A53,x1103        128   491520 gpu:mi250:8               nid[005472-005473,005478-005479,005486-005487,005493]
-    8    ju-standar AMD_EPYC_7A53,x1105        128   491520 gpu:mi250:8               nid[005648-005649,005679,005682-005683,005735,005738-005739]
-    2    ju-standar AMD_EPYC_7A53,x1200        128   491520 gpu:mi250:8               nid[005810-005811]
-    3    ju-standar AMD_EPYC_7A53,x1204        128   491520 gpu:mi250:8               nid[006301,006312-006313]
-    1    ju-standar AMD_EPYC_7A53,x1205        128   491520 gpu:mi250:8               nid006367
-    2    ju-standar AMD_EPYC_7A53,x1404        128   491520 gpu:mi250:8               nid[007760-007761]
-    9    ju-standar AMD_EPYC_7A53,x1201        128   491520 gpu:mi250:8               nid[005881,005886-005887,005897,005917,005919,005939,005969,005991]
-    90   ju-standar AMD_EPYC_7A53,x1102        128   491520 gpu:mi250:8(S:0)          nid[005280-005355,005358-005371]
-    117  ju-standar AMD_EPYC_7A53,x1103        128   491520 gpu:mi250:8(S:0)          nid[005372-005471,005474-005477,005480-005485,005488-005492,005494-005495]
-    116  ju-standar AMD_EPYC_7A53,x1105        128   491520 gpu:mi250:8(S:0)          nid[005620-005647,005650-005678,005680-005681,005684-005734,005736-005737,005740-005743]
-    122  ju-standar AMD_EPYC_7A53,x1200        128   491520 gpu:mi250:8(S:0)          nid[005744-005809,005812-005867]
-    115  ju-standar AMD_EPYC_7A53,x1201        128   491520 gpu:mi250:8(S:0)          nid[005868-005880,005882-005885,005888-005896,005898-005916,005918,005920-005938,005940-005968,005970-005990]
-    121  ju-standar AMD_EPYC_7A53,x1204        128   491520 gpu:mi250:8(S:0)          nid[006240-006300,006302-006311,006314-006363]
-    123  ju-standar AMD_EPYC_7A53,x1205        128   491520 gpu:mi250:8(S:0)          nid[006364-006366,006368-006487]
-    122  ju-standar AMD_EPYC_7A53,x1404        128   491520 gpu:mi250:8(S:0)          nid[007728-007759,007762-007851]
-    3    ju-strateg AMD_EPYC_7A53,x1101        128   491520 gpu:mi250:8               nid[005224,005242-005243]
-    8    ju-strateg AMD_EPYC_7A53,x1203        128   491520 gpu:mi250:8               nid[006136-006137,006153,006201,006214-006215,006236-006237]
-    5    ju-strateg AMD_EPYC_7A53,x1202        128   491520 gpu:mi250:8               nid[006035,006041,006047,006080-006081]
-    121  ju-strateg AMD_EPYC_7A53,x1101        128   491520 gpu:mi250:8(S:0)          nid[005124-005223,005225-005241,005244-005247]
-    32   ju-strateg AMD_EPYC_7A53,x1102        128   491520 gpu:mi250:8(S:0)          nid[005248-005279]
-    116  ju-strateg AMD_EPYC_7A53,x1203        128   491520 gpu:mi250:8(S:0)          nid[006116-006135,006138-006152,006154-006200,006202-006213,006216-006235,006238-006239]
-    119  ju-strateg AMD_EPYC_7A53,x1202        128   491520 gpu:mi250:8(S:0)          nid[005992-006034,006036-006040,006042-006046,006048-006079,006082-006115]
-    1    small-g    AMD_EPYC_7A53,x1100        128   491520 gpu:mi250:8               nid005059
-    97   small-g    AMD_EPYC_7A53,x1100        128   491520 gpu:mi250:8(S:0)          nid[005026-005058,005060-005123]
+    98   small-g    AMD_EPYC_7A53,x1100        128   491520 gpu:mi250:8(S:0)          nid[005026-005123]
     100  small-g    AMD_EPYC_7A53,x1405        128   491520 gpu:mi250:8(S:0)          nid[007852-007951]
-    2    standard-g AMD_EPYC_7A53,x1104        128   491520 gpu:mi250:8               nid[005554-005555]
-    117  standard-g AMD_EPYC_7A53,x1300        128   491520 gpu:mi250:8(S:0)          nid[006488-006505,006510-006521,006524-006550,006552-006611]
-    7    standard-g AMD_EPYC_7A53,x1300        128   491520 gpu:mi250:8               nid[006506-006509,006522-006523,006551]
-    121  standard-g AMD_EPYC_7A53,x1301        128   491520 gpu:mi250:8(S:0)          nid[006612-006657,006660-006703,006705-006735]
-    3    standard-g AMD_EPYC_7A53,x1301        128   491520 gpu:mi250:8               nid[006658-006659,006704]
-    117  standard-g AMD_EPYC_7A53,x1302        128   491520 gpu:mi250:8(S:0)          nid[006736-006740,006744-006765,006768-006849,006852-006859]
-    7    standard-g AMD_EPYC_7A53,x1302        128   491520 gpu:mi250:8               nid[006741-006743,006766-006767,006850-006851]
-    8    standard-g AMD_EPYC_7A53,x1304        128   491520 gpu:mi250:8               nid[007000-007001,007044-007045,007076-007077,007092-007093]
-    5    standard-g AMD_EPYC_7A53,x1305        128   491520 gpu:mi250:8               nid[007130-007131,007172-007173,007211]
-    2    standard-g AMD_EPYC_7A53,x1400        128   491520 gpu:mi250:8               nid[007294-007295]
-    1    standard-g AMD_EPYC_7A53,x1401        128   491520 gpu:mi250:8               nid007398
-    1    standard-g AMD_EPYC_7A53,x1403        128   491520 gpu:mi250:8               nid007655
-    122  standard-g AMD_EPYC_7A53,x1104        128   491520 gpu:mi250:8(S:0)          nid[005496-005553,005556-005619]
+    124  standard-g AMD_EPYC_7A53,x1103        128   491520 gpu:mi250:8(S:0)          nid[005372-005495]
+    2    standard-g AMD_EPYC_7A53,x1200        128   491520 gpu:mi250:8(S:0-7)        nid[005834-005835]
+    1    standard-g AMD_EPYC_7A53,x1302        128   491520 gpu:mi250:8               nid006839
+    1    standard-g AMD_EPYC_7A53,x1305        128   491520 gpu:mi250:8               nid007220
+    124  standard-g AMD_EPYC_7A53,x1101        128   491520 gpu:mi250:8(S:0)          nid[005124-005247]
+    124  standard-g AMD_EPYC_7A53,x1102        128   491520 gpu:mi250:8(S:0)          nid[005248-005371]
+    124  standard-g AMD_EPYC_7A53,x1104        128   491520 gpu:mi250:8(S:0)          nid[005496-005619]
+    124  standard-g AMD_EPYC_7A53,x1105        128   491520 gpu:mi250:8(S:0)          nid[005620-005743]
+    122  standard-g AMD_EPYC_7A53,x1200        128   491520 gpu:mi250:8(S:0)          nid[005744-005833,005836-005867]
+    124  standard-g AMD_EPYC_7A53,x1201        128   491520 gpu:mi250:8(S:0)          nid[005868-005991]
+    124  standard-g AMD_EPYC_7A53,x1202        128   491520 gpu:mi250:8(S:0)          nid[005992-006115]
+    124  standard-g AMD_EPYC_7A53,x1203        128   491520 gpu:mi250:8(S:0)          nid[006116-006239]
+    124  standard-g AMD_EPYC_7A53,x1204        128   491520 gpu:mi250:8(S:0)          nid[006240-006363]
+    124  standard-g AMD_EPYC_7A53,x1205        128   491520 gpu:mi250:8(S:0)          nid[006364-006487]
+    124  standard-g AMD_EPYC_7A53,x1300        128   491520 gpu:mi250:8(S:0)          nid[006488-006611]
+    124  standard-g AMD_EPYC_7A53,x1301        128   491520 gpu:mi250:8(S:0)          nid[006612-006735]
+    123  standard-g AMD_EPYC_7A53,x1302        128   491520 gpu:mi250:8(S:0)          nid[006736-006838,006840-006859]
     124  standard-g AMD_EPYC_7A53,x1303        128   491520 gpu:mi250:8(S:0)          nid[006860-006983]
-    116  standard-g AMD_EPYC_7A53,x1304        128   491520 gpu:mi250:8(S:0)          nid[006984-006999,007002-007043,007046-007075,007078-007091,007094-007107]
-    119  standard-g AMD_EPYC_7A53,x1305        128   491520 gpu:mi250:8(S:0)          nid[007108-007129,007132-007171,007174-007210,007212-007231]
-    122  standard-g AMD_EPYC_7A53,x1400        128   491520 gpu:mi250:8(S:0)          nid[007232-007293,007296-007355]
-    123  standard-g AMD_EPYC_7A53,x1401        128   491520 gpu:mi250:8(S:0)          nid[007356-007397,007399-007479]
+    124  standard-g AMD_EPYC_7A53,x1304        128   491520 gpu:mi250:8(S:0)          nid[006984-007107]
+    123  standard-g AMD_EPYC_7A53,x1305        128   491520 gpu:mi250:8(S:0)          nid[007108-007219,007221-007231]
+    124  standard-g AMD_EPYC_7A53,x1400        128   491520 gpu:mi250:8(S:0)          nid[007232-007355]
+    124  standard-g AMD_EPYC_7A53,x1401        128   491520 gpu:mi250:8(S:0)          nid[007356-007479]
     124  standard-g AMD_EPYC_7A53,x1402        128   491520 gpu:mi250:8(S:0)          nid[007480-007603]
-    123  standard-g AMD_EPYC_7A53,x1403        128   491520 gpu:mi250:8(S:0)          nid[007604-007654,007656-007727]
+    124  standard-g AMD_EPYC_7A53,x1403        128   491520 gpu:mi250:8(S:0)          nid[007604-007727]
+    124  standard-g AMD_EPYC_7A53,x1404        128   491520 gpu:mi250:8(S:0)          nid[007728-007851]
     6    largemem   AMD_EPYC_7742              256 4096000+ (null)                    nid[000101-000106]
-    8    lumid      AMD_EPYC_7742              256  2048000 gpu:a40:8,nvme:40000      nid[000016-000023]
+    8    lumid      AMD_EPYC_7742              256  2048000 gpu:a40:8,nvme:40000      nid[000016-000023]    
     ```
     (Output may vary over time)
     
@@ -518,7 +513,6 @@ both work with some delay.
     delay is larger than with the `lumi-workspaces` command.
 
 
-
 !!! Remark "Billing unit use per user in a project"
     The current project management system in LUMI cannot show the use of billing units
     per person within a project.
@@ -544,9 +538,11 @@ both work with some delay.
 
 LUMI is a pre-exascale machine meant to foster research into exascale applications. 
 As a result the scheduler setup of LUMI favours large jobs (though some users with large
-jobs will claim that it doesn't do so enough yet). Most nodes are reserved for larger 
+jobs will claim that it doesn't do so enough yet). So most nodes are reserved for larger 
 jobs (in the `standard` and `standard-g` partitions), and the priority computation
-also favours larger jobs (in terms of number of nodes).
+also favours larger jobs (in terms of number of nodes). The latter is also because those
+large jobs cannot benefit from a mechanism in the scheduler that allows smaller jobs to
+run when there is a suitable gap.
 
 When you submit a job, it will be queued until suitable resources are available for the
 requested time window. Each job has a priority attached to it which the scheduler computes based
@@ -573,7 +569,7 @@ particularly since the maximal wall time for a job in the standard partitions is
 for such a system. If you need one quarter of the nodes for a big job on a partition on which most 
 users would launch jobs that use the full two days of walltime, one can expect that it takes half
 a day to gather those nodes. However, the LUMI scheduler will schedule short jobs even though they have a lower
-priority on the nodes already collected if it expects that those jobs will be finisehd before it expects
+priority on the nodes already collected if it expects that those jobs will be finished before it expects
 to have all nodes for the big job. This mechanism is called backfill and is the reason why
 short experiments of half an hour or so often start quickly on LUMI even though the queue is very long.
 
@@ -643,7 +639,7 @@ Creating an allocation with `salloc` is good for interactive work.
 
 !!! Remark "Differences in `salloc` behaviour."
     On some systems `salloc` does not only create a job allocation but will
-    also create a job step, the so-called "interactive job step" on a node of
+    also create a job step, the so-called "interactive job step", on a node of
     the allocation, similar to the way that the `sbatch` command discussed later
     will create a so-called "batch job step".
 
@@ -741,8 +737,7 @@ command line and lead to unexpected behaviour.
   ![Slide Specifying options](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Slurm/SpecifyingOptions.png){ loading=lazy }
 </figure>
 
-Slurm commands have way more options and flags than we can discuss in this course or even the
-4-day comprehensive course organised by the LUMI User Support Team. Moreover, if and how they work
+Slurm commands have way more options and flags than we can discuss in this course or any other course organised by the LUMI User Support Team. Moreover, if and how they work
 may depend on the specific configuration of Slurm. Slurm has so many options that no two clusters
 are the same. 
 
@@ -777,6 +772,7 @@ Obviously a task in a job step needs all its resources (cores, memory and GPUs) 
 node, and if multiple tasks are sharing GPUs then obviously these tasks must also be on the
 same node.
 -->
+
 
 ## Some common options to all partitions
 
@@ -878,7 +874,7 @@ pros and cons. We'll call them "per-node allocations" and "per-core allocations"
 
     This strategy also gives you full control over how the application is mapped onto the available hardware:
     mapping of MPI ranks across nodes and within nodes, binding of threads to cores, and binding of GPUs to
-    MPI ranks. This will be the topic of the next section of the course and is for some applications very important
+    MPI ranks. This will be the topic of the [next chapter of the course](202-Binding.md) and is for some applications very important
     to get optimal performance on modern supercomputer nodes that have a strongly hierarchical architecture
     (which in fact is not only the case for AMD processors, but will likely be an issue on some Intel Sapphire
     Rapids processors also).
@@ -1007,7 +1003,7 @@ partition, but note that running on these nodes is expensive!)
     #SBATCH --output=%x-%j.txt
     #SBATCH --account=project_46YXXXXXX
 
-    module load LUMI/24.03 partition/G lumi-CPEtools/1.1-cpeCray-24.03
+    module load LUMI/24.03 partition/G lumi-CPEtools/1.2-cpeCray-24.03
 
     gpu_check
 
@@ -1028,7 +1024,7 @@ partition, but note that running on these nodes is expensive!)
     #SBATCH --output=%x-%j.txt
     #SBATCH --account=project_46YXXXXXX
 
-    module load LUMI/24.03 partition/C lumi-CPEtools/1.1-cpeCray-24.03
+    module load LUMI/24.03 partition/C lumi-CPEtools/1.2-cpeCray-24.03
 
     omp_check
 
@@ -1061,7 +1057,7 @@ per core, though we will favour another mechanism later in these course notes.
 
 The two options are:
 
-1.  Specify `--sockets-per-node=<sockets` and `--cores-per-socket=<cores>` and maybe even `--threads-per-core=<threads>`.
+1.  Specify `--sockets-per-node=<sockets` and `--cores-per-socket=<cores>`.
     For LUMI-C the maximal specification is 
 
     ```
@@ -1135,7 +1131,8 @@ If you insist, slurm has several options to specify the number of GPUs for this 
     any type of GRES that can also be used. Now you also need to specify the type of the GRES. The number you 
     have to specify if on a per-node basis, so on LUMI you can use  `--gres=gpu:8` or `--gres=gpu:mi250:8`.
 
-As these options are also forwarded to `srun`, it will save you from specifying them there.
+As these options are also forwarded to `srun`, it will save you from specifying them there
+if you specified them already at the time of the job allocation.
 
 
 ## Per-node allocations: Starting a job step
@@ -1206,7 +1203,9 @@ resources are for each individual task, but this scheme is an easy scheme:
     2.  If however you want multiple tasks to share a GPU, then you should use 
         `--ntasks-per-gpu=<number_of_tasks>`. There are use cases where this makes sense.
 
-    This however does not always work...
+    **This however does not always work and you should not use this approach in job-exclusive
+    node allocations...** A proper solution will be discussed in the 
+    ["Bindings" chapter of these notes](08-Binding.md).
 
 The job steps created in this simple scheme do not always run the programs at optimal efficiency. Slurm has various
 strategies to assign tasks to nodes, and there is an option which we will discuss in the next session
@@ -1234,7 +1233,7 @@ to do so. Otherwise the developers of Slurm wouldn't have changed that behaviour
     #SBATCH --time=2:00
     #SBATCH --output=%x-%j.txt
 
-    module load LUMI/24.03 partition/C lumi-CPEtools/1.1-cpeCray-24.03
+    module load LUMI/24.03 partition/C lumi-CPEtools/1.2-cpeCray-24.03
 
     echo "Submitted from $SLURM_SUBMIT_HOST"
     echo "Running on $SLURM_JOB_NODELIST"
@@ -1327,7 +1326,7 @@ core. This is illustrated with the example below.
     #SBATCH --output=%x-%j.txt
     #SBATCH --account=project_46YXXXXXX
 
-    module load LUMI/24.03 partition/C lumi-CPEtools/1.1-cpeGNU-24.03
+    module load LUMI/24.03 partition/C lumi-CPEtools/1.2-cpeGNU-24.03
 
     echo -e "Job script:\n$(cat $0)\n"
 
@@ -1448,7 +1447,7 @@ core. This is illustrated with the example below.
     #SBATCH --hint=multithread
     #SBATCH --account=project_46YXXXXXX
 
-    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeGNU-22.12
+    module load LUMI/24.03 partition/C lumi-CPEtools/1.2-cpeGNU-24.03
 
     set -x
     srun -n 1 -c 4 --hint=nomultithread omp_check -r
@@ -1525,7 +1524,7 @@ core. This is illustrated with the example below.
     srun: error: Unable to create step for job 4238919: More processors requested than permitted
     ```
 
-    The first `omp_check` runs as expected. The seocnd one uses only 2 cores but all
+    The first `omp_check` runs as expected. The second one uses only 2 cores but all
     4 hyperthreads on those cores. This is also not unexpected. In the third case
     we force the use of 8 threads, and they all land on the 4 hardware threads of
     2 cores. Again, this is not unexpected. And neither is the output of the last 
@@ -1549,7 +1548,7 @@ core. This is illustrated with the example below.
     #SBATCH --hint=multithread
     #SBATCH --account=project_46YXXXXXX
 
-    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeGNU-22.12
+    module load LUMI/24.03 partition/C lumi-CPEtools/1.2-cpeGNU-24.03
 
     set -x
     srun -n 1 -c 4 --hint=nomultithread omp_check -r
@@ -1789,7 +1788,7 @@ GPU binding does not work for you.
     #SBATCH --output %x-%j.txt
     #SBATCH --acount=project_46YXXXXXX
 
-    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeCray-22.12
+    module load LUMI/24.03 partition/C lumi-CPEtools/1.2-cpeCray-24.03
 
     echo "Running on $SLURM_JOB_NODELIST"
 
@@ -2095,7 +2094,7 @@ It is possible to change this behaviour or to define extra environment variables
   ![Slide Passing arguments](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Slurm/PassingArguments.png){ loading=lazy }
 </figure>
 
-!!! Note "Passing argumetns to a batch script"
+!!! Note "Passing arguments to a batch script"
     With the Slurm `sbatch` command, any argument passed after the name of the job script is passed to the
     job script as an argument, so you can use regular bash shell argument processing to pass arguments to
     the bash script and do not necessarily need to use `--export`. Consider the following job script to
@@ -2242,7 +2241,8 @@ Interactive jobs can have several goals, e.g.,
   ![Slide Interactive jobs with salloc](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Slurm/JobInteractiveSalloc.png){ loading=lazy }
 </figure>
 
-This is a very good way of working for the first scenario described above. 
+This is a very good way of working for the first scenario described above, testing steps
+for a future job script with parallel MPI jobs. 
 
 Using `salloc` will create a pool of resources reserved for interactive execution, and
 will start a new shell on the node where you called `salloc`(usually a login node).
@@ -2278,7 +2278,7 @@ paragraph).
     salloc: job 4292946 queued and waiting for resources
     salloc: job 4292946 has been allocated resources
     salloc: Granted job allocation 4292946
-    $ module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
+    $ module load LUMI/24.03 partition/G lumi-CPEtools/1.2-cpeCray-24.03
 
     ...
 
@@ -2506,7 +2506,7 @@ bugs are being introduced.
     #SBATCH --ntasks-per-node=4
     #SBATCH --cpus-per-task=32
 
-    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeCray-22.12
+    module load LUMI/24.03 partition/C lumi-CPEtools/1.2-cpeCray-24.03
 
     srun --het-group=0 --cpus-per-task=$SLURM_CPUS_PER_TASK_HET_GROUP_0 --export=ALL,OMP_NUM_THREADS=4  hybrid_check -l app_A : \
          --het-group=1 --cpus-per-task=$SLURM_CPUS_PER_TASK_HET_GROUP_1 --export=ALL,OMP_NUM_THREADS=32 hybrid_check -l app_B
@@ -2586,7 +2586,7 @@ bugs are being introduced.
     #SBATCH --partition=standard
     #SBATCH --nodes=3
 
-    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeCray-22.12
+    module load LUMI/24.03 partition/C lumi-CPEtools/1.2-cpeCray-24.03
 
     srun --ntasks=32 --cpus-per-task=4  --export=ALL,OMP_NUM_THREADS=4  hybrid_check -l app_A : \
          --ntasks=8  --cpus-per-task=32 --export=ALL,OMP_NUM_THREADS=32 hybrid_check -l app_B
@@ -2627,7 +2627,7 @@ bugs are being introduced.
     #SBATCH --partition=standard
     #SBATCH --nodes=3
 
-    module load LUMI/22.12 partition/C lumi-CPEtools/1.1-cpeCray-22.12
+    module load LUMI/24.03 partition/C lumi-CPEtools/1.2-cpeCray-24.03
 
     srun --nodes=1 --ntasks-per-node=32 --cpus-per-task=4  hybrid_check -l hybrid_check -l app_A : \
          --nodes=2 --ntasks-per-node=4  --cpus-per-task=32 hybrid_check -l hybrid_check -l app_B
@@ -2696,7 +2696,7 @@ multiple jobs, one for each job step that you would run simultaneously.
     #SBATCH --time=2:00
     #SBATCH --output %x-%j.txt
 
-    module load LUMI/24.03 partition/C lumi-CPEtools/1.1-cpeCray-24.03
+    module load LUMI/24.03 partition/C lumi-CPEtools/1.2-cpeCray-24.03
 
     echo "Submitted from $SLURM_SUBMIT_HOST"
     echo "Running on $SLURM_JOB_NODELIST"
@@ -2946,10 +2946,9 @@ in the [`sreport` manual page](https://slurm.schedmd.com/archive/slurm-23.02.7/s
 <!-- BELGIUM -->
 ## Local trainings and materials
 
--   Docs VSC: Slurm material for the general docs is still under development and will be published
-    later in 2023.
+-   Docs VSC:
 
-    -   [Slurm in the UAntwerp-specific documentation](https://docs.vscentrum.be/en/latest/antwerp/uantwerp_software_specifics.html#slurm-workload-manager)
+    -   [Running jobs in Slurm in the VSC general documentation](https://docs.vscentrum.be/jobs/running_jobs.html)
 
     -   [Slurm in the VUB-specific documentation](https://hpc.vub.be/docs/job-submission/)
 
