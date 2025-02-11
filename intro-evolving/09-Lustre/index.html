@@ -1124,7 +1124,7 @@
                   
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 31, 2025</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 10, 2025</span></p>
 <h1 id="using-lustre">Using Lustre<a class="headerlink" href="#using-lustre" title="Permanent link">&para;</a></h1>
 <h2 id="file-systems-on-lumi">File systems on LUMI<a class="headerlink" href="#file-systems-on-lumi" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -1344,7 +1344,7 @@ of a single node might become the limiting factor.</p>
 <p>Not all codes are using Lustre optimally though, even with the best care of their users.</p>
 <ul>
 <li>
-<p>Some codes use files in scientific data formats like HDF5 and netCDF, and when written
+<p>😀 Some codes use files in scientific data formats like HDF5 and netCDF, and when written
     properly they can have very scalable performance.</p>
 <p>A good code will write data to large files, from multiple nodes simultaneously, but 
 will avoid doing I/O from too many ranks simultaneously to avoid bombarding the OSSes/OSTs
@@ -1357,7 +1357,7 @@ noisy floppy drives (do you still know what that is) and slow hard drives so lea
 how to program efficiently.</p>
 </li>
 <li>
-<p>But some codes open one or more files per MPI rank. Those codes may have difficulties
+<p>😭 But some codes open one or more files per MPI rank. Those codes may have difficulties
     scaling to a large number of ranks, as they will put a heavy burden on the MDS when those
     files are created, but also may bombard each OSS/OST with too many I/O requests.</p>
 <p>Some of these codes are rather old also, but were never designed to scale to thousands
@@ -1365,7 +1365,7 @@ of MPI ranks. However, nowadays some users are trying to solve such big problems
 the computations do scale reasonably well. But the I/O of those codes becomes a problem...</p>
 </li>
 <li>
-<p>But some users simply abuse the file system as an unstructured database and simply drop
+<p>😭😭 But some users simply abuse the file system as an unstructured database and simply drop
     their data as tens of thousands or even millions of small files with each one data element,
     rather than structuring that data in suitable file formats. This is especially common in
     science fields that became popular relatively recently - bio-informatics and AI - as those
@@ -1392,7 +1392,7 @@ deal better with small files are being made, but they may come at a high hardwar
 <p><img alt="How to determine the striping values?" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreDetermineParameters.png" /></p>
 </figure>
 <p>If you only access relatively small files (up to a few hundreds of kilobytes) and access them 
-sequentially, then you are out of luck. There is not much you can do. Engaging multiple OSTs 
+sequentially, then you are out of luck. 😭😭😭 There is not much you can do. Engaging multiple OSTs 
 for a single file is not useful at all in this case, and you will also have no parallelism from
 accessing multiple files that may be stored on different OSTs. The metadata operations may also
 be rather expensive compared to the cost of reading the file once opened.</p>
@@ -1768,7 +1768,7 @@ capacity than a hard disk based OST).</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 31, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 10, 2025</span>
   </span>
 
      -->
