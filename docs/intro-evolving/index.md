@@ -16,27 +16,38 @@ than any other version you may find on this site in the future.*
 <!-- Exercises actual training session. 
 ## Setting up for the exercises
 
--   Create a directory in the scratch of the training project, or if you want to
-    keep the exercises around for a while after the session and have already
-    another project on LUMI, in a subdirectory or your project directory 
+-   Create a directory in the scratch of your project, or if you want to
+    keep the exercises around for a while, in a subdirectory of your project directory 
     or in your home directory (though we don't recommend the latter).
     Then go into that directory.
 
-    E.g., in the scratch directory of the project:
+    E.g., in the scratch directory of your project:
 
     ```
-    mkdir -p /scratch/project_465000523/$USER/exercises
-    cd /scratch/project_465000523/$USER/exercises
+    mkdir -p /scratch/project_465001726/course-20250303/exercises
+    cd /scratch/project_465001726/course-20250303/exercises
     ```
+
+    where you have to replace `project_465001726` using the number of your own project.
+
+    If you have no other project on LUMI, you can also use the scratch of the
+    course project `project_465001726`. Do use a personal subdirectory as in the
+    following commands:
+
+    ```
+    mkdir -p /scratch/project_465001726/$USER/exercises
+    cd /scratch/project_465001726/$USER/exercises
+    ```
+
 
 -   Now download the exercises and un-tar:
 
     ```
-    wget https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/exercises-202310xx.tar.gz
-    tar -xf exercises-20230509.tar.gz
+    wget https://462000265.lumidata.eu/2p3day-20250303/files/exercises-20250303.tar.gz
+    tar -xf exercises-20250303.tar.gz
     ```
 
-    [Link to the tar-file with the exercises](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/exercises-20230509.tar.gz)
+    [Link to the tar-file with the exercises](https://462000265.lumidata.eu/2p3day-20250303/files/exercises-20250303.tar.gz)
 
 -   You're all set to go!
 -->
@@ -54,8 +65,8 @@ You will only need an very minimum of CPU and GPU billing units for this.
     E.g., in the scratch directory of your project:
 
     ```
-    mkdir -p /scratch/project_465XXXXXX/$USER/exercises
-    cd /scratch/project_465XXXXXX/$USER/exercises
+    mkdir -p /scratch/project_465001726/course-20250303-$USER/exercises
+    cd /scratch/project_465001726/course-20250303-$USER/exercises
     ```
 
     where you have to replace `project_465XXXXXX` using the number of your own project.
