@@ -932,7 +932,7 @@ loaded correctly from the start you could consider using</p>
 <div class="highlight"><pre><span></span><code>module load cpe/23.12
 module load cpe/23.12
 </code></pre></div>
-<p>(but don't try this now or undo again by loading <code>cpe/25.03</code> twice or logging in again).</p>
+<p>(but don't try this now or undo again by loading <code>cpe/24.03</code> twice or logging in again).</p>
 <p>So note that we do twice the same command as the first iteration does not always succeed to reload
 all modules in the correct version. Do not combine both lines into a single <code>module load</code> statement
 as that would again trigger the bug that prevents all modules to be reloaded in the first iteration.</p>
@@ -1093,6 +1093,35 @@ even needed to have the respective <code>PrgEnv-*</code> module loaded since the
 will use a copy of the libraries stored in a default directory, though there have
 been bugs in the past preventing this to work with <code>PrgEnv-aocc</code>.</p>
 </details>
+<details class="note">
+<summary>What about the <code>mpicc</code>, etc., compiler wrappers?</summary>
+<p>The usual MPI compiler wrappers like <code>mpicc</code>, <code>mpicxx</code> or <code>mpifort</code>
+are provided also. Though they will take care of linking with the MPI
+libraries properly, they do not take care of linking with the BLAS libraries
+and some other HPE CPE libraries that are linked in automatically when using
+the CPE wrappers.</p>
+<p>Moreover, when using the wrappers in the <code>PrgEnv-gnu</code> version of Cray MPICH, 
+they don't understand the right names for the GCC compiler executables based on
+which GCC module is loaded. As a result, when loading one of the <code>gcc-native</code> modules
+which are now the standard GCC modules in the HPE Cray PE, they will run the system 
+compiler instead, and you may get errors when trying to link or run with other libraries
+that are properly compiled with the much newer GCC versions in the <code>gcc-native</code> modules.</p>
+<p>Just try:</p>
+<div class="highlight"><pre><span></span><code>module load PrgEnv-gnu
+mpicc --version
+</code></pre></div>
+<p>to see this issue when using a recent version of the programming environment (such as 
+the 24.03 default version).</p>
+<p>A workaround is to point the environment variable <code>MPICH_CC</code> to the correct GCC C compiler
+executable. If you're making this exercise in the 24.03 version of the CPE (the default 
+version when this exercise was last revised), you can use:</p>
+<div class="highlight"><pre><span></span><code>module load PrgEnv-gnu
+export MPICH_CC=gcc-13
+mpicc --version
+</code></pre></div>
+<p>Similarly, for C++ and Fortran, you'd have to point <code>MPICH_CXX</code> and <code>MPICH_FC</code> to the
+correct versions of <code>g++</code> and <code>gfortran</code>.</p>
+</details>
 <!--
   Copyright (c) 2016-2025 Martin Donath <martin.donath@squidfunk.com>
 
@@ -1160,7 +1189,7 @@ been bugs in the past preventing this to work with <code>PrgEnv-aocc</code>.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">December 9, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 12, 2025</span>
   </span>
 
      -->
