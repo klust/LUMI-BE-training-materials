@@ -65,20 +65,21 @@ You will only need an very minimum of CPU and GPU billing units for this.
     E.g., in the scratch directory of your project:
 
     ```
-    mkdir -p /scratch/project_465001726/course-20250303-$USER/exercises
-    cd /scratch/project_465001726/course-20250303-$USER/exercises
+    mkdir -p /scratch/project_46YXXXXXX/course-$USER/exercises
+    cd /scratch/project_46YXXXXXX/course-$USER/exercises
     ```
 
-    where you have to replace `project_465XXXXXX` using the number of your own project.
+    where you have to replace `project_46YXXXXXX` using the number of your own project.
 
 -   Now download the exercises and un-tar:
 
     ```
-    wget https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/exercises-evolving.tar.gz
-    tar -xf exercises-evolving.tar.gz
+    wget https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/exercises-evolving.tar.bz2
+    tar -xf exercises-evolving.tar.bz2
     ```
 
-    [Link to the tar-file with the exercises](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/exercises-evolving.tar.gz)
+    [Link to the tar-file with the exercises](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/exercises-evolving.tar) or
+    [bzip2-compressed tar file](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/exercises-evolving.tar.bz2).
 
 -   You're all set to go!
 
@@ -103,7 +104,7 @@ You will only need an very minimum of CPU and GPU billing units for this.
 | [Binding resources](M08-Binding.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-08-Binding.pdf) | [notes](08-Binding.md) | [exercises](E08-Binding.md) |
 | **Theme: Data on LUMI** @span |  |  |  |
 | [Using Lustre](M09-Lustre.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-09-Lustre.pdf) | [notes](09-Lustre.md) | / |
-| [LUMI-O object storage](M10-ObjectStorage.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-10-ObjectStorage.pdf) | [notes](10-ObjectStorage.md) | / |
+| [LUMI-O object storage](M10-ObjectStorage.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-10-ObjectStorage.pdf) | [notes](10-ObjectStorage.md) | [exercises](E10-ObjectStorage.md) |
 | **Theme: Containers on LUMI** @span |  |  |  |
 | [Containers on LUMI](M11-Containers.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-11-Containers.pdf) | [notes](11-Containers.md) | / |
 | Container demo 1 | / | [notes and video](Demo1.md) | / |
