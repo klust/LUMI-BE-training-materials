@@ -920,7 +920,7 @@ You can use the <code>man taskset</code> command to see how the tool works.</p>
 </li>
 <li>
 <p>Next we'll try a hybrid MPI/OpenMP program.
-    For this we will use the <code>hybrid_check</code> tool from the <code>lumi-CPEtools</code> module of the LUMI Software Stack. 
+    For this we will use the <code>hybrid_check</code> tool from the <code>lumi-CPEtools</code> module of the LUMI Software Library. 
     This module is preinstalled on the system and has versions for all versions of the <code>LUMI</code> software stack
     and all toolchains and partitions in those stacks.</p>
 <p>Use the simple job script below to run a parallel program with multiple tasks (MPI ranks) and threads (OpenMP). 
@@ -934,7 +934,7 @@ Submit with <code>sbatch</code> on the CPU partition and check task and thread a
 #SBATCH --account=&lt;project_id&gt;      # Project for billing
 
 module load LUMI/24.03
-module load lumi-CPEtools/1.1-cpeGNU-24.03
+module load lumi-CPEtools/1.2-cpeGNU-24.03
 
 srun --cpus-per-task=$SLURM_CPUS_PER_TASK hybrid_check -n -r
 </code></pre></div>
@@ -1005,6 +1005,12 @@ was a newer but not fully supported <code>rocm</code> module on the system.</p>
 module load PrgEnv-cray
 module load rocm/6.0.3
 </code></pre></div>
+<p>Alternatively, you can build in the <code>LUMI/24.03</code> stack using the EasyBuild toolchain instead
+of <code>PrgEnv-cray</code>:</p>
+<div class="highlight"><pre><span></span><code>module load LUMI/24.03 partition/G cpeCray
+</code></pre></div>
+<p>In this case, you do not need to load the ROCm module as it is loaded automatically by
+<code>cpeCray/24.03</code> when working in <code>partition/G</code>.</p>
 <p>To build the code, use</p>
 <div class="highlight"><pre><span></span><code>make LMOD_SYSTEM_NAME=&quot;frontier&quot;
 </code></pre></div>
@@ -1090,7 +1096,7 @@ You need to work with <code>--overlap</code> option for srun to mitigate this.</
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">December 12, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 12, 2025</span>
   </span>
 
      -->

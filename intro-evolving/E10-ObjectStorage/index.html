@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/E08-Binding/">
+        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/E10-ObjectStorage/">
       
       
       
@@ -18,7 +18,7 @@
     
     
       
-        <title>Exercises: Process and Thread Distribution and Binding - LUMI-BE training materials</title>
+        <title>Exercises: LUMI-O object storage - LUMI-BE training materials</title>
       
     
     
@@ -107,7 +107,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#exercises-process-and-thread-distribution-and-binding" class="md-skip">
+        <a href="#exercises-lumi-o-object-storage" class="md-skip">
           Skip to content
         </a>
       
@@ -225,7 +225,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Exercises: Process and Thread Distribution and Binding
+              Exercises: LUMI-O object storage
             
           </span>
         </div>
@@ -859,23 +859,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#basic-exercises" class="md-nav__link">
-    <span class="md-ellipsis">
-      Basic exercises
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -889,138 +872,574 @@
                   
 
 
-<h1 id="exercises-process-and-thread-distribution-and-binding">Exercises: Process and Thread Distribution and Binding<a class="headerlink" href="#exercises-process-and-thread-distribution-and-binding" title="Permanent link">&para;</a></h1>
-<h2 id="basic-exercises">Basic exercises<a class="headerlink" href="#basic-exercises" title="Permanent link">&para;</a></h2>
+<h1 id="exercises-lumi-o-object-storage">Exercises: LUMI-O object storage<a class="headerlink" href="#exercises-lumi-o-object-storage" title="Permanent link">&para;</a></h1>
+<p>These exercises need to be made in the indicated order, as some exercises prepare
+materials for the following exercises.</p>
+<p>You do need a project on LUMI to make these exercises. Wherever we use
+<code>46YXXXXXX</code>, replace with the number of your project (likely a number
+starting with 465 for a project obtained via LUMI-BE).</p>
 <ol>
 <li>
-<p>We return to the hybrid MPI/OpenMP example from the
-    <a href="../E07-Slurm/">Slurm exercises</a>. </p>
-<div class="highlight"><pre><span></span><code>#!/bin/bash -l
-#SBATCH --partition=small           # Partition (queue) name
-#SBATCH --nodes=1                   # Total number of nodes
-#SBATCH --ntasks-per-node=8         # 8 MPI ranks per node
-#SBATCH --cpus-per-task=16          # 16 threads per task
-#SBATCH --time=5                    # Run time (minutes)
-#SBATCH --account=&lt;project_id&gt;      # Project for billing
-
-module load LUMI/24.03
-module load lumi-CPEtools/1.2-cpeGNU-24.03
-
-srun --cpus-per-task=$SLURM_CPUS_PER_TASK hybrid_check -n -r
-</code></pre></div>
-<p>Improve the thread affinity with OpenMP runtime variables. 
-Alter the above script and ensure that each thread is bound to
-a specific core. </p>
+<p>This exercise is the first step in preparing the environment needed for exercise 3
+    and later.</p>
+<p>Go into <a href="https://www.lumi.csc.fi">Open OnDemand</a> and use the 
+"Cloud storage configuration" app to create an access key for your project
+<code>project_46YXXXXXX</code>. Also create a configuration for <code>s3cmd</code> and a public
+rclone endpoint.</p>
+<p>Check the result in the "Home directory" app.</p>
 <details class="solution">
-<summary>Click to see the solution.</summary>
-<p>Add the following OpenMP environment variables definition to your script:</p>
-<div class="highlight"><pre><span></span><code>export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
-export OMP_PLACES=cores
-export OMP_PROC_BIND=close
-</code></pre></div>
-<p>To avoid having to use the <code>--cpus-per-task</code> flag, you can also set the environment variable <code>SRUN_CPUS_PER_TASK</code>
-instead: </p>
-<div class="highlight"><pre><span></span><code>export SRUN_CPUS_PER_TASK=16 
-</code></pre></div>
-<p>On LUMI this is not strictly necessary as the Slurm <code>sbatch</code> processing has been modified to set
-this environment variable, but that was a clunky patch to reconstruct some old behaviour of Slurm
-and we have already seen cases where the patch did not work (but that were more complex cases that
-required different environment variables for a similar function).</p>
-<p>The list of environment variables that the <code>srun</code> command can use as input, is actually confusing, as
-some start with <code>SLURM_</code> but a few start with <code>SRUN_</code> while the <code>SLURM_</code> equivalent is ignored.</p>
-<p>So we end up with the following script:</p>
-<div class="highlight"><pre><span></span><code>#!/bin/bash -l
-#SBATCH --partition=small           # Partition (queue) name
-#SBATCH --nodes=1                   # Total number of nodes
-#SBATCH --ntasks-per-node=8         # 8 MPI ranks per node
-#SBATCH --cpus-per-task=16          # 16 threads per task
-#SBATCH --time=5                    # Run time (minutes)
-#SBATCH --account=&lt;project_id&gt;      # Project for billing
-
-module load LUMI/24.03
-module load lumi-CPEtools/1.2-cpeGNU-24.03
-
-export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
-
-export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
-export OMP_PROC_BIND=close
-export OMP_PLACES=cores
-
-srun hybrid_check -n -r
-</code></pre></div>
-</details>
-<details class="note">
-<summary>Using <code>MPICH_CPUMASK_DISPLAY</code></summary>
-<p>Cray MPICH can also return information about the CPU mask per process in binary form (a long string of zeros and ones)
-where the last number is for core 0. For this, you need to set</p>
-<div class="highlight"><pre><span></span><code>export MPICH_CPUMASK_DISPLAY=1
-</code></pre></div>
-<p>You'll see that with the OpenMP environment variables set as in the example,
-it will look like only one core can be used by each MPI task, but that is because it only
-shows the mask for the main process which becomes OpenMP thread 0. Remove the OpenMP environment
-variables and you'll see that each task now gets 16 possible cores to run on, and the same is true
-for each OpenMP thread (at least when using the GNU compilers, the Cray compilers have different
-default behaviour for OpenMP which actually makes more sense for most scientific computing codes).</p>
-<p>The format in which the mask is reported, is different from that used by <code>hybrid_check</code>, where
-the first digit corresponds to core 0. The <code>MPICH_CPUMASK_DISPLAY</code> style of reporting corresponds
-to the way Slurm CPU masks for <code>--cpu-bind</code> are constructed.</p>
+<summary>Click here to see the solution.</summary>
+<p>Solving the exercise requires several steps.</p>
+<ol>
+<li>
+<p>Log on to Open OnDemand: Go to <a href="https://www.lumi.csc.fi/">www.lumi.csc.fi</a> as 
+    discussed in the "Getting Access" lecture in day one of this course. </p>
+</li>
+<li>
+<p>You need to create an authentication key to access LUMI-O.</p>
+<ol>
+<li>Open the "Cloud storage configuration" app.</li>
+<li>Scroll towards the bottom.</li>
+<li>Select project 46YXXXXXX</li>
+<li>Also click the checkboxes next to "Generate s3cmd configuration" and
+    "Configure public remote".</li>
+<li>Click on the "Submit" button.</li>
+</ol>
+</li>
+<li>
+<p>Now we'll check the result.</p>
+<ol>
+<li>Leave the "Cloud storage configuration" app by navigating back in the browser or clicking
+    the "LUMI" logo at the top left of the screen.</li>
+<li>Open the "Home Directory" app.</li>
+<li>
+<p>Towards the bottom in the left column, you should now see "lumi-46YXXXXXX-private" and 
+    "lumi-46YXXXXXX-public".</p>
+<p>Notice once more that these are just endpoints. Uploading to them will set a different ACL
+(Access Control List) for the objects and buckets, but when you browse in both you see both
+private and public objects with no way to distinguish between them.\</p>
+</li>
+</ol>
+</li>
+</ol>
 </details>
 </li>
 <li>
-<p><strong>Binding on GPU nodes:</strong>
-    Allocate one GPU node with one task per GPU and bind tasks to each CCD (8-core group sharing L3 cache) 
-    leaving the first (#0) and last (#7) cores unused. 
-    Run a program with 6 threads per task and inspect the actual task/threads affinity
-    using the   <code>gpu_check</code> command from the <code>lumi-CPEtools</code> module.</p>
-<details class="solution">
-<summary>Click to see the solution.</summary>
-<p>We can chose between different approaches. In the example below,
-we follow the 
-<a href="../08-Binding/#linear-assignment-of-gcd-then-match-the-cores">"GPU binding: Linear GCD, match cores"</a> 
-slides and we only need to adapt the CPU mask:</p>
-<div class="highlight"><pre><span></span><code>#!/bin/bash -l
-#SBATCH --partition=standard-g      # Partition (queue) name
-#SBATCH --nodes=1                   # Total number of nodes
-#SBATCH --ntasks-per-node=8         # 8 MPI ranks per node
-#SBATCH --gpus-per-node=8           # Allocate one gpu per MPI rank
-#SBATCH --time=5                    # Run time (minutes)
-#SBATCH --account=&lt;project_id&gt;      # Project for billing
-#SBATCH --hint=nomultithread
-
-module load LUMI/24.03 partition/G
-module load lumi-CPEtools/1.2-cpeGNU-24.03
-
-cat &lt;&lt; EOF &gt; select_gpu_$SLURM_JOB_ID
-#!/bin/bash
-export ROCR_VISIBLE_DEVICES=\$SLURM_LOCALID
-exec \$*
-EOF
-chmod +x ./select_gpu_$SLURM_JOB_ID
-
-CPU_BIND=&quot;mask_cpu:0x7e000000000000,0x7e00000000000000,&quot;
-CPU_BIND=&quot;${CPU_BIND}0x7e0000,0x7e000000,&quot;
-CPU_BIND=&quot;${CPU_BIND}0x7e,0x7e00,&quot;
-CPU_BIND=&quot;${CPU_BIND}0x7e00000000,0x7e0000000000&quot;
-
-export OMP_NUM_THREADS=6
-export OMP_PROC_BIND=close
-export OMP_PLACES=cores
-
-srun --cpu-bind=${CPU_BIND} ./select_gpu_$SLURM_JOB_ID gpu_check -l
+<p>This is not really an exercise, but instructions to set up the environment for the next 
+    exercises.</p>
+<p>In the directory with LUST exercises that were downloaded following the
+<a href="../#setting-up-for-the-exercises">instructions to set up for the exercises</a>,
+go into the <code>ObjectStorage</code> directory. In that directory, run the <code>create_buckets.sh</code>
+script with your project number <code>46YXXXXXX</code> as the argument:</p>
+<div class="highlight"><pre><span></span><code>./create_buckets.sh 46YXXXXXX
 </code></pre></div>
-<p>The base mask we need for this exercise, with each first and last core of a chiplet disabled,
-is <code>01111110</code> which is <code>0x7e</code> in hexadecimal notation (though using <code>0xfe</code>
-as the building block would also have worked as we already limit the number
-of threads to 6 through <code>OMP_NUM_THREADS</code> and use other binding variables
-that will bind all threads as close as possible to the core with relative
-number 1 of each chiplet).</p>
-<p>Save the job script as <code>job_step.sh</code> then simply submit it with sbatch. Inspect the job output.</p>
-<p>Note that in fact, if you had used the <code>cpeCray</code> version of the
-<code>lumi-CPEtools</code> module, 
-you don't even need to use the <code>OMP_*</code> environment variables above as the threads are 
-automatically pinned to a single core and as the correct number of threads is derived from
-the affinity mask for each task.</p>
+<p>This will create two buckets and populate them.</p>
+<p>The script will only work on LUMI, and after successfully making the first exercise,
+including the creation of the <code>s3cmd</code> configuration file. The script does rely on the file
+<code>~/.s3cfg-lumi-46YXXXXXX</code>.</p>
+</li>
+<li>
+<p>Now go in to the <a href="https://auth.lumidata.eu/">web credentials management system auth.lumidata.eu</a>, find back the
+    authentication key that we created in the first exercise, and generate an s3cmd config file for it in the browser
+    (no need to also install it on the system as we've done that already, but what would be the right filename?)</p>
+<p>Do not close your browser window after this exercise as it will prove useful for other exercises.</p>
+<details class="solution">
+<summary>Click here to see the solution.</summary>
+<p>Solving this exercise requires again several steps.</p>
+<ol>
+<li>
+<p>Go into the <a href="https://auth.lumidata.eu/">web credentials management system auth.lumidata.eu</a>.
+    You can log in in the same way you did in Open OnDemand in the previous exercise.
+    After logging in, you should see a screen "Your projects" with at least a line for the 
+    project 46YXXXXXX.</p>
+</li>
+<li>
+<p>To find back the authentication key, simply click on the line for the project 46YXXXXXX.
+    A new pane will appear at the right with first a section to generate a new authentication
+    key pair and then a section "Available keys" which will list a key with the key description
+    "lumi web interface".</p>
+</li>
+<li>
+<p>To generate a configuration file for <code>s3cmd</code> for that key, simply click on the key and a new right
+    pane appears. At the top, you find the "Access key details", then a section to extend the key 
+    duration and then a section "Configuration templates".</p>
+<p>Use the "Select format" box to select <code>s3cmd</code> and click on "Generate". A new tab will appear in
+the browser with text that looks like</p>
+<div class="highlight"><pre><span></span><code># s3cmd configuration template for project 
+# Generated for UUUUUUUU
+# Valid until 2024-12-07T11:39:17+02:00
+# DO NOT SHARE!
+
+# Default location is ${HOME}/.s3cfg
+
+[lumi-46YXXXXXX]
+access_key   = XXXXXXXXXXXXXXXXXXXX
+secret_key   = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+host_base    = https://lumidata.eu
+host_bucket  = https://lumidata.eu
+human_readable_sizes = True
+enable_multipart = True
+signature_v2 = True
+use_https = True
+</code></pre></div>
+<p>This text can be copied to the <code>s3cmd</code> configuration file which on Linux-like systems is
+<code>~/.s3cfg</code>, and if you want to have an <code>s3cmd</code> configuration for multiple systems,
+the suggested name is <code>~/.s3cfg-lumi-46YXXXXXX</code>.</p>
+</li>
+</ol>
 </details>
+</li>
+<li>
+<p>Use the <code>lumio-conf</code> command line tool to generate a configuration for <code>s3cmd</code> and for <code>rclone</code>
+    (which will overwrite the configuration files we made in the first exercise).</p>
+<details class="solution">
+<summary>Click here to see the solution.</summary>
+<ol>
+<li>
+<p>If you type <code>lumio-conf</code> in a shell command line, you're likely get an error. That is because
+    you first need to load a module to make the command available. In this exercise, we'll use
+    the latest version of this tool, and all we need to do to make the command available, is</p>
+<div class="highlight"><pre><span></span><code>module load lumio
+</code></pre></div>
+<p>You will see a warning which is meant for users who have been using this module before as at
+the end of November 2024 a new version was installed that creates different configurations that
+are more equivalent to those created by Open OnDemand.</p>
+</li>
+<li>
+<p>Type <code>lumio-conf</code> to start the <code>lumio-conf</code> tool in default mode, where it will create configuration
+    files for <code>rclone</code> and <code>s3cmd</code>.</p>
+<p>The first question it will ask you, is the project number. Fill in <code>46YXXXXXX</code>.</p>
+<p>Next it will ask you for the "Access key". We found that information in the previous exercise: It was
+at the top of the right column after selecting the project in the
+<a href="https://auth.lumidata.eu/">web credentials management system auth.lumidata.eu</a> and then selecting
+the key. You can copy the
+access key information from their. Many terminal emulators support copy and paste, so you can copy
+it from the web browser and paste it into your terminal. Copying is easy with the rectangular icon
+next to the value of the Access key. Note that when you paste the data or type the access key, it will 
+not be shown so you have no feedback. Press the enter key.</p>
+<p>Next the program will ask for the "Secret key" which again you can find in the web credentials management
+system, on the next line. Again copy and paste into your terminal window, and again the key 
+will not be shown on the screen.</p>
+<p><code>lumio-conf</code> will now create the configuration files. It will print information about its 
+<code>rclone</code> configuration which is stored in the file <code>~/.config/rclone/rclone.conf</code> and creates
+two endpoints for <code>rclone</code>: <code>lumi-46YXXXXXX-private</code> and <code>lumi-46YXXXXXX-public</code>, and for
+<code>s3cmd</code> it will actually create two files: A configuration file <code>~/.s3cfg-lumi-46YXXXXXX</code>, and
+it will then also create or overwrite <code>~/.s3cfg</code> with that configuration. </p>
+</li>
+<li>
+<p>Feel free to inspect those files.</p>
+<p>In <code>~/.s3cfg-lumi-46YXXXXXX</code>, you'll see a section similar to</p>
+<div class="highlight"><pre><span></span><code>[lumi-46YXXXXXX-private]
+type              = s3
+acl               = private
+env_auth          = false
+provider          = Ceph
+endpoint          = https://lumidata.eu
+access_key_id     = XXXXXXXXXXXXXXXXXXXX
+secret_access_key = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+project_id        = 46YXXXXXX
+
+[lumi-46YXXXXXX-public]
+type              = s3
+acl               = public
+env_auth          = false
+provider          = Ceph
+endpoint          = https://lumidata.eu
+access_key_id     = XXXXXXXXXXXXXXXXXXXX
+secret_access_key = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+project_id        = 46YXXXXXX
+</code></pre></div>
+<p>while in <code>~/.s3cfg</code> and <code>~/.s3cfg-lumi-46YXXXXXX</code>, you'll see something similar to</p>
+<div class="highlight"><pre><span></span><code>use_https            = True
+secret_key           = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+host_base            = https://lumidata.eu
+project_id           = 46YXXXXXX
+chunk_size           = 15
+human_readable_sizes = True
+enable_multipart     = True
+signature_v2         = True
+signurl_use_https    = True
+access_key           = XXXXXXXXXXXXXXXXXXXX
+host_bucket          = https://lumidata.eu
+</code></pre></div>
+</li>
+</ol>
+</details>
+<details class="remark">
+<summary>Using Open OnDemand instead</summary>
+<p>It is also possible to generate the exactly same files the Open OnDemand "Cloud storage tool" by
+checking both the "Generate s3cmd configuration" and "Configure public remote" checkboxes.
+In fact, this version of the <code>lumio-conf</code> tool was developed to also be used under the hood of
+Open OnDemand. The command line tool can do more though as it can also generate configurations for
+the AWS tools and the <code>boto3</code> Python package.</p>
+</details>
+<details class="remark">
+<summary>Why don't we have all the same tools from the <a href="https://auth.lumidata.eu/">web credentials management system auth.lumidata.eu</a> in Open OnDemand?</summary>
+<p>The web credential management system was actually there already before Open OnDemand was deployed.
+Writing a more powerful app for Open OnDemand with the same functionality, takes time and as a small
+team, we have to make choices. It is important to have a separate platform also for the credentials
+management. Open OnDemand is down during LUMI maintenance as it is part of the main LUMI installation.
+However, the web based credential management system is more closely integrated with the object storage
+itself and has a different maintenance cycle. Hence it can remain available when LUMI is down, so that
+users can still access their data on LUMI-O from their home institution or personal computer.</p>
+</details>
+</li>
+<li>
+<p>Which buckets and objects are there in the training project <code>project_46YXXXXXX</code>? Check with the command line
+    tools for which you prepared the configuration file in the previous exercise.
+    And maybe try Open Ondemand als as we haven't done that yet.</p>
+<p>Hint: Many commands have a <code>--help</code> option to get you on the way.</p>
+<details class="solution">
+<summary>Click here to see the solution.</summary>
+<ul>
+<li>
+<p>With <code>s3cmd</code>: <code>s3cmd ls</code> will show you the buckets. It will return something like</p>
+<div class="highlight"><pre><span></span><code>2025-02-11 17:23  s3://training.private
+2025-02-11 17:23  s3://training.public
+</code></pre></div>
+<p>There may be more lines if some course participants have already created additional buckets.</p>
+<p>And we can then use <code>s3cmd ls s3://training.private</code> to see the objects in that bucket.
+It will hopefully (if nobody messed with the bucket) return:</p>
+<div class="highlight"><pre><span></span><code>                    DIR  s3://training.private/HTML/
+2025-02-11 17:23    59   s3://training.private/private-in-private.txt
+2025-02-11 17:23    58   s3://training.private/public-in-private.txt
+</code></pre></div>
+<p>This is not the complete object list as it shows a pseudo-folder view. The first line starts with <code>DIR</code> which 
+indicates a pseudo-directory, but you can now use </p>
+<div class="highlight"><pre><span></span><code>s3cmd ls s3://training.private/HTML/
+</code></pre></div>
+<p>where the slash at the end is actually important to see</p>
+<div class="highlight"><pre><span></span><code>2025-02-11 17:23   235   s3://training.private/HTML/private.html
+</code></pre></div>
+<p>Now if we use instead</p>
+<div class="highlight"><pre><span></span><code>s3cmd ls --recursive s3://training.private
+</code></pre></div>
+<p>we do get all objects in the bucket:</p>
+<div class="highlight"><pre><span></span><code>2025-02-11 17:23   235   s3://training.private/HTML/private.html
+2025-02-11 17:23    59   s3://training.private/private-in-private.txt
+2025-02-11 17:23    58   s3://training.private/public-in-private.txt
+</code></pre></div>
+</li>
+<li>
+<p>With <code>rclone</code>: Now we need to specify the endpoint as <code>rclone</code> supports multiple projects in a 
+    single configuration.</p>
+<p>The command to use is now: <code>rclone ls lumi-46YXXXXXX-private:</code> which returns something similar to</p>
+<div class="highlight"><pre><span></span><code>    235 training.private/HTML/private.html
+    59 training.private/private-in-private.txt
+    58 training.private/public-in-private.txt
+    231 training.public/HTML/public.html
+    58 training.public/private-in-public.txt
+    57 training.public/public-in-public.txt
+</code></pre></div>
+<p>Now if you'd try <code>rclone ls lumi-46YXXXXXX-public:</code> instead, you'd see exactly the same because
+these are two endpoints for the same project. Their behaviour is different though when uploading
+objects.</p>
+<p>In these case we also already see all three objects in both the <code>training.private</code> and <code>training.public</code>
+buckets.</p>
+</li>
+<li>
+<p>With Open OnDemand:</p>
+<ol>
+<li>Log in to <a href="https://www.lumi.csc.fi/">Open OnDemand</a> if you're no longer logged
+    in after exercise 1.</li>
+<li>Open the "Home Directory" app.</li>
+<li>
+<p>Towards the bottom in the left column, you should now see "lumi-46YXXXXXX-private", and if you
+    created a public access point, also "lumi-46YXXXXXX-public".</p>
+<p>Notice once more that these are just endpoints. Uploading to them will set a different ACL
+(Access Control List) for the objects and buckets, but when you browse in both you see both
+private and public objects with no way to distinguish between them.\</p>
+</li>
+<li>
+<p>If you know click on "lumi-46YXXXXXX-private", you should see a number of buckets in the right pane,
+    and from there you can browse further into these buckets. There are two buckets that we created
+    for this training: <code>training.public</code> and <code>training.private</code>. Both contain 3 objects, and in both
+    one of the objects contained a slash in the name, so you get to see a directory first with one "file".
+    E.g., the objects in the bucket <code>training.public</code> are <code>private-in-public.txt</code>, <code>public-in-public.txt</code>
+    and <code>HTML/public.html</code>.</p>
+</li>
+</ol>
+</li>
+</ul>
+</details>
+</li>
+<li>
+<p>Check the ACLs of the <code>training.public</code> and <code>training.private</code> buckets and the objects in those buckets.
+    Which objects are publicly available and which are not?</p>
+<details class="solution">
+<summary>Click here to see the solution.</summary>
+<p>Your friend for this is the <code>s3cmd info</code> command. 
+E.g., to check the bucket <code>training.public</code>, use <code>s3cmd info s3://training.public</code>.
+The crucial lines in the output are:</p>
+<div class="highlight"><pre><span></span><code>ACL:       *anon*: READ
+ACL:       LUST Training / 2024-12-10-11 Supercomputing with LUMI - Online: FULL_CONTROL
+</code></pre></div>
+<p>The last line will always be present, with the name of the project and then <code>FULL_CONTROL</code>
+as whoever has the credentials of the project can do everything with the bucket. The first line
+says that everybody has read rights to this bucket and tells that this is a public bucket.
+When you use <code>s3cmd info s3://training.private</code>, only the second line will be present in the
+output, telling that this is a private object.</p>
+<p>To check the credentials of the <code>public-in-private.txt</code> object in the <code>training.private</code>
+bucket, use</p>
+<div class="highlight"><pre><span></span><code>s3cmd info s3://training.private/public-in-private.txt
+</code></pre></div>
+<p>The output will contain</p>
+<div class="highlight"><pre><span></span><code>ACL:       *anon*: READ
+ACL:       LUST Training / 2024-12-10-11 Supercomputing with LUMI - Online: FULL_CONTROL
+</code></pre></div>
+<p>which shows that this object is actually public. So a private bucket can contain a public object,
+and in fact, you can access it with, e.g., a web browser without authenticating anywhere.</p>
+<p>You can do this for all objects in both commands:</p>
+<div class="highlight"><pre><span></span><code>s3cmd info s3://training.public/public-in-public.txt
+s3cmd info s3://training.public/private-in-public.txt
+s3cmd info s3://training.private/public-in-private.txt
+s3cmd info s3://training.private/private-in-private.txt
+s3cmd info s3://training.public/HTML/public.html
+s3cmd info s3://training.private/HTML/private.html
+</code></pre></div>
+<p>The name of each object suggests the answer.</p>
+</details>
+</li>
+<li>
+<p>Use command line tools to download the file <code>private-in-private.txt</code> from the <code>training.private</code> bucket in
+    the <code>project_46YXXXXXX</code> training project of this training.</p>
+<details class="solution">
+<summary>Click here to see the solution.</summary>
+<ul>
+<li>
+<p>With <code>s3cmd</code>: </p>
+<div class="highlight"><pre><span></span><code>s3cmd get s3://training.private/private-in-private.txt
+</code></pre></div>
+</li>
+<li>
+<p>With <code>rclone</code>:</p>
+<div class="highlight"><pre><span></span><code>rclone copy lumi-46YXXXXXX-private:training.private/private-in-private.txt .
+</code></pre></div>
+</li>
+</ul>
+</details>
+</li>
+<li>
+<p>What would be the web-URL to access the public object <code>public-in-public.txt</code> in the <code>training.public</code> bucket?
+    Next try the same strategy to access <code>private-in-public.txt</code> in the  <code>training.public</code> bucket and both
+    <code>public-in-private.txt</code> and <code>private-in-private.txt</code> in the <code>training.private</code> bucket. What works and what doesn't?</p>
+<details class="solution">
+<summary>Click here to see the solution.</summary>
+<ul>
+<li>
+<p><code>public-in-public.txt</code> in the <code>training.public</code> bucket:
+    <a href="https://46YXXXXXX.lumidata.eu/training.public/public-in-public.txt">https://46YXXXXXX.lumidata.eu/training.public/public-in-public.txt</a>
+    or
+    <a href="https://lumidata.eu/46YXXXXXX:training.public/public-in-public.txt">https://lumidata.eu/46YXXXXXX:training.public/public-in-public.txt</a>
+    both work. So we can access a public object in a public bucket.</p>
+</li>
+<li>
+<p><code>private-in-public.txt</code> in the <code>training.public</code> bucket:
+    Neither
+    <a href="https://46YXXXXXX.lumidata.eu/training.public/private-in-public.txt">https://46YXXXXXX.lumidata.eu/training.public/private-in-public.txt</a>
+    nor
+    <a href="https://lumidata.eu/46YXXXXXX:training.public/private-in-public.txt">https://lumidata.eu/46YXXXXXX:training.public/private-in-public.txt</a>
+    work.</p>
+</li>
+<li>
+<p><code>public-in-private.txt</code> in the <code>training.private</code> bucket:
+    <a href="https://46YXXXXXX.lumidata.eu/training.private/public-in-private.txt">https://46YXXXXXX.lumidata.eu/training.private/public-in-private.txt</a>
+    or
+    <a href="https://lumidata.eu/46YXXXXXX:training.private/public-in-private.txt">https://lumidata.eu/46YXXXXXX:training.private/public-in-private.txt</a>
+    both work. So we can access a public object in a public bucket.</p>
+</li>
+<li>
+<p><code>private-in-private.txt</code> in the <code>training.private</code> bucket:
+    Neither
+    <a href="https://46YXXXXXX.lumidata.eu/training.private/private-in-private.txt">https://46YXXXXXX.lumidata.eu/training.private/private-in-private.txt</a>
+    nor
+    <a href="https://lumidata.eu/46YXXXXXX:training.private/private-in-private.txt">https://lumidata.eu/46YXXXXXX:training.private/private-in-private.txt</a>
+    work.</p>
+</li>
+</ul>
+</details>
+<details class="remark">
+<summary>Check this remark only after the solution.</summary>
+<p>So if we can access public objects in both public and private buckets, what is then the difference between both?
+Well, in a public bucket you can list the objects without using credentials while you cannot in a private bucket.</p>
+<p>Try either 
+<a href="https://46YXXXXXX.lumidata.eu/training.private">https://46YXXXXXX.lumidata.eu/training.private</a> or
+<a href="https://lumidata.eu/46YXXXXXX:training.private">https://lumidata.eu/46YXXXXXX:training.private</a>
+and notice that you get a cryptic error message.</p>
+<p>However, try either
+<a href="https://46YXXXXXX.lumidata.eu/training.public">https://46YXXXXXX.lumidata.eu/training.public</a> or
+<a href="https://lumidata.eu/46YXXXXXX:training.public">https://lumidata.eu/46YXXXXXX:training.public</a>
+and you get a much longer answer though again rather cryptic for ordinary people. It is an XML file
+and if you read through it, you'll find the names of the objects that we know are in the bucket.</p>
+</details>
+</li>
+<li>
+<p>Create a web link (presigned URL) to share the private object <code>HTML/private.html</code> in the <code>training.private</code> bucket. Next
+    open a private/incognito browser window and check that the link indeed works (we use a private browser window / incognito mode to
+    be sure that it doesn't pick up any credentials anywhere just to be sure).</p>
+<details class="solution">
+<summary>Click here to see the solution.</summary>
+<p>For this, we can use the <code>rclone link</code> tool: </p>
+<div class="highlight"><pre><span></span><code>rclone link lumi-46YXXXXXX-private:training.private/HTML/private.html
+</code></pre></div>
+<p>will produce output that will look like this:</p>
+<div class="highlight"><pre><span></span><code>2024/12/04 21:43:29 NOTICE: S3 bucket training.private path HTML: Public Link: Reducing expiry to 1w as off is greater than the max time allowed
+https://lumidata.eu/training.private/HTML/private.html?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=KEII85V27JOJTCGM6XQQ%2F20241204%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20241204T194329Z&amp;X-Amz-Expires=604800&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=35a3bc04d997d50471ecd1a6637cd063f9dfb2a40e173f758030d6ced48926bf
+</code></pre></div>
+<p>Note that the validity is automatically restricted to 7 days (604800 seconds) which is a limit imposed by LUMI, but the link would actually fail
+sligthly earlier as the key expires if the lifetime of the key used to create the link, is not extended.</p>
+<p>One can also set a shorter link lifetime, e.g.,</p>
+<div class="highlight"><pre><span></span><code>rclone link --expire 2d lumi-46YXXXXXX-private:training.private/HTML/private.html
+</code></pre></div>
+<p>which will produce output that will look like this:</p>
+<div class="highlight"><pre><span></span><code>https://lumidata.eu/training.private/HTML/private.html?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=KEII85V27JOJTCGM6XQQ%2F20241204%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20241204T194645Z&amp;X-Amz-Expires=172800&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=055f936dc0c23576cf2ba6211c4465f6f2488501c27a7096d0c9af0925d8f884
+</code></pre></div>
+<p>so just the URL without further warning. But if you analyse the URL carefully, you see the field 
+<code>X-Amz-Expires=172800</code> which indicates that the link expires after 2 days or 172800 seconds.</p>
+<p>Now just copy the URL and check in a browser...</p>
+</details>
+</li>
+<li>
+<p><strong>Data sharing example</strong> On LUMI, <code>project_462000265</code> is used to store 
+    materials from previous trainings given by LUST, HPE and AMD, and make some of those materials
+    available on the web. However, you are not part of that project so cannot request an authentication key for that
+    project. But, as some files are public, you are able to access some buckets and objects in this project with
+    some tools. We've created two buckets, <code>intro-training.public</code> and <code>intro-training.private</code> with the same contents
+    and ACLs as the <code>training.public</code> and <code>training.private</code> buckets in the <code>project_46YXXXXXX</code> training project.
+    Let's see if we can access them with command line tools.</p>
+<p>List the objects in both buckets.</p>
+<details class="solution">
+<summary>Click here to see the solution.</summary>
+<ul>
+<li>
+<p>With <code>s3cmd</code>: </p>
+<div class="highlight"><pre><span></span><code>s3cmd ls --recursive s3://462000265:intro-training.public/
+</code></pre></div>
+<p>returns something along the lines of</p>
+<div class="highlight"><pre><span></span><code>2025-02-12 14:05   231   s3://462000265:intro-training.public/HTML/public.html
+2025-02-12 14:05   343   s3://462000265:intro-training.public/HTML/shared.html
+2025-02-12 14:05    58   s3://462000265:intro-training.public/private-in-public.txt
+2025-02-12 14:05    57   s3://462000265:intro-training.public/public-in-public.txt
+</code></pre></div>
+<p>while</p>
+<div class="highlight"><pre><span></span><code>s3cmd ls --recursive s3://462000265:intro-training.private/
+</code></pre></div>
+<p>returns</p>
+<div class="highlight"><pre><span></span><code>ERROR: Access to bucket &#39;462000265:intro-training.private&#39; was denied
+ERROR: S3 error: 403 (AccessDenied)
+</code></pre></div>
+<p>This should not surprise you, as you are not a member of the <code>462000265</code> project and are not using
+access credentials for that project in this exercise, but for <code>46YXXXXXX</code> training project.</p>
+<p>Note that in the first command we did list an object whose name suggests that it is a private object.</p>
+</li>
+<li>
+<p>With <code>rclone</code>: </p>
+<div class="highlight"><pre><span></span><code>rclone ls lumi-46YXXXXXX-private:&quot;462000265:intro-training.public&quot;
+</code></pre></div>
+<p>returns something along the lines of</p>
+<div class="highlight"><pre><span></span><code>    231 HTML/public.html
+    343 HTML/shared.html
+    58 private-in-public.txt
+    57 public-in-public.txt
+</code></pre></div>
+<p>while</p>
+<div class="highlight"><pre><span></span><code>rclone ls lumi-46YXXXXXX-private:&quot;462000265:intro-training.private&quot;
+</code></pre></div>
+<p>returns something similar to</p>
+<div class="highlight"><pre><span></span><code>2024/12/07 19:39:03 Failed to ls: AccessDenied:
+    status code: 403, request id: tx0000092793a87e000e519-0067548837-61b0c46-lumi-prod, host id:
+</code></pre></div>
+<p>so an error (as we would expect, see the comments for the solution with <code>s3cmd</code>)</p>
+</li>
+</ul>
+</details>
+</li>
+<li>
+<p>We continue on the data sharing example. 
+    Can we check the ACLs of the objects in the <code>intro-training.public</code> bucket?</p>
+<details class="solution">
+<summary>Click here to see the solution.</summary>
+<p>For this exercise, <code>s3cmd</code> is our friend.</p>
+<p>Let's try for <code>public-in-public.txt</code>: The output of</p>
+<div class="highlight"><pre><span></span><code>s3cmd info s3://462000265:intro-training.public/public-in-public.txt
+</code></pre></div>
+<p>actually produces output with an error message. The precise output:</p>
+<div class="highlight"><pre><span></span><code>File size: 57
+Last mod:  Sat, 07 Dec 2024 17:31:04 GMT
+MIME type: text/plain
+Storage:   STANDARD
+MD5 sum:   db24072368ff20ad202395aa7dd66487
+SSE:       none
+Policy:    Not available: GetPolicy permission is needed to read the policy
+ERROR: Access to bucket &#39;462000265:intro-training.public&#39; was denied
+ERROR: S3 error: 403 (AccessDenied)
+</code></pre></div>
+<p>The reason is that listing permissions does require more rights than the ones we have in the bucket
+because even though the bucket itself is actually public to the world, this is not enough
+to also check permissions.</p>
+</details>
+</li>
+<li>
+<p>We continue on the data sharing example. 
+    Download the <code>HTML/public.html</code> from the <code>intro-training.public</code> bucket in <code>project_465000265</code>.
+    We couldn't check in the previous exercise, but this is actually a public object in a public
+    bucket.
+    Can you do so with a web browser also (or the <code>wget</code> or <code>curl</code> commands if you are familiar
+    with them)?</p>
+<details class="solution">
+<summary>Click here to see the solution.</summary>
+<ul>
+<li>
+<p>With <code>s3cmd</code>:</p>
+<div class="highlight"><pre><span></span><code>s3cmd get s3://462000265:intro-training.public/HTML/public.html
+</code></pre></div>
+</li>
+<li>
+<p>With <code>rclone</code>:</p>
+<div class="highlight"><pre><span></span><code>rclone copy lumi-46YXXXXXX-private:&quot;462000265:intro-training.public/HTML/public.html&quot; .
+</code></pre></div>
+</li>
+<li>
+<p>With a web browser: both the URL
+    <a href="https://462000265.lumidata.eu/intro-training.public/HTML/public.html">https://462000265.lumidata.eu/intro-training.public/HTML/public.html</a>
+    and 
+    <a href="https://lumidata.eu/462000265:intro-training.public/HTML/public.html">https://lumidata.eu/462000265:intro-training.public/HTML/public.html</a>
+    work.</p>
+</li>
+<li>
+<p>With the <code>wget</code> command: both</p>
+<div class="highlight"><pre><span></span><code>wget https://462000265.lumidata.eu/intro-training.public/HTML/public.html
+</code></pre></div>
+<p>and</p>
+<div class="highlight"><pre><span></span><code>wget https://lumidata.eu/462000265:intro-training.public/HTML/public.html
+</code></pre></div>
+<p>work.</p>
+</li>
+<li>
+<p>With the <code>curl</code> command: Both</p>
+<div class="highlight"><pre><span></span><code>curl https://462000265.lumidata.eu/intro-training.public/HTML/public.html
+</code></pre></div>
+<p>and</p>
+<div class="highlight"><pre><span></span><code>curl https://lumidata.eu/462000265:intro-training.public/HTML/public.html
+</code></pre></div>
+<p>will print the content of the file on the terminal.</p>
+<div class="highlight"><pre><span></span><code>curl -o public.html https://462000265.lumidata.eu/intro-training.public/HTML/public.html
+</code></pre></div>
+<p>would store the result in the file <code>public.html</code> in the current directory.</p>
+</li>
+</ul>
+</details>
+</li>
+<li>
+<p>Should you want to clean up your space on LUMI-O and remove the buckets used in the 
+    exercise, there is a script for that.</p>
+<p>In the directory with LUST exercises that were downloaded following the
+<a href="../#setting-up-for-the-exercises">instructions to set up for the exercises</a>,
+go into the <code>ObjectStorage</code> directory. In that directory, run the <code>delete_buckets.sh</code>
+script with your project number <code>46YXXXXXX</code> as the argument:</p>
+<div class="highlight"><pre><span></span><code>./delete_buckets.sh 46YXXXXXX
+</code></pre></div>
+<p>The buckets should now be removed.</p>
 </li>
 </ol>
 <!--
