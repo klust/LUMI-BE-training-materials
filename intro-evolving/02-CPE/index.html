@@ -1352,7 +1352,7 @@
                   
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 29, 2025</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 21, 2025</span></p>
 <h1 id="hpe-cray-programming-environment">HPE Cray Programming Environment<a class="headerlink" href="#hpe-cray-programming-environment" title="Permanent link">&para;</a></h1>
 <p>In this session we discuss some of the basics of the operating system and
 programming environment on LUMI. Whether you like it or not, every user
@@ -1438,7 +1438,7 @@ It may come from freedesktop.org but is is not only used for desktop software.</
 They do not directly mount any other networked file system like NFS, GPFS 
 or CernVM-FS (the latter used by, e.g., Cern for 
 distributing software for the Large Haedron Collider and the
-<a href="https://www.eessi-hpc.org/eessi-architecture/">EESSI</a> project). Instead these file
+<a href="https://www.eessi.io/">EESSI</a> project). Instead these file
 systems are mounted on external servers in the admin section of the cluster and
 the Cray Data Virtualisation Service (DVS) is then used to access those file systems
 from the compute nodes over the high-speed interconnect. This does require additional
@@ -1549,7 +1549,7 @@ OpenSHMEM 1.5.</p>
 support for hugepages to make memory access more efficient for some programs that 
 allocate huge chunks of memory at once.</p>
 <p>Other components include the Cray Performance Measurement and Analysis Tools and the 
-Cray Debugging Support Tools that will not be discussed in this one-day course, and
+Cray Debugging Support Tools that will not be discussed in this introductory course, and
 Python and R modules that both also provide some packages compiled with support for the
 Cray Scientific Libraries.</p>
 <p>Besides the tools provided by HPE Cray, several of the development tools from the
@@ -1570,7 +1570,7 @@ The NVIDIA programming environment doesn't make sense on an AMD GPU system,
 but it could be useful for some visualisation software on the 
 visualisation nodes so it is currently installed on those nodes.</p>
 <p>We will now discuss some of these components in a little bit more detail, but refer
-to the 4 or 5-day trainings that we organise several times a year with HPE for more material.</p>
+to the advanced 4 or 5-day trainings that the LUMI User Support Team organises several times a year with HPE for more material.</p>
 <h2 id="amd-tools-and-technologies-on-lumi">AMD tools and technologies on LUMI<a class="headerlink" href="#amd-tools-and-technologies-on-lumi" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Development environment" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-02-CPE/AMDTools.png" /></p>
@@ -1669,7 +1669,7 @@ These are C/C++ and Fortran compilers based on clang, classic flang and LLVM tec
 but with some AMD extensions to the optimisations. </p>
 <p>The version installed on the system is determined by the version officially supported
 by the HPE Cray PE, as MPI and the math libraries come from the HPE Cray PE. 
-As these compilers are open source, users are free to experiment with newer versions,
+As these compilers are freely available, users are free to experiment with newer versions,
 but we cannot guarantee that they will work with the MPI and mathematics libraries
 on the system. </p>
 <p>The AMD Optimizing CPU libraries (AOCL) are not part of the HPE Cray PE though, as the
@@ -1786,7 +1786,9 @@ GPU aware with currently support for AMD and NVIDIA GPUs.</p>
 <p>The MPI library also supports bindings for Fortran 2008.</p>
 <p>MPI 3.1 is almost completely supported, with two exceptions. Dynamic process management is not
 supported (and a problem anyway on systems with batch schedulers), and when using CCE
-<code>MPI_LONG_DOUBLE</code> and <code>MPI_C_LONG_DOUBLE_COMPLEX</code> are also not supported.</p>
+<code>MPI_LONG_DOUBLE</code> and <code>MPI_C_LONG_DOUBLE_COMPLEX</code> are also not supported.
+The MPI standard is currently at version 4.1 however, but the 4.X extensions are not
+supported by Cray MPICH.</p>
 <p>The Cray MPI library does not support the <code>mpirun</code> or <code>mpiexec</code> commands, which is in fact
 allowed by the standard which only requires a process starter and suggest <code>mpirun</code> or <code>mpiexec</code> 
 depending on the version of the standard. Instead the Slurm <code>srun</code> command is used as the 
@@ -1814,6 +1816,8 @@ efficient intra-node transfers. The latter mechanism comes with some restriction
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_OFI_NIC_POLICY</span><span class="o">=</span>NUMA
 </code></pre></div>
 <p>which tells MPICH to use the NIC closest to the CPU NUMA domain.</p>
+<p>Neither of those values is the default (the default is <code>BLOCK</code> and is more suited 
+for multi-NIC CPU nodes in Cray systems) so setting <code>MPICH_OFI_NIC_POLICY</code> properly for GPU nodes can make a difference.</p>
 <p>Depending on how Slurm is used, Peer2Peer IPC may not work and in those cases you may want to turn it off using
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_GPU_IPC_ENABLED</span><span class="o">=</span><span class="m">0</span>
 </code></pre></div>
@@ -2191,24 +2195,24 @@ of the libraries corresponding to the version of the module to the PATH-style en
 <details class="note">
 <summary>Small demo of adapting <code>LD_LIBRARY_PATH</code>:</summary>
 <p>An example that can only be fully understood after the section on the LUMI software stacks:
-<div class="highlight"><pre><span></span><code>$ module load LUMI/23.09
-$ module load lumi-CPEtools/1.1-cpeGNU-239.09
+<div class="highlight"><pre><span></span><code>$ module load LUMI/24.03
+$ module load lumi-CPEtools/1.2-cpeGNU-24.03
 $ ldd $EBROOTLUMIMINCPETOOLS/bin/mpi_check
-        linux-vdso.so.1 (0x00007fff399fe000)
-        libdl.so.2 =&gt; /lib64/libdl.so.2 (0x00007feccb848000)
-        libmpi_gnu_91.so.12 =&gt; /opt/cray/pe/lib64/libmpi_gnu_91.so.12 (0x00007fecc8a00000)
+      linux-vdso.so.1 (0x00007ffeb39be000)
+      libdl.so.2 =&gt; /lib64/libdl.so.2 (0x00007f64e3d84000)
+      libmpi_gnu_123.so.12 =&gt; /opt/cray/pe/lib64/libmpi_gnu_123.so.12 (0x00007f64e1858000)
       ...
 $ export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
 $ ldd $EBROOTLUMIMINCPETOOLS/bin/mpi_check
-        linux-vdso.so.1 (0x00007ffea02a5000)
-        libdl.so.2 =&gt; /lib64/libdl.so.2 (0x00007f9945496000)
-        libmpi_gnu_91.so.12 =&gt; /opt/cray/pe/mpich/8.1.27/ofi/gnu/9.1/lib/libmpi_gnu_91.so.12 (0x00007f9942600000)
+      linux-vdso.so.1 (0x00007ffc23c3d000)
+      libdl.so.2 =&gt; /lib64/libdl.so.2 (0x00007f5e023ad000)
+      libmpi_gnu_123.so.12 =&gt; /opt/cray/pe/mpich/8.1.29/ofi/gnu/12.3/lib/libmpi_gnu_123.so.12 (0x00007f5dffe81000)
       ...
 </code></pre></div>
 The <code>ldd</code> command shows which libraries are used by an executable. Only a part of the very long
 output is shown in the above example. But we can already see that in the first case, the library
-<code>libmpi_gnu_91.so.12</code> is taken from <code>opt/cray/pe/lib64</code> which is the directory with the default
-versions, while in the second case it is taken from <code>/opt/cray/pe/mpich/8.1.27/ofi/gnu/9.1/lib/</code>
+<code>libmpi_gnu_123.so.12</code> is taken from <code>opt/cray/pe/lib64</code> which is the directory with the default
+versions, while in the second case it is taken from <code>/opt/cray/pe/mpich/8.1.29/ofi/gnu/12.3/lib/</code>
 which clearly is for a specific version of <code>cray-mpich</code>.</p>
 </details>
 <p>We do provide the module <code>lumi-CrayPath</code> 
@@ -2300,7 +2304,7 @@ hence are not able to detect the right names for the C, C++ and Fortran compiler
 MPI wrappers will use the system GCC installation:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_CC</span><span class="o">=</span><span class="s2">&quot;gcc-13&quot;</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_CXX</span><span class="o">=</span><span class="s2">&quot;g++-13&quot;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_CXX</span><span class="o">=</span><span class="s2">&quot;gfortran-13&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_FC</span><span class="o">=</span><span class="s2">&quot;gfortran-13&quot;</span>
 </code></pre></div>
 <p>The <code>cray-mpich</code> module also defines the environment variable <code>MPICH_DIR</code> that points to the
 MPI installation for the selected compiler. This environment variable is useful if you don't
@@ -2387,7 +2391,7 @@ libraries.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 29, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 21, 2025</span>
   </span>
 
      -->
