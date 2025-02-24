@@ -1154,7 +1154,7 @@
                   
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 12, 2025</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 24, 2025</span></p>
 <h1 id="getting-access-to-lumi">Getting Access to LUMI<a class="headerlink" href="#getting-access-to-lumi" title="Permanent link">&para;</a></h1>
 <h2 id="lumi-is-part-of-the-eurohpc-ecosystem">LUMI is part of the EuroHPC ecosystem<a class="headerlink" href="#lumi-is-part-of-the-eurohpc-ecosystem" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -1404,7 +1404,10 @@ user-specific software configuration files. It is not billed as users can exist 
 an active project but therefore is also very limited in size.</p>
 <h3 id="per-project-file-spaces">Per-project file spaces<a class="headerlink" href="#per-project-file-spaces" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
-<p><img alt="Slide File Spaces Project" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/FileSpacesProject.png" /></p>
+<p><img alt="Slide File Spaces Project (1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/FileSpacesProject1.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide File Spaces Project (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/FileSpacesProject2.png" /></p>
 </figure>
 <p>Each project also has 4 permanent or semi-permanent file spaces that are all billed against the
 storage budget of the project.</p>
@@ -1415,6 +1418,13 @@ storage budget of the project.</p>
     for the project (as it is assumed that a project is a coherent amount of work it is only 
     natural to assume that everybody in the project needs the same software), or to store input data
     etc. that will be needed for the duration of the project.</p>
+<p>In some cases (like in the Open OnDemand "Home Directory" app, see later in this session),
+you will see the name <code>/projappl/project_46YXXXXXX</code> instead. This is for historical
+reasons. The directory was first called <code>/projappl</code>, but that gave too much the 
+impression that it should only be used for applications, and it was later changed
+into <code>/project</code> which is more common on other systems. To avoid having to
+rework too many management scripts, both now exist next to one another on 
+LUMI, but it is the same file space.</p>
 <p>Storing one TB for one hour on the disk based Lustre file systems costs 1 TB-hour.
 As would storing 10 GB for 100 hours.</p>
 </li>
@@ -1457,8 +1467,10 @@ As we shall see later in this course (in the <a href="../09-Lustre/">section on 
 or as you may have seen in other HPC courses already
 (e.g., the VSC <a href="https://klust.github.io/SupercomputersForStarters/">Supercomputers for Starters</a> 
 course organised by UAntwerpen),
-parallel file systems are not built to deal with hundreds of thousands of small files and are
-very inefficient at that. Therefore block quota on LUMI tend to be rather flexible (except for
+most parallel file systems are not built to deal with hundreds of thousands of small files and are
+very inefficient at that.<br />
+This is certainly true for Lustre, the system that we have on LUMI.
+Therefore block quota on LUMI tend to be rather flexible (except for
 the home directory) but file quota are rather strict and will not easily get extended.
 Software installations that require tens of thousands of small files should be done in 
 containers (e.g., conda installations or any big Python installation) while data should also
@@ -1470,8 +1482,10 @@ capacity you can use, while file quota limit the number of so-called inodes you 
 each subdirectory and each link use an inode.
 As we shall see later in this course (in the [section on Lustre](09-Lustre.md))
 or as you may have seen in other HPC courses already,
-parallel file systems are not built to deal with hundreds of thousands of small files and are
-very inefficient at that. Therefore block quota on LUMI tend to be rather flexible (except for
+most parallel file systems are not built to deal with hundreds of thousands of small files and are
+very inefficient at that.  
+This is certainly true for Lustre, the system that we have on LUMI.
+Therefore block quota on LUMI tend to be rather flexible (except for
 the home directory) but file quota are rather strict and will not easily get extended.
 Software installations that require tens of thousands of small files should be done in 
 containers (e.g., conda installations or any big Python installation) while data should also
@@ -1482,8 +1496,7 @@ system as a database.
 <p>In the above slide, the "Capacity" column shows the block quota
 and the "Files" column show the total number of so-called inodes available in the file space.</p>
 <p>The project file spaces can be expanded in capacity within the limits specified.
-However, as big parallel file systems are very bad at handling lots of small files
-(see also the <a href="../09-Lustre/">session on Lustre</a>), the files quota (or more accurately
+However, due to the many small files problem on Lustre, the files quota (or more accurately
 inode quota) are rather strict and not easily raised (and if raised, not by an order
 of magnitude).</p>
 <p>So storage use on LUMI is limited in two independent ways:</p>
@@ -1577,6 +1590,9 @@ END GENERAL -->
 <ul>
 <li><a href="https://docs.lumi-supercomputer.eu/storage/">Overview of storage systems on LUMI</a></li>
 <li><a href="https://docs.lumi-supercomputer.eu/runjobs/lumi_env/billing/#storage-billing">Billing policies (includes those for storage)</a></li>
+<li>Example for data archiving services: In the Netherlands, SURF provides the
+    <a href="https://www.surf.nl/en/services/data-archive">SURF Data Archive</a> and 
+    <a href="https://www.surf.nl/en/services/surf-data-repository">SURF Data Repository</a> services.</li>
 </ul>
 <h2 id="access">Access<a class="headerlink" href="#access" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -1754,7 +1770,11 @@ high, that confirmation takes more time to reach the sender, limiting the effect
 bandwidth that can be reached over the connection. LUMI is not to blame for that;
 the whole path from the system from which you initiate the connection to LUMI
 is responsible and every step adds to the latency. We've seen many cases where the
-biggest contributor to the latency was actually the campus network of the user.</p>
+biggest contributor to the latency was actually the campus network of the user.
+And it is the very nature of a TCP connection that the effective bandwidth over
+a link becomes lower the higher the latency is. So the solution is to go to
+data transfer methods that use multiple TCP connections to get the full bandwidth
+of the connection.</p>
 <!-- BELGIUM -->
 <p>The second important option is to <strong>transfer data via the object storage system LUMI-O</strong>.
 To transfer data to LUMI, you'd first push the data to LUMI-O and then on LUMI pull it 
@@ -1767,7 +1787,7 @@ There also exist many GUI clients to access object storage.
 Even though in principle any tool that can connect via the S3 protocol can work,
 the LUMI User Support Team nor the local support in Belgium can give you instructions
 for every possible tool. 
-Those tools for accessing object storage tend to set up multiple data streams and hence
+Those tools for accessing object storage <strong>tend to set up multiple data streams</strong> and hence
 will offer a much higher effective bandwidth, even on high latency connections.</p>
 <!-- END BELGIUM -->
 
@@ -1782,7 +1802,7 @@ and [S3cmd](https://s3tools.org/s3cmd).
 There also exist many GUI clients to access object storage. 
 Even though in principle any tool that can connect via the S3 protocol can work,
 the LUMI User Support Team cannot give you instructions for every possible tool. 
-Those tools for accessing object storage tend to set up multiple data streams and hence
+Those tools for accessing object storage **tend to set up multiple data streams** and hence
 will offer a much higher effective bandwidth, even on high latency connections.
 END GENERAL -->
 
@@ -1805,7 +1825,8 @@ END GENERAL -->
 <p>Using the LUMI-O object storage will be further discussed in the 
 <a href="../10-ObjectStorage/">"LUMI-O Object Storage" session of this course</a>.</p>
 <!-- BELGIUM -->
-<p>Unfortunately there is no support yet for Globus or other forms of gridFTP. 
+<p>Unfortunately there is no support yet for Globus or other forms of gridFTP,
+another technology that sets up multiple connections to improve the effective bandwidth. 
 LUST offers a <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/u/unicore-uftp/">recipe to install the UNICORE UFTP client</a>
 if you have access to a UFTP server (still popular in Germany), but neither LUST nor local 
 Belgian support teams can offer true support for that either as
@@ -1814,7 +1835,8 @@ they have no access to such server. How to work with these recipes, is discussed
 <!-- END BELGIUM -->
 
 <!-- GENERAL
-Unfortunately there is no support yet for Globus or other forms of gridFTP. 
+Unfortunately there is no support yet for Globus or other forms of gridFTP,
+another technology that sets up multiple connections to improve the effective bandwidth. 
 We do have a [recipe to install the UNICORE UFTP client](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/u/unicore-uftp/)
 if you have access to a UFTP server, but cannot offer true support for that either as
 LUST has no access to such server. How to work with these recipes, is discussed in the
@@ -1893,7 +1915,7 @@ Such a course is a prerequisite for this course.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 12, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 24, 2025</span>
   </span>
 
      -->
