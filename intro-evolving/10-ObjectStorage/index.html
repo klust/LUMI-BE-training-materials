@@ -1184,7 +1184,7 @@
                   
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 12, 2025</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 25, 2025</span></p>
 <h1 id="lumi-o-object-storage">LUMI-O object storage<a class="headerlink" href="#lumi-o-object-storage" title="Permanent link">&para;</a></h1>
 <h2 id="why-do-i-kneed-to-know-this">Why do I kneed to know this?<a class="headerlink" href="#why-do-i-kneed-to-know-this" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -1304,7 +1304,7 @@ LUMI is down. Moreover, the server software of LUMI-O can often be upgraded on-t
 noticeable downtime. Client and server also communicate through a web-based API.</p>
 <p><strong><em>Organisation of data</em></strong></p>
 <p>The organisation of data is also very different on Lustre and LUMI-O. 
-Lustre, although very different of the local filesystem(s) on your laptop or smartphone
+Lustre, although very different from the local filesystem(s) on your laptop or smartphone
 or more traditional networked filesystems common for networks of PCs or workstations,
 uses the same organisation of data as those filesystems. Data is organised in files
 stored in a hierarchical directory structure. In fact, Lustre behaves as much as possible
@@ -1341,7 +1341,7 @@ stale objects from failed multipart uploads).
 The configuration that the LUMI-O tools generate for <code>s3cmd</code> enables multipart uploads of 
 big objects.</p>
 <p><strong><em>Optimised for?</em></strong></p>
-<p>Lustre is optimised first and for most for bandwidth to the compute nodes when doing
+<p>Lustre is optimised first and formost for bandwidth to the compute nodes when doing
 large file I/O operations from multiple nodes to a file. This optimisation for performance
 also implies that simpler schemes for redundancy have to be used. Data is protected from
 a single disk failure and on most systems even from dual disk failure, but performance
@@ -1397,11 +1397,11 @@ same high performance interconnect.</p>
 based Lustre filesystem is still not cheap and if you want a performant flash based filesystem that can
 endure a high write load also and not only a high read load, it is very expensive. The LUMI-O hardware 
 is a lot cheaper, though this is also partly because it has a lower bandwidth.</p>
-<p>The billing units accounted for storage on LUMI originally reflect the purchase cost per petabyte for LUMI-O and 
+<p>The billing units accounted for storage on LUMI originally reflected the purchase cost per petabyte for LUMI-O and 
 the Lustre filesystems, with the object storage billed at half the price of the hard disk based Lustre
 filesystems and the flash based Lustre filesystem at 10 times the cost of the hard disk based one.
-(These costs will be modified slightly in 2025 trying to better balance the load over the various
-storage options.)</p>
+These costs were modified slightly in early 2025 trying to better balance the load over the various
+storage options.</p>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Lustre vs LUMI-O (3)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-ObjectStorage/LustreVsLUMIO_3.png" /></p>
 </figure>
@@ -1646,7 +1646,7 @@ creation and if we click a bit further we will see what's going on:</p>
 <p><figure markdown style="border: 1px solid #000">
   <img alt="Slide Browsing through Open OnDemand (4)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-ObjectStorage/LUMIOCredentialsOODBrowse_04.png" />
 </figure></p>
-<p>The top bar now shows <code>lumi-465000095-public:/training-materials-web/intro-evolving.files/</code> while we also get a list
+<p>The top bar now shows <code>lumi-465000095-public:/training-materials-web/intro-evolving/files/</code> while we also get a list
 of elements that look like files. These are the objects, but don't be mistaken: The name of the first object in the 
 list is not <code>exercises-evolving.tar</code>, but it is the object named 
 <code>intro-evolving/files/exercises-evolving.tar</code> in the bucket <code>training-materials-web</code> in the project <code>46500095</code>.
@@ -2069,7 +2069,7 @@ just as for the Lustre filesystems, you need to move out the data in time.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 12, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 25, 2025</span>
   </span>
 
      -->
