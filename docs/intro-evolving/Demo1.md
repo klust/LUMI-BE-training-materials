@@ -1,3 +1,5 @@
+Last update of this page: {{ git_revision_date_localized }}
+
 # Container demo 1: Fooocus
 
 [Fooocus](https://github.com/lllyasviel/Fooocus) is an AI-based image generating

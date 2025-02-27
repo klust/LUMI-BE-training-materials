@@ -1,3 +1,5 @@
+Last update of this page: {{ git_revision_date_localized }}
+
 # Container demo 2: A short walk-through for distributed learning
 
 In this demo, we will install one of the PyTorch containers provided on LUMI
