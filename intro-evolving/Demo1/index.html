@@ -816,14 +816,23 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#installing-fooocus" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing Fooocus
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing Fooocus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#step-1-checking-fooocus" class="md-nav__link">
     <span class="md-ellipsis">
       Step 1: Checking Fooocus
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Step 1: Checking Fooocus">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#step-2-install-the-pytorch-container" class="md-nav__link">
@@ -999,14 +1008,23 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#installing-fooocus" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing Fooocus
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing Fooocus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#step-1-checking-fooocus" class="md-nav__link">
     <span class="md-ellipsis">
       Step 1: Checking Fooocus
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Step 1: Checking Fooocus">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#step-2-install-the-pytorch-container" class="md-nav__link">
@@ -1110,21 +1128,23 @@ as additional system level libraries are needed for the graphics.</p>
 </li>
 </ul>
 <h2 id="video-of-the-demo">Video of the demo<a class="headerlink" href="#video-of-the-demo" title="Permanent link">&para;</a></h2>
+<p>This is a video for a previous version of the demo though.</p>
 <video src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/recordings/Demo1-Fooocus.mp4" controls="controls">
 </video>
 
-<h2 id="step-1-checking-fooocus">Step 1: Checking Fooocus<a class="headerlink" href="#step-1-checking-fooocus" title="Permanent link">&para;</a></h2>
+<h2 id="installing-fooocus">Installing Fooocus<a class="headerlink" href="#installing-fooocus" title="Permanent link">&para;</a></h2>
+<h3 id="step-1-checking-fooocus">Step 1: Checking Fooocus<a class="headerlink" href="#step-1-checking-fooocus" title="Permanent link">&para;</a></h3>
 <p>Let's create an installation directory for the demo. Set the environment variable
 <code>installdir</code> to a proper value for the directories on LUMI that you have access to.</p>
-<div class="highlight"><pre><span></span><code><span class="nv">installdir</span><span class="o">=</span>/project/project_465001102/kurtlust/DEMO1
+<div class="highlight"><pre><span></span><code><span class="nv">installdir</span><span class="o">=</span>/scratch/project_465001726/<span class="nv">$USER</span>/DEMO1
 mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$installdir</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$installdir</span><span class="s2">&quot;</span>
 </code></pre></div>
 <p>We are now in the installation directory of which we also ensured its existence first.
-Let's now download and unpack Fooocus release 2.3.1 (the one we tested for this demo)</p>
-<div class="highlight"><pre><span></span><code><span class="nv">fooocusversion</span><span class="o">=</span><span class="m">2</span>.3.1
-wget<span class="w"> </span>https://github.com/lllyasviel/Fooocus/archive/refs/tags/<span class="nv">$fooocusversion</span>.zip
-unzip<span class="w"> </span><span class="nv">$fooocusversion</span>.zip
-rm<span class="w"> </span>-f<span class="w"> </span><span class="nv">$fooocusversion</span>.zip
+Let's now download and unpack Fooocus release 2.5.5 (the one we tested for this demo)</p>
+<div class="highlight"><pre><span></span><code><span class="nv">fooocusversion</span><span class="o">=</span><span class="m">2</span>.5.5
+wget<span class="w"> </span>https://github.com/lllyasviel/Fooocus/archive/refs/tags/v<span class="nv">$fooocusversion</span>.zip
+unzip<span class="w"> </span>v<span class="nv">$fooocusversion</span>.zip
+rm<span class="w"> </span>-f<span class="w"> </span>v<span class="nv">$fooocusversion</span>.zip
 </code></pre></div>
 <p>If we check what's in the Fooocus directory:</p>
 <div class="highlight"><pre><span></span><code>ls<span class="w"> </span>Fooocus-<span class="nv">$fooocusversion</span>
@@ -1136,7 +1156,7 @@ and a <code>requirements_versions.txt</code> file that give hints about what exa
 The <code>Dockerfile</code> suggests close to the top that some OpenGL libraries will be needed.
 And the fact that it can be fully installed in a docker container also indicates that there
 must in fact be ways to run it in readonly directories, but in this demo we'll put Fooocus in
-a place were it can write. The <code>requirements_docker.txt</code> file also suggests to use Pytorch 2.0, but
+a place were it can write. The <code>requirements_docker.txt</code> file also suggests to use Pytorch 2.1.0, but
 we'll take some risks though and use a newer version of PyTorch than suggested as for AMD GPUs
 it is often important to use recently enough versions (and because that version has a more sophisticated
 module better suited for what we want to demonstrate). </p>
@@ -1151,27 +1171,27 @@ to change the name to reflect that we have made changes and installed Fooocus wi
 First we must prepare a temporary directory to do this work and also set up EasyBuild:</p>
 <div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$installdir</span><span class="s2">/tmp&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$installdir</span><span class="s2">/tmp&quot;</span>
 module<span class="w"> </span>purge
-module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09<span class="w"> </span>partition/container<span class="w"> </span>EasyBuild-user
+module<span class="w"> </span>load<span class="w"> </span>LUMI/24.03<span class="w"> </span>partition/container<span class="w"> </span>EasyBuild-user
 </code></pre></div>
 <p>We'll now use a function of EasyBuild to copy an existing EasyConfig file to a new location, and
 rename it in one move to reflect the module version that we want:</p>
-<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>--copy-ec<span class="w"> </span>PyTorch-2.2.0-rocm-5.6.1-python-3.10-singularity-20240315.eb<span class="w"> </span>PyTorch-2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315.eb
+<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>--copy-ec<span class="w"> </span>PyTorch-2.3.1-rocm-6.0.3-python-3.12-singularity-20240923.eb<span class="w"> </span>PyTorch-2.3.1-rocm-6.0.3-python-3.12-Fooocus-singularity-20240923.eb
 </code></pre></div>
-<p>This is not enough to generate a module <code>PyTorch/2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315</code>, 
+<p>This is not enough to generate a module <code>PyTorch/2.3.1-rocm-6.0.3-python-3.12-Fooocus-singularity-20240923</code>, 
 we also need to edit the <code>versionsuffix</code> line in the EasyBuild recipe. Of course you can do this easily with
 your favourite editor, but to avoid errors we'll use a command for the demo that you only need to copy:</p>
-<div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;s|^\(versionsuffix.*\)-singularity-20240315|\1-Fooocus-singularity-20240315|&quot;</span><span class="w"> </span>-i<span class="w"> </span>PyTorch-2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315.eb
+<div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;s|^\(versionsuffix.*\)-singularity-\(.*\)|\1-Fooocus-singularity-\2|&quot;</span><span class="w"> </span>-i<span class="w"> </span>PyTorch-2.3.1-rocm-6.0.3-python-3.12-Fooocus-singularity-20240923.eb
 </code></pre></div>
 <p>Let's check:</p>
-<div class="highlight"><pre><span></span><code>grep<span class="w"> </span>versionsuffix<span class="w"> </span>PyTorch-2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315.eb
+<div class="highlight"><pre><span></span><code>grep<span class="w"> </span>versionsuffix<span class="w"> </span>PyTorch-2.3.1-rocm-6.0.3-python-3.12-Fooocus-singularity-20240923.eb
 </code></pre></div>
 <p>which returns</p>
-<div class="highlight"><pre><span></span><code>versionsuffix = f&#39;-rocm-{local_c_rocm_version}-python-{local_c_python_mm}-Fooocus-singularity-20240315&#39;
+<div class="highlight"><pre><span></span><code>versionsuffix = f&#39;-rocm-{local_c_rocm_version}-python-{local_c_python_mm}-Fooocus-singularity-{local_c_date}&#39;
 </code></pre></div>
 <p>so we see that the <code>versionsuffix</code> line looks rather strange but we do see that the <code>-Fooocus-</code> part is injected
 in the name so we assume everything is OK.</p>
 <p>We're now ready to install the container with EasyBuild:</p>
-<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>PyTorch-2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315.eb
+<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>PyTorch-2.3.1-rocm-6.0.3-python-3.12-Fooocus-singularity-20240923.eb
 </code></pre></div>
 <p>The documentation in the PyTorch page in the LUMI Software Library suggests that we can now delete the
 container file in the installation directory, but this is a bad idea in this case as we want to build our
@@ -1179,11 +1199,11 @@ own container and hence will not use one of the containers provided on the syste
 <p>We're now finished with EasyBuild so don't need the modules related to EasyBuild anymore. So lets's clean
 the environment an load the PyTorch container module that we just built with EasyBuild:</p>
 <div class="highlight"><pre><span></span><code>module<span class="w"> </span>purge
-module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09
-module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315
+module<span class="w"> </span>load<span class="w"> </span>LUMI/24.03
+module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.3.1-rocm-6.0.3-python-3.12-Fooocus-singularity-20240923
 </code></pre></div>
 <p>Notice that we don't need to load <code>partition/container</code> anymore. Any partition would do, and in fact, we can 
-even use <code>CrayEnv</code> instead of <code>LUMI/23.09</code>.</p>
+even use <code>CrayEnv</code> instead of <code>LUMI/24.03</code>.</p>
 <p>Notice that the container module provides the environment variables <code>SIF</code> and <code>SIFPYTORCH</code>, both of which 
 point to the <code>.sif</code> file of the container:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$SIF</span>
@@ -1196,7 +1216,7 @@ point to the <code>.sif</code> file of the container:</p>
 environment variables. Yet we want to use the value of <code>SIF</code>, so we will simply save it in
 a different environment variable before unloading the module:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CONTAINERFILE</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$SIF</span><span class="s2">&quot;</span>
-module<span class="w"> </span>unload<span class="w"> </span>PyTorch/2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315
+module<span class="w"> </span>unload<span class="w"> </span>PyTorch/2.3.1-rocm-6.0.3-python-3.12-Fooocus-singularity-20240923
 </code></pre></div>
 <p>Second, the <code>proot</code> command is not available by default on LUMI, but it can be enabled by loading
 the <code>systools</code> module in <code>LUMI/23.09</code> or newer stacks, or <code>systools/23.09</code> or newer in <code>CrayEnv</code>:</p>
@@ -1205,7 +1225,7 @@ the <code>systools</code> module in <code>LUMI/23.09</code> or newer stacks, or 
 <p>Third, we need a file defining the build process for singularity. This is a bit technical and outside
 the scope of this tutorial to explain what goes into this file. It can be created with the following shell
 command:</p>
-<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;<span class="w"> </span>lumi-pytorch-rocm-5.6.1-python-3.10-pytorch-v2.2.0-Fooocus.def<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;<span class="w"> </span>lumi-pytorch-rocm-6.0.3-python-3.10-pytorch-v2.3.1-Fooocus.def<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
 
 <span class="s">Bootstrap: localimage</span>
 
@@ -1218,7 +1238,7 @@ command:</p>
 <span class="s">EOF</span>
 </code></pre></div>
 <p>You can check the file with</p>
-<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>lumi-pytorch-rocm-5.6.1-python-3.10-pytorch-v2.2.0-Fooocus.def
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>lumi-pytorch-rocm-6.0.3-python-3.10-pytorch-v2.3.1-Fooocus.def
 </code></pre></div>
 <p>We basically install an OpenGL library that emulates on the CPU and some missing tools.
 Note that the AMD MI250X GPUs are not rendering GPUs, so we cannot run hardware accelerated
@@ -1228,23 +1248,25 @@ a Lustre filesystem. We'll do the build process on a login node, where we have a
 to a personal RAM disk area that will also be cleaned automatically when we log out, which is always
 useful for a demo. Therefore we need to set two environment variables for Singularity, and
 create two directories, which is done with the following commands:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_CACHEDIR</span><span class="o">=</span><span class="nv">$XDG_RUNTIME_DIR</span>/singularity/cache
-<span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_TMPDIR</span><span class="o">=</span><span class="nv">$XDG_RUNTIME_DIR</span>/singularity/tmp
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_CACHEDIR</span><span class="o">=</span>/tmp/singularity/cache
+<span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_TMPDIR</span><span class="o">=</span>/tmp/singularity/tmp
 
 mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$SINGULARITY_CACHEDIR</span>
 mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$SINGULARITY_TMPDIR</span>
 </code></pre></div>
+<p>Note that <code>$SINGULARITY_TMPDIR</code> can contain a lot of files during the <code>singularity build</code> process
+as the container will be unpacked in this area.</p>
 <p>Now we're ready to do the actual magic and rebuild the container with additional packages
 installed in it:</p>
-<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>build<span class="w"> </span><span class="nv">$CONTAINERFILE</span><span class="w"> </span>lumi-pytorch-rocm-5.6.1-python-3.10-pytorch-v2.2.0-Fooocus.def
+<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>build<span class="w"> </span><span class="nv">$CONTAINERFILE</span><span class="w"> </span>lumi-pytorch-rocm-6.0.3-python-3.10-pytorch-v2.3.1-Fooocus.def
 </code></pre></div>
 <p>The build process will ask you if you want to continue as it will overwrite the container file,
 so confirm with <code>y</code>. The whole build process may take a couple of minutes.</p>
 <p>We'll be kind to our fellow LUMI users and already clean up the directories that we just created:</p>
-<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$XDG_RUNTIME_DIR</span>/singularity
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span>/tmp/singularity
 </code></pre></div>
 <p>Let's reload the container:</p>
-<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.3.1-rocm-6.0.3-python-3.12-Fooocus-singularity-20240923
 </code></pre></div>
 <p>and do some checks:</p>
 <div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>shell<span class="w"> </span><span class="nv">$SIF</span>
@@ -1265,24 +1287,71 @@ container <code>.def</code> file that we created) as is easily tested:</p>
 <div class="highlight"><pre><span></span><code>ls<span class="w"> </span>/usr/lib64/*mesa*
 </code></pre></div>
 <p>shows that indeed a number of MESA libraries are installed (the OpenGL installation that we did).</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>list
+</code></pre></div>
+<p>shows that there are already a lot of Python packages in the container.</p>
 <p>We can now leave the container with the </p>
 <div class="highlight"><pre><span></span><code><span class="nb">exit</span>
 </code></pre></div>
 <p>command (or CTRL-D key combination).</p>
 <p>So it looks we are ready to start installing Python packages...</p>
 <h3 id="step-4-adding-python-packages">Step 4: Adding Python packages<a class="headerlink" href="#step-4-adding-python-packages" title="Permanent link">&para;</a></h3>
-<p>To install the packages, we'll use the <code>requirements_versions.txt</code> file which we found in the
-Fooocus directories. The installation has to happen from within the container though. So let's got
+<p>To install the packages, we'll base ourselves on the <code>requirements_versions.txt</code> file which we found in the
+Fooocus directories. We'll omit packages that have close enough versions and are already in the container.
+The installation has to happen from within the container though. So let's got
 to the Fooocus directory and go into the container again:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$installdir</span><span class="s2">/Fooocus-</span><span class="nv">$fooocusversion</span><span class="s2">&quot;</span>
-singularity<span class="w"> </span>shell<span class="w"> </span><span class="nv">$SIF</span>
+<p>First we copy the <code>requirements_versions.txt</code> file from the Fooocus directory and 
+edit it a bit:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span><span class="nv">$installdir</span>
+cp<span class="w"> </span>Fooocus-<span class="nv">$fooocusversion</span>/requirements_versions.txt<span class="w"> </span>requirements.txt
+</code></pre></div>
+<p>and edit it to</p>
+<div class="highlight"><pre><span></span><code>torchsde==0.2.6
+transformers==4.42.4
+omegaconf==2.3.0
+gradio==3.41.2
+pygit2==1.15.1
+opencv-contrib-python-headless==4.10.0.84
+httpx==0.27.0
+onnxruntime==1.18.1
+timm==1.0.7
+rembg==2.0.57
+groundingdino-py==0.4.0
+segment_anything==1.0
+</code></pre></div>
+<p>(i.e., delete the lines for <code>einops</code>,  <code>safetensors</code>, <code>accelerate</code>, <code>pyyamml</code>, <code>pillow</code>,
+<code>scipy</code>, <code>tqdm</code>, <code>psutil</code>, <code>pytorch_lightning</code>, <code>numpy</code>, <code>tokenizers</code> and <code>packaging</code>).
+Even though there is already a version of <code>transformers</code> in the package, it is too old
+and Fooocus is rather picky so we leave that line in.</p>
+<p>Alternatively, you can simply create the file by copying the following command:</p>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;<span class="w"> </span>requirements.txt<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<span class="s">torchsde==0.2.6</span>
+<span class="s">transformers==4.42.4</span>
+<span class="s">omegaconf==2.3.0</span>
+<span class="s">gradio==3.41.2</span>
+<span class="s">pygit2==1.15.1</span>
+<span class="s">opencv-contrib-python-headless==4.10.0.84</span>
+<span class="s">httpx==0.27.0</span>
+<span class="s">onnxruntime==1.18.1</span>
+<span class="s">timm==1.0.7</span>
+<span class="s">rembg==2.0.57</span>
+<span class="s">groundingdino-py==0.4.0</span>
+<span class="s">segment_anything==1.0</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p>Now go back into the container:</p>
+<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>shell<span class="w"> </span><span class="nv">$SIF</span>
 </code></pre></div>
 <p>We'll install the extra packages simply with the <code>pip</code> tool:</p>
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements_versions.txt
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 </code></pre></div>
 <p>This process may again take a few minutes.</p>
+<p>An error message suggests that there are some problems with the container that we used
+which are solved with</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>lightning-utilities<span class="w"> </span>torchmetrics
+</code></pre></div>
 <p>After finishing,</p>
-<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>/user-software/venv/pytorch/lib/python3.10/site-packages/
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>/user-software/venv/pytorch/lib/python3.12/site-packages/
 </code></pre></div>
 <p>shows that indeed a lot of packages have been installed. Though accessible from the container,
 they are not in the container <code>.sif</code> file as that file cannot be written.</p>
@@ -1290,11 +1359,11 @@ they are not in the container <code>.sif</code> file as that file cannot be writ
 <div class="highlight"><pre><span></span><code><span class="nb">exit</span>
 </code></pre></div>
 <p>Now try:</p>
-<div class="highlight"><pre><span></span><code>ls<span class="w"> </span><span class="nv">$CONTAINERROOT</span>/user-software/venv/pytorch/lib/python3.10/site-packages/
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span><span class="nv">$CONTAINERROOT</span>/user-software/venv/pytorch/lib/python3.12/site-packages/
 </code></pre></div>
 <p>and notice that we see the same long list of packages. In fact, a trick to see the number of files 
 and directories is</p>
-<div class="highlight"><pre><span></span><code>lfs<span class="w"> </span>find<span class="w"> </span><span class="nv">$CONTAINERROOT</span>/user-software/venv/pytorch/lib/python3.10/site-packages<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+<div class="highlight"><pre><span></span><code>lfs<span class="w"> </span>find<span class="w"> </span><span class="nv">$CONTAINERROOT</span>/user-software/venv/pytorch/lib/python3.12/site-packages<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
 </code></pre></div>
 <p>which prints the name of all files and directories and then counts the number of lines, and we see that 
 this is a considerable number. Lustre isn't really that fond of it. However, the module also provides an
@@ -1310,29 +1379,28 @@ Now we can then safely remove the <code>user-software</code> subdirectory:</p>
 </code></pre></div>
 <p>Before continuing, we do need to reload the module so that the bindings between the container and
 files and directories on LUMI are reset:</p>
-<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.3.1-rocm-6.0.3-python-3.12-Fooocus-singularity-20240923
 </code></pre></div>
 <p>Just check</p>
-<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="nv">$SIF</span><span class="w"> </span>ls<span class="w"> </span>/user-software/venv/pytorch/lib/python3.10/site-packages
+<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="nv">$SIF</span><span class="w"> </span>ls<span class="w"> </span>/user-software/venv/pytorch/lib/python3.12/site-packages
 </code></pre></div>
 <p>and see that our package installation is still there!</p>
 <p>However, we can no longer write in that directory. E.g., try</p>
-<div class="highlight"><pre><span></span><code>touch<span class="w"> </span>/user-software/test
+<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="nv">$SIF</span><span class="w"> </span>touch<span class="w"> </span>/user-software/test
 </code></pre></div>
 <p>to create an empty file <code>test</code> in <code>/user-software</code> and note that we get an error message.</p>
 <p>So now we are ready-to-run.</p>
 <h3 id="the-reward-running-fooocus">The reward: Running Fooocus<a class="headerlink" href="#the-reward-running-fooocus" title="Permanent link">&para;</a></h3>
-<p>First confirm we'll in the directory containing the Fooocus package (which should be the case if
-you followed these instructions):</p>
+<p>First go into the directory containing the Fooocus package :</p>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$installdir</span><span class="s2">/Fooocus-</span><span class="nv">$fooocusversion</span><span class="s2">&quot;</span>
 </code></pre></div>
 <p>We'll start an interactive job with a single GPU:</p>
-<div class="highlight"><pre><span></span><code>srun<span class="w"> </span>-psmall-g<span class="w"> </span>-n1<span class="w"> </span>-c7<span class="w"> </span>--time<span class="o">=</span><span class="m">30</span>:00<span class="w"> </span>--gpus<span class="o">=</span><span class="m">1</span><span class="w"> </span>--mem<span class="o">=</span>60G<span class="w"> </span>-A<span class="w"> </span>project_465001102<span class="w"> </span>--pty<span class="w"> </span>bash
+<div class="highlight"><pre><span></span><code>srun<span class="w"> </span>-psmall-g<span class="w"> </span>-n1<span class="w"> </span>-c7<span class="w"> </span>--time<span class="o">=</span><span class="m">30</span>:00<span class="w"> </span>--gpus<span class="o">=</span><span class="m">1</span><span class="w"> </span>--mem<span class="o">=</span>60G<span class="w"> </span>-A<span class="w"> </span>project_465001726<span class="w"> </span>--pty<span class="w"> </span>bash
 </code></pre></div>
 <p>The necessary modules will still be available, but if you are running from a new shell, you 
 can load them again:</p>
-<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09
-module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>LUMI/24.03
+module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.3.1-rocm-6.0.3-python-3.12-Fooocus-singularity-20240923
 </code></pre></div>
 <p>Also check the hostname if it is not part of your prompt as you will need it later:</p>
 <div class="highlight"><pre><span></span><code>hostname
@@ -1345,20 +1413,25 @@ module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.2.0-rocm-5.6
 </code></pre></div>
 <p>Fooocus provides a web interface. If you're the only one on the node using Fooocus, it should run
 on port 7865. To access it from our laptop, we need to create an SSH tunnel to LUMI. The precise statement
-needed for this will depend on your ssh implementation. Assuming you've define a <code>lumi</code> rule in the ssh 
-config file to make life easy and use an OpenSSH-style ssh client, you can use:</p>
-<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>-N<span class="w"> </span>-L<span class="w"> </span><span class="m">7865</span>:nid00XXXX:7865<span class="w"> </span>lumi
+needed for this will depend on your ssh implementation. With an OpenSSH-like client, you can use:</p>
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>-N<span class="w"> </span>-L<span class="w"> </span><span class="m">7865</span>:nid00XXXX:7865<span class="w"> </span>&lt;myusername&gt;@lumi.csc.fi
 </code></pre></div>
-<p><strong>replacing with the node name that we got from the <code>hostname</code> command`.</strong></p>
+<p><strong>replacing with the node name that we got from the <code>hostname</code> command<code>,</code><mysuername>` with your
+username on LUMI and adding command line options to point to your key if needed.</strong></p>
 <p>Next, simply open a web browser on your laptop and point to </p>
 <div class="highlight"><pre><span></span><code>http://localhost:7865
 </code></pre></div>
+<p>Note though that the initialisation of Fooocus can take a while and you cannot connect to it as long
+as a line similar to</p>
+<div class="highlight"><pre><span></span><code>App started successful. Use the app with http://localhost:7865/ or 0.0.0.0:7865
+</code></pre></div>
+<p>is shown.</p>
 <h3 id="alternative-way-of-running">Alternative way of running<a class="headerlink" href="#alternative-way-of-running" title="Permanent link">&para;</a></h3>
 <p>We can also launch Fooocus directly from the <code>srun</code> command, e.g., from the directory containing the 
 Fooocus code,</p>
-<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>LUMI/23.09
-module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.2.0-rocm-5.6.1-python-3.10-Fooocus-singularity-20240315
-srun<span class="w"> </span>-psmall-g<span class="w"> </span>-n1<span class="w"> </span>-c7<span class="w"> </span>--time<span class="o">=</span><span class="m">30</span>:00<span class="w"> </span>--gpus<span class="o">=</span><span class="m">1</span><span class="w"> </span>--mem<span class="o">=</span>60G<span class="w"> </span>-A<span class="w"> </span>project_465001102<span class="w"> </span>--pty<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>LUMI/24.03
+module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.3.1-rocm-6.0.3-python-3.12-Fooocus-singularity-20240923
+srun<span class="w"> </span>-psmall-g<span class="w"> </span>-n1<span class="w"> </span>-c7<span class="w"> </span>--time<span class="o">=</span><span class="m">30</span>:00<span class="w"> </span>--gpus<span class="o">=</span><span class="m">1</span><span class="w"> </span>--mem<span class="o">=</span>60G<span class="w"> </span>-A<span class="w"> </span>project_465001726<span class="w"> </span>--pty<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;echo -e &quot;Running on $(hostname)\n&quot; ; singularity exec $SIF python launch.py --listen --disable-xformers&#39;</span>
 </code></pre></div>
 <p>It will also print the host name on which the Fooocus is running, so you can connect to Fooocus using the
@@ -1435,7 +1508,7 @@ same procedure as above.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">April 16, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 27, 2025</span>
   </span>
 
      -->
