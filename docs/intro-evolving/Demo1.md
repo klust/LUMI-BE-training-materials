@@ -42,7 +42,7 @@ Let's create an installation directory for the demo. Set the environment variabl
 `installdir` to a proper value for the directories on LUMI that you have access to.
 
 ``` bash
-installdir=/scratch/project_465001726/kurtlust/DEMO1
+installdir=/scratch/project_465001726/$USER/DEMO1
 mkdir -p "$installdir" ; cd "$installdir"
 ```
 
