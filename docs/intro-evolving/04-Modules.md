@@ -481,12 +481,56 @@ $ module spider CMake
 which produces
 
 <figure markdown style="border: 1px solid #000">
-  ![module spider CMake](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCMake.png)
+  ![module spider CMake](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCMake1.png)
 </figure>
 
-The output above shows us that there are actually 3 other versions of CMake on the system, but their
+the output above shows us that there are actually 4 other versions of CMake on the system, but their
 version is followed by `(E)` which says that they are extensions of other modules.
-There is no module called `CMake` on the system. 
+
+Most users would have gotten the same output from
+
+```bash
+$ module spider cmake
+```
+
+<figure markdown style="border: 1px solid #000">
+  ![module spider cmake](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCMake2.png)
+</figure>
+
+However, if you've recently used one of the `spack` modules and the Lmod cache was last created with one of those
+modules loaded, 
+
+```bash
+$ module spider CMake
+```
+
+may show you something like
+
+<figure markdown style="border: 1px solid #000">
+  ![module spider CMake with Spack](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCMake3.png)
+</figure>
+
+This shows a number of alternative modules also called `cmake`, but with sometimes strange looking strings at the end
+of the version. These are modules that were installed on the system using Spack, a tool for HPC software management that
+we provide as our secondary tool for users familiar with that tool. More about it also in the presentation on
+[software stack](05-SoftwareStacks.md).
+
+With a `spack` module loaded, 
+
+```bash
+$ module spider cmake
+```
+
+would give you something similar to 
+
+<figure markdown style="border: 1px solid #000">
+  ![module spider cmake with Spack](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCMake4.png)
+</figure>
+
+and we no longer see the CMake versions provided as extensions (and our main CMake instances).
+
+So there is no module called `CMake` on the system (well, there may be one for Spack users but then
+with lowercase name).
 But Lmod already tells us
 how to find out which module actually provides the CMake tools. So let's try
 
