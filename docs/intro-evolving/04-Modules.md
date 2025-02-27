@@ -597,7 +597,9 @@ which produces the following output:
   ![module keyword https screen 2](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleKeywordHTTPS_2.png)
 </figure>
 
-`cURL` and `wget` are indeed 
+The first option is misleading and is shown because it contains a URL in the module
+information that is used by `module keyword`. 
+But `cURL` and `wget` are indeed 
 two tools that can be used to fetch files from the internet.
 
 !!! Note "LUMI Software Library"
