@@ -615,9 +615,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#low-noise-mode" class="md-nav__link">
+  <a href="#battling-os-jitter-low-noise-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      Low-noise mode
+      Battling OS jitter: Low-noise mode
     </span>
   </a>
   
@@ -1143,9 +1143,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#low-noise-mode" class="md-nav__link">
+  <a href="#battling-os-jitter-low-noise-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      Low-noise mode
+      Battling OS jitter: Low-noise mode
     </span>
   </a>
   
@@ -1352,7 +1352,7 @@
                   
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 21, 2025</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 8, 2025</span></p>
 <h1 id="hpe-cray-programming-environment">HPE Cray Programming Environment<a class="headerlink" href="#hpe-cray-programming-environment" title="Permanent link">&para;</a></h1>
 <p>In this session we discuss some of the basics of the operating system and
 programming environment on LUMI. Whether you like it or not, every user
@@ -1446,7 +1446,7 @@ server capacity in the admin nodes of the cluster, but the benefit of this appro
 that all background jitter from the daemons of those remote file systems, cannot
 negatively affect the scalability of programs running on the compute nodes.</p>
 </details>
-<h2 id="low-noise-mode">Low-noise mode<a class="headerlink" href="#low-noise-mode" title="Permanent link">&para;</a></h2>
+<h2 id="battling-os-jitter-low-noise-mode">Battling OS jitter: Low-noise mode<a class="headerlink" href="#battling-os-jitter-low-noise-mode" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Low-noise mode" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-02-CPE/LowNoiseMode.png" /></p>
 </figure>
@@ -1468,6 +1468,7 @@ distribution of tasks and threads over the CPU
 (see the <a href="../08-Binding/">"Process and thread distribution and binding" chapter</a>),
 the choice was made to also disable the first core on each of the other CCDs so that
 users now effectively see a 56-core node with 8 CCDs with 7 cores each.</p>
+<p>This shows perfectly that sometimes <strong>compromises need to be made to improve application scalability</strong> and that a supercomputer does not always function as a network of workstations. Not all workstation software may work properly on a LUMI compute node.</p>
 <h2 id="programming-models">Programming models<a class="headerlink" href="#programming-models" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Programming models" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-02-CPE/ProgrammingModels.png" /></p>
@@ -1788,7 +1789,8 @@ GPU aware with currently support for AMD and NVIDIA GPUs.</p>
 supported (and a problem anyway on systems with batch schedulers), and when using CCE
 <code>MPI_LONG_DOUBLE</code> and <code>MPI_C_LONG_DOUBLE_COMPLEX</code> are also not supported.
 The MPI standard is currently at version 4.1 however, but the 4.X extensions are not
-supported by Cray MPICH.</p>
+yet supported by Cray MPICH. A new version with support for MPI 4.0 based on MPICH 4.1 is
+in the works and the first preview versions are available to users.</p>
 <p>The Cray MPI library does not support the <code>mpirun</code> or <code>mpiexec</code> commands, which is in fact
 allowed by the standard which only requires a process starter and suggest <code>mpirun</code> or <code>mpiexec</code> 
 depending on the version of the standard. Instead the Slurm <code>srun</code> command is used as the 
@@ -2116,13 +2118,15 @@ that give additional documentation via the <code>explain</code> command.</p>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Google, ChatGPT and LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-02-CPE/ChatGPT.png" /></p>
 </figure>
-<p>When looking for information on the HPE Cray Programming Environment using search engines such as
-Google, you'll be disappointed how few results show up. HPE doesn't put much information on the 
-internet, and the environment so far was mostly used on Cray systems of which there are not that
-many. </p>
-<p>The same holds for ChatGPT. In fact, much of the training of the current version of ChatGPT was done
-with data of two or so years ago and there is not that much suitable training data available on
-the internet either.</p>
+<p>Finding information on the HPE Cray Programming Environment using search engines such as
+Google, was often disappointing in the past. However, in May 2023 HPE started putting more 
+information on the web, and as the Cray EX has been rather successful over the past years,
+there is also a growing amount of information from various sites on the web.</p>
+<p>The same holds for ChatGPT, copilot or other similar AI assistants. Nowadays they can produce rather
+useful results, certainly if you can use the more complex models that you usually need to pay for.
+The results are certainly not always right, but they often put you in the right direction to solve
+your issues. But you may have to go into a dialog with the system and also ask for the sources
+of information so that you can check yourself how relevant the information can be.</p>
 <p>There is now proper <a href="https://cpe.ext.hpe.com/docs/latest/index.html">online documentation</a> and it makes sense
 trying the search box on that page.
 It is often useful to better understand some error messages.
@@ -2391,7 +2395,7 @@ libraries.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 21, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 8, 2025</span>
   </span>
 
      -->

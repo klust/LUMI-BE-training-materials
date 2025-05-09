@@ -1424,7 +1424,7 @@
                   
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 27, 2025</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 9, 2025</span></p>
 <h1 id="lumi-software-stacks">LUMI Software Stacks<a class="headerlink" href="#lumi-software-stacks" title="Permanent link">&para;</a></h1>
 <p>In this section we discuss</p>
 <ul>
@@ -1692,9 +1692,8 @@ Programming Environment</strong>. It is the stack in which the LUST installs sof
 and mostly EasyBuild. <strong>The Cray Programming Environment modules are still used, but they are accessed through
 a replacement for the PrgEnv modules that is managed by EasyBuild</strong>. There are <strong>tuned versions for the 3 types
 of hardware in the regular LUMI system</strong>: zen2 CPUs in the login nodes and large memory nodes, zen3 for the 
-LUMI-C compute nodes and zen3 + MI250X for
-the LUMI-G partition. If the need would arise, a fourth partition could be created for the visualisation nodes
-with zen2 CPUs and NVIDIA GPUs.</p>
+LUMI-C compute nodes, zen3 + MI250X for
+the LUMI-G partition, and zen2 + the NVIDIA GPUs for visualisation.</p>
 <p>LUMI also offers an extensible software stack based on <strong>Spack</strong> which has been pre-configured to use the compilers
 from the Cray PE. This stack is offered as-is for users who know how to use Spack, but support is limited and
 no bug-fixing in Spack is done.</p>
@@ -1801,10 +1800,8 @@ and from the name of the modules you can see which compilers we used.</p>
 Each of the LUMI modules loads a particular version of the LUMI stack.</p>
 <p>The <strong>second level consists of partition modules</strong>. 
 There is partition/L for the login and large memory nodes,
-partition/C for the regular compute nodes and 
-partition/G for the AMD GPU nodes.
-There may be a separate partition for the visualisation nodes in the future 
-but that is not clear yet.</p>
+partition/C for the regular compute nodes,
+partition/G for the AMD GPU nodes and partition/D for the visualisation nodes.</p>
 <p>There is also a <strong>hidden partition/common module</strong> in which software is installed that is available everywhere, 
 but we advise you to be careful to install software in there in your own installs as it is risky to rely on
 software in one of the regular partitions, and impossible in our EasyBuild setup.</p>
@@ -1827,7 +1824,9 @@ SUSE Enterprise 15 SP5, and the current version of the SlingShot software, it is
 fully supported version of the LUMI software stacks.</p>
 <p>The 23.12 and 23.09 version function reasonably well, but keep in mind that 23.09 was originally
 meant to be used with ROCm 5.2 or 5.5 depending on the SUSE version while you will now get a much
-newer version of the compilers that come with ROCm.</p>
+newer version of the compilers that come with ROCm. You can expect issues with compiling GPU
+code with the Cray compilers, and the AMD module is also different from when the toolchain
+was installed as we had to redirect to a version of ROCm supported by the driver.</p>
 <p>The even older stacks are only there for projects that were using them. We've had problems with
 them already in the past and they currently don't work properly anymore for installing software
 via EasyBuild.</p>
@@ -2407,7 +2406,7 @@ that can be found on
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 27, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 9, 2025</span>
   </span>
 
      -->
