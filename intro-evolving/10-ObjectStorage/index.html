@@ -1184,7 +1184,7 @@
                   
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 25, 2025</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 12, 2025</span></p>
 <h1 id="lumi-o-object-storage">LUMI-O object storage<a class="headerlink" href="#lumi-o-object-storage" title="Permanent link">&para;</a></h1>
 <h2 id="why-do-i-kneed-to-know-this">Why do I kneed to know this?<a class="headerlink" href="#why-do-i-kneed-to-know-this" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -1244,6 +1244,12 @@ that contain objects:</p>
 </li>
 <li>
 <p><strong>Objects</strong>: Any type of data. An object is stored in a bucket.</p>
+<p>This is also a flat namespace. Objects cannot contain other object.
+However, some tools create a pseudo-folder view with the use of slashes
+in the name. This does not create some kind of "directory object"
+that would then create a number of "data objects" though; it is just 
+the name of an object in a flat space that contains slashes that are 
+used to create a folder-like view on the namespace.</p>
 </li>
 <li>
 <p><strong>Metadata</strong>: Both buckets and objects have metadata specific to them. 
@@ -1496,6 +1502,12 @@ Chose how long the authentication key should be valid (1 week or 168 hours is th
 life can be extended) and a description for the authentication key. The latter is useful if you generate multiple
 keys for different use. E.g., for security reasons you may want to use different authentication keys from different
 machines so that one machine can be disabled quickly if the machine would be compromised or stolen.</p>
+<div class="admonition note">
+<p class="admonition-title">Key validity</p>
+<p>At the time of writing, the maximum lifetime for a key was 168 hours which
+is one week. This will be extended in the future so that key renewal will
+not be needed anymore. Keys will last for the lifetime of the project.</p>
+</div>
 <p>Next click on the "Generate key" button, and a new key will appear in the "Available keys" section:</p>
 <p><figure markdown style="border: 1px solid #000">
   <img alt="Slide Credentials management web interface (4)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-ObjectStorage/LUMIOCredentialsWebCreate_04.png" />
@@ -2069,7 +2081,7 @@ just as for the Lustre filesystems, you need to move out the data in time.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 25, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 12, 2025</span>
   </span>
 
      -->
