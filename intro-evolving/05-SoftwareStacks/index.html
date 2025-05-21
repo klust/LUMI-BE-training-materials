@@ -1424,7 +1424,7 @@
                   
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 9, 2025</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 21, 2025</span></p>
 <h1 id="lumi-software-stacks">LUMI Software Stacks<a class="headerlink" href="#lumi-software-stacks" title="Permanent link">&para;</a></h1>
 <p>In this section we discuss</p>
 <ul>
@@ -1690,7 +1690,7 @@ on the next slide that are present right after login on LUMI.</p>
 <p>Next we have the <strong>stacks called "LUMI"</strong>. Each one corresponds to a <strong>particular release of the HPE Cray
 Programming Environment</strong>. It is the stack in which the LUST installs software using that programming environment
 and mostly EasyBuild. <strong>The Cray Programming Environment modules are still used, but they are accessed through
-a replacement for the PrgEnv modules that is managed by EasyBuild</strong>. There are <strong>tuned versions for the 3 types
+a replacement for the PrgEnv modules that is managed by EasyBuild</strong>. There are <strong>tuned versions for the 4
 of hardware in the regular LUMI system</strong>: zen2 CPUs in the login nodes and large memory nodes, zen3 for the 
 LUMI-C compute nodes, zen3 + MI250X for
 the LUMI-G partition, and zen2 + the NVIDIA GPUs for visualisation.</p>
@@ -1726,7 +1726,13 @@ used on the Finnish national systems.</p>
 <p>In the far future the LUST will also look at <strong>a stack based on the common EasyBuild toolchains as-is</strong>, 
 but problems are expected with MPI
 that will make this difficult to implement, and the common toolchains also do not yet support
-the AMD GPU ecosystem, so no promises whatsoever are made about a time frame for this development.</p>
+the AMD GPU ecosystem, so no promises whatsoever are made about a time frame for this development.
+EuroHPC would also like the <a href="https://www.eessi.io/">EESSI stack</a> but that too will take time. Their 
+distribution mechanism is a very bad fit with Cray systems as is their choice for Open MPI
+(and their desire to stay with the bleeding edge of Open MPI which requires features from the
+resource manager that are also not yet fully available on LUMI for security reasons). Apart 
+from the fact that any support for ROCm is absent at the moment in EasyBuild, the basis for
+EESSI.</p>
 <h3 id="3-ways-to-access-the-cray-programming-environment-on-lumi">3 ways to access the Cray Programming environment on LUMI.<a class="headerlink" href="#3-ways-to-access-the-cray-programming-environment-on-lumi" title="Permanent link">&para;</a></h3>
 <h4 id="bare-environment-and-crayenv">Bare environment and CrayEnv<a class="headerlink" href="#bare-environment-and-crayenv" title="Permanent link">&para;</a></h4>
 <figure style="border: 1px solid #000">
@@ -2406,7 +2412,7 @@ that can be found on
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 9, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 21, 2025</span>
   </span>
 
      -->
