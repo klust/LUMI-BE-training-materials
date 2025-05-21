@@ -157,7 +157,7 @@ starting with 465 for a project obtained via LUMI-BE).
             
         3.  Feel free to inspect those files.
    
-            In `~/.s3cfg-lumi-46YXXXXXX`, you'll see a section similar to
+            In `~/.config/rclone/rclone.conf`, you'll see a section similar to
 
             ```
             [lumi-46YXXXXXX-private]
