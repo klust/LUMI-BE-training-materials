@@ -1454,7 +1454,7 @@
                   
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 13, 2025</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 22, 2025</span></p>
 <h1 id="containers-on-lumi-c-and-lumi-g">Containers on LUMI-C and LUMI-G<a class="headerlink" href="#containers-on-lumi-c-and-lumi-g" title="Permanent link">&para;</a></h1>
 <h2 id="what-are-we-talking-about-in-this-chapter">What are we talking about in this chapter?<a class="headerlink" href="#what-are-we-talking-about-in-this-chapter" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -1533,25 +1533,6 @@ to mind is the interconnect. And they use the kernel of the host and the kernel 
 kernel. Those can be a problem. A container that is not build to support the SlingShot interconnect, may fall back to
 TCP sockets in MPI, completely killing scalability. Containers that expect the knem kernel extension for good 
 intra-node MPI performance may not run as efficiently as LUMI uses xpmem instead.</p>
-<p>So the <strong>"bring your own userland and run it on a system-optimised kernel"</strong> idea that proponents of containers promote,
-has <strong>two major flaws</strong></p>
-<ol>
-<li>
-<p>Every set of userland libraries comes with certain expectations for kernel versions, kernel drivers and their 
-    versions, etc. If these expectations are not met, the container may not work at all or may work inefficiently.</p>
-</li>
-<li>
-<p>Support for specific hardware is not done in the kernel alone. Most of the support for hardware, is actually 
-    in userland. E.g., part of the support for the SlingShot network, is in the libfabric library and its CXI
-    provider, which are userland elements. Container promoters will tell you that is not a problem and that you
-    can inject those libraries in the container, but the reality is that that strategy not always works, as the
-    library you have on the system may not be the right version for the container, or may need other libraries 
-    that conflict with the versions in the container.</p>
-<p>And obviously support for a specific instruction set, is also 
-in userland. If a binary is not compiled to benefit from the additional speed of new instructions in a 
-newer architecture, no container runtime can inject that support.</p>
-</li>
-</ol>
 <h2 id="but-what-can-they-then-do-on-lumi">But what can they then do on LUMI?<a class="headerlink" href="#but-what-can-they-then-do-on-lumi" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="But what can they then do on LUMI?" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersCanDoOnLUMI.png" /></p>
@@ -2618,41 +2599,44 @@ performance.</p>
 <figure style="border: 1px solid #000">
 <p><img alt="Container limitations on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersLimitations.png" /></p>
 </figure>
-<p>To conclude the information on using singularity containers on LUMI,
-we want to repeat the limitations:</p>
-<ul>
+<p>The idea of <strong>"bring your own userland and run it on a system-optimised kernel"</strong> idea that proponents of containers promote,
+has <strong>two major flaws</strong></p>
+<ol>
 <li>
-<p>Containers use the host's operating system kernel which is likely different and
-    may have different drivers and kernel extensions than your regular system.
-    This may cause the container to fail or run with poor performance.
-    Also, containers do not abstract the hardware unlike some virtual machine solutions.</p>
+<p>Every set of userland libraries comes with certain expectations for kernel versions, kernel drivers and their 
+    versions, hardware, etc. If these expectations are not met, the container may not work at all or may work inefficiently.</p>
+<p>This is particulary true for ROCm(TM) support as each version of the ROCm&trade; libraries only
+works with a limited range of GPU driver versions. If the ROCm&trade; libraries in the container
+are too old or too new for the driver on the system, the container will not work. As the ROCm&trade;
+ecosystem is maturing, the range of driver versions that are compatible with each ROC&trade; version
+is growing, but this issue will likely never be completely solved.</p>
 </li>
 <li>
-<p>The LUMI hardware is almost certainly different from that of the systems on which
-    you may have used the container before and that may also cause problems.</p>
-<p>In particular a generic container may not offer sufficiently good support for the 
-Slingshot 11 interconnect on LUMI which requires OFI (libfabric) with the right 
-network provider (the so-called Cassini provider) for optimal performance.
-The software in the container may fall back to TCP sockets resulting in poor 
-performance and scalability for communication-heavy programs.</p>
-<p>For containers with an MPI implementation that follows the MPICH ABI the solution
-is often to tell it to use the Cray MPICH libraries from the system instead.</p>
+<p>Support for specific hardware is not done in the kernel alone. Most of the optimisations for hardware
+    on an HPC system are actually in userland. </p>
+<ul>
+<li>
+<p>As most of the time of an application is spent in userland, this is where you need to
+    optimise for a specific CPU and GPU. If a binary is not compiled to benefit from the 
+    additional speed of new instructions in a newer architecture, no container runtime 
+    can inject that support.</p>
+</li>
+<li>
+<p>Support for the SlingShot network, is in the libfabric library and its CXI
+    provider, which are userland elements (and the same holds for other network technologies). </p>
+<p>Container promoters will tell you that is not a problem and that you
+can inject those libraries in the container, but the reality is that that strategy does not 
+always work, as the library you have on the system may not be the right version for the 
+container, or may need other libraries that conflict with the versions in the container.</p>
 <p>Likewise, for containers for distributed AI, one may need to inject an appropriate
 RCCL plugin to fully use the Slingshot 11 interconnect.</p>
 </li>
-<li>
-<p>As containers rely on drivers in the kernel of the host OS, the AMD driver may also
-    cause problems. AMD only guarantees compatibility of the driver with two minor versions
-    before and after the ROCm release for which the driver was meant. Hence containers 
-    using a very old version of ROCm or a very new version compared to what is available
-    on LUMI, may not always work as expected.</p>
-</li>
-<li>
-<p>The support for building containers on LUMI is currently limited due to security
-    concerns. Any build process that requires elevated privileges, fakeroot or user namespaces
-    will not work.</p>
-</li>
 </ul>
+</li>
+</ol>
+<p>The support for building containers on LUMI is currently limited due to security
+concerns. Any build process that requires elevated privileges, fakeroot or user namespaces
+will not work.</p>
 <!--
   Copyright (c) 2016-2025 Martin Donath <martin.donath@squidfunk.com>
 
@@ -2720,7 +2704,7 @@ RCCL plugin to fully use the Slingshot 11 interconnect.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 13, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 22, 2025</span>
   </span>
 
      -->
