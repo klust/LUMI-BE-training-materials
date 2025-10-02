@@ -2,150 +2,150 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/00-Introduction/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/01-Architecture/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/02-CPE/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/03-Access/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/04-Modules/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/05-SoftwareStacks/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/06-Support/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/07-Slurm/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/08-Binding/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/09-Lustre/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/10-ObjectStorage/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/11-Containers/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/A01-SlurmIssues/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/A02-Documentation/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/Demo1/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/Demo2/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/E02-CPE/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/E03-Access/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/E04-Modules/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/E05-SoftwareStacks/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/E07-Slurm/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/E08-Binding/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/E10-ObjectStorage/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/M01-Architecture/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/M02-CPE/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/M03-Access/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/M04-Modules/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/M05-SoftwareStacks/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/M06-Support/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/M07-Slurm/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/M08-Binding/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/M09-Lustre/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/M10-ObjectStorage/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/M11-Containers/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
     <url>
          <loc>https://klust.github.io/LUMI-BE-training-materials/intro-evolving/schedule/</loc>
-         <lastmod>2025-10-01</lastmod>
+         <lastmod>2025-10-02</lastmod>
     </url>
 </urlset>
