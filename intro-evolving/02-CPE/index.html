@@ -1394,7 +1394,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 8, 2025 13:15:22">May 8, 2025</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 2, 2025 15:10:07">October 2, 2025</span></p>
 <h1 id="hpe-cray-programming-environment">HPE Cray Programming Environment<a class="headerlink" href="#hpe-cray-programming-environment" title="Permanent link">&para;</a></h1>
 <p>In this session we discuss some of the basics of the operating system and
 programming environment on LUMI. Whether you like it or not, every user
@@ -1409,7 +1409,7 @@ system when confronted with a talk about development tools is
 <em>"I only want to run some programs, why do I need to know about programming
 environments?"</em></p>
 <p>The answer is that Linux itself is not a proper supercomputer operating system.
-As we shall see, it is both too much and too litle, and
+As we shall see, it is both too much and too little, and
 development environments are therefore <strong>an intrinsic part of an HPC system</strong>. 
 The answer is that development environments are <strong>an intrinsic part of an HPC system</strong>. 
 No HPC system is as polished as a personal computer and the software users want to use
@@ -1660,9 +1660,9 @@ There is a C/C++ compiler with advanced OpenMP offload support, based on clang
 and LLVM. The unified memory architecture of MI250X (and MI300A) is fully supported.
 The Fortran compiler is currently still based on the former PGI
 Fortran frontend (also known as classic flang) and misses OpenMP offload support.
-That is expected to change towards the end of 2025, when AMD expects to switch to
-the new Flang frontend. In fact, with ROCm 6.3 users can have early access, but
-unfortunately that version of ROCm cannot be supported on LUMI with the current
+With ROCm&trade; 7 AMD is switching to the new Fortran frontend, and in fact, 
+with ROCm 6.3 users can have early access, but
+unfortunately neither of these versions of ROCm can be supported on LUMI with the current
 driver version and will only be supportable after the update planned for the summer
 of 2025. The other issue is that switching to a different Fortran frontend may break
 the Fortran MPI bindings that come with Cray MPICH, as they include precompiled
@@ -1687,6 +1687,9 @@ serve as the information collecting tool for other profiling tools.</p>
     profiling and tracing tool, supporting C, C++, Fortran and Python on CPU
     and CP+GPU. It also supports interactive visualisation of trace data in a 
     web-based GUI (that can be installed as an app on your laptop).</p>
+<p>Before ROCm&trade; 6.2, this was not an official product but a product from AMD Research.
+With ROCm&trade; 6.2, it became an official part of ROCm&trade; and in ROCm&trade;6.3,
+it was renamed to ROCm Systems Profiler.</p>
 </li>
 <li>
 <p><a href="https://rocm.docs.amd.com/projects/omniperf/en/docs-6.2.0/">Omniperf</a> is 
@@ -1694,6 +1697,9 @@ serve as the information collecting tool for other profiling tools.</p>
     ROC-profiler under the hood to collect data, but offers several high level
     performance analysis tools (like roofline analyses, ...) to better understand
     application behaviour at a high level.</p>
+<p>Before ROCm&trade; 6.2, this was not an official product but a product from AMD Research.
+With ROCm&trade; 6.2, it became an official part of ROCm&trade; and in ROCm&trade;6.3,
+it was renamed to ROCm Compute Profiler or <code>rocprof-compute</code>.</p>
 <p>The tool now also has a standalone GUI which is much safer than the Grafana-based
 GUI used before.</p>
 </li>
@@ -2208,8 +2214,9 @@ to find out where you can get more information about the environment variable <c
 <li>R: <code>cray-R</code></li>
 </ul>
 <p>The HPE Cray PE also offers other modules for debugging, profiling, performance analysis, etc. that
-are not covered in this short version of the LUMI course. Many more are covered in the 4-day
-courses for developers that we organise several times per year with the help of HPE and AMD.</p>
+are not covered in this short version of the LUMI course. Many more are covered in the advanced
+courses for developers and performance analysis and optimisation workshops 
+that we organise several times per year with the help of HPE and AMD.</p>
 <h2 id="warning-1-you-do-not-always-get-what-you-expect">Warning 1: You do not always get what you expect...<a class="headerlink" href="#warning-1-you-do-not-always-get-what-you-expect" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide You do not always get what you expect" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-02-CPE/WarningLibraryPath.png" /></p>
@@ -2437,7 +2444,7 @@ libraries.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 8, 2025 13:15:22">May 8, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 2, 2025 15:10:07">October 2, 2025</span>
   </span>
 
      -->
