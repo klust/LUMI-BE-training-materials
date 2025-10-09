@@ -41,9 +41,8 @@ to set up for the exercises.
             With some browsers
             it is sufficient to type `lumi.csc.fi` in the address bar while others
             require `www.lumi.csc.fi`.
-        -   Click the "Go to login" button. What you need to do here, depends on how
-            you got your account. For the course you will have to proceed with the 
-            "MyAccessID" option "Login Puhuri" in most cases.
+        -   Click the "Go to login" button. For Belgian users, this will almost always
+            be "Login Puhuri".
         -   Once you're in the web interface, click on "Login node shell" (likely the third
             choice on the first line). It will open a new tab in the browser with a login shell
             on LUMI. Note that Open OnDemand uses a different set of login nodes.
@@ -60,7 +59,7 @@ to set up for the exercises.
             this will require either CPU or GPU billing units, but more about 
             that in the [session on Slurm](M07-Slurm.md) on day 2 of this course.
 
-4.  Try to transfer a file from your desktop/laptop to your home directory via the Open OnDemand web interface.
+1.  Try to transfer a file from your desktop/laptop to your home directory via the Open OnDemand web interface.
 
     ??? Solution "Click to see the solution."
         -   Go back into Open OnDemand if you have left it after the previous exercise.

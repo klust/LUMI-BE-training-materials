@@ -98,8 +98,8 @@ starting with 465 for a project obtained via LUMI-BE).
             # DO NOT SHARE!
 
             # Default location is ${HOME}/.s3cfg
-
-            [lumi-46YXXXXXX]
+            # otherwise: s3cmd -c <this_file> <subcommand>
+            [default]
             access_key   = XXXXXXXXXXXXXXXXXXXX
             secret_key   = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             host_base    = https://lumidata.eu
@@ -379,6 +379,8 @@ starting with 465 for a project obtained via LUMI-BE).
     `public-in-private.txt` and `private-in-private.txt` in the `training.private` bucket. What works and what doesn't?
 
     ??? Solution "Click here to see the solution."
+
+        The structure of the URL is `https://<project>.lumidata.eu/<bucket>/<object>`.
 
         -   `public-in-public.txt` in the `training.public` bucket:
             [https://46YXXXXXX.lumidata.eu/training.public/public-in-public.txt](https://46YXXXXXX.lumidata.eu/training.public/public-in-public.txt)
