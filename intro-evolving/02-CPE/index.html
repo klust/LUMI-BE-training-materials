@@ -1394,7 +1394,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 2, 2025 15:10:07">October 2, 2025</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 17, 2025 08:54:16">October 17, 2025</span></p>
 <h1 id="hpe-cray-programming-environment">HPE Cray Programming Environment<a class="headerlink" href="#hpe-cray-programming-environment" title="Permanent link">&para;</a></h1>
 <p>In this session we discuss some of the basics of the operating system and
 programming environment on LUMI. Whether you like it or not, every user
@@ -1466,6 +1466,12 @@ This in turn led to an asymmetry in the setup so now 8 cores are reserved, one p
 that all CCDs are equal again.</p>
 <p>This also implies that some software that works perfectly fine on the login nodes <strong>may not
 work on the compute nodes</strong>. E.g., you will see that there is no <code>/run/user/$UID</code> directory.</p>
+<p>Note also that the main communication library for the Slingshot interconnect is libfabric
+and that there is no support for UCX, a popular library on NVIDIA InfiniBand networks
+(formerly Mellanox InfiniBand). This can also cause compatibility problems. It should be
+noted though that libfabric has much wider support among network vendors than UCX and also
+seems to be the preferred communication library by most vendors working on the next-generation
+Ultra Ethernet for HPC and AI systems.</p>
 <p>Large HPC clusters also have a small system image, so <strong>don't expect all the bells-and-whistles 
 from a Linux workstation to be present on a large supercomputer</strong> (and certainly not in the same
 way as they would be on a workstation).
@@ -1537,6 +1543,10 @@ and there is also no equivalent to CUDA Fortran.</p>
 families currently used in HPC. </p>
 <p>Python is of course pre-installed on the system but we do ask to use big Python installations in a special way
 as Python puts a tremendous load on the file system. More about that later in this course.</p>
+<p>We recently started looking at <a href="https://www.chapel-lang.org">Chapel</a> also. Chapel is a so-called PGAS language
+and is designed with parallelism in mind (shared and distributed memory parallelism and accelerator compute)
+and was developed by Cray in the framework of a number of USA DoE contracts for the development of high performance
+high productive programming languages.</p>
 <p>Some users also report some success in running <a href="https://julialang.org/">Julia</a>. We don't have full support though and have to
 depend on binaries as provided by <a href="https://julialang.org/downloads/">julialang.org</a>.</p>
 <p>It is important to realise that there is <strong>no CUDA on AMD GPUs</strong> and there will never be as this is a 
@@ -1855,7 +1865,10 @@ on InfiniBand clusters). It also uses a GPU Transfer Library (GTL) for GPU-aware
 The implementation supports (a) GPU-NIC RDMA for efficient inter-node MPI transfers and (b) GPU Peer2Peer IPC for
 efficient intra-node transfers. The latter mechanism comes with some restrictions though that we will discuss in the
 <a href="../08-Binding/">chapter "Process and thread distribution and binding"</a>.</p>
-<p>GPU-aware MPI needs to be enabled explicitly, which you can do by setting an environment variable:</p>
+<p>GPU-aware MPI needs to be enabled explicitly. At link time, you need to ensure that the 
+Graphics Transfer Library (GTL) is linked in, which will be the case with the compiler wrappers
+that we will discuss later if you ensure the ROCm module is loaded.
+At run time, you should set the environment variable:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_GPU_SUPPORT_ENABLED</span><span class="o">=</span><span class="m">1</span>
 </code></pre></div>
 <p>In addition to this, if the GPU code does use MPI operations that access GPU-attached memory regions it is best to also set</p>
@@ -2444,7 +2457,7 @@ libraries.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 2, 2025 15:10:07">October 2, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 17, 2025 08:54:16">October 17, 2025</span>
   </span>
 
      -->

@@ -1496,7 +1496,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 6, 2025 14:36:44">October 6, 2025</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 17, 2025 08:54:16">October 17, 2025</span></p>
 <h1 id="containers-on-lumi-c-and-lumi-g">Containers on LUMI-C and LUMI-G<a class="headerlink" href="#containers-on-lumi-c-and-lumi-g" title="Permanent link">&para;</a></h1>
 <h2 id="what-are-we-talking-about-in-this-chapter">What are we talking about in this chapter?<a class="headerlink" href="#what-are-we-talking-about-in-this-chapter" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -1642,6 +1642,22 @@ node level and then between containers on different nodes.</p>
 support all different software that users want to run in containers, and all possible Linux distributions they may
 want to run in those containers. We provide some advice on how to build a proper container, but if you chose to
 neglect it it is up to you to solve the problems that occur.</p>
+<figure style="border: 1px solid #000">
+<p><img alt="Storage manageability: Python" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersStoragePython.png" /></p>
+</figure>
+<p>In case you wonder how important it is to containerise Conda and Python installations: Look no further than 
+the slide above which was borrowed from the 
+<a href="[../ai-20251008/extra_10_TrainingData.md](https://lumi-supercomputer.github.io/LUMI-training-materials/ai-20251008/extra_10_TrainingData/)">presentation "Loading training data on LUMI" of the "Moving your AI training jobs to LUMI
+of October 2025</a>
+and was presented by our colleagues
+from the HPE Center of Excellence supporting LUST. They wanted to see to what extent their
+profiling tools were useful to understanding the performance of AI jobs and took a simple
+example from the LUMI documentation. The conclusion of the profiling was a bit surprising, even for them.
+It turned out that in this rather standard example for machine learning (well, not so standard
+for what many users try as the MNIST dataset is not stored as many small files, but the tasks
+are standard) Python was spending as much time reading in Python code from Lustre as it
+was doing useful work. Containerising the Python installation sped up the benchmark from
+100s to 52s.</p>
 <h2 id="managing-containers">Managing containers<a class="headerlink" href="#managing-containers" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Managing containers" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersManaging_1.png" /></p>
@@ -2045,6 +2061,14 @@ versions of ROCm&trade; in mind, so if that version of ROCm&trade; is too new fo
 driver on the software, running GPU software may fail. Some containers may also expect
 a newer version of the OS and though they contain the necessary userland libraries, these
 may expect a newer version of the kernel or libraries that are injected from the system.</p>
+<!-- Belgium -->
+<div class="admonition note">
+<p class="admonition-title">User coffee break seminar on the CCPE containers</p>
+<p>During the August 2025 LUMI user coffee break, there was a presentation on using the
+<a href="https://lumi-supercomputer.github.io/LUMI-training-materials/User-Coffee-Breaks/20250827-user-coffee-break-CCPE/">Cray PE containers</a>.</p>
+</div>
+<!-- -->
+
 <h3 id="pre-built-ai-containers">Pre-built AI containers<a class="headerlink" href="#pre-built-ai-containers" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
 <p><img alt="Environment enhancements (3): Prebuilt AI containers" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersPrebuiltAI.png" /></p>
@@ -2567,6 +2591,12 @@ it from the installation afterwards). </p>
 <p><strong>Note that <code>cotainr</code> can build upon the ROCm&trade; containers that are provided on LUMI, but not
 upon containers that already contain a Conda installation. It cannot extend an existing Conda
 installation in a container.</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Course lecture on <code>cotainr</code></p>
+<p>The <a href="https://lumi-supercomputer.github.io/AI-latest">"Moving your AI training jobs to LUMI" course</a>
+has a session <a href="https://lumi-supercomputer.github.io/LUMI-training-materials/ai-20251008/extra_06_BuildingContainers/">"Building containers from Conda/pip environments"</a>
+(link to the materials of the course in October 2025) with examples and exercises for this approach.</p>
+</div>
 <h3 id="extending-the-container-with-the-singularity-unprivileged-proot-build">Extending the container with the singularity unprivileged <code>proot</code> build<a class="headerlink" href="#extending-the-container-with-the-singularity-unprivileged-proot-build" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
 <p><img alt="Extending containers with the singularity unprivileged proot build process" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ExtendingSingularityBuild.png" /></p>
@@ -2769,7 +2799,7 @@ will not work.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 6, 2025 14:36:44">October 6, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 17, 2025 08:54:16">October 17, 2025</span>
   </span>
 
      -->
