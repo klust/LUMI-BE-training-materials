@@ -1166,7 +1166,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 1, 2025 16:16:05">October 1, 2025</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 3, 2025 09:41:30">November 3, 2025</span></p>
 <h1 id="using-lustre">Using Lustre<a class="headerlink" href="#using-lustre" title="Permanent link">&para;</a></h1>
 <h2 id="file-systems-on-lumi">File systems on LUMI<a class="headerlink" href="#file-systems-on-lumi" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -1202,7 +1202,7 @@ minimise OS jitter on the compute nodes to improve scalability of applications,
 and to reduce the memory footprint of the OS on the compute nodes.</p>
 <h2 id="lustre-building-blocks">Lustre building blocks<a class="headerlink" href="#lustre-building-blocks" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
-<p><img alt="Lustre building blocks" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreBuildingBlocks1.png" /></p>
+<p><img alt="Lustre building blocks" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreBuildingBlocks1_1_separation.png" /></p>
 </figure>
 <figure style="border: 1px solid #000">
 <p><img alt="Lustre building blocks (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreBuildingBlocks2.png" /></p>
@@ -1213,9 +1213,13 @@ metadata and the actual file data, as the way both are accessed and used is very
 <p>A Lustre system consists of the following blocks:</p>
 <ol>
 <li>
+<p><strong>Metadata servers (MDSes)</strong></p>
+<p><figure markdown style="border: 1px solid #000">
+  <img alt="Lustre building blocks -oss" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreBuildingBlocks1_2_MDS.png" />
+</figure></p>
 <p><strong>Metadata servers (MDSes)</strong> with one or more <strong>metadata targets (MDTs)</strong> each store
-    namespace metadata such as filenames, directories and access permissions, and the
-    file layout.</p>
+namespace metadata such as filenames, directories and access permissions, and the
+file layout.</p>
 <p>Each MDT is a filesystem, usually with some level of RAID or similar technologies
 for increased reliability. Usually there is also more than one MDS and they are put
 in a high availability setup for increased availability (and this is the case in 
@@ -1226,10 +1230,14 @@ storage possible even if that storage is very expensive per terabyte. On LUMI al
 metadata servers use SSDs.</p>
 </li>
 <li>
+<p><strong>Object storage servers (OSSes)</strong></p>
+<p><figure markdown style="border: 1px solid #000">
+  <img alt="Lustre building blocks -oss" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreBuildingBlocks1_3_OSS.png" />
+</figure></p>
 <p><strong>Object storage servers (OSSes)</strong> with one or more <strong>object storage targets (OSTs)</strong> each
-    store the actual data. Data from a single file can be distributed across multiple
-    OSTs and even multiple OSSes. As we shall see, this is also the key to getting very
-    high bandwidth access to the data.</p>
+store the actual data. Data from a single file can be distributed across multiple
+OSTs and even multiple OSSes. As we shall see, this is also the key to getting very
+high bandwidth access to the data.</p>
 <p>Each OST is a filesystem, again usually with some level of RAID or similar technologies
 to survive disk failures. One OSS typically has between 1 and 8 OSTs, and in a big setup
 a high availability setup will be used again (as is the case in LUMI).</p>
@@ -1246,8 +1254,12 @@ storage systems.</p>
 8.5 PB in an SSD-based Lustre file system. However, all MDSes use SSD storage.</p>
 </li>
 <li>
+<p><strong>Lustre clients</strong></p>
+<p><figure markdown style="border: 1px solid #000">
+  <img alt="Lustre building blocks -oss" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreBuildingBlocks1_4_client.png" />
+</figure></p>
 <p><strong>Lustre clients</strong> access and use the data. They make the whole Lustre file system look like
-    a single file system.</p>
+a single file system.</p>
 <p>Lustre is <strong>transparent in functionality</strong>. You can use a Lustre file system just as any 
 other regular file system, with all your regular applications. However, it is <strong>not
 transparent when it comes to performance</strong>: How you use Lustre can have a huge impact on 
@@ -1261,10 +1273,14 @@ performance. On LUMI we do advise Python users or users who install software thr
 to do so. </p>
 </li>
 <li>
+<p><strong>High-performance interconnect</strong></p>
+<p><figure markdown style="border: 1px solid #000">
+  <img alt="Lustre building blocks -oss" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreBuildingBlocks1_5_network.png" />
+</figure></p>
 <p>All these components are linked together through a <strong>high performance interconnect</strong>. On HPE Cray EX
-    systems - but on more an more other systems also - there is no separate network anymore for 
-    storage access and the same high performance interconnect that is also used for internode
-    communication by applications (through, e.g., MPI) is used for that purpose.</p>
+systems - but on more an more other systems also - there is no separate network anymore for 
+storage access and the same high performance interconnect that is also used for internode
+communication by applications (through, e.g., MPI) is used for that purpose.</p>
 </li>
 <li>
 <p>There is also a <strong>management server</strong> which is not mentioned on the slides, but that component
@@ -1316,24 +1332,34 @@ In fact, the Object Storage Servers use a regular file system such as
 ZFS or ldiskfs to store the "objects".</p>
 </div>
 <h2 id="accessing-a-file">Accessing a file<a class="headerlink" href="#accessing-a-file" title="Permanent link">&para;</a></h2>
-<figure style="border: 1px solid #000">
-<p><img alt="Accessing a file" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreFileAccess.png" /></p>
-</figure>
 <p>Let's now study how Lustre will access a file for reading or writing. Let's assume that the
 second client in the above picture wants to write something to the file.</p>
-<ul>
+<ol>
 <li>
 <p>The first step is opening the file. </p>
+<p><figure markdown style="border: 1px solid #000">
+  <img alt="Accessing querymds" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreFileAccess_1_queryMDS.png" />
+</figure></p>
 <p>For that, the Lustre client has to talk to the metadata server (MDS) and query some information
 about the file.</p>
+</li>
+<li>
+<p>MDS answers:</p>
+<p><figure markdown style="border: 1px solid #000">
+  <img alt="Accessing returnmds" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreFileAccess_2_returnMDS.png" />
+</figure></p>
 <p>The MDS in turn will return information about the file, including the layout of the file: chunksize
 and the OSSes/OSTs that keep the chunks of the file.</p>
 </li>
 <li>
+<p>Data access:</p>
+<p><figure markdown style="border: 1px solid #000">
+  <img alt="Accessing-writeoss" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreFileAccess_3_writeOSS.png" />
+</figure></p>
 <p>From that point on, the client doesn't need to talk to the MDS anymore and can talk directly to 
-    the OSSes to write data to the OSTs or read data from the OSTs.</p>
+the OSSes to write data to the OSTs or read data from the OSTs.</p>
 </li>
-</ul>
+</ol>
 <h2 id="parallelism-is-key">Parallelism is key!<a class="headerlink" href="#parallelism-is-key" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Parallelism is key! (slide 1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-09-Lustre/LustreParallelismKey_1.png" /></p>
@@ -1810,7 +1836,7 @@ capacity than a hard disk based OST).</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 1, 2025 16:16:05">October 1, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 3, 2025 09:41:30">November 3, 2025</span>
   </span>
 
      -->
