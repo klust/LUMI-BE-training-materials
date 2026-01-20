@@ -25,7 +25,10 @@ efficiently.
 
 LUMI, as other large supercomputers, is built for running large parallel applications efficiently.
 But that efficiency does not for free. Scaling from a small problem size on a small computer 
-does not come for free, not in hardware and neither in software.
+does not come for free, not in hardware and neither in software. Simply using more nodes will not speed up your application if it is not written for distributed memory computing and if there is no very good and fast interconnect available between the nodes. 
+The cost of moving data between nodes or between CPU and accelerators, can be so high that
+it can overshadow any speedgain from using more nodes or using accelerators.
+And if your application spends a lot of time in code that is serial and not parallelised at all, the speedup you can get from using LUMI is also limited.
 
 In fact, in most cases it is important to properly map an 
 application on the available resources to run efficiently.  The way an application is developed
@@ -143,7 +146,9 @@ True supercomputers, and LUMI in particular, are built for scalable parallel app
 are found on smaller clusters or on workstations that pose a threat to scalability are removed from the system.
 It is also a shared infrastructure but with a much more lightweight management layer than a cloud infrastructure
 and far less isolation between users, meaning that abuse by one user can have more of a negative impact on 
-other users than in a cloud infrastructure. Supercomputers since the mid to late '80s are also built according
+other users than in a cloud infrastructure. 
+E.g., the login nodes on a supercomputer are a shared infrastructure and one user abusing these for regular processing, can slow down the work of others. Similarly, a supercomputer relies on shared filesystems optimised for bandwidth, and a misbehaving user can seriously slow down the filesystem for other users also as capacity regulation between users is rather poor on supercomputer filesystems.
+Supercomputers since the mid to late '80s are also built according
 to the principle of trying to reduce the hardware cost by using cleverly designed software both at the system
 and application level. They perform best when streaming data through the machine at all levels of the 
 memory hierarchy and are not built at all for random access to small bits of data (where the definition of
@@ -171,7 +176,7 @@ LUMI is built to prepare for the exascale era and to fit in the EuroHPC ecosyste
 But it does not even mean
 that it has to cater to all pre-exascale compute needs. The EuroHPC JU tries to
 build systems that have some flexibility, but also does not try to cover 
-all needs with a single machine. They are building 3 pre-exascale systems
+all needs with a single machine. They built 3 pre-exascale systems
 with different architecture to explore multiple architectures and to cater
 to a more diverse audience. LUMI is an AMD GPU-based supercomputer, 
 Leonardo uses NVIDIA A100 GPUS, and MareNostrum5 has a very large CPU section besides an
@@ -187,7 +192,7 @@ then add a number of CPU nodes to do the I/O and a specialised render GPU node f
 in-situ visualisation.
 
 LUMI is in the first place a huge **GPGPU supercomputer**. The GPU partition of
-LUMI, called **LUMI-G**, contains 2978 nodes with a single 64-core AMD EPYC 7A53 CPU and 4 AMD MI250X
+LUMI, called **LUMI-G**, contains 2978 nodes with a single 64-core AMD EPYC 7A53 CPU (codenamed Trento) and 4 AMD MI250X
 GPUs. Each node has 512 GB of RAM attached to the CPU (the maximum the CPU can handle
 without compromising bandwidth) and 128 GB of HBM2e memory per GPU. Each GPU node
 has a theoretical peak performance of nearly 200 TFlops in single (FP32) or double (FP64)
@@ -200,7 +205,7 @@ stellar.
 LUMI also has a **large CPU-only partition**, called **LUMI-C**, for jobs that do not run well on GPUs,
 but also integrated enough with the GPU partition that it is possible to have
 applications that combine both node types.
-LUMI-C consists of 2048 nodes with 2 64-core AMD EPYC 7763 CPUs. 32 of those nodes
+LUMI-C consists of 2048 nodes with 2 64-core AMD EPYC 7763 CPUs (Zen3 architecture, codenamed Milan). 32 of those nodes
 have 1TB of RAM (with some of these nodes actually reserved for special purposes
 such as connecting to a Quantum computer), 128 have 512 GB and 1888 have
 256 GB of RAM.
@@ -210,19 +215,21 @@ LUMI also has two smaller groups of nodes for **interactive data analytics**.
 64-core Zen2/Rome CPUs with 4 TB of RAM per node, while 8 others have dual 64-core
 Zen2/Rome CPUs and 8 NVIDIA A40 GPUs for visualisation. Together these are known as
 **LUMI-D**, but as we shall see in the Slurm part of the training, this name is misleading
-as these are two node types corresponding to two partitions in the scheduler.
+as these are two node types corresponding to two different partitions in the scheduler.
 There is also an **Open OnDemand based service (web interface)** to make some fo those facilities
 available. Note though that these nodes are meant for a very specific use,
 so it is not that we will also be offering, e.g., GPU compute facilities
 on NVIDIA hardware, and that these are shared resources that should not be
 monopolised by a single user (so no hope to run an MPI job on 8 4TB nodes).
 
+LUMI has three solutions for storing data: A flash-based parallel filesystem, hard disk-based parallel filesystems, and an object storage system. All three have their own strengths and weaknesses.
+
 LUMI also has a **8 PB flash based file system** running the **Lustre parallel file system**.
 This system is often denoted as **LUMI-F**. The bandwidth of that system is over 2 TB/s. 
 Note however that this is still a remote file system with a parallel file system on it,
 so do not expect that it will behave as the local SSD in your laptop. 
 But that is 
-also the topic of another session in this course.
+also the topic of another session in this course. This is a very expensive filesystem, but it is worth using especially for temporary data if the hard disk based parallel filesystems don't offer enough performance.
 
 The main work storage is provided by **4 20 PB hard disk based Lustre file systems**
 with a bandwidth of 240 GB/s each. That section of the machine is often denoted 
@@ -239,7 +246,7 @@ moment the interface to that system is still rather primitive.
 This part of LUMI is also known as **LUMI-O**.
 
 Currently LUMI has **4 login nodes** for ssh access, called user access nodes in the HPE Cray
-world. They each have 2 64-core AMD EPYC 7742 processors and 1 TB of RAM.
+world. They each have 2 64-core AMD EPYC 7742 processors (Zen2 architecture, codenamed Rome) and 1 TB of RAM.
 Note that  whereas the GPU and CPU compute nodes have the Zen3 architecture
 code-named "Milan", the processors on the login nodes are Zen2 processors,
 code-named "Rome". Zen3 adds some new instructions so if a compiler generates
@@ -257,9 +264,28 @@ is developed by HPE Cray, so **not the Mellanox/NVIDIA InfiniBand** that you may
 be familiar with from many smaller clusters, and as we shall discuss later
 this also influences how you work on LUMI.
 
-Early on a small partition for containerised micro-services managed with
-Kubernetes was also planned, but that may never materialize due to lack of 
-people to set it up and manage it.
+Since early 2026, LUMI also has a small partition for containerised micro-services 
+managed with Kubernetes known as **LUMI-K**. 
+This is basically a small separate system and the only thing
+it shares with LUMI is its name. It is managed by different admins and has a different
+upgrade cycle from LUMI. 
+It also uses different compute hardware then the LUMI compute nodes: Traditional 
+not-very-dense servers rather than the very dense compute blades that we will 
+discuss later in these architecture notes.
+The resources are limited: Currently 28 worker nodes with
+2 64-core AMD EPYC 7742 processors (Zen2 architecture, codenamed Rome) and 512 GB of RAM
+and 5 local 1.6 TB SSDs, and 7 storage nodes with the same CPU, but 128 GB of RAM and 12
+3.84 TB SSDs. 
+There are no compute or visualisation GPUs in LUMI-K and no plans to add any either.
+The storage nodes offer both a CEPH filesystem and CEPH block storage.
+Object storage is offered by LUMI-O. For security reasons, there is no access to the
+Lustre filesystems of LUMI. The network capacity is also very limited, as the nodes
+are equiped with 25 Gb/s Ethernet rather than 200 Gb/s Slingshot adapters. 
+**This is a limited resource mostly meant for smaller services and in no way a source
+of compute power. LUMI-BE projects that want to use LUMI-K as a major compute source,
+will be rejected.** Support is also limited; the system is basically meant for users
+who already have experience with Kubernetes and can set up their own containers.
+*LUMI-K will not be further discussed in this course.*
 
 In this section of the course we will now build up LUMI step by step.
 
@@ -275,6 +301,9 @@ Whereas Intel CPUs launched in the same period were built out of a single large
 monolithic piece of silicon (that only changed recently with some variants
 of the Sapphire Rapids CPU launched in early 2023), AMD CPUs are made up
 of multiple so-called chiplets. 
+This makes building the processor a lot cheaper, and can even enable building 
+bigger processors than one could do with a single die, but it also has some 
+performance implications.
 
 The basic building block of Zen3 CPUs is the **Core Complex Die (CCD)**.
 Each CCD contains 8 cores, and each core has 32 kB of L1 instruction 
@@ -301,7 +330,8 @@ cache per CCD).
 
 Each CCD connects to the memory/IO die through an Infinity Fabric link
 (also called GMI link which stands for Global Memory Interface). The connection
-is asymmetric on Milan with 51.2 GB/s bandwidth to and 25.6 GB/s bandwidth from the CCD
+is asymmetric on Milan with 51.2 GB/s bandwidth to the CCD (so reading from memory)
+and 25.6 GB/s bandwidth from the CCD (so writing to memory)
 (32 bytes and 16 byte wide connections running at the memory clock with is 1.6 GHz for DDR4 3200).
 The memory/IO die contains the memory controllers,
 connections to connect two CPU packages together, PCIe lanes to connect to external
@@ -590,7 +620,7 @@ and as we shall see later in the course, exploiting this is a bit tricky at the 
     used in those EPYC 7004 SKUs that have only 4 CCDs.
 -->
 
-### What the future looks like...
+### The next generation: El Capitan
 
 <figure markdown style="border: 1px solid #000">
   ![Slide The future we're preparing for...](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-01-Architecture/GPUnodeFuture.png){ loading=lazy }
@@ -672,7 +702,16 @@ features is that regular servers with Ethernet can be directly connected to the
 Slingshot network switches.
 HPE Cray has a tradition of developing their own interconnect for very large systems.
 As in previous generations, a lot of attention went to adaptive routing and congestion
-control. There are basically two versions of it. The early version was named Slingshot 10,
+control. 
+In a recent [paper](https://arxiv.org/pdf/2408.14090), a comparison was made between networks in 3 very large European supercomputers.
+One of the outcomes of this paper is that the Slingshot network, 
+when compared to traditional Infiniband (LEONARDO) approach provided a slightly worse "best" and "average" cases, 
+but a better performing "worst" case. And the reason why this is important is that
+in a HPC large job (which are the real reasons why HPC systems are built), at a synchronization point
+(be it a barrier or a collective operation) you need to wait for the last process to join the operation,
+so what really matters is the "worst" case time.
+
+There are basically two versions of Slingshot. The early version was named Slingshot 10,
 ran at 100 Gb/s per direction and did not yet have all features. It was used on the initial
 deployment of LUMI-C compute nodes but has since been upgraded to the full version.
 The full version with all features is called Slingshot 11. It supports a bandwidth of 200 Gb/s
