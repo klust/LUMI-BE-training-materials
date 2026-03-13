@@ -1692,7 +1692,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 3, 2025 15:49:04 UTC">October 3, 2025</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 13, 2026 17:08:19 UTC">March 13, 2026</span></p>
 <h1 id="lumi-software-stacks">LUMI Software Stacks<a class="headerlink" href="#lumi-software-stacks" title="Permanent link">&para;</a></h1>
 <p>In this section we discuss</p>
 <ul>
@@ -1709,19 +1709,28 @@
 <p>LUMI is a <strong>very leading edge</strong> and also an <strong>inhomogeneous machine</strong>. Leading edge often implies
     <strong>teething problems</strong> and inhomogeneous doesn't make life easier either.</p>
 <ol>
-<li>It uses a <strong>novel interconnect</strong> which is an extension of Ethernet 
+<li>
+<p>It uses a <strong>novel interconnect</strong> which is an extension of Ethernet 
     (and a precursor of the upcoming Ultra Ethernet standard)
     rather than being based on InfiniBand, 
-    and that interconnect has a different software stack than your typical Mellanox InfiniBand cluster. </li>
-<li>It also uses a <strong>relatively new GPU architecture</strong>, AMD CDNA2, with a not fully mature software ecosystem. 
+    and that interconnect has a different software stack than your typical Mellanox InfiniBand cluster. </p>
+</li>
+<li>
+<p>It also uses a <strong>relatively recent GPU architecture</strong>, AMD CDNA2, with a still maturing software ecosystem. 
     The GPU nodes are really <strong>GPU-first</strong>, with the <strong>interconnect cards connected directly to the GPU packages</strong> 
     and only one CPU socket, and another feature which is relatively new: the option to use a <strong>partly coherent fully unified memory</strong>
     space between the CPU and GPUs, though of course very NUMA. This is a feature that has previously
     only been seen in supercomputers in some clusters with NVIDIA P100 and V100 GPUs and IBM Power 8 and 9 CPUs used
-    for some USA pre-exascale systems.</li>
-<li>LUMI is also <strong>inhomogeneous</strong> because some nodes have zen2 processors while the two main compute partitions
+    for some USA pre-exascale systems.</p>
+<p>The relatively small range of ROCm&trade; userland library versions that can run on a given driver,
+compared to CUDA userland libraries on an NVIDIA driver, shows that under the hood, there is still
+a rapid evolution.</p>
+</li>
+<li>
+<p>LUMI is also <strong>inhomogeneous</strong> because some nodes have zen2 processors while the two main compute partitions
     have zen3-based CPUs, and the compute GPU nodes have AMD GPUs while the visualisation nodes have
-    NVIDIA GPUs. </li>
+    NVIDIA GPUs. </p>
+</li>
 </ol>
 <p>Given the rather novel interconnect and GPU we cannot expect that all system and application software
 is already fully mature and we need to be prepared for <strong>fast evolution</strong>, 
@@ -1778,7 +1787,7 @@ and came up with a solution that may look <strong>a little unconventional</stron
 Environment but LUST decided not to take the risk and <strong>build our software for a specific release of the 
 programming environment</strong>, which is also a better fit with the typical tools used to manage a scientific 
 software stack such as EasyBuild and Spack as they also prefer precise versions for all dependencies and
-compilers etc. The stack is also made very easy to extend. So LUMI has <strong>many base libraries and some packages
+compilers etc. The stack is also made to be very easy to extend. So LUMI has <strong>many base libraries and some packages
 already pre-installed</strong> but also provides an <strong>easy and very transparent way to install additional packages in
 your project space in exactly the same way as is done for the central stack</strong>, with the same performance but the
 benefit that the installation can be customised more easily to the needs of your project. Not everybody needs
@@ -1864,6 +1873,9 @@ is perfectly OK though.</p>
     of people who are allowed to touch the source code, and one person per license who can
     download the source code. We're trying to get better access with a support license
     but it takes time.</p>
+<p>We have already talked to the VASP people and voiced our concerns. They promised they would
+come back with a solution better suited for the way the LUMI support team is organised,
+so that we could at least offer better support, but they didn't.</p>
 </li>
 </ul>
 </div>
@@ -1895,9 +1907,9 @@ END GENERAL -->
     libraries needs to be ported. </li>
 <li>Binaries that do only contain NVIDIA code paths, even if the programming
     model is supported on AMD GPUs, will not run on LUMI.</li>
-<li>Binaries for AMD GPUs must work with the ROCm versions that can be supported on the system.
+<li>Binaries for AMD GPUs must work with the ROCm&trade; versions that can be supported on the system.
     There can be only one driver version and each driver version supports only a limited range
-    of ROCm versions.</li>
+    of ROCm&trade; versions.</li>
 <li>The LUMI interconnect requires <strong>libfabric</strong>, the Open Fabrics Interface (OFI) library,
     using a specific provider for the NIC used on LUMI, the so-called Cassini provider (CXI), 
     so any software compiled with an MPI library that
@@ -1915,7 +1927,7 @@ END GENERAL -->
     As has been discussed earlier in the course, LUMI runs SUSE Linux and not Ubuntu which is popular on 
     workstations or a Red Hat-derived Linux popular on many clusters. Subtle differences between Linux 
     versions can cause compatibility problems that in some cases can be solved with containers. But containers
-    won't help you if they are build for different kernel extensions and hardware interfaces.</li>
+    won't help you if they are built for different kernel extensions and hardware interfaces.</li>
 <li>The <strong>compute nodes also lack some Linux daemons</strong> that may be present on smaller clusters. HPE Cray use an
     optimised Linux version called COS or Cray Operating System on the compute nodes. It is optimised to
     reduce OS jitter and hence to enhance scalability of applications as that is after all the primary
@@ -1926,8 +1938,9 @@ END GENERAL -->
 states in its policy that a LUMI user should be capable of installing their software themselves or have
 another support channel. The LUST cannot install every single piece of often badly documented research-quality
 code that was never meant to be used by people who don't understand the code.<br />
-Your national organisation may also be able to provide some help, but not all countries offer such service on LUMI.</p>
-<p>Another soft compatibility problem that I did not yet mention is that software that <strong>accesses tens
+Your national organisation may also be able to provide some help, but not all countries offer such service on LUMI.
+Again some help is possible at the Belgian level but our resources are also limited.</p>
+<p>Another soft compatibility problem that has not yet been mentioned is that software that <strong>accesses tens
 of thousands of small files and abuses the file system as a database</strong> rather than using structured
 data formats designed to organise data on supercomputers is not welcome on LUMI. For that reason LUMI
 also requires to <strong>containerize conda and Python installations</strong>. 
@@ -2682,7 +2695,7 @@ for users sometime in 2026.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 3, 2025 15:49:04 UTC">October 3, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 13, 2026 17:08:19 UTC">March 13, 2026</span>
   </span>
 
      -->
