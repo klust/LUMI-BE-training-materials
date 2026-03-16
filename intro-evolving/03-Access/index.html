@@ -1370,7 +1370,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 17, 2025 08:54:16 UTC">October 17, 2025</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 16, 2026 17:10:56 UTC">March 16, 2026</span></p>
 <h1 id="getting-access-to-lumi">Getting Access to LUMI<a class="headerlink" href="#getting-access-to-lumi" title="Permanent link">&para;</a></h1>
 <h2 id="lumi-is-part-of-the-eurohpc-ecosystem">LUMI is part of the EuroHPC ecosystem<a class="headerlink" href="#lumi-is-part-of-the-eurohpc-ecosystem" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -1530,6 +1530,7 @@ unfortunate consequence of decisions made very early in the LUMI project about h
 LUMI would be managed. Users themselves cannot do a lot without a project as all a user
 has on LUMI is a small personal disk space which is simply a Linux requirement. 
 To do anything useful on LUMI users need to be member of a project.
+In fact, if you have no project on LUMI, your account will even be disabled.
 There are also "robot accounts" for special purposes 
 that would not correspond to a physical person but have a specific goal 
 (like organising data ingestion from an external source) but few projects are granted
@@ -1556,14 +1557,15 @@ needs an automated system to manage those projects and users. There are two such
 for LUMI. CSC, the hosting institution from Finland, uses its own internal system to manage
 projects allocated on the Finnish national share. This system manages the "642"-projects.
 The other system is called Puhuri and is developed in a collaboration between the Nordic countries
-to manage more than just LUMI projects. It can be used to manage multiple supercomputers
+to manage more than just LUMI projects and is based on <a href="https://waldur.com/">Waldur</a>. 
+It can be used to manage multiple supercomputers
 but also to manage access to other resources such as experimental equipment. 
 Puhuri projects can span multiple resources (e.g., multiple supercomputers so that you can
 create a workflow involving Tier-2, Tier-1 and Tier-0 resources).</p>
 <!-- BELGIUM -->
 <p>In Belgium two entities manage projects for the Belgian LUMI organisation: VSC and CÉCI.
 These entities are called the resource allocators.</p>
-<p>All projects allocated by Belgium ara managed through the Puhuri system, and VSC and CÉCI 
+<p>All projects allocated by Belgium are managed through the Puhuri system, and VSC and CÉCI 
 both have their own zone in that system. For Belgium it is only used to manage access to LUMI,
 not to any of the VSC, CÉCI or Cenaero systems or other infrastructure.
 Belgian users log in to the Puhuri portal via MyAccessID, which is a GÉANT service. GÉANT is 
@@ -1777,7 +1779,12 @@ above discussion only means "for the duration of the project". There is no backu
 of the home directory. And 90 days after the end of the project all data from the
 project is irrevocably deleted from the system. User accounts without project will also
 be closed, as will user accounts that remain inactive for several months, even if an
-active project is still attached to them.</p>
+active project is still attached to them. 
+The funding of the LUMI project is temporary and the organisation that funds LUMI is also
+not funded by an organisation that funds data archiving in Europe, so LUMI cannot offer
+such services. Moreover, economical long-term storage requires different solutions
+that focus on cost, resilience and findability of data 
+and not a high-performance parallel filesystem.</p>
 <!-- BELGIUM -->
 <p>If you run out of storage billing units, access to the job queues or even to the storage 
 can be blocked and you should contact your resource allocator for extra billing units.
@@ -1805,6 +1812,22 @@ END GENERAL -->
 <ul>
 <li><a href="https://docs.lumi-supercomputer.eu/storage/">Overview of storage systems on LUMI</a></li>
 <li><a href="https://docs.lumi-supercomputer.eu/runjobs/lumi_env/billing/#storage-billing">Billing policies (includes those for storage)</a></li>
+<li>Various universities in Belgium are now working on Research Data Management (RDM) services to 
+    enable longer-term storage of research data and also make that data findable. See, e.g.,
+    the following pages and if you know of other such pages, please contact the LUMI-BE
+    helpdesk at lumi-be-support@enccb.be so that we can add them to this page:<ul>
+<li><a href="https://www.uantwerpen.be/en/research/policy/open-science-rdm/research-data-management/">UAntwerpen RDM page</a></li>
+<li><a href="https://www.vub.be/nl/ons-onderzoek/onze-visie-en-missie/optimale-onderzoeksomgeving/data-management-open-science">VUB RDM page</a></li>
+<li>ULB doesn't seem to have a page bundling all information, but they do have an RDM support 
+    service and an <a href="https://www.ulb.be/fr/documents-officiels/ulb-institutional-policy-on-research-data-management">institutional policy on RDM</a></li>
+<li><a href="https://www.ugent.be/en/research/openscience/datamanagement">UGent RDM page</a></li>
+<li><a href="https://www.uhasselt.be/en/university-library/research/research-data-management">UHasselt RDM page</a></li>
+<li><a href="https://www.kuleuven.be/rdm/en">KU Leuven RDM page</a></li>
+<li><a href="https://www.uclouvain.be/en/university-libraries/rdm">UC Louvain RDM page</a>
+Not all of those already offer long-term storage facilities, but if they do, this is
+one likely page where those would be announced.</li>
+</ul>
+</li>
 <li>Example for data archiving services: In the Netherlands, SURF provides the
     <a href="https://www.surf.nl/en/services/data-archive">SURF Data Archive</a> and 
     <a href="https://www.surf.nl/en/services/surf-data-repository">SURF Data Repository</a> services.</li>
@@ -1829,7 +1852,9 @@ In that case you have to use a specific login node, which you can do through the
 <p>It is entirely normal that one of the login nodes is down and not functioning. It will then be
 taken out of the <code>lumi.csc.fi</code> list. But don't send support tickets about it. Sometimes a node may even
 be unavailable for several weeks as it may be in use by the sysadmins for other purposes. If you're
-connecting to a specific login node and it doesn't work anymore, simply try a different one.</p>
+connecting to a specific login node and it doesn't work anymore, simply try a different one.
+Note that some programs may not even show you a clear error message if you connect to a node
+that is down. We've seen issues with, e.g., FileZilla.</p>
 <!-- BELGIUM -->
 <p>Key management is for most users done via MyAccessID: <a href="https://mms.myaccessid.org/">mms.myaccessid.org</a>.
 This is the case for all user accounts who got their first project on LUMI via Puhuri, which is the case for
@@ -2133,7 +2158,7 @@ Such a course is a prerequisite for this course.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 17, 2025 08:54:16 UTC">October 17, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 16, 2026 17:10:56 UTC">March 16, 2026</span>
   </span>
 
      -->
