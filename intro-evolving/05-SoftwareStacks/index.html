@@ -824,10 +824,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#bare-environment-and-crayenv" class="md-nav__link">
+  <a href="#bare-environment" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Bare environment and CrayEnv
+        Bare environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crayenv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrayEnv
       
     </span>
   </a>
@@ -1445,10 +1456,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#bare-environment-and-crayenv" class="md-nav__link">
+  <a href="#bare-environment" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Bare environment and CrayEnv
+        Bare environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crayenv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrayEnv
       
     </span>
   </a>
@@ -1692,7 +1714,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 13, 2026 17:08:19 UTC">March 13, 2026</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 16, 2026 10:47:59 UTC">March 16, 2026</span></p>
 <h1 id="lumi-software-stacks">LUMI Software Stacks<a class="headerlink" href="#lumi-software-stacks" title="Permanent link">&para;</a></h1>
 <p>In this section we discuss</p>
 <ul>
@@ -1987,53 +2009,94 @@ to offer some basic support for everybody, the level of support may be different
 how your project ended up on LUMI as they receive no EuroHPC funding for this. 
 There is also no guarantee that software in those stacks is compatible with anything else
 on LUMI. The stacks are provided by modules whose name starts with <code>Local-</code>.
-Currently there are two such stacks on LUMI:</p>
+Currently there are four such stacks on LUMI or planned to be come available soon:</p>
 <ul>
 <li>
 <p><code>Local-CSC</code>: Enables software installed and maintained by CSC. 
     Most of that software is available to all users, though some packages are 
-    restricted or only useful to users of other CSC services (e.g., the allas module).</p>
+    restricted by their license 
+    or only useful to users of other CSC services (e.g., the allas module).
+    Please check in their documentation if you can use that software legally before using it
+    as some software licenses are only for institutes in Finland!</p>
 <p>Some of that software builds on software in the LUMI stacks, some is based on 
 containers with wrapper scripts, and some is compiled outside of any software 
 management environment on LUMI.</p>
 <p>The names of the modules don't follow the conventions of the LUMI stacks, but those
-used on the Finnish national systems.</p>
+used on the Finnish national systems and 
+<a href="https://docs.csc.fi/apps/by_availability/">their documentation</a> 
+is also joint with that of the Finnish national systems, with a list of
+<a href="https://docs.csc.fi/apps/by_availability/#lumi">packages offered as regular LUMI modules</a>
+and a list of
+<a href="https://docs.csc.fi/apps/by_availability/#lumi-web-interface">packages offered via the LUMI web interace (Open OnDemand)</a>.</p>
+</li>
+<li>
+<p>The <a href="https://docs.lumi-supercomputer.eu/laif/software/ai-environment/">LUMI AI Factory containers</a> 
+    are another local offering. They take over the responsibility of AI-focused containers
+    from both CSC and LUST, so AI containers offered by CSC or LUST will no longer receive
+    updates.</p>
 </li>
 <li>
 <p><code>Local-quantum</code> contains some packages of general use, but also some packages that 
-    are only relevant to Finnish researchers with an account on the Helmi quantum computer. 
-    Helmi is not a EuroHPC-JU computer so being eligible for an account on LUMI does 
-    not mean that you are also eligible for an account on Helmi.</p>
+    are only relevant to Finnish researchers with an account on the 
+    <a href="https://docs.csc.fi/computing/quantum-computing/overview/">VTT quantum computers</a>. 
+    These quantum computers are not a EuroHPC-JU computers so being eligible for an account on LUMI does 
+    not mean that you are also eligible for an account on one of these machines.</p>
+</li>
+<li>
+<p>Sometime in 2026 the <a href="https://www.eessi.io/">EESSI stack</a> should also appear on LUMI
+    in the framework of the European Federation Platform (EFP), though it will not be offered in
+    the traditional way as the CernVM-FS filesystem on which it is based is not a good match
+    with the way LUMI operates and tries to offer a scalable environment with reduced OS jitter.
+    Instead, users will have to indicate that their job needs EESSI and then a copy which
+    is synchronised every now and then with the central repository, will be mounted on the node,
+    and there will be a container to access EESSI on the login nodes.</p>
+<p>As currently AMD support is still missing, any initial offering will likely only be 
+for the CPU nodes. Moreover, it is not clear yet if proper MPI support will be available
+right from the beginning as there are issues on LUMI also with their choice of MPI implementation
+(Open MPI).</p>
+<p>It is also possible to install software on top of EESSI, using some of the common
+EasyBuild toolchains (currently only foss but there is work going on on an LLVM-based
+toolchain), and many regular EasyConfigs should work (though early testing by LUST has
+already shown issues).</p>
+<p>Support for the EESSI software stack will not be offered by the LUMI User Support Team
+but by the helpdesk of the European Federation Platform service, and in that sense it is
+no different from other local software stacks.</p>
 </li>
 </ul>
-<p>EuroHPC would like to see the <a href="https://www.eessi.io/">EESSI stack</a> stack on all their
-supercomputers as part of the EuroHPC Federation Platform early next year already.
-As currently AMD support is still missing, any initial offering will likely only be 
-for the CPU nodes. Moreover, there are several technical issues, including a choice of
-MPI implementation that is troublesome on LUMI and a preferred distribution mechanism
-that is not compatible with the setup of a Cray system and the currently available hardware.
-EESSI is built on one of the common toolchains of EasyBuild, so that would then be a way
-to offer that toolchain also, but with support coming from a separate help desk for 
-the Federation Platform.</p>
 <h3 id="3-ways-to-access-the-cray-programming-environment-on-lumi">3 ways to access the Cray Programming environment on LUMI.<a class="headerlink" href="#3-ways-to-access-the-cray-programming-environment-on-lumi" title="Permanent link">&para;</a></h3>
-<h4 id="bare-environment-and-crayenv">Bare environment and CrayEnv<a class="headerlink" href="#bare-environment-and-crayenv" title="Permanent link">&para;</a></h4>
 <figure style="border: 1px solid #000">
 <p><img alt="Accessing the Cray PE on LUMI slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/SoftwareStacksAccessingCrayPE_1.png" /></p>
 </figure>
+<h4 id="bare-environment">Bare environment<a class="headerlink" href="#bare-environment" title="Permanent link">&para;</a></h4>
 <p>Right after login you have a <strong>very bare environment available with the Cray Programming Environment
 with the PrgEnv-cray module loaded</strong>. It gives you basically <strong>what you can expect on a typical Cray system</strong>.
 There aren't many tools available, basically <strong>mostly only the tools in the base OS image and some tools that
 will not impact software installed in one of the software stacks</strong>.
+And note that the base image of the OS is deliberately kept small for faster boot times of compute nodes
+and as it is on a RAM disk, hence reducing RAM capacity available to applications. So we will not install
+additional software in that environment.
 The set of target modules loaded is the one for the login nodes and not tuned to any particular node type.
 <strong>As a user you're fully responsible for managing the target modules</strong>, reloading them when needed or loading the
 appropriate set for the hardware you're using or want to cross-compile for.</p>
+<h4 id="crayenv">CrayEnv<a class="headerlink" href="#crayenv" title="Permanent link">&para;</a></h4>
 <p>The <strong>second way</strong> to access the Cray Programming Environment is through the <strong>CrayEnv software stack</strong>. This stack
 offers an <strong>"enriched" version of the Cray environment</strong>. It <strong>takes care of the target modules</strong>: Loading or reloading
 CrayEnv will reload an optimal set of target modules for the node you're on. It also provides <strong>some additional 
 tools</strong> like newer build tools than provided with the OS. They are offered here and not in the bare environment to be
 sure that those tools don't create conflicts with software in other stacks. But otherwise the Cray Programming 
-Environment <strong>works exactly as you'd expect from this course or the 4-day comprehensive courses
-that LUST organises</strong>.</p>
+Environment <strong>works exactly as you'd expect from this course or the advanced courses
+that LUST organises</strong>.
+In this environment we will only install software that is compatible with all compilers on the system and
+has very few dependencies, and can live outside the system directories.</p>
+<details class="note">
+<summary>How do we manage software in CrayEnv?</summary>
+<p>To be able to rebuild the system efficiently after an accident, software in this stack
+is managed through EasyBuild though we do not support direct use of EasyBuild in the
+CrayEnv environment. Instead we have a way of injecting software from the LUMI partition
+into CrayEnv. This may impose some additional restrictions on software that can be 
+installed in the CrayEnv stack, but guarantees better reproducibility and faster repair
+should the stack get damaged.</p>
+</details>
 <h4 id="lumi-stack">LUMI stack<a class="headerlink" href="#lumi-stack" title="Permanent link">&para;</a></h4>
 <figure style="border: 1px solid #000">
 <p><img alt="Accessing the Cray PE on LUMI slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/SoftwareStacksAccessingCrayPE_2.png" /></p>
@@ -2076,7 +2139,9 @@ toolchains</strong> instead as indicated by the following table:</p>
 </table>
 <p>The cpeCray etc modules also load the MPI libraries and Cray LibSci just as the PrgEnv modules do.
 And they are sometimes used to work around problems in Cray-provided modules that cannot changed
-easily due to the way system administration on a Cray system is done. </p>
+easily due to the way system administration on a Cray system is done. They will load the matching
+PrgEnv module also, but do so in a more controlled environment to guarantee that the correct
+version is always loaded.</p>
 <p>This is also the environment in which the LUST installs most software, 
 and from the name of the modules you can see which compilers we used.</p>
 <h4 id="lumi-stack-module-organisation">LUMI stack module organisation<a class="headerlink" href="#lumi-stack-module-organisation" title="Permanent link">&para;</a></h4>
@@ -2084,7 +2149,10 @@ and from the name of the modules you can see which compilers we used.</p>
 <p><img alt="Accessing the Cray PE on LUMI slide 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/SoftwareStacksAccessingCrayPE_3.png" /></p>
 </figure>
 <p>To manage the heterogeneity in the hardware, the LUMI software stack uses <strong>two levels of modules</strong></p>
-<p>First there are the <strong>LUMI/24.03, LUMI/23.12, LUMI/23.09, LUMI/23.03, LUMI/22.12 and LUMI/22.08 modules</strong>. 
+<p>First there are the <strong>LUMI/25.09, LUMI/25.03, LUMI/24.03 and LUMI/23.09 modules</strong>. 
+At times there may even be more versions offered through the 
+<a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/c/ccpe/">ccpe containers</a>
+with versions of the Cray Programming Environment that are not on the system.
 Each of the LUMI modules loads a particular version of the LUMI stack.</p>
 <p>The <strong>second level consists of partition modules</strong>. 
 There is partition/L for the login and large memory nodes,
@@ -2092,7 +2160,9 @@ partition/C for the regular compute nodes,
 partition/G for the AMD GPU nodes and partition/D for the visualisation nodes.</p>
 <p>There is also a <strong>hidden partition/common module</strong> in which software is installed that is available everywhere, 
 but we advise you to be careful to install software in there in your own installs as it is risky to rely on
-software in one of the regular partitions, and impossible in our EasyBuild setup.</p>
+software in one of the regular partitions, and impossible in our EasyBuild setup.
+And there are some other hidden partitions that are used to inject software in places that are also
+available outside the LUMI software stack but managed through EasyBuild.</p>
 <p>The LUMI module will <strong>automatically load the best partition module</strong> for the current hardware whenever it
 is loaded or reloaded. So if you want to cross-compile, you can do so by loading a different partition 
 module after loading the LUMI module, but you'll have to reload every time you reload the LUMI module.</p>
@@ -2105,19 +2175,22 @@ same software on LUMI-C and on the login or large memory nodes and don't want tw
 installed software, you'll have to make sure that after reloading the LUMI module in your job script you
 explicitly load the partition/L module.</p>
 <div class="admonition note">
-<p class="admonition-title">Supported stacks after the August 2024 system update</p>
-<p>Since 24.03 is the only version of the Cray Programming Environment currently fully supported
-by HPE on LUMI, as it is the only version which is from the ground up built for ROCm/6.0, 
-SUSE Enterprise 15 SP5, and the current version of the SlingShot software, it is also the only
-fully supported version of the LUMI software stacks.</p>
-<p>The 23.12 and 23.09 version function reasonably well, but keep in mind that 23.09 was originally
-meant to be used with ROCm 5.2 or 5.5 depending on the SUSE version while you will now get a much
-newer version of the compilers that come with ROCm. You can expect issues with compiling GPU
-code with the Cray compilers, and the AMD module is also different from when the toolchain
-was installed as we had to redirect to a version of ROCm supported by the driver.</p>
-<p>The even older stacks are only there for projects that were using them. We've had problems with
-them already in the past and they currently don't work properly anymore for installing software
-via EasyBuild.</p>
+<p class="admonition-title">Supported stacks after the January 2026 system update</p>
+<p>The best supported stack is currently the 25.03 stack as that version of the Cray Programming
+Environment is also the default and the intended to be used with the other upgrades system 
+components. We also get full support from HPE for the 25.09 version of the Cray Programming 
+Environment and made basic libraries and some additional software available for that stack.
+Note though that when using software in that stack that uses 
+<a href="../02-CPE/#cray-mpi">Cray MPI</a> or any of the 
+<a href="../02-CPE/#scientific-and-math-libraries">scientific and math libraries</a>, you will have to take
+care of
+<a href="../02-CPE/#warning-1-you-do-not-always-get-what-you-expect">adjusting LD_LIBRARY_PATH as discussed at the end of the CPE chapter</a>.</p>
+<p>24.03 still functions reasonably well, especially for CPU-only software. Some GPU software will
+still compile or build but you will have to use a newer version or ROCm&trade; as intended for 
+that version of the PE.</p>
+<p>There are known issues however with 23.09 even for CPU software (e.g., there is no compatible
+MPI library for the GNU compilers that functions with the current network stack), 
+and it was never designed to be used with ROCm&trade; 6.</p>
 </div>
 <h2 id="easybuild-to-extend-the-lumi-software-stack">EasyBuild to extend the LUMI software stack<a class="headerlink" href="#easybuild-to-extend-the-lumi-software-stack" title="Permanent link">&para;</a></h2>
 <h3 id="installing-software-on-hpc-systems">Installing software on HPC systems<a class="headerlink" href="#installing-software-on-hpc-systems" title="Permanent link">&para;</a></h3>
@@ -2168,17 +2241,21 @@ or in your personal or project stack.</p>
 <p>Note however that the <strong>built-in easyconfig files that come with EasyBuild do not work on LUMI</strong> at
 the moment.</p>
 <ul>
-<li>For the GNU toolchain there would be problems with MPI. EasyBuild uses Open MPI and that
+<li>
+<p>For the GNU toolchain there would be problems with MPI. EasyBuild uses Open MPI and that
     needs to be configured differently to work well on LUMI, and there are also still issues with
-    getting it to collaborate with the resource manager as it is installed on LUMI.</li>
-<li>The Intel-based toolchains have their problems also. At the moment, the Intel compilers with the
-    AMD CPUs are a problematic cocktail. There have recently been performance and correctness problems 
+    getting it to collaborate with the resource manager as it is installed on LUMI.</p>
+</li>
+<li>
+<p>The Intel-based toolchains have their problems also. At the moment, the Intel compilers with the
+    AMD CPUs can be a problematic cocktail. There have been performance and correctness problems 
     with the MKL math library and also failures with some versions of Intel MPI, 
     and you need to be careful selecting compiler options and not use <code>-xHost</code>
     or the classic Intel compilers will simply optimize for a two decades old CPU.
     The situation is better with the new LLVM-based compilers though, and it looks like
-    very recent versions of MKL are less AMD-hostile. Problems have also been reported
-    with Intel MPI running on LUMI.</li>
+    very recent versions of MKL are less AMD-hostile.</p>
+<p>LUMI cannot get upstream support for these compilers so LUST cannot fix those issues.</p>
+</li>
 </ul>
 <p>Instead LUMI has its <strong>own EasyBuild build recipes</strong> that are also made available in the 
 <a href="https://github.com/Lumi-supercomputer/LUMI-EasyBuild-contrib">LUMI-EasyBuild-contrib GitHub repository</a>.
@@ -2255,7 +2332,7 @@ before.</p>
 <tr>
 <td style="text-align: left;"><code>PrgEnv-amd</code></td>
 <td style="text-align: left;"><code>cpeAMD</code></td>
-<td style="text-align: left;">AMD ROCm GPU compilers (LUMI-G only)</td>
+<td style="text-align: left;">AMD ROCm&trade; GPU compilers (LUMI-G only)</td>
 </tr>
 </tbody>
 </table>
@@ -2299,7 +2376,7 @@ mandatory, but EasyBuild will fail to automatically locate easyconfigs for depen
 of a package that are not yet installed if the easyconfigs don't follow the naming
 convention. Each part of the name also corresponds to a parameter in the easyconfig 
 file.</p>
-<p>Consider, e.g., the easyconfig file <code>GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.3-noPython-CPU.eb</code>.</p>
+<p>Consider, e.g., the easyconfig file <code>GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU.eb</code>.</p>
 <ol>
 <li>The first part of the name, <code>GROMACS</code>, is the name of the package, specified by the
     <code>name</code> parameter in the easyconfig, and is after installation also the name of the
@@ -2307,14 +2384,14 @@ file.</p>
 <li>The second part, <code>2024.3</code>, is the version of GROMACS and specified by the
     <code>version</code> parameter in the easyconfig.</li>
 <li>
-<p>The next part, <code>cpeGNU-24.03</code> is the name and version of the toolchain,
+<p>The next part, <code>cpeGNU-25.03</code> is the name and version of the toolchain,
     specified by the <code>toolchain</code> parameter in the easyconfig. The version of the
     toolchain must always correspond to the version of the LUMI stack. So this is
-    an easyconfig for installation in <code>LUMI/24.03</code>.</p>
+    an easyconfig for installation in <code>LUMI/25.03</code>.</p>
 <p>This part is not present for the SYSTEM toolchain</p>
 </li>
 <li>
-<p>The final part, <code>-PLUMED-2.9.3-noPython-CPU</code>, is the version suffix and used to provide
+<p>The final part, <code>-PLUMED-2.9.4-noPython-CPU</code>, is the version suffix and used to provide
     additional information and distinguish different builds with different options
     of the same package. It is specified in the <code>versionsuffix</code> parameter of the
     easyconfig.</p>
@@ -2324,7 +2401,7 @@ file.</p>
 <p>The version, toolchain + toolchain version and versionsuffix together also combine
 to the version of the module that will be generated during the installation process.
 Hence this easyconfig file will generate the module 
-<code>GROMACS/2024.3-cpeGNU-24.03-PLUMED-2.9.3-noPython-CPU</code>.</p>
+<code>GROMACS/2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU</code>.</p>
 <h3 id="installing">Installing<a class="headerlink" href="#installing" title="Permanent link">&para;</a></h3>
 <h4 id="step-1-where-to-install">Step 1: Where to install<a class="headerlink" href="#step-1-where-to-install" title="Permanent link">&para;</a></h4>
 <figure style="border: 1px solid #000">
@@ -2350,8 +2427,8 @@ You have to do this <strong>before</strong> loading the <code>LUMI</code> module
 user modules are included in the module search path. You can do this in your <code>.profile</code> or
 <code>.bashrc</code>. 
 This variable is not only <strong>used by EasyBuild-user</strong> to know where to install software, but also 
-by the <code>LUMI</code> - or actually <strong>the <code>partition</code> - module to find software</strong> so all users in your project
-who want to use the software should set that variable.</p>
+by the <code>LUMI</code> - or actually <strong>the <code>partition</code> - module in the LUMI stack to find software</strong> 
+so all users in your project who want to use the software should set that variable.</p>
 <h4 id="step-2-configure-the-environment">Step 2: Configure the environment<a class="headerlink" href="#step-2-configure-the-environment" title="Permanent link">&para;</a></h4>
 <figure style="border: 1px solid #000">
 <p><img alt="Installing: Configure the environment" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildInstallingStep2_1.png" /></p>
@@ -2365,8 +2442,8 @@ the <code>LUMI</code> module, load a partition module if you want a different on
 then load the <code>EasyBuild-user</code> module. In fact, if you switch to a different <code>partition</code> 
 or <code>LUMI</code> module after loading <code>EasyBuild-user</code> EasyBuild will still be correctly reconfigured 
 for the new stack and new partition. </p>
-<p>Cross-compilation which is installing software for a different partition than the one you're
-working on does not always work since there is so much software around with installation scripts
+<p>Cross-compilation, which is installing software for a different partition than the one you're
+working on, does not always work since there is so much software around with installation scripts
 that don't follow good practices, but when it works it is easy to do on LUMI by simply loading
 a different partition module than the one that is auto-loaded by the <code>LUMI</code> module. It works 
 correctly for a lot of CPU-only software, but fails more frequently for GPU software as the
@@ -2412,24 +2489,27 @@ section:</p>
 <p>The information provided by both variants of the search command is the same, but <code>-S</code> presents the information in a more
 compact form.</p>
 </div>
-<p>Now let's take the variant <code>GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.3-noPython-CPU.eb</code>. 
-This is GROMACS 2024.3 with the PLUMED 2.9.3 plugin, built with the GNU compilers
-from <code>LUMI/24.03</code>, and a build meant for CPU-only systems. The <code>-CPU</code> extension is not
+<p>Now let's take the variant <code>GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU.eb</code>. 
+This is GROMACS 2024.3 with the PLUMED 2.9.4 plugin, built with the GNU compilers
+from <code>LUMI/25.03</code>, and a build meant for CPU-only systems. The <code>-CPU</code> extension is not
 always added for CPU-only system, but in case of GROMACS there already is a GPU version
 for AMD GPUs in active development so even before LUMI-G was active we chose to ensure
 that we could distinguish between GPU and CPU-only versions.
 To install it, we first run </p>
-<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.3-noPython-CPU.eb<span class="w"> </span>–D
+<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU.eb<span class="w"> </span>–Dr
 </code></pre></div>
-<p>The <code>-D</code> flag tells EasyBuild to just perform a check for the dependencies that are needed
-when installing this package.</p>
+<p>The <code>-Dr</code> flag tells EasyBuild to just perform a check for all the dependencies that are needed
+when installing this package. Note that this is something that has changed in LUMI/25.03.
+Before, using <code>-D</code> was enough, but in EasyBuild 5, this only shows the direct dependencies,
+and not the dependencies of the dependencies, etc., and the list of uninstalled dependencies
+can hence be incomplete.</p>
 <div class="admonition demo">
 <p class="admonition-title">The output of this command looks like:</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.3-noPython-CPU.eb –D" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSDep_01.png" />
+  <img alt="eb GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU.eb –D" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSDep_01.png" />
 </figure></p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.3-noPython-CPU.eb –D (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSDep_02.png" />
+  <img alt="eb GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU.eb –D (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSDep_02.png" />
 </figure></p>
 <p>Most lines start with <code>[x]</code> which means that the dependency is already installed. At the end of the list, we notice that 
 non only the GROMACS module is missing, but the <code>eb</code> command also failed to find a module for <code>PLUMED</code>, a dependency of
@@ -2437,7 +2517,7 @@ this GROMACS configuration. So that module needs to be installed first, but Easy
 </div>
 <p>To install GROMACS and also automatically install missing dependencies (only PLUMED
 in this case), we run</p>
-<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.3-noPython-CPU.eb<span class="w"> </span>-r
+<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU.eb<span class="w"> </span>-r
 </code></pre></div>
 <p>The <code>-r</code> argument tells EasyBuild to also look for dependencies in a preset search path
 and to install them. The installation of dependencies is not automatic
@@ -2446,35 +2526,35 @@ it can be turned on.</p>
 <div class="admonition demo">
 <p class="admonition-title">Running EasyBuild to install GROMACS and dependency</p>
 <p>The command</p>
-<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.3-noPython-CPU.eb<span class="w"> </span>-r
+<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU.eb<span class="w"> </span>-r
 </code></pre></div>
 <p>results in:</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.3-noPython-CPU.eb -r" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_01.png" />
+  <img alt="eb GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU.eb -r" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_01.png" />
 </figure></p>
 <p>EasyBuild detects PLUMED is a dependency and because of the <code>-r</code> option, it first installs the
 required version of PLUMED.</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.3-noPython-CPU.eb -r (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_02.png" />
+  <img alt="eb GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU.eb -r (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_02.png" />
 </figure></p>
 <p>When the installation of PLUMED finishes, EasyBuild starts the installation of GROMACS.
 It mentions something we haven't seen when installing PLUMED:</p>
-<div class="highlight"><pre><span></span><code>== starting iteration #0
+<div class="highlight"><pre><span></span><code>== starting iteration 1/4
 </code></pre></div>
 <p>GROMACS can be installed in many configurations, and they generate executables with different names.
 Our EasyConfig combines 4 popular installations in one: Single and double precision and with and without
-MPI, so it will do 4 iterations. As EasyBuild is developed by geeks, counting starts from 0.</p>
+MPI, so it will do 4 iterations.</p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.3-noPython-CPU.eb -r (3)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_03.png" />
+  <img alt="eb GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU.eb -r (3)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_03.png" />
 </figure></p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.3-noPython-CPU.eb -r (4)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_04.png" />
+  <img alt="eb GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU.eb -r (4)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_04.png" />
 </figure></p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.3-noPython-CPU.eb -r (5)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_05.png" />
+  <img alt="eb GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU.eb -r (5)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_05.png" />
 </figure></p>
 <p><figure markdown style="border: 1px solid #000">
-  <img alt="eb GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.3-noPython-CPU.eb -r (6)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_06.png" />
+  <img alt="eb GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU.eb -r (6)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildGROMACSInst_06.png" />
 </figure></p>
 </div>
 <p>This takes too long to wait for, but once it finished the software should be available
@@ -2511,8 +2591,7 @@ log out and log in again and rebuild your environment.</p>
 remove the Lmod user cache which is in <code>$HOME/.cache/lmod</code>.
 You can do this with 
 <div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$HOME</span>/.cache/lmod
-</code></pre></div>
-(With older versions of Lmod the cache directory is <code>$HOME/.lmod.d/cache</code>.)</p>
+</code></pre></div></p>
 <h3 id="more-advanced-work">More advanced work<a class="headerlink" href="#more-advanced-work" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
 <p><img alt="More advanced work" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildAdvanced_1.png" /></p>
@@ -2528,7 +2607,8 @@ support, but also in its subdirectories so for speed reasons you should not do t
 home directory but in a subdirectory that only contains those files.</p>
 <p>In some cases you will have to download sources by hand as packages don't allow to download 
 software unless you sign in to their web site first. This is the case for a lot of licensed software,
-for instance, for VASP. LUMI would likely be in violation of the license if it would 
+for instance, for <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/v/VASP/">VASP</a>. 
+LUMI would likely be in violation of the license if it would 
 offer the download somewhere
 where EasyBuild can find it, and it is also a way to ensure that you have a license for VASP.
 For instance, 
@@ -2537,9 +2617,15 @@ For instance,
 will tell you for which versions of VASP LUMI provides EasyBuild recipes, but you will still have
 to download the source file that the EasyBuild recipe expects. 
 Put it somewhere in a directory, and then from that
-directory run EasyBuild, for instance for VASP 6.5.0 with the GNU compilers:
-<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>VASP-6.5.0-cpeGNU-24.03-build02.eb<span class="w"> </span>–r<span class="w"> </span>.<span class="w"> </span>
-</code></pre></div></p>
+directory run EasyBuild, for instance for VASP 6.5.01 with the GNU compilers:
+<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>VASP-6.5.1-cpeGNU-25.03-build02.eb<span class="w"> </span>–r<span class="w"> </span>.<span class="w"> </span>
+</code></pre></div>
+or
+<div class="highlight"><pre><span></span><code>eb<span class="w"> </span>VASP-6.5.1-cpeGNU-25.03-build02.eb<span class="w"> </span>--sourcepath<span class="w"> </span>.<span class="w"> </span>
+</code></pre></div>
+(Both versions are not fully equivalent: <code>-r</code> tells EasyBuild to use that directory to search for
+dependencies, but it just happens that these directories are also used to check for source files,
+while <code>--sourcepath</code> explicitly tells EasyBuild to search in that directory for source files.)</p>
 <h3 id="more-advanced-work-2-repositories">More advanced work (2): Repositories<a class="headerlink" href="#more-advanced-work-2-repositories" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
 <p><img alt="More advanced work (2): Repositories" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildAdvanced_2.png" /></p>
@@ -2564,7 +2650,7 @@ easyconfig files go in <code>$EBU_USER_PREFIX/UserRepo/easybuild/easyconfigs</co
 </figure>
 <p>EasyBuild also takes care of a <strong>high level of reproducibility of installations</strong>.</p>
 <p>It will <strong>keep a copy of all the downloaded sources</strong> in the <code>$EBU_USER_PREFIX/sources</code>
-subdirectory (unless the sources are already available elswhere where EasyBuild can find them,
+subdirectory (unless the sources are already available elsewhere where EasyBuild can find them,
 e.g., in the system EasyBuild sources directory), 
 and use that source file again rather than downloading it again. Of course
 in some cases those "sources" could be downloaded tar files with binaries instead
@@ -2627,7 +2713,7 @@ The site also contains a LUST-specific tutorial oriented towards Cray systems.</
 <p>There is also a later course developed by LUST for developers of EasyConfigs for LUMI
 that can be found on 
 <a href="https://lumi-supercomputer.github.io/easybuild-tutorial/">lumi-supercomputer.github.io/easybuild-tutorial</a>. LUMI is also considering organising an EasyBuild training
-for users sometime in 2026.</p>
+for users in the fall of 2026.</p>
 <!--
   Copyright (c) 2016-2025 Martin Donath <martin.donath@squidfunk.com>
 
@@ -2695,7 +2781,7 @@ for users sometime in 2026.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 13, 2026 17:08:19 UTC">March 13, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 16, 2026 10:47:59 UTC">March 16, 2026</span>
   </span>
 
      -->
