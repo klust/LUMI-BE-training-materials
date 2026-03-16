@@ -166,6 +166,7 @@ unfortunate consequence of decisions made very early in the LUMI project about h
 LUMI would be managed. Users themselves cannot do a lot without a project as all a user
 has on LUMI is a small personal disk space which is simply a Linux requirement. 
 To do anything useful on LUMI users need to be member of a project.
+In fact, if you have no project on LUMI, your account will even be disabled.
 There are also "robot accounts" for special purposes 
 that would not correspond to a physical person but have a specific goal 
 (like organising data ingestion from an external source) but few projects are granted
@@ -198,7 +199,8 @@ needs an automated system to manage those projects and users. There are two such
 for LUMI. CSC, the hosting institution from Finland, uses its own internal system to manage
 projects allocated on the Finnish national share. This system manages the "642"-projects.
 The other system is called Puhuri and is developed in a collaboration between the Nordic countries
-to manage more than just LUMI projects. It can be used to manage multiple supercomputers
+to manage more than just LUMI projects and is based on [Waldur](https://waldur.com/). 
+It can be used to manage multiple supercomputers
 but also to manage access to other resources such as experimental equipment. 
 Puhuri projects can span multiple resources (e.g., multiple supercomputers so that you can
 create a workflow involving Tier-2, Tier-1 and Tier-0 resources).
@@ -207,7 +209,7 @@ create a workflow involving Tier-2, Tier-1 and Tier-0 resources).
 In Belgium two entities manage projects for the Belgian LUMI organisation: VSC and CÉCI.
 These entities are called the resource allocators.
 
-All projects allocated by Belgium ara managed through the Puhuri system, and VSC and CÉCI 
+All projects allocated by Belgium are managed through the Puhuri system, and VSC and CÉCI 
 both have their own zone in that system. For Belgium it is only used to manage access to LUMI,
 not to any of the VSC, CÉCI or Cenaero systems or other infrastructure.
 Belgian users log in to the Puhuri portal via MyAccessID, which is a GÉANT service. GÉANT is 
@@ -440,7 +442,12 @@ above discussion only means "for the duration of the project". There is no backu
 of the home directory. And 90 days after the end of the project all data from the
 project is irrevocably deleted from the system. User accounts without project will also
 be closed, as will user accounts that remain inactive for several months, even if an
-active project is still attached to them.
+active project is still attached to them. 
+The funding of the LUMI project is temporary and the organisation that funds LUMI is also
+not funded by an organisation that funds data archiving in Europe, so LUMI cannot offer
+such services. Moreover, economical long-term storage requires different solutions
+that focus on cost, resilience and findability of data 
+and not a high-performance parallel filesystem.
 
 <!-- BELGIUM -->
 If you run out of storage billing units, access to the job queues or even to the storage 
@@ -469,6 +476,20 @@ Web links:
 
 -   [Overview of storage systems on LUMI](https://docs.lumi-supercomputer.eu/storage/)
 -   [Billing policies (includes those for storage)](https://docs.lumi-supercomputer.eu/runjobs/lumi_env/billing/#storage-billing)
+-   Various universities in Belgium are now working on Research Data Management (RDM) services to 
+    enable longer-term storage of research data and also make that data findable. See, e.g.,
+    the following pages and if you know of other such pages, please contact the LUMI-BE
+    helpdesk at lumi-be-support@enccb.be so that we can add them to this page:
+    -   [UAntwerpen RDM page](https://www.uantwerpen.be/en/research/policy/open-science-rdm/research-data-management/)
+    -   [VUB RDM page](https://www.vub.be/nl/ons-onderzoek/onze-visie-en-missie/optimale-onderzoeksomgeving/data-management-open-science)
+    -   ULB doesn't seem to have a page bundling all information, but they do have an RDM support 
+        service and an [institutional policy on RDM](https://www.ulb.be/fr/documents-officiels/ulb-institutional-policy-on-research-data-management)
+    -   [UGent RDM page](https://www.ugent.be/en/research/openscience/datamanagement)
+    -   [UHasselt RDM page](https://www.uhasselt.be/en/university-library/research/research-data-management)
+    -   [KU Leuven RDM page](https://www.kuleuven.be/rdm/en)
+    -   [UC Louvain RDM page](https://www.uclouvain.be/en/university-libraries/rdm)
+    Not all of those already offer long-term storage facilities, but if they do, this is
+    one likely page where those would be announced.
 -   Example for data archiving services: In the Netherlands, SURF provides the
     [SURF Data Archive](https://www.surf.nl/en/services/data-archive) and 
     [SURF Data Repository](https://www.surf.nl/en/services/surf-data-repository) services.
@@ -498,6 +519,8 @@ It is entirely normal that one of the login nodes is down and not functioning. I
 taken out of the `lumi.csc.fi` list. But don't send support tickets about it. Sometimes a node may even
 be unavailable for several weeks as it may be in use by the sysadmins for other purposes. If you're
 connecting to a specific login node and it doesn't work anymore, simply try a different one.
+Note that some programs may not even show you a clear error message if you connect to a node
+that is down. We've seen issues with, e.g., FileZilla.
 
 <!-- BELGIUM -->
 Key management is for most users done via MyAccessID: [mms.myaccessid.org](https://mms.myaccessid.org/).
