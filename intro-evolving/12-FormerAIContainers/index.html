@@ -1,0 +1,1917 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://klust.github.io/LUMI-BE-training-materials/intro-evolving/12-FormerAIContainers/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>12 FormerAIContainers - LUMI-BE training materials</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--demo:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20384%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M0%20192h168V0h-8C71.6%200%200%2071.6%200%20160zm0%2048v112c0%2088.4%2071.6%20160%20160%20160h64c88.4%200%20160-71.6%20160-160V240zm384-48v-32C384%2071.6%20312.4%200%20224%200h-8v192z%22/%3E%3C/svg%3E');--md-admonition-icon--exercise:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20576%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M70.8-6.7c5.4-5.4%2013.8-6.2%2020.2-2l118.9%2079.2c8.9%205.9%2014.2%2015.9%2014.2%2026.6v49.6l90.8%2090.8c33.3-15%2073.9-8.9%20101.2%2018.5l126.1%20126.1c18.7%2018.7%2018.7%2049.1%200%2067.9l-60.1%2060.1c-18.7%2018.7-49.1%2018.7-67.9%200L288.1%20384c-27.4-27.4-33.5-67.9-18.5-101.2L178.8%20192h-49.6c-10.7%200-20.7-5.3-26.6-14.2L23.4%2058.9c-4.2-6.3-3.4-14.8%202-20.2zm145%20303.5c-6.3%2036.9%202.3%2075.9%2026.2%20107.2l-94.9%2095c-28.1%2028.1-73.7%2028.1-101.8%200s-28.1-73.7%200-101.8l135.4-135.5%2035.2%2035.1zM384.1%200c20.1%200%2039.4%203.7%2057.1%2010.5%2010%203.8%2011.8%2016.5%204.3%2024.1l-56.7%2056.7c-3%203-4.7%207.1-4.7%2011.3V144c0%208.8%207.2%2016%2016%2016h41.4c4.2%200%208.3-1.7%2011.3-4.7l56.7-56.7c7.6-7.5%2020.3-5.7%2024.1%204.3%206.8%2017.7%2010.5%2037%2010.5%2057.1%200%2043.2-17.2%2082.3-45%20111.1L450%20222c-33.1-33-78.5-45.7-121.1-38.4l-56.8-56.8V97.1l-.2-5c-.8-12.4-4.4-24.3-10.5-34.9C290.8%2022.2%20334.8%200%20384.1-.1z%22/%3E%3C/svg%3E');--md-admonition-icon--remark:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M256%20480c141.4%200%20256-107.5%20256-240S397.4%200%20256%200%200%20107.5%200%20240c0%2054.3%2019.2%20104.3%2051.6%20144.5L2.8%20476.8c-4.8%209-3.3%2020%203.6%2027.5s17.8%209.8%2027.1%205.8l118.4-50.7c31.8%2013.2%2067%2020.6%20104.1%2020.6M128%20208a32%2032%200%201%201%200%2064%2032%2032%200%201%201%200-64m128%200a32%2032%200%201%201%200%2064%2032%2032%200%201%201%200-64m96%2032a32%2032%200%201%201%2064%200%2032%2032%200%201%201-64%200%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20640%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M352%200c0-17.7-14.3-32-32-32s-32%2014.3-32%2032v64h-96c-53%200-96%2043-96%2096v224c0%2053%2043%2096%2096%2096h256c53%200%2096-43%2096-96V160c0-53-43-96-96-96h-96zM160%20368c0-13.3%2010.7-24%2024-24h32c13.3%200%2024%2010.7%2024%2024s-10.7%2024-24%2024h-32c-13.3%200-24-10.7-24-24m120%200c0-13.3%2010.7-24%2024-24h32c13.3%200%2024%2010.7%2024%2024s-10.7%2024-24%2024h-32c-13.3%200-24-10.7-24-24m120%200c0-13.3%2010.7-24%2024-24h32c13.3%200%2024%2010.7%2024%2024s-10.7%2024-24%2024h-32c-13.3%200-24-10.7-24-24M224%20176a48%2048%200%201%201%200%2096%2048%2048%200%201%201%200-96m144%2048a48%2048%200%201%201%2096%200%2048%2048%200%201%201-96%200m-304%200c0-17.7-14.3-32-32-32S0%20206.3%200%20224v96c0%2017.7%2014.3%2032%2032%2032s32-14.3%2032-32zm544-32c-17.7%200-32%2014.3-32%2032v96c0%2017.7%2014.3%2032%2032%2032s32-14.3%2032-32v-96c0-17.7-14.3-32-32-32%22/%3E%3C/svg%3E');--md-admonition-icon--audience:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M256%200a64%2064%200%201%201%200%20128%2064%2064%200%201%201%200-128m96%20312c0%2025-12.7%2047-32%2059.9V464c0%2026.5-21.5%2048-48%2048h-32c-26.5%200-48-21.5-48-48v-92.1C172.7%20359%20160%20337%20160%20312v-40c0-53%2043-96%2096-96s96%2043%2096%2096zM96%2032a56%2056%200%201%201%200%20112%2056%2056%200%201%201%200-112m16%20240v32c0%2032.5%2012.1%2062.1%2032%2084.7V464c0%201.2%200%202.5.1%203.7-8.5%207.6-19.7%2012.3-32.1%2012.3H80c-26.5%200-48-21.5-48-48v-56.6c-19.1-11-32-31.7-32-55.4v-32c0-53%2043-96%2096-96%2012.7%200%2024.8%202.5%2035.9%206.9-12.6%2021.4-19.9%2046.4-19.9%2073.1m256%20192v-75.3c19.9-22.5%2032-52.2%2032-84.7v-32c0-26.7-7.3-51.6-19.9-73.1%2011.1-4.5%2023.2-6.9%2035.9-6.9%2053%200%2096%2043%2096%2096v32c0%2023.7-12.9%2044.4-32%2055.4V432c0%2026.5-21.5%2048-48%2048h-32c-12.3%200-23.6-4.6-32.1-12.3%200-1.2.1-2.5.1-3.7m48-432a56%2056%200%201%201%200%20112%2056%2056%200%201%201%200-112%22/%3E%3C/svg%3E');--md-admonition-icon--solution:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20576%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22m263.4-27%2014.8%2036.8L315%2024.6c3%201.2%205%204.2%205%207.4s-2%206.2-5%207.4l-36.8%2014.8L263.4%2091c-1.2%203-4.2%205-7.4%205s-6.2-2-7.4-5l-14.8-36.8L197%2039.4c-3-1.2-5-4.2-5-7.4s2-6.2%205-7.4l36.8-14.8L248.6-27c1.2-3%204.2-5%207.4-5s6.2%202%207.4%205M110.7%2041.7l21.5%2050.1%2050.1%2021.5c5.9%202.5%209.7%208.3%209.7%2014.7s-3.8%2012.2-9.7%2014.7l-50.1%2021.5-21.5%2050.1c-2.5%205.9-8.3%209.7-14.7%209.7s-12.2-3.8-14.7-9.7l-21.5-50.1-50.1-21.5C3.8%20140.2%200%20134.4%200%20128s3.8-12.2%209.7-14.7l50.1-21.5%2021.5-50.1C83.8%2035.8%2089.6%2032%2096%2032s12.2%203.8%2014.7%209.7M464%20304c6.4%200%2012.2%203.8%2014.7%209.7l21.5%2050.1%2050.1%2021.5c5.9%202.5%209.7%208.3%209.7%2014.7s-3.8%2012.2-9.7%2014.7l-50.1%2021.5-21.5%2050.1c-2.5%205.9-8.3%209.7-14.7%209.7s-12.2-3.8-14.7-9.7l-21.5-50.1-50.1-21.5c-5.9-2.5-9.7-8.3-9.7-14.7s3.8-12.2%209.7-14.7l50.1-21.5%2021.5-50.1c2.5-5.9%208.3-9.7%2014.7-9.7M460%200c11%200%2021.6%204.4%2029.5%2012.2l42.3%2042.3C539.6%2062.4%20544%2073%20544%2084s-4.4%2021.6-12.2%2029.5l-88.2%2088.2-101.3-101.3%2088.2-88.2C438.4%204.4%20449%200%20460%200M44.2%20398.5l264.2-264.2%20101.3%20101.3-264.2%20264.2C137.6%20507.6%20127%20512%20116%20512s-21.6-4.4-29.5-12.2l-42.3-42.3C36.4%20449.6%2032%20439%2032%20428s4.4-21.6%2012.2-29.5%22/%3E%3C/svg%3E');--md-admonition-icon--seealso:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20576%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M419.5%2096c-16.6%200-32.7%204.5-46.8%2012.7-15.8-16-34.2-29.4-54.5-39.5%2028.2-24%2064.1-37.2%20101.3-37.2C505.9%2032%20576%20102%20576%20188.5c0%2041.5-16.5%2081.3-45.8%20110.6l-71.1%2071.1C429.8%20399.5%20390%20416%20348.5%20416%20262.1%20416%20192%20346%20192%20259.5c0-1.5%200-3%20.1-4.5.5-17.7%2015.2-31.6%2032.9-31.1s31.6%2015.2%2031.1%2032.9v2.6c0%2051.1%2041.4%2092.5%2092.5%2092.5%2024.5%200%2048-9.7%2065.4-27.1l71.1-71.1c17.3-17.3%2027.1-40.9%2027.1-65.4%200-51.1-41.4-92.5-92.5-92.5zm-144.3%2077.3c-1.9-.8-3.8-1.9-5.5-3.1-12.6-6.5-27-10.2-42.1-10.2-24.5%200-48%209.7-65.4%2027.1l-71.1%2071.1C73.8%20275.5%2064%20299.1%2064%20323.6c0%2051.1%2041.4%2092.5%2092.5%2092.5%2016.5%200%2032.6-4.4%2046.7-12.6%2015.8%2016%2034.2%2029.4%2054.6%2039.5-28.2%2023.9-64%2037.2-101.3%2037.2C70.1%20480.2%200%20410.2%200%20323.7c0-41.5%2016.5-81.3%2045.8-110.6l71.1-71.1c29.3-29.3%2069.1-45.8%20110.6-45.8%2086.6%200%20156.5%2070.6%20156.5%20156.9v3.9c-.4%2017.7-15.1%2031.6-32.8%2031.2s-31.6-15.1-31.2-32.8v-2.3c0-33.7-18-63.3-44.8-79.6z%22/%3E%3C/svg%3E');--md-admonition-icon--technical:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M256%20152a88%2088%200%201%200%200-176%2088%2088%200%201%200%200%20176m0%20298.7V301.4c16.3-6.8%2032.9-13.7%2049.7-20.7%2039-16.2%2080.8-24.6%20123.1-24.6H448v160h-19.2c-59.1%200-117.7%2011.7-172.3%2034.5l-.5.2zm0-218.7-25.1-10.5C184.1%20202%20133.9%20192%2083.2%20192H48c-26.5%200-48%2021.5-48%2048v192c0%2026.5%2021.5%2048%2048%2048h35.2c50.7%200%20100.9%2010%20147.7%2029.5l12.8%205.3c7.9%203.3%2016.7%203.3%2024.6%200l12.8-5.3c46.8-19.5%2097-29.5%20147.7-29.5H464c26.5%200%2048-21.5%2048-48V240c0-26.5-21.5-48-48-48h-35.2c-50.7%200-100.9%2010-147.7%2029.5z%22/%3E%3C/svg%3E');--md-admonition-icon--intermediate:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20576%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22m48%20195.8%20209.2%2086.1c9.8%204%2020.2%206.1%2030.8%206.1s21-2.1%2030.8-6.1l242.4-99.8c9-3.7%2014.8-12.4%2014.8-22.1s-5.8-18.4-14.8-22.1L318.8%2038.1c-9.8-4-20.2-6.1-30.8-6.1s-21%202.1-30.8%206.1L14.8%20137.9C5.8%20141.6%200%20150.3%200%20160v296c0%2013.3%2010.7%2024%2024%2024s24-10.7%2024-24zm48%2071.7V384c0%2053%2086%2096%20192%2096s192-43%20192-96V267.4l-142.9%2058.9c-15.6%206.4-32.2%209.7-49.1%209.7s-33.5-3.3-49.1-9.7L96%20267.4z%22/%3E%3C/svg%3E');--md-admonition-icon--advanced:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M241.3-13c-11.4-2.3-23.1-2.3-34.5%200L19.3%2024.5C8.1%2026.7%200%2036.6%200%2048c0%2010.3%206.5%2019.3%2016%2022.6V144L.3%20222.6c-.2.9-.3%201.9-.3%202.9%200%208%206.5%2014.6%2014.6%2014.6h34.9c8%200%2014.6-6.5%2014.6-14.6%200-1-.1-1.9-.3-2.9L48%20144V77.3l48%209.6V144c0%2070.7%2057.3%20128%20128%20128s128-57.3%20128-128V86.9l76.7-15.3C439.9%2069.3%20448%2059.4%20448%2048s-8.1-21.3-19.3-23.5zM224%20224c-44.2%200-80-35.8-80-80h160c0%2044.2-35.8%2080-80%2080m-103.9%2096.1C58.7%20348.3%2016%20410.3%2016%20482.3c0%2016.4%2013.3%2029.7%2029.7%2029.7H200V366l-57.4-43c-6.5-4.9-15.2-6.2-22.6-2.8zM248%20512h154.3c16.4%200%2029.7-13.3%2029.7-29.7%200-72-42.7-134-104.1-162.1-7.4-3.4-16.1-2.1-22.6%202.8l-57.4%2043v146z%22/%3E%3C/svg%3E');--md-admonition-icon--lumi-be:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20640%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M64%200C28.7%200%200%2028.7%200%2064v384c0%2035.3%2028.7%2064%2064%2064h256c35.3%200%2064-28.7%2064-64V64c0-35.3-28.7-64-64-64zm112%20352h32c17.7%200%2032%2014.3%2032%2032v80h-96v-80c0-17.7%2014.3-32%2032-32M96%20112c0-8.8%207.2-16%2016-16h32c8.8%200%2016%207.2%2016%2016v32c0%208.8-7.2%2016-16%2016h-32c-8.8%200-16-7.2-16-16zm144-16h32c8.8%200%2016%207.2%2016%2016v32c0%208.8-7.2%2016-16%2016h-32c-8.8%200-16-7.2-16-16v-32c0-8.8%207.2-16%2016-16M96%20240c0-8.8%207.2-16%2016-16h32c8.8%200%2016%207.2%2016%2016v32c0%208.8-7.2%2016-16%2016h-32c-8.8%200-16-7.2-16-16zm144-16h32c8.8%200%2016%207.2%2016%2016v32c0%208.8-7.2%2016-16%2016h-32c-8.8%200-16-7.2-16-16v-32c0-8.8%207.2-16%2016-16M464%200c-17.7%200-32%2014.3-32%2032v448c0%2017.7%2014.3%2032%2032%2032s32-14.3%2032-32V192h112c17.7%200%2032-14.3%2032-32V64c0-17.7-14.3-32-32-32H496c0-17.7-14.3-32-32-32%22/%3E%3C/svg%3E');--md-admonition-icon--nice-to-know:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20384%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M296.5%20291.1C321%20265.2%20336%20230.4%20336%20192c0-79.5-64.5-144-144-144S48%20112.5%2048%20192c0%2038.4%2015%2073.2%2039.5%2099.1%2021.3%2022.4%2044.9%2054%2053.3%2092.9h102.4c8.4-39%2032-70.5%2053.3-92.9m34.8%2033C307.7%20349%20288%20379.4%20288%20413.7V432c0%2044.2-35.8%2080-80%2080h-32c-44.2%200-80-35.8-80-80v-18.3c0-34.3-19.7-64.7-43.3-89.6C20%20289.7%200%20243.2%200%20192%200%2086%2086%200%20192%200s192%2086%20192%20192c0%2051.2-20%2097.7-52.7%20132.1M144%20184c0%2013.3-10.7%2024-24%2024s-24-10.7-24-24c0-48.6%2039.4-88%2088-88%2013.3%200%2024%2010.7%2024%2024s-10.7%2024-24%2024c-22.1%200-40%2017.9-40%2040%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/neoteroi-mkdocs.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="lumi-be" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#former-ai-containers-on-lumi-g" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="LUMI-BE training materials" class="md-header__button md-logo" aria-label="LUMI-BE training materials" data-md-component="logo">
+      
+  
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="800"
+   height="220"
+   viewBox="0 0 211.66666 58.208333"
+   version="1.1"
+   id="svg1706"
+   inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
+   sodipodi:docname="logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1708"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.914906"
+     inkscape:cx="372.16938"
+     inkscape:cy="24.046186"
+     inkscape:window-width="2400"
+     inkscape:window-height="988"
+     inkscape:window-x="767"
+     inkscape:window-y="174"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1703" />
+  <g
+     inkscape:label="Laag 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       aria-label="LUMI-BE"
+       id="text4785"
+       style="font-size:50.8px;line-height:1.25;-inkscape-font-specification:'sans-serif, Normal';fill:#f2f2f2;stroke-width:0.264583">
+      <path
+         d="M 23.366015,48.011253 H -7.4505806e-8 V 11.077074 H 4.911328 v 32.568554 h 18.454687 z"
+         id="path6569" />
+      <path
+         d="m 56.083398,33.17805 q 0,4.01836 -0.892969,7.019727 -0.868164,2.976562 -2.877343,4.960937 -1.909961,1.885157 -4.464844,2.753321 -2.554883,0.868164 -5.953125,0.868164 -3.472656,0 -6.052344,-0.917774 -2.579687,-0.917773 -4.34082,-2.703711 -2.00918,-2.033984 -2.902148,-4.911328 -0.868164,-2.877343 -0.868164,-7.069336 V 11.077074 h 4.911328 v 22.349023 q 0,3.001367 0.396875,4.737696 0.421679,1.736328 1.389062,3.150195 1.091406,1.612304 2.951758,2.430859 1.885156,0.818555 4.514453,0.818555 2.654101,0 4.514453,-0.79375 1.860352,-0.818555 2.976562,-2.455664 0.967383,-1.413867 1.364258,-3.224609 0.42168,-1.835547 0.42168,-4.539258 V 11.077074 h 4.911328 z"
+         id="path6571" />
+      <path
+         d="M 98.350579,48.011253 H 93.439251 V 16.18684 L 83.170111,37.841332 H 80.243158 L 70.048431,16.18684 V 48.011253 H 65.459564 V 11.077074 h 6.697266 l 9.84746,20.563086 9.525,-20.563086 h 6.821289 z"
+         id="path6573" />
+      <path
+         d="m 121.29492,48.011253 h -14.58515 v -3.770312 h 4.83691 V 14.847387 h -4.83691 v -3.770313 h 14.58515 v 3.770313 h -4.83691 v 29.393554 h 4.83691 z"
+         id="path6575" />
+      <path
+         d="m 143.22226,34.095824 h -15.47812 v -4.489648 h 15.47812 z"
+         id="path6577" />
+      <path
+         d="m 179.83398,36.650707 q 0,2.75332 -1.0418,4.861718 -1.04179,2.108399 -2.80293,3.472657 -2.08359,1.637109 -4.58886,2.33164 -2.48047,0.694531 -6.3252,0.694531 H 151.97832 V 11.077074 h 10.93886 q 4.04317,0 6.05235,0.297656 2.00918,0.297657 3.84472,1.240235 2.03399,1.066601 2.95176,2.75332 0.91778,1.661914 0.91778,3.993555 0,2.629297 -1.33946,4.489648 -1.33945,1.835547 -3.57187,2.951758 v 0.198437 q 3.74551,0.768946 5.90351,3.299024 2.15801,2.505273 2.15801,6.35 z m -8.25996,-16.643945 q 0,-1.339454 -0.44648,-2.257227 -0.44649,-0.917773 -1.43868,-1.488281 -1.16582,-0.669727 -2.82773,-0.818555 -1.66191,-0.173633 -4.11758,-0.173633 h -5.8539 v 10.666016 h 6.35 q 2.30683,0 3.67109,-0.223242 1.36426,-0.248047 2.53008,-0.992188 1.16582,-0.74414 1.63711,-1.909961 0.49609,-1.190625 0.49609,-2.802929 z m 3.1502,16.842382 q 0,-2.232422 -0.66973,-3.54707 -0.66973,-1.314649 -2.43086,-2.232422 -1.19063,-0.620117 -2.90215,-0.79375 -1.68672,-0.198437 -4.11758,-0.198437 h -7.71425 v 13.741796 h 6.49882 q 3.22461,0 5.2834,-0.322461 2.05879,-0.347265 3.37344,-1.240234 1.38906,-0.967383 2.03398,-2.207617 0.64493,-1.240235 0.64493,-3.199805 z"
+         id="path6579" />
+      <path
+         d="m 211.13749,48.011253 h -24.3334 V 11.077074 h 24.3334 v 4.365625 h -19.42207 v 10.120313 h 19.42207 v 4.365624 h -19.42207 v 13.716992 h 19.42207 z"
+         id="path6581" />
+    </g>
+    <rect
+       style="fill:#f2f2f2;stroke:none;stroke-width:0.988271;fill-opacity:1"
+       id="rect4936"
+       width="211.66667"
+       height="3.175"
+       x="0"
+       y="0" />
+    <rect
+       style="fill:#f2f2f2;stroke:none;stroke-width:0.988271;fill-opacity:1"
+       id="rect4936-7"
+       width="211.66667"
+       height="3.175"
+       x="-8.3049135e-06"
+       y="55.033333" />
+  </g>
+</svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LUMI-BE training materials
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              12 FormerAIContainers
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="LUMI-BE training materials" class="md-nav__button md-logo" aria-label="LUMI-BE training materials" data-md-component="logo">
+      
+  
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="800"
+   height="220"
+   viewBox="0 0 211.66666 58.208333"
+   version="1.1"
+   id="svg1706"
+   inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
+   sodipodi:docname="logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1708"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.914906"
+     inkscape:cx="372.16938"
+     inkscape:cy="24.046186"
+     inkscape:window-width="2400"
+     inkscape:window-height="988"
+     inkscape:window-x="767"
+     inkscape:window-y="174"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1703" />
+  <g
+     inkscape:label="Laag 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       aria-label="LUMI-BE"
+       id="text4785"
+       style="font-size:50.8px;line-height:1.25;-inkscape-font-specification:'sans-serif, Normal';fill:#f2f2f2;stroke-width:0.264583">
+      <path
+         d="M 23.366015,48.011253 H -7.4505806e-8 V 11.077074 H 4.911328 v 32.568554 h 18.454687 z"
+         id="path6569" />
+      <path
+         d="m 56.083398,33.17805 q 0,4.01836 -0.892969,7.019727 -0.868164,2.976562 -2.877343,4.960937 -1.909961,1.885157 -4.464844,2.753321 -2.554883,0.868164 -5.953125,0.868164 -3.472656,0 -6.052344,-0.917774 -2.579687,-0.917773 -4.34082,-2.703711 -2.00918,-2.033984 -2.902148,-4.911328 -0.868164,-2.877343 -0.868164,-7.069336 V 11.077074 h 4.911328 v 22.349023 q 0,3.001367 0.396875,4.737696 0.421679,1.736328 1.389062,3.150195 1.091406,1.612304 2.951758,2.430859 1.885156,0.818555 4.514453,0.818555 2.654101,0 4.514453,-0.79375 1.860352,-0.818555 2.976562,-2.455664 0.967383,-1.413867 1.364258,-3.224609 0.42168,-1.835547 0.42168,-4.539258 V 11.077074 h 4.911328 z"
+         id="path6571" />
+      <path
+         d="M 98.350579,48.011253 H 93.439251 V 16.18684 L 83.170111,37.841332 H 80.243158 L 70.048431,16.18684 V 48.011253 H 65.459564 V 11.077074 h 6.697266 l 9.84746,20.563086 9.525,-20.563086 h 6.821289 z"
+         id="path6573" />
+      <path
+         d="m 121.29492,48.011253 h -14.58515 v -3.770312 h 4.83691 V 14.847387 h -4.83691 v -3.770313 h 14.58515 v 3.770313 h -4.83691 v 29.393554 h 4.83691 z"
+         id="path6575" />
+      <path
+         d="m 143.22226,34.095824 h -15.47812 v -4.489648 h 15.47812 z"
+         id="path6577" />
+      <path
+         d="m 179.83398,36.650707 q 0,2.75332 -1.0418,4.861718 -1.04179,2.108399 -2.80293,3.472657 -2.08359,1.637109 -4.58886,2.33164 -2.48047,0.694531 -6.3252,0.694531 H 151.97832 V 11.077074 h 10.93886 q 4.04317,0 6.05235,0.297656 2.00918,0.297657 3.84472,1.240235 2.03399,1.066601 2.95176,2.75332 0.91778,1.661914 0.91778,3.993555 0,2.629297 -1.33946,4.489648 -1.33945,1.835547 -3.57187,2.951758 v 0.198437 q 3.74551,0.768946 5.90351,3.299024 2.15801,2.505273 2.15801,6.35 z m -8.25996,-16.643945 q 0,-1.339454 -0.44648,-2.257227 -0.44649,-0.917773 -1.43868,-1.488281 -1.16582,-0.669727 -2.82773,-0.818555 -1.66191,-0.173633 -4.11758,-0.173633 h -5.8539 v 10.666016 h 6.35 q 2.30683,0 3.67109,-0.223242 1.36426,-0.248047 2.53008,-0.992188 1.16582,-0.74414 1.63711,-1.909961 0.49609,-1.190625 0.49609,-2.802929 z m 3.1502,16.842382 q 0,-2.232422 -0.66973,-3.54707 -0.66973,-1.314649 -2.43086,-2.232422 -1.19063,-0.620117 -2.90215,-0.79375 -1.68672,-0.198437 -4.11758,-0.198437 h -7.71425 v 13.741796 h 6.49882 q 3.22461,0 5.2834,-0.322461 2.05879,-0.347265 3.37344,-1.240234 1.38906,-0.967383 2.03398,-2.207617 0.64493,-1.240235 0.64493,-3.199805 z"
+         id="path6579" />
+      <path
+         d="m 211.13749,48.011253 h -24.3334 V 11.077074 h 24.3334 v 4.365625 h -19.42207 v 10.120313 h 19.42207 v 4.365624 h -19.42207 v 13.716992 h 19.42207 z"
+         id="path6581" />
+    </g>
+    <rect
+       style="fill:#f2f2f2;stroke:none;stroke-width:0.988271;fill-opacity:1"
+       id="rect4936"
+       width="211.66667"
+       height="3.175"
+       x="0"
+       y="0" />
+    <rect
+       style="fill:#f2f2f2;stroke:none;stroke-width:0.988271;fill-opacity:1"
+       id="rect4936-7"
+       width="211.66667"
+       height="3.175"
+       x="-8.3049135e-06"
+       y="55.033333" />
+  </g>
+</svg>
+
+    </a>
+    LUMI-BE training materials
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LUMI Intro (evolving)
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LUMI Intro (evolving)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Intro to the notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-Architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-CPE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Environment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-Access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-Modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-SoftwareStacks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software stacks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-Support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Support
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-Slurm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Slurm on LUMI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-Binding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-Lustre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lustre
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-ObjectStorage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LUMI-O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-Containers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Containers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Container demo 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Demo2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Container demo 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../A01-SlurmIssues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A1 Slurm issues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../A02-Documentation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2 Documentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#former-pre-built-ai-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Former pre-built AI containers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-ai-containers-complicated-way-without-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the AI containers - complicated way without modules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-containers-through-easybuild-generated-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the containers through EasyBuild-generated modules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-distributed-learning-without-using-easybuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Distributed learning without using EasyBuild
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-distributed-learning-with-the-easybuild-generated-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Distributed learning with the EasyBuild-generated module
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extending-the-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extending the containers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extending the containers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extending-the-container-with-cotainr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extending the container with cotainr
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extending-the-container-with-the-singularity-unprivileged-proot-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extending the container with the singularity unprivileged proot build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extending-the-container-through-a-python-virtual-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extending the container through a Python virtual environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 17, 2026 10:29:51 UTC">March 17, 2026</span></p>
+<h1 id="former-ai-containers-on-lumi-g">Former AI containers on LUMI-G<a class="headerlink" href="#former-ai-containers-on-lumi-g" title="Permanent link">&para;</a></h1>
+<p><em>Before the January 2026 update, AI containers for LUMI were provided by AMD and
+wrapper scripts were developed by the LUST. Since then, the 
+<a href="https://lumi-ai-factory.eu/">LUMI AI Factory</a>
+has taken over the 
+<a href="https://docs.lumi-supercomputer.eu/laif/software/ai-environment/">development of such containers</a>.
+The more recent ones of the former containers remain available though as long as they 
+work well for most users.</em></p>
+<p><strong>Some of the materials in this text are still outdated. This is particularly true for the
+discussion about <code>cotainr</code>, as the documentation of that tool was outdated when this text
+was last revised.</strong></p>
+<h2 id="former-pre-built-ai-containers">Former pre-built AI containers<a class="headerlink" href="#former-pre-built-ai-containers" title="Permanent link">&para;</a></h2>
+<figure style="border: 1px solid #000">
+<p><img alt="Former prebuilt AI containers" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersPrebuiltAI.png" /></p>
+</figure>
+<p>LUST with the help of AMD has built some containers with popular AI software.
+These containers contain a ROCm version that is appropriate for the software,
+use Conda for some components, but have several of the performance critical components
+built specifically for LUMI for near-optimal performance. Depending on the software they
+also contain a RCCL library with the appropriate plugin to work well on the Slingshot 11
+interconnect, or a horovod compiled to use Cray MPICH. </p>
+<p>Some of the containers can be provided through a module that is user-installable with EasyBuild.
+That module sets the <code>SINGULARITY_BIND</code> environment variable
+to make all your regular files available in the container and to ensure that all software from the 
+system that is needed in the container, is also there. The module will also provide
+an environment variable to refer to the container (name with full path) to make it easy to refer to
+the container in job scripts. Some of the modules also provide some scripts that may make using the containers easier in some standard scenarios. 
+Alternatively, the user support team also provides the <code>singularity-AI-bindings</code> module discussed above, 
+for users who want to run the containers as manually as possible yet want an 
+easy way to deal with the necessary bindings of user file systems and HPE Cray PE components needed
+from the system (see also <a href="https://lumi-supercomputer.github.io/AI-latest/">course materials for the AI training/workshop</a>).</p>
+<p>These containers can be found through the
+<a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/">LUMI Software Library</a> and are marked
+with a container label.
+There are still containers for:</p>
+<ul>
+<li><a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/PyTorch/">PyTorch</a>, which is the best tested and most developed one,</li>
+<li><a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/j/jax/">JAX</a>,</li>
+<li><a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/t/TensorFlow/">TensorFlow</a>,</li>
+<li><a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/r/rocm/">ROCm</a> and</li>
+<li><a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/m/mpi4py/">mpi4py</a>.</li>
+</ul>
+<p>Of these, the PyTorch containers are by far the most popular ones among the LUMI users, 
+probably followed by the ROCm containers as basis to build their own containers using
+<code>cotainr</code> or other tools.</p>
+<h2 id="running-the-ai-containers-complicated-way-without-modules">Running the AI containers - complicated way without modules<a class="headerlink" href="#running-the-ai-containers-complicated-way-without-modules" title="Permanent link">&para;</a></h2>
+<figure style="border: 1px solid #000">
+<p><img alt="Running the AI containers without EasyBuild-generated module" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/RunningAiComplicated.png" /></p>
+</figure>
+<p>The containers that we provide have everything needed to use RCCL and/or MPI on LUMI.
+It is not needed to use the <code>singularity-bindings/system</code> module described earlier as that module
+tries to bind too much external software to the container.</p>
+<p>Yet to be able to properly use the containers, users do need to take care of some bindings</p>
+<ul>
+<li>
+<p>Some system directories and libraries have to be bound to the container:</p>
+<div class="highlight"><pre><span></span><code>-B /var/spool/slurmd,/opt/cray,/usr/lib64/libcxi.so.1
+</code></pre></div>
+<p>The first one is needed to work together with Slurm. The second one contains the MPI and libfabric library.
+The third one is the actual component that binds libfabric to the Slingshot network adapter and is called 
+the CXI provider and is not needed anymore on the containers built in 2025 as a
+newer provider library has already been included in those containers.</p>
+</li>
+<li>
+<p>By default your home directory will be available in the container, but as your home directory is not your
+    main workspace, you may want to bind your subdirectory in <code>/project</code>, <code>/scratch</code> and/or <code>/flash</code> also, using, e.g.,</p>
+<div class="highlight"><pre><span></span><code>-B /pfs,/scratch,/projappl,/project,/flash
+</code></pre></div>
+</li>
+</ul>
+<p>There are also a number of components that may need further initialisation:</p>
+<ul>
+<li>
+<p>The MIOpen library (which is the equivalent of the CUDA cuDNN library)
+    has problems with file/record locking on Lustre so some environment variables
+    are needed to move some work directories to <code>/tmp</code>.</p>
+</li>
+<li>
+<p>RCCL (the ROCm&trade; equivalent of the NVIDIA NCCL communication library)
+    needs to be told the right network interfaces to use as otherwise it tends to take the interface
+    to the management network of the cluster instead and gets stuck.</p>
+</li>
+<li>
+<p>GPU-aware MPI also needs to be set up (see <a href="../02-CPE/#gpu-aware-mpi">earlier in the course</a>)</p>
+</li>
+<li>
+<p>Your AI package may need some environment variables too (e.g., 
+    <code>MASTER_ADDR</code> and <code>MASTER_PORT</code> for distributed learning with PyTorch)</p>
+</li>
+</ul>
+<p>Moreover, most (if not all at the moment) containers that we provide with Python packages, are
+built using Conda to install Python. When entering those containers, conda needs to be activated.
+In the newer containers (including all those built in 2025), this is done automatically in
+the singularity initialisation process.
+Older containers are built in such a way that the environment variable <code>WITH_CONDA</code> provides the 
+necessary command, so in most cases you only need to run </p>
+<div class="highlight"><pre><span></span><code>$WITH_CONDA
+</code></pre></div>
+<p>as a command in the script that is executed in the container or on the command line.
+(And in fact, using this in the newer containers will not cause an error or warning.)</p>
+<h2 id="running-the-containers-through-easybuild-generated-modules">Running the containers through EasyBuild-generated modules<a class="headerlink" href="#running-the-containers-through-easybuild-generated-modules" title="Permanent link">&para;</a></h2>
+<figure style="border: 1px solid #000">
+<p><img alt="Running the AI containers with EasyBuild-generated module - slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/RunningAIEasyBuild_1.png" /></p>
+</figure>
+<p>Doing all those initialisations, is a burden. Therefore we provide EasyBuild recipes to "install" the containers
+and to provide a module that helps setting environment variables in the initialisation.</p>
+<p>For packages for which we know generic usage patterns, we provide some scripts that do most settings.
+We may have to drop that though, as sometimes there are simply too many scenarios and promoting a particular
+one too much may mislead users and encourage them to try to map their problem on an approach which
+may be less efficient than theirs.
+When using the module, those scripts will be available in the <code>/runscripts</code> directory in the container,
+but are also in a subdirectory on the Lustre file system. So in principle you can even edit them or
+add your own scripts, though they would be erased if you reinstall the module with EasyBuild.</p>
+<p>Some of the newer PyTorch containers (from PyTorch 2.6.0 on) also provide wrapper scripts similar to
+<a href="https://docs.csc.fi/apps/pytorch/">the wrapper scripts provided by the CSC <code>pytorch</code> modules</a>,
+so many of the examples in their documentation should also work with minimal changes (such as the
+module name). They are not fully equivalent though, and that will be discussed below.</p>
+<p>The modules also define a number of environment variables that make life easier. E.g., the <code>SINGULARITY_BIND</code> 
+environment variable is already set to bind the necessary files and directories from the system and to
+make sure that your project, scratch and flash spaces are available at the same location as on LUMI so
+that even symbolic links in those directories should still work.</p>
+<p>We recently started adding a pre-configured virtual environment to the containers to add your own packages.
+The virtual environment can be found in the container in a subdirectory of <code>/user-software/venv</code>. To install
+packages from within the container, this directory needs to be writeable which is done by binding <code>/user-software</code> to the
+<code>$CONTAINERROOT/user-software</code> subdirectory outside the container.
+If you add a lot of packages that way, you re-create the filesystem issues that the container is supposed to
+solve, but we have a solution for that also. These containers provide the <code>make-squashfs</code> command to generate
+a SquashFS file from the installation that will be used by the container instead next time the module for 
+the container is reloaded. And in case you prefer to fully delete the <code>user-software</code> subdirectory afterwards
+from <code>$CONTAINERROOT</code>, it can be re-created using <code>unmake-squashfs</code> so that you can add further packages.
+You can also use <code>/user-software</code> to install software in other ways from within the container and can
+basically create whatever subdirectory you want into it. 
+This is basically automating the procedure described
+in the "Extending containers with virtual environments for faster testing" lecture of the
+<a href="https://lumi-supercomputer.github.io/AI-latest/">AI training provided by the LUMI User Support Team</a>.</p>
+<p>These containers with pre-configured virtual environment offer another advantage also: The module injects a number
+of environment variables into the container so that it is no longer needed to activate the conda environment and
+Python virtual environment by sourcing scripts.</p>
+<p>In fact, someone with EasyBuild experience may even help you to further extend the recipe that we provide to already
+install extra packages, and we provide an example of how to do that with 
+<a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/PyTorch/">our PyTorch containers</a>.</p>
+<div class="admonition remark">
+<p class="admonition-title">Difference between the Python wrapper scrips of the EasyBuild and the CSC modules</p>
+<p>The wrapper scripts of the CSC modules are written in such a way that even creating 
+virtual environments with them is supported.</p>
+<p>This is not the case with the modules provided via EasyBuild and discussed in the 
+<a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/">LUMI Software Library</a>.
+The newer <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/PyTorch/">PyTorch</a>
+and <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/j/jax/">JAX</a>
+EasyBuild recipes will install modules that support the <code>python</code> wrapper script, but 
+there is a single virtual environment already pre-defined and the script will run in 
+that virtual environment. Because of that restriction, we can easily pack the whole
+virtual environment in a SquashFS file for more efficient and Lustre-friendly
+execution, which is hard or impossible to do with the CSC wrappers.</p>
+</div>
+<figure style="border: 1px solid #000">
+<p><img alt="Running the AI containers with EasyBuild-generated module - slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/RunningAIEasyBuild_2.png" /></p>
+</figure>
+<p>Installing the EasyBuild recipes for those containers is also done via the <code>EasyBuild-user</code> module,
+but it is best to use a special trick. There is a special partition called <code>partition/container</code> that is
+only used to install those containers and when using that partition for the installation, the container
+will be available in all versions of the LUMI stack and in the CrayEnv stack.</p>
+<p>Installation is as simple as, e.g., </p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>LUMI<span class="w"> </span>partition/container<span class="w"> </span>EasyBuild-user
+eb<span class="w"> </span>PyTorch-2.6.0-rocm-6.2.4-python-3.12-singularity-20250404.eb
+</code></pre></div>
+<p>Before running it is best to clean up (<code>module purge</code>) or take a new shell to avoid conflicts with 
+environment variables provided by other modules.</p>
+<p>The installation with EasyBuild will make a copy from the <code>.sif</code> Singularity container image file
+that we provide somewhere in <code>/appl/local/containers</code>
+to the software installation subdirectory of your <code>$EBU_USER_PREFIX</code> EasyBuild installation directory.
+These files are big and you may wish to delete that file which is easily done: After loading the container
+module, the environment variable <code>SIF</code> contains the name with full path of the container file. 
+After removing the container file from your personal software directory, you need to reload the container
+module and from then on, <code>SIF</code> will point to the corresponding container in 
+<code>/appl/local/containers/easybuild-sif-images</code>.
+So:</p>
+<div class="highlight"><pre><span></span><code>module load PyTorch/2.6.0-rocm-6.2.4-python-3.12-singularity-20250404
+rm –f $SIF
+module load PyTorch/2.6.0-rocm-6.2.4-python-3.12-singularity-20250404
+</code></pre></div>
+<p>We don't really recommend removing the container image though and certainly not if you are interested
+in reproducibility. We may remove the image in <code>/appl/local/containers/easybuild-sif-images</code>
+without prior notice if we notice that the container has too many problems, e.g., after a system
+update. But that same container that doesn't work well for others, may work well enough for you that
+you don't want to rebuild whatever environment you built with the container.</p>
+<h2 id="example-distributed-learning-without-using-easybuild">Example: Distributed learning without using EasyBuild<a class="headerlink" href="#example-distributed-learning-without-using-easybuild" title="Permanent link">&para;</a></h2>
+<p><strong>To really run this example, some additional program files and data files are needed that
+are not explained in this text. You can find more information on the 
+<a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/PyTorch">PyTorch page in the LUMI Software Library</a>.</strong></p>
+<figure style="border: 1px solid #000">
+<p><img alt="Example: Distributed learning with PyTorch, no EasyBuild-generated module - slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/RunningAIExampleNoEasyBuild_1.png" /></p>
+</figure>
+<p>In this example, we'll do most of the initialisations inside the container, but different
+approaches are also possible.</p>
+<p>We'll need to create a number of scripts before we can even run the container. The job script
+alone is not enough as there are also per-task initialisations needed that cannot be done
+directly in the job script. In this example, we run the script that does the per-task
+initialisations in the container, but it is also possible to do this outside the container
+which would give access to the Slurm commands and may even simplify a bit. </p>
+<p>If you want to know more about running AI loads on LUMI, we strongly recommend to take a look
+at the <a href="http://lumi-supercomputer.github.io/AI-latest/">course materials of the AI course</a>.
+Basically, running AI on AMD GPUs is not that different from NVIDIA GPUs, but there are some
+initialisations that are different. The main difference may be the difference between cloud
+environments, clusters with easy access to the compute nodes and clusters like LUMI that require
+you to always go through the resource manager if you want access to a compute node.
+We'll need to create a number of scripts before we can even run the container.</p>
+<p>The first script is a Python program to extract the name of the master node from a Slurm environment
+variable. This will be needed to set up the communication in PyTorch. Store it in <code>get-master.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_parser</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Extract master node name from Slurm node list&quot;</span><span class="p">,</span>
+            <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentDefaultsHelpFormatter</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;nodelist&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Slurm nodelist&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">parser</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">get_parser</span><span class="p">()</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">first_nodelist</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">nodelist</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="s1">&#39;[&#39;</span> <span class="ow">in</span> <span class="n">first_nodelist</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">first_nodelist</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)</span>
+        <span class="n">first_node</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">first_node</span> <span class="o">=</span> <span class="n">first_nodelist</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">first_node</span><span class="p">)</span>
+</code></pre></div>
+<figure style="border: 1px solid #000">
+<p><img alt="Example: Distributed learning with PyTorch, no EasyBuild-generated module - slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/RunningAIExampleNoEasyBuild_2.png" /></p>
+</figure>
+<p>Second, we need a script that we will run in the container. Store the script as
+<code>run-pytorch.sh</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash -e</span>
+
+<span class="c1"># Make sure GPUs are up</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$SLURM_LOCALID</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>rocm-smi
+<span class="k">fi</span>
+sleep<span class="w"> </span><span class="m">2</span>
+
+<span class="c1"># !Remove this if using an image extended with cotainr or a container from elsewhere.!</span>
+<span class="c1"># Start conda environment inside the container</span>
+<span class="nv">$WITH_CONDA</span>
+
+<span class="c1"># MIOPEN needs some initialisation for the cache as the default location</span>
+<span class="c1"># does not work on LUMI as Lustre does not provide the necessary features.</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MIOPEN_USER_DB_PATH</span><span class="o">=</span><span class="s2">&quot;/tmp/</span><span class="k">$(</span>whoami<span class="k">)</span><span class="s2">-miopen-cache-</span><span class="nv">$SLURM_NODEID</span><span class="s2">&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MIOPEN_CUSTOM_CACHE_DIR</span><span class="o">=</span><span class="nv">$MIOPEN_USER_DB_PATH</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$SLURM_LOCALID</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$MIOPEN_USER_DB_PATH</span>
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$MIOPEN_USER_DB_PATH</span>
+<span class="k">fi</span>
+sleep<span class="w"> </span><span class="m">2</span>
+
+<span class="c1"># Optional! Set NCCL debug output to check correct use of aws-ofi-rccl (these are very verbose)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">NCCL_DEBUG</span><span class="o">=</span>INFO
+<span class="nb">export</span><span class="w"> </span><span class="nv">NCCL_DEBUG_SUBSYS</span><span class="o">=</span>INIT,COLL
+
+<span class="c1"># Set interfaces to be used by RCCL.</span>
+<span class="c1"># This is needed as otherwise RCCL tries to use a network interface it has</span>
+<span class="c1"># no access to on LUMI.</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">NCCL_SOCKET_IFNAME</span><span class="o">=</span>hsn0,hsn1,hsn2,hsn3
+<span class="c1"># Next line not needed anymore in ROCm 6.2. You may see PHB also instead of 3, which is equivalent </span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">NCCL_NET_GDR_LEVEL</span><span class="o">=</span><span class="m">3</span>
+
+<span class="c1"># Set ROCR_VISIBLE_DEVICES so that each task uses the proper GPU</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ROCR_VISIBLE_DEVICES</span><span class="o">=</span><span class="nv">$SLURM_LOCALID</span>
+
+<span class="c1"># Report affinity to check</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Rank </span><span class="nv">$SLURM_PROCID</span><span class="s2"> --&gt; </span><span class="k">$(</span>taskset<span class="w"> </span>-p<span class="w"> </span><span class="nv">$$</span><span class="k">)</span><span class="s2">; GPU </span><span class="nv">$ROCR_VISIBLE_DEVICES</span><span class="s2">&quot;</span>
+
+<span class="c1"># The usual PyTorch initialisations (also needed on NVIDIA)</span>
+<span class="c1"># Note that since we fix the port ID it is not possible to run, e.g., two</span>
+<span class="c1"># instances via this script using half a node each.</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MASTER_ADDR</span><span class="o">=</span><span class="k">$(</span>python<span class="w"> </span>get-master.py<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_NODELIST</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MASTER_PORT</span><span class="o">=</span><span class="m">29500</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">WORLD_SIZE</span><span class="o">=</span><span class="nv">$SLURM_NPROCS</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">RANK</span><span class="o">=</span><span class="nv">$SLURM_PROCID</span>
+
+<span class="c1"># Run app</span>
+<span class="nb">cd</span><span class="w"> </span>/workdir/mnist
+python<span class="w"> </span>-u<span class="w"> </span>mnist_DDP.py<span class="w"> </span>--gpu<span class="w"> </span>--modelpath<span class="w"> </span>model
+</code></pre></div>
+<p>The script needs to be executable.</p>
+<p>The script sets a number of environment variables. Some are fairly standard when using PyTorch
+on an HPC cluster while others are specific for the LUMI interconnect and architecture or the 
+AMD ROCm environment. We notice a number of things:</p>
+<ul>
+<li>
+<p>At the start we just print some information about the GPU. We do this only ones on each node
+    on the process which is why we test on <code>$SLURM_LOCALID</code>, which is a numbering starting from 0
+    on each node of the job:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$SLURM_LOCALID</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>rocm-smi
+<span class="k">fi</span>
+sleep<span class="w"> </span><span class="m">2</span>
+</code></pre></div>
+</li>
+<li>
+<p>The container uses a Conda environment internally. So to make the right version of Python
+    and its packages availabe, we need to activate the environment. The precise command to
+    activate the environment is stored in <code>$WITH_CONDA</code> and we can just call it by specifying
+    the variable as a bash command.</p>
+</li>
+<li>
+<p>The <code>MIOPEN_</code> environment variables are needed to make 
+    <a href="https://rocm.docs.amd.com/projects/MIOpen/en/latest/">MIOpen</a> create its caches on <code>/tmp</code>
+    as doing this on Lustre fails because of file locking issues:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MIOPEN_USER_DB_PATH</span><span class="o">=</span><span class="s2">&quot;/tmp/</span><span class="k">$(</span>whoami<span class="k">)</span><span class="s2">-miopen-cache-</span><span class="nv">$SLURM_NODEID</span><span class="s2">&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MIOPEN_CUSTOM_CACHE_DIR</span><span class="o">=</span><span class="nv">$MIOPEN_USER_DB_PATH</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$SLURM_LOCALID</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$MIOPEN_USER_DB_PATH</span>
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$MIOPEN_USER_DB_PATH</span>
+<span class="k">fi</span>
+</code></pre></div>
+<p>These caches are used to store compiled kernels.</p>
+</li>
+<li>
+<p>It is also essential to tell RCCL, the communication library, which network adapters to use. 
+    These environment variables start with <code>NCCL_</code> because ROCm tries to keep things as similar as
+    possible to NCCL in the NVIDIA ecosystem:</p>
+<div class="highlight"><pre><span></span><code>export NCCL_SOCKET_IFNAME=hsn0,hsn1,hsn2,hsn3
+export NCCL_NET_GDR_LEVEL=3
+</code></pre></div>
+<p>Without this RCCL may try to use a network adapter meant for system management rather than
+inter-node communications!</p>
+</li>
+<li>
+<p>We also set <code>ROCR_VISIBLE_DEVICES</code> to ensure that each task uses the proper GPU.
+    This is again based on the local task ID of each Slurm task.</p>
+</li>
+<li>
+<p>Furthermore some environment variables are needed by PyTorch itself that are also needed on
+    NVIDIA systems.</p>
+<p>PyTorch needs to find the master for communication which is done through the
+<code>get-master.py</code> script that we created before:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MASTER_ADDR</span><span class="o">=</span><span class="k">$(</span>python<span class="w"> </span>get-master.py<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_NODELIST</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MASTER_PORT</span><span class="o">=</span><span class="m">29500</span>
+</code></pre></div>
+<p><strong>As we fix the port number here, the <code>conda-python-distributed</code> script that we provide, 
+has to run on exclusive nodes.
+Running, e.g., 2 4-GPU jobs on the same node with this command will not work as there will be
+a conflict for the TCP port for communication on the master as <code>MASTER_PORT</code> is hard-coded in 
+this version of the script.</strong></p>
+</li>
+</ul>
+<figure style="border: 1px solid #000">
+<p><img alt="Example: Distributed learning with PyTorch, no EasyBuild-generated module - slide 3" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/RunningAIExampleNoEasyBuild_3.png" /></p>
+</figure>
+<p>And finally you need a job script that you can then submit with <code>sbatch</code>. Lets call it <code>my-job.sh</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash -e</span>
+<span class="c1">#SBATCH --nodes=4</span>
+<span class="c1">#SBATCH --gpus-per-node=8</span>
+<span class="c1">#SBATCH --tasks-per-node=8</span>
+<span class="c1">#SBATCH --output=&quot;output_%x_%j.txt&quot;</span>
+<span class="c1">#SBATCH --partition=standard-g</span>
+<span class="c1">#SBATCH --mem=480G</span>
+<span class="c1">#SBATCH --time=00:10:00</span>
+<span class="c1">#SBATCH --account=project_&lt;your_project_id&gt;</span>
+
+<span class="nv">CONTAINER</span><span class="o">=</span>your-container-image.sif
+
+<span class="nv">c</span><span class="o">=</span>fe
+<span class="nv">MYMASKS</span><span class="o">=</span><span class="s2">&quot;0x</span><span class="si">${</span><span class="nv">c</span><span class="si">}</span><span class="s2">000000000000,0x</span><span class="si">${</span><span class="nv">c</span><span class="si">}</span><span class="s2">00000000000000,0x</span><span class="si">${</span><span class="nv">c</span><span class="si">}</span><span class="s2">0000,0x</span><span class="si">${</span><span class="nv">c</span><span class="si">}</span><span class="s2">000000,0x</span><span class="si">${</span><span class="nv">c</span><span class="si">}</span><span class="s2">,0x</span><span class="si">${</span><span class="nv">c</span><span class="si">}</span><span class="s2">00,0x</span><span class="si">${</span><span class="nv">c</span><span class="si">}</span><span class="s2">00000000,0x</span><span class="si">${</span><span class="nv">c</span><span class="si">}</span><span class="s2">0000000000&quot;</span>
+
+srun<span class="w"> </span>--cpu-bind<span class="o">=</span>mask_cpu:<span class="nv">$MYMASKS</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-B<span class="w"> </span>/var/spool/slurmd<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-B<span class="w"> </span>/opt/cray<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-B<span class="w"> </span>/usr/lib64/libcxi.so.1<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-B<span class="w"> </span>/usr/lib64/libjansson.so.4<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-B<span class="w"> </span><span class="nv">$PWD</span>:/workdir<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$CONTAINER</span><span class="w"> </span>/workdir/run-pytorch.sh
+</code></pre></div>
+<p>The important parts here are:</p>
+<ul>
+<li>
+<p>We start PyTorch via <code>srun</code> and this is recommended. The <code>torchrun</code> command has to be used with care
+    as not all its start mechanisms are compatible with LUMI.</p>
+</li>
+<li>
+<p>We also use a 
+    particular CPU mapping so that each rank can use the corresponding GPU number (which is taken care of in the 
+    <code>run-pytorch.sh</code> script). 
+    We use the
+    <a href="http://localhost:8000/LUMI-BE-training-materials/intro-evolving/08-Binding/#linear-assignment-of-gcd-then-match-the-cores">"Linear assignment of GCD, then match the cores" strategy</a>.</p>
+</li>
+<li>
+<p>Note the bindings. In this case we do not even bind the full <code>/project</code>, <code>/scratch</code> and <code>/flash</code> subdirectories,
+    but simply make the current subdirectory that we are using outside the container available as <code>/workdir</code> in 
+    the container. This also implies that any non-relative symbolic link or any relative symbolic link that takes
+    you out of the current directory and its subdirectories, will not work, which is awkward as you may want
+    several libraries to run from to have simultaneous jobs, but, e.g., don't want to copy your dataset to
+    each of those directories.</p>
+</li>
+</ul>
+<h2 id="example-distributed-learning-with-the-easybuild-generated-module">Example: Distributed learning with the EasyBuild-generated module<a class="headerlink" href="#example-distributed-learning-with-the-easybuild-generated-module" title="Permanent link">&para;</a></h2>
+<p><strong>To really run this example, some additional program files and data files are needed that
+are not explained in this text. You can find more information on the 
+<a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/PyTorch">PyTorch page in the LUMI Software Library</a>.</strong></p>
+<figure style="border: 1px solid #000">
+<p><img alt="Example: Distributed learning with PyTorch, using an EasyBuild-generated module" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/RunningAIExampleEasyBuild.png" /></p>
+</figure>
+<p>It turns out that the first two above scripts in the example above, are fairly generic.
+Therefore the module provides a slight variant of the second script, now called <code>conda-python-distributed</code>,
+that at the end calls python, passing it all arguments it got and hence can be used to start other Python code also.
+It is in <code>$CONTAINERROOT/runscripts</code> or in the container as <code>/runscripts</code>.</p>
+<p>As the module also takes care of bindings, the job script is simplified to</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash -e</span>
+<span class="c1">#SBATCH --nodes=4</span>
+<span class="c1">#SBATCH --gpus-per-node=8</span>
+<span class="c1">#SBATCH --tasks-per-node=8</span>
+<span class="c1">#SBATCH --output=&quot;output_%x_%j.txt&quot;</span>
+<span class="c1">#SBATCH --partition=standard-g</span>
+<span class="c1">#SBATCH --mem=480G</span>
+<span class="c1">#SBATCH --time=00:10:00</span>
+<span class="c1">#SBATCH --account=project_&lt;your_project_id&gt;</span>
+
+module<span class="w"> </span>load<span class="w"> </span>LUMI<span class="w">  </span><span class="c1"># Which version doesn&#39;t matter, it is only to get the container.</span>
+module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.6.0-rocm-6.2.4-python-3.12-singularity-20250404
+
+<span class="nv">c</span><span class="o">=</span>fe
+<span class="nv">MYMASKS</span><span class="o">=</span><span class="s2">&quot;0x</span><span class="si">${</span><span class="nv">c</span><span class="si">}</span><span class="s2">000000000000,0x</span><span class="si">${</span><span class="nv">c</span><span class="si">}</span><span class="s2">00000000000000,0x</span><span class="si">${</span><span class="nv">c</span><span class="si">}</span><span class="s2">0000,0x</span><span class="si">${</span><span class="nv">c</span><span class="si">}</span><span class="s2">000000,0x</span><span class="si">${</span><span class="nv">c</span><span class="si">}</span><span class="s2">,0x</span><span class="si">${</span><span class="nv">c</span><span class="si">}</span><span class="s2">00,0x</span><span class="si">${</span><span class="nv">c</span><span class="si">}</span><span class="s2">00000000,0x</span><span class="si">${</span><span class="nv">c</span><span class="si">}</span><span class="s2">0000000000&quot;</span>
+
+<span class="nb">cd</span><span class="w"> </span>mnist
+srun<span class="w"> </span>--cpu-bind<span class="o">=</span>mask_cpu:<span class="nv">$MYMASKS</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="nv">$SIFPYTORCH</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>conda-python-distributed<span class="w"> </span>-u<span class="w"> </span>mnist_DDP.py<span class="w"> </span>--gpu<span class="w"> </span>--modelpath<span class="w"> </span>model
+</code></pre></div>
+<p>So basically you only need to take care of the proper CPU bindings where we again use the
+<a href="http://localhost:8000/LUMI-BE-training-materials/intro-evolving/08-Binding/#linear-assignment-of-gcd-then-match-the-cores">"Linear assignment of GCD, then match the cores" strategy</a>.</p>
+<h2 id="extending-the-containers">Extending the containers<a class="headerlink" href="#extending-the-containers" title="Permanent link">&para;</a></h2>
+<p>We can never provide all software that is needed for every user in our containers. 
+But there are several mechanisms that can be used to
+extend the containers that we provide:</p>
+<h3 id="extending-the-container-with-cotainr">Extending the container with <code>cotainr</code><a class="headerlink" href="#extending-the-container-with-cotainr" title="Permanent link">&para;</a></h3>
+<p><strong>The example in this section is outdated.</strong></p>
+<figure style="border: 1px solid #000">
+<p><img alt="Extending containers with cotainr" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ExtendingCotainr.png" /></p>
+</figure>
+<p>The LUMI Software Library offers some <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/r/rocm/">container images for ROCm&trade;</a>.
+Though these images can be used simply to experiment with different versions of ROCm, an important use of those images is as base images
+for the <a href="https://docs.lumi-supercomputer.eu/software/containers/singularity/#building-containers-using-the-cotainr-tool">cotainr tool</a>
+that supports Conda to install software in the container.</p>
+<p>Some care is needed though when you want to build your own AI containers. You need to ensure that binaries for AMD GPUs are used,
+as by default you may get served NVIDIA-only binaries. MPI can also be a problem, as the base image does not yet provide,
+e.g., a properly configures <code>mpi4py</code> (which would likely be installed in a way that conflicts with <code>cotainr</code>).</p>
+<p>The container images that we provide can be found in the following directories on LUMI:</p>
+<ul>
+<li>
+<p><code>/appl/local/containers/sif-images</code>: Symbolic link to the latest version of the container for each ROCm version provided. 
+    Those links can change without notice!</p>
+</li>
+<li>
+<p><code>/appl/local/containers/tested-containers</code>: Tested containers provided as a Singularity .sif file and a docker-generated tarball. 
+    Containers in this directory are removed quickly when a new version becomes available.</p>
+</li>
+<li>
+<p><code>/appl/local/containers/easybuild-sif-images</code> : Singularity .sif images used with the EasyConfigs that we provide. 
+    They tend to be available for a longer time than in the other two subdirectories.</p>
+</li>
+</ul>
+<p>First you need to create a yaml file to tell Conda which is called by <code>cotainr</code> which packages need to be installed.
+This is also discussed in 
+<a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/r/rocm/#using-the-images-as-base-image-for-cotainr">"Using the images as base image for cotainr" section of the LUMI Software Library rocm page</a>.</p>
+<p>For example, to create a PyTorch installation for ROCm 6.0.3, one can first create the 
+YAML file <code>py312_rocm603_pytorch.yml</code> with content</p>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">py312_rocm603_pytorch.yml</span>
+<span class="nt">channels</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">conda-forge</span>
+<span class="nt">dependencies</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">filelock=3.15.4</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fsspec=2024.9.0</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jinja2=3.1.4</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">markupsafe=2.1.5</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mpmath=1.3.0</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">networkx=3.3</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">numpy=2.1.1</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pillow=10.4.0</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip=24.0</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python=3.12.3</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sympy=1.13.2</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">typing-extensions=4.12.2</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pip</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--extra-index-url https://download.pytorch.org/whl/rocm6.0/</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pytorch-triton-rocm==3.0.0</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">torch==2.4.1+rocm6.0</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">torchaudio==2.4.1+rocm6.0</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">torchvision==0.19.1+rocm6.0</span>
+</code></pre></div>
+<p>Next we need to run <code>cotainr</code> with the right base image to generate the container:</p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>LUMI/25.03<span class="w"> </span>cotainr
+cotainr<span class="w"> </span>build<span class="w"> </span>my-new-image.sif<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--base-image<span class="o">=</span>/appl/local/containers/sif-images/lumi-rocm-rocm-6.0.3.sif<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--conda-env<span class="o">=</span>py312_rocm603_pytorch.yml
+</code></pre></div>
+<p>or, as for the current version of <code>cotainr</code> in <code>LUMI/24.03</code> this image is actually the base image for the <code>lumi-g</code> preset:</p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>LUMI/25.03<span class="w"> </span>cotainr
+cotainr<span class="w"> </span>build<span class="w"> </span>my-new-image.sif<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--system<span class="o">=</span>lumi-g<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--conda-env<span class="o">=</span>py312_rocm603_pytorch.yml
+</code></pre></div>
+<p>The <code>cotainr</code> command takes three arguments in this example:</p>
+<ul>
+<li>
+<p><code>my-new-image.sif</code> is the name of the container image that it will generate.</p>
+</li>
+<li>
+<p><code>--base-image=/appl/local/containers/sif-images/lumi-rocm-rocm-6.0.3.sif</code> points to the base image that we will use,
+    in this case the latest version of the ROCm 6.0.3 container provided on LUMI.</p>
+<p>This version was chosen for this case as ROCm 6.0.3 version corresponding to the driver
+on LUMI at the time of writing (early February 2025), but with that driver we could also have
+chosen PyTorch versions that require ROCm 6.1 or 6.2.</p>
+</li>
+<li>
+<p><code>--conda-env=py312_rocm603_pytorch.yml</code>: The YAML file with the environment definition.</p>
+</li>
+</ul>
+<p>The result is a container for which you will still need to provide the proper bindings to some libraries on the system (to interface
+properly with Slurm and so that RCCL with the OFI plugin can work) and to your spaces in the file system that you want to use. Use, e.g., <code>singularity-AI-bindings</code> which should work for many cases.
+Or you can adapt an EasyBuild-generated module for the ROCm container that you used to use your container instead (which will require
+the EasyBuild <code>eb</code> command flag <code>--sourcepath</code> to specify where it can find the container that you generated, and you cannot delete
+it from the installation afterwards). </p>
+<p><strong>Note that <code>cotainr</code> can build upon the ROCm&trade; containers that are provided on LUMI, but not
+upon containers that already contain a Conda installation. It cannot extend an existing Conda
+installation in a container.</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Course lecture on <code>cotainr</code></p>
+<p>The <a href="https://lumi-supercomputer.github.io/AI-latest">"Moving your AI training jobs to LUMI" course</a>
+has a session <a href="https://lumi-supercomputer.github.io/LUMI-training-materials/ai-20251008/extra_06_BuildingContainers/">"Building containers from Conda/pip environments"</a>
+(link to the materials of the course in October 2025) with examples and exercises for this approach.</p>
+</div>
+<h3 id="extending-the-container-with-the-singularity-unprivileged-proot-build">Extending the container with the singularity unprivileged <code>proot</code> build<a class="headerlink" href="#extending-the-container-with-the-singularity-unprivileged-proot-build" title="Permanent link">&para;</a></h3>
+<figure style="border: 1px solid #000">
+<p><img alt="Extending containers with the singularity unprivileged proot build process" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ExtendingSingularityBuild.png" /></p>
+</figure>
+<p>Singularity specialists can also build upon an existing container using <code>singularity build</code>. 
+The options for build processes are limited though because we have no support for user namespaces or the fakeroot feature.
+The <a href="https://docs.sylabs.io/guides/3.11/user-guide/build_a_container.html#unprivilged-proot-builds">"Unprivileged <code>proot</code> builds" feature from recent SingularityCE versions</a>
+is supported though.</p>
+<p>To use this feature, you first need to write a singularity-compatible container definition file, e.g.,</p>
+<div class="highlight"><pre><span></span><code>Bootstrap: localimage
+
+From: /appl/local/containers/easybuild-sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1-dockerhash-0d479e852886.sif
+
+%post
+
+zypper -n install -y Mesa libglvnd libgthread-2_0-0 hostname
+</code></pre></div>
+<p>which is a definition file that will use the SUSE <code>zypper</code> software installation tool to add a number of packages
+to one of the LUMI PyTorch containers to provide support for software OpenGL rendering (the CDNA GPUs do not support
+OpenGL acceleration) and the <code>hostname</code> command.</p>
+<p>To use the <code>singularity build</code> command, we first need to make the <code>proot</code> command available. This is currently
+not installed in the LUMI system image, but is provided by the <code>systools/24.03</code> and later modules that can be
+found in the corresponding LUMI stack and in the CrayEnv environment or by the <code>PRoot</code> module in all
+LUMI stacks and the CrayEnv stack.</p>
+<p>To update the container, run:</p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>LUMI/25.03<span class="w"> </span>PRoot
+singularity<span class="w"> </span>build<span class="w"> </span>my-new-container.sif<span class="w"> </span>my-container-definition.def
+</code></pre></div>
+<p>Note that the <code>singularity build</code> command takes two options: 
+The first one is the name of the new container image that it
+generates and the second one is the container definition file.</p>
+<p>When starting from a base image installed with one of our EasyBuild recipes, it is possible to overwrite the image
+file and in fact, the module that was generated with EasyBuild might just work...</p>
+<h3 id="extending-the-container-through-a-python-virtual-environment">Extending the container through a Python virtual environment<a class="headerlink" href="#extending-the-container-through-a-python-virtual-environment" title="Permanent link">&para;</a></h3>
+<figure style="border: 1px solid #000">
+<p><img alt="Extending the containers through a Python virtual environment - slide 1" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ExtendingPVenv_1.png" /></p>
+</figure>
+<p>Some newer containers installed with EasyBuild already include a pre-initialised virtual environment 
+(created with <code>venv</code>). The location in the filesystem of that virtual environment is:</p>
+<ul>
+<li>
+<p><code>/user-software/venv/MyVEnv</code> in the container, where <code>MyVEnv</code> is actually different in different containers.
+    We used the same name as for the Conda environment.</p>
+</li>
+<li>
+<p><code>$CONTAINERROOT/user-software/venv/MyVEnv</code> outside the container (unless that directory structure is replaced
+    with the <code>$CONTAINERROOT/user-software.squashfs</code> file).</p>
+</li>
+</ul>
+<p>That directory structure was chosen to (a) make it possible to install a second virtual environment in <code>/user-software/venv</code> while 
+(b) also leaving space to install software by hand in <code>/user-software</code> and hence create a <code>bin</code> and <code>lib</code> subdirectory in those
+(though they currently are not automatically added to the search paths for executables and shared libraries in the container).</p>
+<p>The whole process is very simple with those containers that already have a pre-initialised virtual environment as 
+the module already initialises several environment variables in the container that have the combined effect of
+activating both the Conda installation and then on top of it, the default Python virtual environment.</p>
+<p>Outside the container, we need to load the container module, and then we can easily go into the container using the <code>SIF</code>
+environment variable to point to its name:</p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>LUMI
+module<span class="w"> </span>load<span class="w"> </span>PyTorch/2.7.1-rocm-6.2.4-python-3.12-singularity-20250827
+singularity<span class="w"> </span>shell<span class="w"> </span><span class="nv">$SIF</span>
+</code></pre></div>
+<p>and in the container, at the <code>Singularity&gt;</code> prompt, we can use <code>pip install</code> without extra options, e.g.,</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>pytorch-lightning
+</code></pre></div>
+<figure style="border: 1px solid #000">
+<p><img alt="Extending the containers through a Python virtual environment - slide 2" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ExtendingPVenv_2.png" /></p>
+</figure>
+<p>As already discussed before in this session of the tutorial, such a Python virtual environment has the potential
+to create a lot of small files in the Lustre <code>$CONTAINERROOT/user-software</code> subdirectory, which can wipe out
+all benefits we got from using a container for the Python installation. But our modules with virtual environment
+support offer a solution for this also: the <code>make-squashfs</code> command (which should be run outside the container)
+will convert the <code>user-software</code> subdirectory in <code>$CONTAINERROOT</code> into the SquashFS file <code>user-software.squashfs</code>
+which, after reloading the module, will be used to provide the <code>/user-software</code> subdirectory in the container.
+The downside is that now <code>/user-software</code> is read-only as it comes from the SquashFS file. To install further
+packages, you'd have to remove the <code>user-software.squashfs</code> file again and reload the container module.</p>
+<p>Currently the <code>make-squashfs</code> file will not remove the <code>$CONTAINERROOT/user-software</code> subdirectory, but once
+you have verified that the SquashFS file is OK and useable in the container, you can safely delete it yourself.
+We also provide the <code>unmake-squashfs</code> script to re-generate the <code>$CONTAINERROOT/user-software</code> subdirectory
+(though attributes such as file time, etc., will not be the same as before).</p>
+<p>It is of course possible to use this technique with all Python containers, but you may have to do a lot
+more steps by hand, such as adding the binding for a directory for the virtual environment, creating and
+activating the environment, and replacing the directory with a SquashFS file to improve file system
+performance.</p>
+<!--
+  Copyright (c) 2016-2025 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Render date of last update -->
+
+
+<!-- Render date of creation -->
+
+
+<!-- ---------------------------------------------------------------------- -->
+
+<!-- Render authors -->
+
+
+<!-- ---------------------------------------------------------------------- -->
+
+<!-- Render committers from GitHub -->
+
+
+<!-- Render committers from GitLab -->
+
+
+<!-- Render committers -->
+
+
+<!-- ---------------------------------------------------------------------- -->
+
+<!-- Determine date of last update -->
+
+  
+    
+  
+
+  <!-- Determine date of creation -->
+  
+
+
+<!-- Source file information -->
+
+  <aside class="md-source-file">
+
+    <!-- Date of last update -->
+    <!-- 
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 17, 2026 10:29:51 UTC">March 17, 2026</span>
+  </span>
+
+     -->
+
+    <!-- Date of creation -->
+    
+
+    <!-- Authors (git-authors plugin) -->
+    
+
+    <!-- Authors (git-committers plugin) -->
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="md-footer">
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+          <img alt="Creative Commons License" 
+              style="border-width:0" 
+              src="https://i.creativecommons.org/l/by/4.0/80x15.png"
+          />
+        </a>
+        This work is licensed under a&nbsp;
+        <a rel="license" 
+          href="http://creativecommons.org/licenses/by/4.0/"
+        >
+          Creative Commons Attribution 4.0 International License
+        </a>
+      </div>      
+      
+<div class="md-social">
+  
+</div>
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "navigation.indexes", "header.autohide", "toc.follow", "content.code.annotate", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
