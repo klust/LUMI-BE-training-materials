@@ -14,6 +14,13 @@ available or because there are simply too many dependencies.
 -   [Notes](11-Containers.md)
 
 
+### Additional materials: Former AI containers
+
+-   [Slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-12-FormerAIContainers.pdf)
+-   [Notes](12-FormerAIContainers.md)
+
+
+
 ## Similar presentations
 
 -   ["Containers on LUMI-C and LUMI-G" talk in the 2-day LUST introductory training in Amsterdam, May 2024](https://lumi-supercomputer.github.io/LUMI-training-materials/2day-20240502/extra_09_Containers/)

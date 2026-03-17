@@ -107,6 +107,7 @@ You will only need an very minimum of CPU and GPU billing units for this.
 | [LUMI-O object storage](M10-ObjectStorage.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-10-ObjectStorage.pdf) | [notes](10-ObjectStorage.md) | [exercises](E10-ObjectStorage.md) |
 | **Theme: Containers on LUMI** @span |  |  |  |
 | [Containers on LUMI](M11-Containers.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-11-Containers.pdf) | [notes](11-Containers.md) | / |
+| [Former AI containers](M11-Containers.md) | [slides](https://465000095.lumidata.eu/training-materials-web/intro-evolving/files/LUMI-BE-Intro-evolving-12-FormerAIContainers.pdf) | [notes](12-FormerAIContainers.md) | / |
 | Container demo 1 | / | [notes and video](Demo1.md) | / |
 | Container demo 2 | / | [notes and video](Demo2.md) | / |
 | **Appendices** @span |  |  |  |
