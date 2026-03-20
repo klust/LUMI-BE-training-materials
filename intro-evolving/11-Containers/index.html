@@ -1218,6 +1218,78 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Extending containers with the unprivileged PRoot build process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-a-python-package-in-the-laif-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: A python package in the LAIF container
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-install-an-ubuntu-application-in-the-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Install an Ubuntu application in the container
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bonus-example-bindings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bonus example: Bindings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bonus-example-support-for-slurm-commands-in-ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bonus example: Support for Slurm commands in Ubuntu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bonus-package-ffmpeg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bonus package: FFmpeg
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relevant-documentation-for-this-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relevant documentation for this section:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -1711,6 +1783,78 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Extending containers with the unprivileged PRoot build process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-a-python-package-in-the-laif-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: A python package in the LAIF container
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-install-an-ubuntu-application-in-the-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Install an Ubuntu application in the container
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bonus-example-bindings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bonus example: Bindings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bonus-example-support-for-slurm-commands-in-ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bonus example: Support for Slurm commands in Ubuntu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bonus-package-ffmpeg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bonus package: FFmpeg
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relevant-documentation-for-this-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relevant documentation for this section:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -1746,7 +1890,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 19, 2026 16:55:17 UTC">March 19, 2026</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 20, 2026 17:11:28 UTC">March 20, 2026</span></p>
 <h1 id="containers-on-lumi-c-and-lumi-g">Containers on LUMI-C and LUMI-G<a class="headerlink" href="#containers-on-lumi-c-and-lumi-g" title="Permanent link">&para;</a></h1>
 <h2 id="what-are-we-talking-about-in-this-chapter">What are we talking about in this chapter?<a class="headerlink" href="#what-are-we-talking-about-in-this-chapter" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -1851,7 +1995,8 @@ expects, may also cause crashes.</p>
 <figure style="border: 1px solid #000">
 <p><img alt="But what can they then do on LUMI?" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersCanDoOnLUMI.png" /></p>
 </figure>
-<p>Containers are in the first place a <strong>software management instrument</strong>.</p>
+<p>Containers are in the first place a <strong>software management instrument</strong> to create a contained software 
+installation: Files not spread over the system, better control of dependencies, and more:</p>
 <ul>
 <li>
 <p>A very important reason to use containers on LUMI is <strong>reducing the pressure on the file system</strong> by software
@@ -2617,7 +2762,415 @@ only a part of that file.</p>
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import mace; print( mace.__version__ )&#39;</span>
 </code></pre></div>
 <h3 id="extending-containers-with-the-unprivileged-proot-build-process">Extending containers with the unprivileged PRoot build process<a class="headerlink" href="#extending-containers-with-the-unprivileged-proot-build-process" title="Permanent link">&para;</a></h3>
-<p>Materials under development.</p>
+<figure style="border: 1px solid #000">
+<p><img alt="Extending containers with the unprivileged PRoot build process" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRoot.png" /></p>
+</figure>
+<p>A second way to extend containers is with the so-called
+<a href="https://docs.sylabs.io/guides/4.1/user-guide/build_a_container.html#unprivilged-proot-builds">unprivileged PRoot build</a>.
+This is a solution with no equivalent in AppTainer that fully focusses on strategies using user namespaces
+and is also the reason why do not offer AppTainer on LUMI. With AppTainer, users would have to build on 
+other hardware not offered by LUMI, e.g., their own Linux workstation or some cloud infrastructure.</p>
+<p>The unprivileged PRoot builds do come with some restrictions compared to other build processes supported by
+SingularityCE. These are clearly mentioned in <a href="https://docs.sylabs.io/guides/4.1/user-guide/build_a_container.html#unprivilged-proot-builds">the manual</a>. E.g., the <code>%pre</code> section in the container definition file is not supported
+and some bootstrapping processes are also unsupported. But it is perfectly possible to build a new container
+based on an existing container that already has some base OS tools in it, or even other software. Hence
+this is a suitable strategy to extend the containers that LUST offers with a 
+<a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/c/ccpe/">pre-installed version of the HPE Cray Programming Environment</a>, 
+or <a href="https://docs.lumi-supercomputer.eu/laif/software/ai-environment/">the containers offered by the LUMI AI Factory</a>.
+The former are a good starting base if you want to install more traditional HPC software that needs to
+interface with, e.g., Python, or uses libraries that are hard to install from sources and where you simply
+want to download pre-compiled binaries for those libraries. The latter are a good choice if you don't want
+to deal with the complexity of installing AI software yourself, but want to extend those installations with
+additional packages or even external tools for, e.g., video processing (like FFmpeg).</p>
+<p>Note that the CPE containers are based on OpenSUSE as the base OS, as the HPE Cray Programming Environment
+is currently only available for some SUSE and some Red Hat versions, as that is what HPE uses on its supercomputers.
+The LUMI AI Factory containers on the other hand are based on LTS releases of Ubuntu which offers a very rich
+ecosystem of other packages, but is not compatible with the HPE Cray PE.</p>
+<p>Despite some restrictions of unprivileged PRoot builds, many things are still possible:</p>
+<ul>
+<li>
+<p>You can build from an existing container on the filesystem or from <a href="https://hub.docker.com/">Docker Hub</a>, 
+    even though not all SingularityCE bootstrap options work.</p>
+</li>
+<li>
+<p>You can copy files and directories from the host so that we don’t need to bind them.</p>
+</li>
+<li>
+<p>You can set environment variables that will be set whenever the container is initialised.</p>
+</li>
+<li>
+<p>You can install additional OS packages, compile software, install additional Python packages, …</p>
+</li>
+<li>
+<p>You can also define a <code>runscript</code> (the script that defines what <code>singularity run</code> will do).</p>
+</li>
+</ul>
+<p>The container build is steered by a definition file. That file consists of a header and multiple 
+optional sections. A non-exhaustive list is:</p>
+<ul>
+<li>
+<p>The top part is called the header.
+    the source for the container is specified. 
+    This can be an existing container already available as a SIF file on the LUMI filesystem,
+    but it is also possible to, e.g., pull a container from <a href="https://hub.docker.com/">Docker Hub</a>
+    and start from there. E.g., to start from the Ubuntu 24.04 container on docker, you'd use</p>
+<div class="highlight"><pre><span></span><code>Bootstrap: docker
+From: ubuntu:24.04
+</code></pre></div>
+<p>and to start from a file available on a LUMI filesystem, you'd use</p>
+<div class="highlight"><pre><span></span><code>Bootstrap: localimage
+From: &lt;PATH_TO_AND_NAME_FROM_THE_SIF_FILE&gt;
+</code></pre></div>
+</li>
+<li>
+<p>The <code>%files</code> section can be used to copy files and directories from LUMI to the container.
+    Copying files during a build process can be a good replacement for bind mounting those
+    files into the container, but you need to take two things into account:</p>
+<ul>
+<li>
+<p>After an update of the LUMI, the versions that you copied into the container may no
+    longer work properly. E.g., some libraries supporting a kernel extension may be for a
+    very specific version of that kernel extension only, or if you'd copy Slurm binaries,
+    they may wreak havoc when used with a different version of Slurm on LUMI.</p>
+</li>
+<li>
+<p>You have to take software licenses into account. E.g., you cannot copy files from the
+    HPE Cray PE and then take the container to a different supercomputer that does not have
+    a license for that programming environment. This is also why we have built a small script
+    into the CPE containers that we offer that will print a warning if it detects that it is
+    not running on LUMI (and that warning has consequences for how to build on top of that
+    container, as it requires access to the Slurm configuration).</p>
+</li>
+</ul>
+</li>
+<li>
+<p>The <code>%environment</code> section can be used to set environment variables when a container is
+    initialised. </p>
+<p>For the advanced user: Those lines find their way into a script in the container
+that is in <code>/singularity.d/env</code>. The scripts in that directory are executed in "alphabetical"
+order but not in a full bash shell, and it is possible to inject other scripts also via
+the <code>%files</code> or <code>%post</code> sections.</p>
+</li>
+<li>
+<p>The <code>%post</code> section is the section where you can put all commands that should be executed
+    to install additional software in the container. </p>
+<p>These commands run in a clean environment, so you cannot see environment variables from
+the host. The container initialisation scripts are executed though, and any bind mount
+specified in the <code>singularity build</code> command will also be there. And this is where a problem
+can occur: Bind mounts work differently during the build process. You can only bind mount a file
+if that file is already present in the container (but of course you will then see the bind mounted
+version in <code>%post</code>), and a directory can only be bind mounted if there is already a file or
+directory at that place with the name of the directory that you want to bind mount. Most containers
+will not provide these mount points already, but there are two workarounds:</p>
+<ul>
+<li>
+<p>You can perform a build process in two stages. In the first stage, you make no bind mounts but
+    use the <code>%post</code> section to create empty files and/or directories where needed.</p>
+</li>
+<li>
+<p>Create an empty file (and/or empty directory) outside the container and use the <code>%files</code> section
+    to copy those to where they are needed for the bindings.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>The <code>%runscript</code> section defines the runscript that will be used by the container. It is written to
+    <code>/.singularity.d/runscript</code> in the container.</p>
+</li>
+</ul>
+<p>There are many more sections, but a discussion of all those sections is beyond the scope of this
+introductory course. We refer the reader to the 
+<a href="https://docs.sylabs.io/guides/4.1/user-guide/definition_files.html">"The Definition File" page in the SingularityCE 4.1 manual</a></p>
+<p>Let us illustrate how container builds work with some examples though.</p>
+<h4 id="example-1-a-python-package-in-the-laif-container">Example 1: A python package in the LAIF container<a class="headerlink" href="#example-1-a-python-package-in-the-laif-container" title="Permanent link">&para;</a></h4>
+<figure style="border: 1px solid #000">
+<p><img alt="Example 1: Python package mace-torch (1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootDemo1_1.png" /></p>
+</figure>
+<p>We've seen how we can install additional Python packages in a virtual environment. This was a relatively
+quick process and certainly a good way to test package combinations. But with the LUMI AI Factory containers,
+it is also possible to install additional packages directly in the container. This process is slower, but 
+you don't need to bind mount an additional SquashFS file anymore.</p>
+<p>Let's go back to the <code>mace-torch</code> example used with virtual environments an install that package in 
+the virtual environment from the AI container. As the environment variable 
+<code>NCCL_SOCKET_IFNAME</code> always needs to be set on LUMI and has only one possible value,
+<code>hsn0,hsn1,hsn2,hsn3</code> or in short <code>hsn</code>, we will set that environment variable in
+the container instead so that we don't need to specify it anymore elsewhere.
+We'll also demonstrate how a definition file can be parameterised:</p>
+<div class="highlight"><pre><span></span><code>Bootstrap: localimage
+From: {{ sif }}
+
+%environment
+    export NCCL_SOCKET_IFNAME=&#39;hsn0,hsn1,hsn2,hsn3&#39;
+
+%post
+    pip install mace-torch
+</code></pre></div>
+<p>Store this script in <code>mace.def</code>.</p>
+<p>There are three interesting elements in this example:</p>
+<ul>
+<li>
+<p>In the header, we define that the container will be build from an image already on LUMI,
+    and we use the template <code>{{ sif }}</code> as the name of the container from which we will start
+    the build. As such, we can postpone the specification of the start container to the 
+    call of <code>singularity build</code> and use the same definition file for several versions of the
+    LAIF container that we will use.</p>
+</li>
+<li>
+<p>In the <code>%environment</code> section we set the <code>NCCL_SOCKET_IFNAME</code> environment variable.
+    This piece of code will be copied into a script that is executed at container startup.</p>
+</li>
+<li>
+<p>In the <code>%post</code> section, we simply execute the <code>pip install</code> command to install the 
+    <code>mace-torch</code> package in the virtual environment (which for this container is in <code>/opt/venv</code>).</p>
+<p>The <a href="https://docs.lumi-supercomputer.eu/laif/software/ai-environment/#build-new-containers-based-on-the-images">LUMI AI Factory documentation</a>
+will tell you to first activate the virtual environment, but that is not really needed.
+The <code>%post</code> step runs in the environment that the container would run in (except that no
+environment variables from the system are available) so the activation is already done during
+the initialisation.</p>
+</li>
+</ul>
+<figure style="border: 1px solid #000">
+<p><img alt="Example 1: Python package mace-torch (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootDemo1_2.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="Example 1: Python package mace-torch (3)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootDemo1_3.png" /></p>
+</figure>
+<figure style="border: 1px solid #000">
+<p><img alt="Example 1: Python package mace-torch (4)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootDemo1_4.png" /></p>
+</figure>
+<p>Building a container using this script can then be done as follows.</p>
+<p>To make life easy, we again use the <code>SIF</code> environment variable to point to the container we want to extend:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SIF</span><span class="o">=</span><span class="s1">&#39;/appl/local/laifs/containers/lumi-multitorch-u24r64f21m43t29-20260225_144743/lumi-multitorch-full-u24r64f21m43t29-20260225_144743.sif&#39;</span>
+</code></pre></div>
+<p>Next, we must make sure that the bindings module is not loaded. As discussed before, in order to use bindings
+during the build step, mount points have to be present in the container and they are not. So just to be sure:</p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>unload<span class="w"> </span>lumi-aif-singularity-bindings
+</code></pre></div>
+<p>One module we do need though is the <code>PRoot</code> module. To load this module, execute</p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>LUMI<span class="w"> </span>PRoot
+</code></pre></div>
+<p>or </p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>CrayEnv<span class="w"> </span>PRoot
+</code></pre></div>
+<p>We are now ready to build our new container. Let's call it
+<code>lumi-multitorch-mace-u24r64f21m43t29-20260423.sif</code> to follow the naming convention
+of the containers from which we start, but of course, you can chose a much simpler name.</p>
+<p>To build the container, we issue the command (split across multiple lines in bash style to
+make reading easier):</p>
+<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>build<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--build-arg<span class="w"> </span><span class="nv">sif</span><span class="o">=</span><span class="nv">$SIF</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>lumi-multitorch-mace-u24r64f21m43t29-20260423.sif<span class="w"> </span>mace.def
+</code></pre></div>
+<p>In the second line of this command, we set the value of the template <code>{{ sif }}</code> to whatever is
+in the environment variable <code>SIF</code>. The third line and final two arguments of <code>singularity build</code>
+are the name for the new container and the definition file that should be used.</p>
+<p>If you have failed to unload the bindings module, you would now get an error message similar to:</p>
+<div class="highlight"><pre><span></span><code>FATAL:   container creation failed: mount /var/spool/slurmd-&gt;/var/spool/slurmd error: while mounting /var/spool/slurmd: destination /var/spool/slurmd doesn&#39;t exist in container
+</code></pre></div>
+<p>It is also rather likely that you will run out-of-memory on the login nodes so we will
+build on a compute node instead. Even though this is GPU software, it is not necessary to
+use a GPU node, so for the demo we use the <code>standard</code> partition.
+(Or you can set the environment variable <code>SINGULARITY_TMPDIR</code> to point to a location
+with more space than <code>/tmp</code>, but that would then be on Lustre which would come
+with serious performance consequences.)</p>
+<div class="highlight"><pre><span></span><code>srun<span class="w"> </span>-pstandard<span class="w"> </span>-N1<span class="w"> </span>-t2:00:00<span class="w"> </span>-A<span class="w"> </span>project_465000095<span class="w"> </span>--pty<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>singularity<span class="w"> </span>build<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--build-arg<span class="w"> </span><span class="nv">sif</span><span class="o">=</span><span class="nv">$SIF</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>lumi-multitorch-mace-u24r64f21m43t29-20260423.sif<span class="w"> </span>mace.def
+</code></pre></div>
+<figure style="border: 1px solid #000">
+<p><img alt="Example 1: Python package mace-torch (5)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootDemo1_5.png" /></p>
+</figure>
+<p>We can now check the contents of the container. For this we don't necessarily need
+the bindings. Enter the container with</p>
+<div class="highlight"><pre><span></span><code>singularity run lumi-multitorch-mace-u24r64f21m43t29-20260423.sif bash -l
+</code></pre></div>
+<p>and check the output of the following commands:</p>
+<div class="highlight"><pre><span></span><code>ls -l /opt/venv/bin/mace_run_train
+ls /opt/venv/lib/python3.12/site-packages/mace*
+python -c &#39;import mace; print(mace.__version__)&#39;
+</code></pre></div>
+<p>to convince yourself that the mace package is installed where we expect it
+(in the <code>/opt/venv</code> virtual environment) and is found by Python.</p>
+<h4 id="example-2-install-an-ubuntu-application-in-the-container">Example 2: Install an Ubuntu application in the container<a class="headerlink" href="#example-2-install-an-ubuntu-application-in-the-container" title="Permanent link">&para;</a></h4>
+<figure style="border: 1px solid #000">
+<p><img alt="Example 2: Install Ubuntu application (1)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootDemo2_1.png" /></p>
+</figure>
+<p>The containers have a rather limited environment and you may want to
+install your favourite tools in the container. In this example, we will
+install a better editor, <code>vim</code>, in the container.</p>
+<p>In this example, we will take the base container from the 
+<a href="https://hub.docker.com/u/lumiaifactory">LUMI AI Factory community on Docker Hub</a>.
+As this is just for demonstration purposes, we will not build on top of the full
+container to save some time, but of course, the full container is also
+on Docker Hub.</p>
+<div class="highlight"><pre><span></span><code>Bootstrap: docker
+From: docker.io/lumiaifactory/lumi-multitorch:mpich-u24r64f21m43t29-20260225_144743
+
+%post
+    apt update
+    apt install -y vim
+</code></pre></div>
+<p>Copy this piece of code to <code>userexts.def</code>.</p>
+<p>In the header, the <code>Bootstrap:</code> line now instructs to use docker as a source and specify the image
+that we will use in the the <code>From:</code> line.</p>
+<p>In the <code>%post</code> section, we run two commands to install packages on Ubuntu. The first one,
+<code>apt update</code>, ensures that the container has an up-to-date list of Ubuntu packages available.
+The <code>apt install -y vim</code> command then installs the package. Note the <code>-y</code> flag. 
+If we would not use this flag, the installation process would get stuck when the <code>apt</code> 
+commands asks if it is OK to install all packages. Note that this command will also automatically
+install all dependencies of the <code>vim</code> package. For containers based on OpenSUSE, you'd have
+to use the <code>zypper</code> command instead which also functions slightly differently.</p>
+<figure style="border: 1px solid #000">
+<p><img alt="Example 2: Install Ubuntu application (2)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootDemo2_2.png" /></p>
+</figure>
+<p>You can install a new container with</p>
+<div class="highlight"><pre><span></span><code>singularity build \
+    lumi-multitorch-user-u24r64f21m43t29-20260423.sif userexts.def
+</code></pre></div>
+<p>Building from an image already on LUMI will be faster though than building from a new
+image fetched from Docker Hub.</p>
+<figure style="border: 1px solid #000">
+<p><img alt="Example 2: Install Ubuntu application (3)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootDemo2_3.png" /></p>
+</figure>
+<p>After the build, try</p>
+<div class="highlight"><pre><span></span><code>singularity run lumi-multitorch-user-u24r64f21m43t29-20260423.sif \
+    bash -c &#39;vim --version&#39;
+</code></pre></div>
+<p>to convince yourself that <code>vim</code> is in the container.</p>
+<p>Though many Ubuntu packages can be installed that way, this does not hold for all packages.
+We've noticed that in particular GUI packages or other packages that have GUI dependencies
+may fail, and this holds for, e.g., <code>ffmpeg</code> and HandBrake, even if you just try to install
+the command line tools with the <code>handbrake-cli</code> package. These packages require libraries that
+in turn need special users or groups to be set up, and if those users or groups are not already
+supported in the <code>/etc/passwd</code> and <code>/etc/group</code> file of LUMI, this becomes very tricky or 
+impossible. If they are in those files, you can try with copying those files into the container
+in the <code>%files</code> section so that they are used during the build. During regular runs of the 
+container, singularity will create special versions that are only available in the container,
+but they do no harm.</p>
+<figure style="border: 1px solid #000">
+<p><img alt="Unprivileged PRoot builds: Bonus examples" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootBonus.png" /></p>
+</figure>
+<h4 id="bonus-example-bindings">Bonus example: Bindings<a class="headerlink" href="#bonus-example-bindings" title="Permanent link">&para;</a></h4>
+<p>Under development.</p>
+<h4 id="bonus-example-support-for-slurm-commands-in-ubuntu">Bonus example: Support for Slurm commands in Ubuntu<a class="headerlink" href="#bonus-example-support-for-slurm-commands-in-ubuntu" title="Permanent link">&para;</a></h4>
+<p>Under development.</p>
+<h4 id="bonus-package-ffmpeg">Bonus package: FFmpeg<a class="headerlink" href="#bonus-package-ffmpeg" title="Permanent link">&para;</a></h4>
+<p>FFmpeg is a very popular tool for video conversion. Unfortunately, it is a very hard
+package to install on LUMI.
+E.g., installing the Ubuntu package does not work. It is a full-featured version that
+requires dependencies that are not compatible with the LUMI environment and in fact even
+installing in the container will fail.
+Our solution for this example is to download a precompiled statically linked version
+that works on most Linux variants. Unfortunately, the site we use here seems to have
+stopped compiling the newest versions.</p>
+<p>We'll downlaod from <a href="https://github.com/BtbN/FFmpeg-Builds">a GitHub site periodically generates builds</a>
+from the <a href="https://github.com/ffmpeg/ffmpeg">FFmpeg master branch</a>.
+The downside is that they don't follow specific FFmpeg versions, but simply build
+whatever is in the main branch of the GitHub repository at that time, so you don't
+know if you have an officially released version or some intermediate one that may be
+less tested.</p>
+<div class="highlight"><pre><span></span><code>Bootstrap: docker
+From: ubuntu:24.04
+
+%post
+    # First we install tools that we will need later on
+    apt update
+    apt install -y wget xz-utils
+
+    # Prepare a work directory to download and uncompress the library
+    mkdir -p /tmp-ffmpeg &amp;&amp; cd /tmp-ffmpeg
+    wget https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz
+    tar -xf ffmpeg-master-latest-linux64-gpl.tar.xz
+
+    ls
+
+    # Copy the relevant binaries to their expected location
+    cp ffmpeg-master-latest-linux64-gpl/bin/* /usr/bin
+
+    mkdir -p /usr/share/man/man1
+    cp ffmpeg-master-latest-linux64-gpl/man/man1/* /usr/share/man/man1
+    mkdir -p /usr/share/man/man3
+    cp ffmpeg-master-latest-linux64-gpl/man/man3/* /usr/share/man/man3
+
+    mkdir -p /usr/share/ffmpeg
+    cp ffmpeg-master-latest-linux64-gpl/presets/* /usr/share/ffmpeg
+
+    # Clean up a bit
+    cd / &amp;&amp; rm -rf /tmp-ffmpeg
+</code></pre></div>
+<p>Save this script as <code>ffmpeg.def</code>.
+In this example, we use a lightweight Ubuntu container from Docker Hub as builds 
+with this container are very quick. However, the same strategy would also work with
+the LUMI AI Factory containers.
+The first two commands install two tools that we need later on: <code>wget</code> to download
+the sources and <code>xz-utils</code> for the command that <code>tar</code> uses to uncompress the sources.
+The two <code>apt</code> commands would not be needed with the LAIF containers as they already
+contain those packages (as they were used to build those containers also).
+Next we create a work directory where we will store and then unpack the download.
+We then copy the executables, manual pages and some presets to the locations that
+are usually used for those files (though more steps are needed in this particular
+base container to be able to use the man pages).
+Finally, we delete the temporary directory with
+the download again.</p>
+<p>Now build the container with</p>
+<div class="highlight"><pre><span></span><code>singularity build ubuntu-ffmpeg.sif ffmpeg.def
+</code></pre></div>
+<p>This build will finish rather quickly and can be done without issues on the login nodes
+of LUMI.</p>
+<p>You can verify the build with</p>
+<div class="highlight"><pre><span></span><code>singularity exec ubuntu-ffmpeg.sif ffmpeg -decoders
+</code></pre></div>
+<p>which executes the command <code>ffmpeg -decoders</code> in the container that we just created.
+Bindings are not essential for this test, but the bindings module from the LAIF would
+work here too to give the container access to all your files.</p>
+<p>Another solution would be to download dev packages for the dependencies for the features 
+of FFmpeg that you really need, ensure there is an appropriate compiler in the container,
+and then compile and install the package by hand. This is cumbersome, but unfortunately
+may be the only option for some packages as prebuild packages are usually built for use
+on workstations with typical features available on a workstation, and not for a
+supercomputer environment.</p>
+<details class="example">
+<summary>Alternative download site with fixed versions...</summary>
+<p>Another popular site is a
+<a href="https://www.johnvansickle.com/ffmpeg/">site from John Van Sickle</a>,
+but it looks like that site is not updated anymore. 
+That version is even fully statically linked and can be installed
+as follows:</p>
+<div class="highlight"><pre><span></span><code>Bootstrap: docker
+From: ubuntu:24.04
+
+%post
+    # First we install tools that we will need later on
+    apt update
+    apt install -y wget xz-utils
+
+    # Prepare a work directory to download and uncompress the library
+    mkdir -p /tmp-ffmpeg &amp;&amp; cd /tmp-ffmpeg
+    wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+    tar -xf ffmpeg-release-amd64-static.tar.xz
+
+    # Copy the relevant binaries to their expected location
+    cp ffmpeg-7.0.2-amd64-static/ffmpeg /usr/bin
+    cp ffmpeg-7.0.2-amd64-static/ffprobe /usr/bin
+
+    # Clean up a bit
+    cd / &amp;&amp; rm -rf /tmp-ffmpeg
+</code></pre></div>
+</details>
+<h4 id="relevant-documentation-for-this-section">Relevant documentation for this section:<a class="headerlink" href="#relevant-documentation-for-this-section" title="Permanent link">&para;</a></h4>
+<ul>
+<li>
+<p><a href="https://docs.sylabs.io/guides/4.1/user-guide/build_a_container.html#unprivilged-proot-builds">"Unprivileged PRoot builds" in the SingularityCE 4.1 manual</a></p>
+</li>
+<li>
+<p><a href="https://docs.sylabs.io/guides/4.1/user-guide/definition_files.html">"The Definition File" in the SingularityCE 4.1 manual</a></p>
+<p>Note that the <code>%setup</code> section cannot be used with the PRoot build process. The manual
+also says at some point that <code>%pre</code> cannot be used, but that simply does not exist in 
+singularity. There are other restrictions also that are clearly mentioned on the
+<a href="https://docs.sylabs.io/guides/4.1/user-guide/build_a_container.html#unprivilged-proot-builds">"Unprivivileged proot builds" section</a>.</p>
+</li>
+</ul>
 <h2 id="conclusion-container-limitations-on-lumi">Conclusion: Container limitations on LUMI<a class="headerlink" href="#conclusion-container-limitations-on-lumi" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Container limitations on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersLimitations.png" /></p>
@@ -2727,7 +3280,7 @@ will not work.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 19, 2026 16:55:17 UTC">March 19, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 20, 2026 17:11:28 UTC">March 20, 2026</span>
   </span>
 
      -->
