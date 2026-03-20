@@ -1890,7 +1890,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 20, 2026 17:11:28 UTC">March 20, 2026</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 20, 2026 18:01:38 UTC">March 20, 2026</span></p>
 <h1 id="containers-on-lumi-c-and-lumi-g">Containers on LUMI-C and LUMI-G<a class="headerlink" href="#containers-on-lumi-c-and-lumi-g" title="Permanent link">&para;</a></h1>
 <h2 id="what-are-we-talking-about-in-this-chapter">What are we talking about in this chapter?<a class="headerlink" href="#what-are-we-talking-about-in-this-chapter" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -3052,7 +3052,127 @@ but they do no harm.</p>
 <p><img alt="Unprivileged PRoot builds: Bonus examples" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootBonus.png" /></p>
 </figure>
 <h4 id="bonus-example-bindings">Bonus example: Bindings<a class="headerlink" href="#bonus-example-bindings" title="Permanent link">&para;</a></h4>
-<p>Under development.</p>
+<p>To illustrate that bindings work differently during the <code>%post</code> phase then when running
+a container, consider the following example based on a very simple Ubuntu container.</p>
+<p>First, we pull the container from docker to create a base singularity image:</p>
+<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>pull<span class="w"> </span>docker://ubuntu:24.04
+</code></pre></div>
+<p>Now load the bindings module from the LUMI AI Factory:</p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>Local-LAIF<span class="w"> </span>lumi-aif-singularity-bindings
+</code></pre></div>
+<p>This module will set <code>SINGULARITY_BIND</code> to tell singularity to bind mount
+<code>/var/spool/slurmd</code> which is a directory that is needed by MPI libraries to
+communicate with Slurm, and a number of directories to provide all Lustre filesystems
+on LUMI. The module is very generic and can be used with other containers also
+if these are the effects that you want.</p>
+<p>Now check the container:</p>
+<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>shell<span class="w"> </span>ubuntu_24.04.sif
+</code></pre></div>
+<p>and check:</p>
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>/scratch
+ls<span class="w"> </span>/pfs/lustref1
+ls<span class="w"> </span>/appl/lumi
+</code></pre></div>
+<p>and notice that all these commands work as expected and show the same output as they
+do outside the container.</p>
+<p>Now consider the near trivial definition file</p>
+<div class="highlight"><pre><span></span><code>Bootstrap: localimage
+From: ubuntu_24.04.sif
+
+%post
+
+    echo &quot;If you see fine /build_results.echo in the container, everything was OK...&quot; &gt;/build_results.echo
+</code></pre></div>
+<p>and store this in the file <code>bindings-fail.def</code>. </p>
+<p>Now try to build with this definition file:</p>
+<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>build<span class="w"> </span>bindings.sif<span class="w"> </span>bindings-fail.def
+</code></pre></div>
+<p>and after printing some lines on the screen, singularity will show an error message:</p>
+<div class="highlight"><pre><span></span><code>FATAL:   container creation failed: mount /var/spool/slurmd-&gt;/var/spool/slurmd error: while mounting /var/spool/slurmd: destination /var/spool/slurmd doesn&#39;t exist in container
+FATAL:   While performing build: while running engine: exit status 255
+</code></pre></div>
+<p>even though we could run the container from which we start the build without issue.</p>
+<p>Now try the following definition file:</p>
+<div class="highlight"><pre><span></span><code>Bootstrap: localimage
+From: ubuntu_24.04.sif
+
+%files
+
+    EMPTY_DIR /var/spool/slurmd
+    EMPTY_DIR /pfs
+    EMPTY_DIR /scratch
+    EMPTY_DIR /projappl
+    EMPTY_DIR /project
+    EMPTY_DIR /flash
+    EMPTY_DIR /appl
+
+%post
+
+    echo &quot;If you see this file, everything was OK...&quot; &gt;/build_results.echo
+</code></pre></div>
+<p>and store this in the file <code>bindings-good.def</code>. In the <code>%files</code> section we copy an empty directory
+from the system that can then serve as a mount point for the directories that we will bind mount
+during <code>%post</code>. So let us first create that empty directory:</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>EMPTY_DIR
+</code></pre></div>
+<p>Now run the build again:</p>
+<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>build<span class="w"> </span>bindings.sif<span class="w"> </span>bindings-good.def
+</code></pre></div>
+<p>and notice that the build works without issues.</p>
+<p>Now if we would bind mount some files instead, the same idea can be used, but then by copying
+empty files: Create an empty file in the directory from which you want to run the build:</p>
+<div class="highlight"><pre><span></span><code>touch<span class="w"> </span>EMPTY_FILE
+</code></pre></div>
+<p>and use lines in <code>%files</code> similar to</p>
+<div class="highlight"><pre><span></span><code>%files
+    EMPTY_FILE /etc/slurm/slurm.conmf
+</code></pre></div>
+<p>Let us check if the container still works as expected:</p>
+<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>shell<span class="w"> </span>bindings.sif
+</code></pre></div>
+<p>and then, e.g.,</p>
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>-l<span class="w"> </span>/pfs
+ls<span class="w"> </span>-l<span class="w"> </span>/appl/lumi
+ls<span class="w"> </span>-l<span class="w"> </span>/var/spool/slurmd
+</code></pre></div>
+<p>and notice that all those commands work and produce the output that you may expect.</p>
+<p>Let us now unload the bindings module</p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>unload<span class="w"> </span>lumi-aif-singularity-bindings
+</code></pre></div>
+<p>and enter the container again:</p>
+<div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>shell<span class="w"> </span>bindings.sif
+</code></pre></div>
+<p>Now try the commands:</p>
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>-l<span class="w"> </span>/
+ls<span class="w"> </span>-l<span class="w"> </span>/var/spool
+</code></pre></div>
+<p>and notice that <code>/var/spool/slurmd</code>, <code>/pfs</code>, <code>/scratch</code>, <code>/projappl</code>, <code>/project</code>, <code>/flash</code> and
+<code>/appl</code> all exist, but most will be owned by root and be unreadable. If you were running the
+container from a subdirectory of one of those, you may be the owner of that directory.</p>
+<p>The other solution of course is to do a two-step build. First build a container
+without using any bindings, and create the bind mounts in the <code>%post</code> step
+(and then you can set permissions to make them world-readable), 
+and then in a second step use the container from the first step as the 
+start container for further builds.</p>
+<details class="note">
+<summary>Special case: Building on top of the ccpe containers</summary>
+<p>Usually you don't need many bind mounts during the build.
+There is one exception though: Our 
+<a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/c/ccpe/">ccpe containers</a>
+with the Cray programming environment want to find the Slurm configuration
+file <code>/etc/slurm/slurm.conf</code> in the container. </p>
+<p>Instead of bind mounting that file, you can just copy the file from LUMI in the container:</p>
+<div class="highlight"><pre><span></span><code>%files
+    /etc/slurm/slurm.conf
+</code></pre></div>
+<p>and then delete it again at the end of the <code>%post</code> section:</p>
+<div class="highlight"><pre><span></span><code>rm -f /etc/slurm/slurm.conf`
+</code></pre></div>
+<p>Please don't leave that file in the container as (a) we want the container to
+produce a warning when run on another system and (b) some sysadmins may be very 
+unhappy if users try to run Slurm commands from that container on another system
+and forget to bind mount the correct Slurm configuration file.</p>
+</details>
 <h4 id="bonus-example-support-for-slurm-commands-in-ubuntu">Bonus example: Support for Slurm commands in Ubuntu<a class="headerlink" href="#bonus-example-support-for-slurm-commands-in-ubuntu" title="Permanent link">&para;</a></h4>
 <p>Under development.</p>
 <h4 id="bonus-package-ffmpeg">Bonus package: FFmpeg<a class="headerlink" href="#bonus-package-ffmpeg" title="Permanent link">&para;</a></h4>
@@ -3280,7 +3400,7 @@ will not work.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 20, 2026 17:11:28 UTC">March 20, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 20, 2026 18:01:38 UTC">March 20, 2026</span>
   </span>
 
      -->
