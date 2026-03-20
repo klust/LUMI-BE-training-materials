@@ -118,7 +118,8 @@ expects, may also cause crashes.
 </figure>
 
 
-Containers are in the first place a **software management instrument**.
+Containers are in the first place a **software management instrument** to create a contained software 
+installation: Files not spread over the system, better control of dependencies, and more:
 
 *   A very important reason to use containers on LUMI is **reducing the pressure on the file system** by software
     that accesses many thousands of small files (Python and R users, you know who we are talking about).
@@ -1111,12 +1112,490 @@ python -c 'import mace; print( mace.__version__ )'
 
 ### Extending containers with the unprivileged PRoot build process
 
-Materials under development.
+<figure markdown style="border: 1px solid #000">
+  ![Extending containers with the unprivileged PRoot build process](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRoot.png){ loading=lazy }
+</figure>
+
+A second way to extend containers is with the so-called
+[unprivileged PRoot build](https://docs.sylabs.io/guides/4.1/user-guide/build_a_container.html#unprivilged-proot-builds).
+This is a solution with no equivalent in AppTainer that fully focusses on strategies using user namespaces
+and is also the reason why do not offer AppTainer on LUMI. With AppTainer, users would have to build on 
+other hardware not offered by LUMI, e.g., their own Linux workstation or some cloud infrastructure.
+
+The unprivileged PRoot builds do come with some restrictions compared to other build processes supported by
+SingularityCE. These are clearly mentioned in [the manual](https://docs.sylabs.io/guides/4.1/user-guide/build_a_container.html#unprivilged-proot-builds). E.g., the `%pre` section in the container definition file is not supported
+and some bootstrapping processes are also unsupported. But it is perfectly possible to build a new container
+based on an existing container that already has some base OS tools in it, or even other software. Hence
+this is a suitable strategy to extend the containers that LUST offers with a 
+[pre-installed version of the HPE Cray Programming Environment](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/c/ccpe/), 
+or [the containers offered by the LUMI AI Factory](https://docs.lumi-supercomputer.eu/laif/software/ai-environment/).
+The former are a good starting base if you want to install more traditional HPC software that needs to
+interface with, e.g., Python, or uses libraries that are hard to install from sources and where you simply
+want to download pre-compiled binaries for those libraries. The latter are a good choice if you don't want
+to deal with the complexity of installing AI software yourself, but want to extend those installations with
+additional packages or even external tools for, e.g., video processing (like FFmpeg).
+
+Note that the CPE containers are based on OpenSUSE as the base OS, as the HPE Cray Programming Environment
+is currently only available for some SUSE and some Red Hat versions, as that is what HPE uses on its supercomputers.
+The LUMI AI Factory containers on the other hand are based on LTS releases of Ubuntu which offers a very rich
+ecosystem of other packages, but is not compatible with the HPE Cray PE.
+
+Despite some restrictions of unprivileged PRoot builds, many things are still possible:
+
+-   You can build from an existing container on the filesystem or from [Docker Hub](https://hub.docker.com/), 
+    even though not all SingularityCE bootstrap options work.
+
+-   You can copy files and directories from the host so that we don’t need to bind them.
+
+-   You can set environment variables that will be set whenever the container is initialised.
+  
+-   You can install additional OS packages, compile software, install additional Python packages, …
+
+-   You can also define a `runscript` (the script that defines what `singularity run` will do).
+
+The container build is steered by a definition file. That file consists of a header and multiple 
+optional sections. A non-exhaustive list is:
+
+-   The top part is called the header.
+    the source for the container is specified. 
+    This can be an existing container already available as a SIF file on the LUMI filesystem,
+    but it is also possible to, e.g., pull a container from [Docker Hub](https://hub.docker.com/)
+    and start from there. E.g., to start from the Ubuntu 24.04 container on docker, you'd use
+
+    ```
+    Bootstrap: docker
+    From: ubuntu:24.04
+    ```
+
+    and to start from a file available on a LUMI filesystem, you'd use
+
+    ```
+    Bootstrap: localimage
+    From: <PATH_TO_AND_NAME_FROM_THE_SIF_FILE>
+    ```
+
+-   The `%files` section can be used to copy files and directories from LUMI to the container.
+    Copying files during a build process can be a good replacement for bind mounting those
+    files into the container, but you need to take two things into account:
+
+    -   After an update of the LUMI, the versions that you copied into the container may no
+        longer work properly. E.g., some libraries supporting a kernel extension may be for a
+        very specific version of that kernel extension only, or if you'd copy Slurm binaries,
+        they may wreak havoc when used with a different version of Slurm on LUMI.
+
+    -   You have to take software licenses into account. E.g., you cannot copy files from the
+        HPE Cray PE and then take the container to a different supercomputer that does not have
+        a license for that programming environment. This is also why we have built a small script
+        into the CPE containers that we offer that will print a warning if it detects that it is
+        not running on LUMI (and that warning has consequences for how to build on top of that
+        container, as it requires access to the Slurm configuration).
+
+-   The `%environment` section can be used to set environment variables when a container is
+    initialised. 
+    
+    For the advanced user: Those lines find their way into a script in the container
+    that is in `/singularity.d/env`. The scripts in that directory are executed in "alphabetical"
+    order but not in a full bash shell, and it is possible to inject other scripts also via
+    the `%files` or `%post` sections.
+
+-   The `%post` section is the section where you can put all commands that should be executed
+    to install additional software in the container. 
+
+    These commands run in a clean environment, so you cannot see environment variables from
+    the host. The container initialisation scripts are executed though, and any bind mount
+    specified in the `singularity build` command will also be there. And this is where a problem
+    can occur: Bind mounts work differently during the build process. You can only bind mount a file
+    if that file is already present in the container (but of course you will then see the bind mounted
+    version in `%post`), and a directory can only be bind mounted if there is already a file or
+    directory at that place with the name of the directory that you want to bind mount. Most containers
+    will not provide these mount points already, but there are two workarounds:
+
+    -   You can perform a build process in two stages. In the first stage, you make no bind mounts but
+        use the `%post` section to create empty files and/or directories where needed.
+
+    -   Create an empty file (and/or empty directory) outside the container and use the `%files` section
+        to copy those to where they are needed for the bindings.
+
+-   The `%runscript` section defines the runscript that will be used by the container. It is written to
+    `/.singularity.d/runscript` in the container.
+
+There are many more sections, but a discussion of all those sections is beyond the scope of this
+introductory course. We refer the reader to the 
+["The Definition File" page in the SingularityCE 4.1 manual](https://docs.sylabs.io/guides/4.1/user-guide/definition_files.html)
+
+Let us illustrate how container builds work with some examples though.
+
+#### Example 1: A python package in the LAIF container
+
+<figure markdown style="border: 1px solid #000">
+  ![Example 1: Python package mace-torch (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootDemo1_1.png){ loading=lazy }
+</figure>
+
+We've seen how we can install additional Python packages in a virtual environment. This was a relatively
+quick process and certainly a good way to test package combinations. But with the LUMI AI Factory containers,
+it is also possible to install additional packages directly in the container. This process is slower, but 
+you don't need to bind mount an additional SquashFS file anymore.
+
+Let's go back to the `mace-torch` example used with virtual environments an install that package in 
+the virtual environment from the AI container. As the environment variable 
+`NCCL_SOCKET_IFNAME` always needs to be set on LUMI and has only one possible value,
+`hsn0,hsn1,hsn2,hsn3` or in short `hsn`, we will set that environment variable in
+the container instead so that we don't need to specify it anymore elsewhere.
+We'll also demonstrate how a definition file can be parameterised:
+
+```
+Bootstrap: localimage
+From: {{ sif }}
+
+%environment
+    export NCCL_SOCKET_IFNAME='hsn0,hsn1,hsn2,hsn3'
+
+%post
+    pip install mace-torch
+```
+
+Store this script in `mace.def`.
+
+There are three interesting elements in this example:
+
+-   In the header, we define that the container will be build from an image already on LUMI,
+    and we use the template `{{ sif }}` as the name of the container from which we will start
+    the build. As such, we can postpone the specification of the start container to the 
+    call of `singularity build` and use the same definition file for several versions of the
+    LAIF container that we will use.
+
+-   In the `%environment` section we set the `NCCL_SOCKET_IFNAME` environment variable.
+    This piece of code will be copied into a script that is executed at container startup.
+
+-   In the `%post` section, we simply execute the `pip install` command to install the 
+    `mace-torch` package in the virtual environment (which for this container is in `/opt/venv`).
+
+    The [LUMI AI Factory documentation](https://docs.lumi-supercomputer.eu/laif/software/ai-environment/#build-new-containers-based-on-the-images)
+    will tell you to first activate the virtual environment, but that is not really needed.
+    The `%post` step runs in the environment that the container would run in (except that no
+    environment variables from the system are available) so the activation is already done during
+    the initialisation.
+
+<figure markdown style="border: 1px solid #000">
+  ![Example 1: Python package mace-torch (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootDemo1_2.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Example 1: Python package mace-torch (3)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootDemo1_3.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Example 1: Python package mace-torch (4)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootDemo1_4.png){ loading=lazy }
+</figure>
+
+Building a container using this script can then be done as follows.
+
+To make life easy, we again use the `SIF` environment variable to point to the container we want to extend:
+
+``` bash
+export SIF='/appl/local/laifs/containers/lumi-multitorch-u24r64f21m43t29-20260225_144743/lumi-multitorch-full-u24r64f21m43t29-20260225_144743.sif'
+```
+
+Next, we must make sure that the bindings module is not loaded. As discussed before, in order to use bindings
+during the build step, mount points have to be present in the container and they are not. So just to be sure:
+
+``` bash
+module unload lumi-aif-singularity-bindings
+```
+
+One module we do need though is the `PRoot` module. To load this module, execute
+
+``` bash
+module load LUMI PRoot
+```
+
+or 
+
+``` bash
+module load CrayEnv PRoot
+```
+
+We are now ready to build our new container. Let's call it
+`lumi-multitorch-mace-u24r64f21m43t29-20260423.sif` to follow the naming convention
+of the containers from which we start, but of course, you can chose a much simpler name.
+
+To build the container, we issue the command (split across multiple lines in bash style to
+make reading easier):
+
+``` bash
+singularity build \
+    --build-arg sif=$SIF \
+    lumi-multitorch-mace-u24r64f21m43t29-20260423.sif mace.def
+```
+
+In the second line of this command, we set the value of the template `{{ sif }}` to whatever is
+in the environment variable `SIF`. The third line and final two arguments of `singularity build`
+are the name for the new container and the definition file that should be used.
+
+If you have failed to unload the bindings module, you would now get an error message similar to:
+
+```
+FATAL:   container creation failed: mount /var/spool/slurmd->/var/spool/slurmd error: while mounting /var/spool/slurmd: destination /var/spool/slurmd doesn't exist in container
+```
+
+It is also rather likely that you will run out-of-memory on the login nodes so we will
+build on a compute node instead. Even though this is GPU software, it is not necessary to
+use a GPU node, so for the demo we use the `standard` partition.
+(Or you can set the environment variable `SINGULARITY_TMPDIR` to point to a location
+with more space than `/tmp`, but that would then be on Lustre which would come
+with serious performance consequences.)
+
+``` bash
+srun -pstandard -N1 -t2:00:00 -A project_465000095 --pty \
+    singularity build \
+        --build-arg sif=$SIF \
+        lumi-multitorch-mace-u24r64f21m43t29-20260423.sif mace.def
+```
+
+<figure markdown style="border: 1px solid #000">
+  ![Example 1: Python package mace-torch (5)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootDemo1_5.png){ loading=lazy }
+</figure>
+
+We can now check the contents of the container. For this we don't necessarily need
+the bindings. Enter the container with
+
+```
+singularity run lumi-multitorch-mace-u24r64f21m43t29-20260423.sif bash -l
+```
+
+and check the output of the following commands:
+
+```
+ls -l /opt/venv/bin/mace_run_train
+ls /opt/venv/lib/python3.12/site-packages/mace*
+python -c 'import mace; print(mace.__version__)'
+```
+
+to convince yourself that the mace package is installed where we expect it
+(in the `/opt/venv` virtual environment) and is found by Python.
 
 
+#### Example 2: Install an Ubuntu application in the container
+
+<figure markdown style="border: 1px solid #000">
+  ![Example 2: Install Ubuntu application (1)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootDemo2_1.png){ loading=lazy }
+</figure>
+
+The containers have a rather limited environment and you may want to
+install your favourite tools in the container. In this example, we will
+install a better editor, `vim`, in the container.
+
+In this example, we will take the base container from the 
+[LUMI AI Factory community on Docker Hub](https://hub.docker.com/u/lumiaifactory).
+As this is just for demonstration purposes, we will not build on top of the full
+container to save some time, but of course, the full container is also
+on Docker Hub.
+
+```
+Bootstrap: docker
+From: docker.io/lumiaifactory/lumi-multitorch:mpich-u24r64f21m43t29-20260225_144743
+
+%post
+    apt update
+    apt install -y vim
+```
+
+Copy this piece of code to `userexts.def`.
+
+In the header, the `Bootstrap:` line now instructs to use docker as a source and specify the image
+that we will use in the the `From:` line.
+
+In the `%post` section, we run two commands to install packages on Ubuntu. The first one,
+`apt update`, ensures that the container has an up-to-date list of Ubuntu packages available.
+The `apt install -y vim` command then installs the package. Note the `-y` flag. 
+If we would not use this flag, the installation process would get stuck when the `apt` 
+commands asks if it is OK to install all packages. Note that this command will also automatically
+install all dependencies of the `vim` package. For containers based on OpenSUSE, you'd have
+to use the `zypper` command instead which also functions slightly differently.
+
+<figure markdown style="border: 1px solid #000">
+  ![Example 2: Install Ubuntu application (2)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootDemo2_2.png){ loading=lazy }
+</figure>
+
+You can install a new container with
+
+```
+singularity build \
+    lumi-multitorch-user-u24r64f21m43t29-20260423.sif userexts.def
+```
+
+Building from an image already on LUMI will be faster though than building from a new
+image fetched from Docker Hub.
+
+<figure markdown style="border: 1px solid #000">
+  ![Example 2: Install Ubuntu application (3)](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootDemo2_3.png){ loading=lazy }
+</figure>
+
+After the build, try
+
+```
+singularity run lumi-multitorch-user-u24r64f21m43t29-20260423.sif \
+    bash -c 'vim --version'
+```
+
+to convince yourself that `vim` is in the container.
+
+Though many Ubuntu packages can be installed that way, this does not hold for all packages.
+We've noticed that in particular GUI packages or other packages that have GUI dependencies
+may fail, and this holds for, e.g., `ffmpeg` and HandBrake, even if you just try to install
+the command line tools with the `handbrake-cli` package. These packages require libraries that
+in turn need special users or groups to be set up, and if those users or groups are not already
+supported in the `/etc/passwd` and `/etc/group` file of LUMI, this becomes very tricky or 
+impossible. If they are in those files, you can try with copying those files into the container
+in the `%files` section so that they are used during the build. During regular runs of the 
+container, singularity will create special versions that are only available in the container,
+but they do no harm.
+
+<figure markdown style="border: 1px solid #000">
+  ![Unprivileged PRoot builds: Bonus examples](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootBonus.png){ loading=lazy }
+</figure>
 
 
+#### Bonus example: Bindings
 
+Under development.
+
+
+#### Bonus example: Support for Slurm commands in Ubuntu
+
+Under development.
+
+
+#### Bonus package: FFmpeg
+
+FFmpeg is a very popular tool for video conversion. Unfortunately, it is a very hard
+package to install on LUMI.
+E.g., installing the Ubuntu package does not work. It is a full-featured version that
+requires dependencies that are not compatible with the LUMI environment and in fact even
+installing in the container will fail.
+Our solution for this example is to download a precompiled statically linked version
+that works on most Linux variants. Unfortunately, the site we use here seems to have
+stopped compiling the newest versions.
+
+We'll downlaod from [a GitHub site periodically generates builds](https://github.com/BtbN/FFmpeg-Builds)
+from the [FFmpeg master branch](https://github.com/ffmpeg/ffmpeg).
+The downside is that they don't follow specific FFmpeg versions, but simply build
+whatever is in the main branch of the GitHub repository at that time, so you don't
+know if you have an officially released version or some intermediate one that may be
+less tested.
+
+```
+Bootstrap: docker
+From: ubuntu:24.04
+
+%post
+    # First we install tools that we will need later on
+    apt update
+    apt install -y wget xz-utils
+
+    # Prepare a work directory to download and uncompress the library
+    mkdir -p /tmp-ffmpeg && cd /tmp-ffmpeg
+    wget https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz
+    tar -xf ffmpeg-master-latest-linux64-gpl.tar.xz
+
+    ls
+
+    # Copy the relevant binaries to their expected location
+    cp ffmpeg-master-latest-linux64-gpl/bin/* /usr/bin
+
+    mkdir -p /usr/share/man/man1
+    cp ffmpeg-master-latest-linux64-gpl/man/man1/* /usr/share/man/man1
+    mkdir -p /usr/share/man/man3
+    cp ffmpeg-master-latest-linux64-gpl/man/man3/* /usr/share/man/man3
+
+    mkdir -p /usr/share/ffmpeg
+    cp ffmpeg-master-latest-linux64-gpl/presets/* /usr/share/ffmpeg
+
+    # Clean up a bit
+    cd / && rm -rf /tmp-ffmpeg
+```
+
+Save this script as `ffmpeg.def`.
+In this example, we use a lightweight Ubuntu container from Docker Hub as builds 
+with this container are very quick. However, the same strategy would also work with
+the LUMI AI Factory containers.
+The first two commands install two tools that we need later on: `wget` to download
+the sources and `xz-utils` for the command that `tar` uses to uncompress the sources.
+The two `apt` commands would not be needed with the LAIF containers as they already
+contain those packages (as they were used to build those containers also).
+Next we create a work directory where we will store and then unpack the download.
+We then copy the executables, manual pages and some presets to the locations that
+are usually used for those files (though more steps are needed in this particular
+base container to be able to use the man pages).
+Finally, we delete the temporary directory with
+the download again.
+
+Now build the container with
+
+```
+singularity build ubuntu-ffmpeg.sif ffmpeg.def
+```
+
+This build will finish rather quickly and can be done without issues on the login nodes
+of LUMI.
+
+You can verify the build with
+
+```
+singularity exec ubuntu-ffmpeg.sif ffmpeg -decoders
+```
+
+which executes the command `ffmpeg -decoders` in the container that we just created.
+Bindings are not essential for this test, but the bindings module from the LAIF would
+work here too to give the container access to all your files.
+
+Another solution would be to download dev packages for the dependencies for the features 
+of FFmpeg that you really need, ensure there is an appropriate compiler in the container,
+and then compile and install the package by hand. This is cumbersome, but unfortunately
+may be the only option for some packages as prebuild packages are usually built for use
+on workstations with typical features available on a workstation, and not for a
+supercomputer environment.
+
+??? example "Alternative download site with fixed versions..."
+    Another popular site is a
+    [site from John Van Sickle](https://www.johnvansickle.com/ffmpeg/),
+    but it looks like that site is not updated anymore. 
+    That version is even fully statically linked and can be installed
+    as follows:
+
+    ```
+    Bootstrap: docker
+    From: ubuntu:24.04
+
+    %post
+        # First we install tools that we will need later on
+        apt update
+        apt install -y wget xz-utils
+
+        # Prepare a work directory to download and uncompress the library
+        mkdir -p /tmp-ffmpeg && cd /tmp-ffmpeg
+        wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+        tar -xf ffmpeg-release-amd64-static.tar.xz
+
+        # Copy the relevant binaries to their expected location
+        cp ffmpeg-7.0.2-amd64-static/ffmpeg /usr/bin
+        cp ffmpeg-7.0.2-amd64-static/ffprobe /usr/bin
+
+        # Clean up a bit
+        cd / && rm -rf /tmp-ffmpeg
+    ```
+
+
+#### Relevant documentation for this section:
+
+-   ["Unprivileged PRoot builds" in the SingularityCE 4.1 manual](https://docs.sylabs.io/guides/4.1/user-guide/build_a_container.html#unprivilged-proot-builds)
+
+-   ["The Definition File" in the SingularityCE 4.1 manual](https://docs.sylabs.io/guides/4.1/user-guide/definition_files.html)
+
+    Note that the `%setup` section cannot be used with the PRoot build process. The manual
+    also says at some point that `%pre` cannot be used, but that simply does not exist in 
+    singularity. There are other restrictions also that are clearly mentioned on the
+    ["Unprivivileged proot builds" section](https://docs.sylabs.io/guides/4.1/user-guide/build_a_container.html#unprivilged-proot-builds).
 
 
 ## Conclusion: Container limitations on LUMI
