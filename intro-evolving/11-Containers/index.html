@@ -1266,10 +1266,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#bonus-package-ffmpeg" class="md-nav__link">
+  <a href="#bonus-example-ffmpeg" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Bonus package: FFmpeg
+        Bonus example: FFmpeg
       
     </span>
   </a>
@@ -1831,10 +1831,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#bonus-package-ffmpeg" class="md-nav__link">
+  <a href="#bonus-example-ffmpeg" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Bonus package: FFmpeg
+        Bonus example: FFmpeg
       
     </span>
   </a>
@@ -1890,7 +1890,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 20, 2026 18:01:38 UTC">March 20, 2026</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 23, 2026 15:25:13 UTC">March 23, 2026</span></p>
 <h1 id="containers-on-lumi-c-and-lumi-g">Containers on LUMI-C and LUMI-G<a class="headerlink" href="#containers-on-lumi-c-and-lumi-g" title="Permanent link">&para;</a></h1>
 <h2 id="what-are-we-talking-about-in-this-chapter">What are we talking about in this chapter?<a class="headerlink" href="#what-are-we-talking-about-in-this-chapter" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -3174,8 +3174,197 @@ unhappy if users try to run Slurm commands from that container on another system
 and forget to bind mount the correct Slurm configuration file.</p>
 </details>
 <h4 id="bonus-example-support-for-slurm-commands-in-ubuntu">Bonus example: Support for Slurm commands in Ubuntu<a class="headerlink" href="#bonus-example-support-for-slurm-commands-in-ubuntu" title="Permanent link">&para;</a></h4>
-<p>Under development.</p>
-<h4 id="bonus-package-ffmpeg">Bonus package: FFmpeg<a class="headerlink" href="#bonus-package-ffmpeg" title="Permanent link">&para;</a></h4>
+<p>To add support for Slurm commands in a container based on Ubuntu, the following 
+elements are certainly needed in the definition file:</p>
+<div class="highlight"><pre><span></span><code>Bootstrap: docker
+From: ubuntu:24.04
+
+%files
+    /etc/passwd
+    /etc/group
+
+%post
+    # First we install tools that we will need later on
+    apt update
+    # Split over multiple commands for readability
+    apt install -y lz4 libmunge2 libnghttp2-14 curl 
+    apt install -y libldap-common libjson-c5
+    apt install -y lua5.3 liblua5.3-0 lua-posix
+    # Symbolic links that exist in SUSE 15 SP6 to libraries
+    # that we copied to run the Slurm clients
+    cd /usr/lib/x86_64-linux-gnu
+    ln -s liblua5.3.so.0.0.0 liblua5.3.so.5
+    # OPTIONAL PART BELOW:
+    # In case you want to clean up go reduce image size:
+    apt-get clean
+    /bin/rm -rf /var/lib/apt/lists/*
+    /bin/rm -f /usr/lib/x86_64-linux-gnu/liblua5.1* 
+    /bin/rm -f /usr/lib/x86_64-linux-gnu/liblua5.2* 
+    /bin/rm -f /usr/lib/x86_64-linux-gnu/liblua5.4*
+    /bin/rm -rf /usr/lib/x86_64-linux-gnu/lua/5.1 
+    /bin/rm -rf /usr/lib/x86_64-linux-gnu/lua/5.2 
+    /bin/rm -rf /usr/lib/x86_64-linux-gnu/lua/5.4
+</code></pre></div>
+<p>In the <code>%files</code> section, we add the <code>/etc/passwd</code> and <code>/etc/groups</code> file from LUMI to
+the container. This is not ideal. Ideally we would create a merge of those files in
+the bare container (but they are hard to copy as as soon as we run singularity, new
+ones will be created with some additional users and groups) and the one from LUMI, 
+create those as a file outside the container and then copy as we cannot change those
+files during <code>%post</code>. </p>
+<p>In <code>%post</code> we first install a number of additional libraries that are needed by the
+various Slurm libraries and commands but are missing from the base Ubuntu container.
+If you use this procedure to add to another Ubuntu container, the list may change a bit
+as some packages may be present already, and if Slurm is updated on LUMI, the list may
+change also. To figure out which ones are missing, first create an empty Ubuntu container,
+then run a shell in the container bind mounting all Slurm tools you want to use and the
+<code>/usr/lib64/slurm</code> subdirectory and then use the <code>ldd</code> tool to chech all libraries that
+are loaded by those commands and libraries in <code>/etc/lib64/slurm</code>. That list may not be 
+complete as libraries and commands can also load extra libraries when running that are
+not pre-linked and shown by <code>ldd</code>. We've tried to make this list as complete as we 
+could and tested several Slurm commands, but cannot exclude that the list may be 
+incomplete.</p>
+<p>Next there is the line</p>
+<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>liblua5.3.so.0.0.0<span class="w"> </span>liblua5.3.so.5
+</code></pre></div>
+<p>This deals with a difference between Ubuntu and SUSE 15 SP6, where in the latter
+<code>liblua5.3.so</code> is offered with a different strategy for the version numbering part of the name.</p>
+<p>The final block does some clean-up, but that is optional. It can help to slightly 
+reduce the size of the container.</p>
+<p>To run with this container, a lot of bindings are needed and we cannot simply use
+the <code>lumi-aif-singularity-bindings</code> module anymore:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_BIND</span><span class="o">=</span><span class="s1">&#39;/pfs,/scratch,/projappl,/project,/flash,/appl,/etc/slurm,/var/spool/slurmd,/var/run/munge,/usr/lib64/slurm,/usr/bin/sacct,/usr/bin/salloc,/usr/bin/sbatch,/usr/bin/sinfo,/usr/bin/squeue,/usr/bin/srun,/usr/bin/sstat&#39;</span>
+</code></pre></div>
+<p>We now also need to bind also the Slurm configuration from <code>/etc/slurm</code>, <code>/var/run/munge</code> 
+used by the <code>munge</code> library, <code>/usr/lib64/slurm</code> with many libraries used by Slurm,
+including some plugins specific for the Cray EX supercomputers, and the various 
+Slurm tools that we want to be available in the container. There are more tools,
+but these are probably the most useful ones. And adding more tools may also requiring
+adding more libraries.</p>
+<p>Note that the <code>salloc</code> command will not work in a container!</p>
+<details class="tip">
+<summary>EasyConfigs to create a module for this container.</summary>
+<p>The following EasyConfig will create a recipe for a module similar
+to the <code>lumi-aif-singularity-bindings</code> module for the LUMI AI Factory
+containers:</p>
+<div class="highlight"><pre><span></span><code><span class="n">easyblock</span> <span class="o">=</span> <span class="s1">&#39;Bundle&#39;</span>
+
+<span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;singularity-slurm-bindings&#39;</span>
+<span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;1.0.0&#39;</span>
+
+<span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Singularity bindings for containers with Slurm support.</span>
+
+<span class="s2">Note that this is done by simply setting SINGULARITY_BIND, making this approach</span>
+<span class="s2">incompatible with other bindings modules. Which is an issue when used with the </span>
+<span class="s2">LUMI AI Factory containers as those also need another environment variable to</span>
+<span class="s2">be set for proper Slurm support for the MPI implementation in those containers.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">homepage</span> <span class="o">=</span> <span class="s1">&#39;()&#39;</span>
+
+<span class="n">toolchain</span> <span class="o">=</span> <span class="n">SYSTEM</span>
+
+<span class="n">env_mod_extra_vars</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;SINGULARITY_BIND&#39;</span> <span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                              <span class="c1"># LUMI filesystems</span>
+                              <span class="s1">&#39;/pfs&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;/scratch&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;/projappl&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;/project&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;/flash&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;/appl&#39;</span><span class="p">,</span>
+                              <span class="c1"># Slurm configuration</span>
+                              <span class="s1">&#39;/etc/slurm&#39;</span><span class="p">,</span>
+                              <span class="c1"># Communication with system services</span>
+                              <span class="s1">&#39;/var/spool/slurmd&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;/var/run/munge&#39;</span><span class="p">,</span>
+                              <span class="c1"># Slurm libraries and plugins</span>
+                              <span class="s1">&#39;/usr/lib64/slurm&#39;</span><span class="p">,</span>
+                              <span class="c1"># Slurm commands</span>
+                              <span class="s1">&#39;/usr/bin/sacct&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;/usr/bin/sbatch&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;/usr/bin/sinfo&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;/usr/bin/squeue&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;/usr/bin/srun&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;/usr/bin/sstat&#39;</span>
+                          <span class="p">]),</span>
+    <span class="c1"># Uncomment the next line for the LUMI AI Factory containers</span>
+    <span class="c1"># &#39;SLURM_MPI_TYPE&#39;   : &#39;pmi2&#39;,</span>
+<span class="p">}</span>
+
+<span class="n">env_mod_category</span> <span class="o">=</span> <span class="s1">&#39;tools&#39;</span>
+</code></pre></div>
+<p>To install this module, copy this script to <code>singularity-slurm-bindings-1.0.0.eb</code>,
+then, after setting up your EasyBuild user environment as explained in the 
+<a href="105-SoftwareStacks.md">"Software Stack" chapter</a>, load and run</p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>LUMI<span class="w"> </span>partition/container<span class="w"> </span>EasyBuild-user
+eb<span class="w"> </span>singularity-slurm-bindings-1.0.0.eb
+</code></pre></div>
+<p>Note that this module cannot be used in combination with other bindings modules
+that we offer, as each tries to set its own <code>SINGULARITY_BIND</code> environment variable.</p>
+<p>An nicer EasyConfig but currently without advantages is</p>
+<div class="highlight"><pre><span></span><code><span class="n">easyblock</span> <span class="o">=</span> <span class="s1">&#39;Bundle&#39;</span>
+
+<span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;singularity-slurm-bindings&#39;</span>
+<span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;1.0.0&#39;</span>
+
+<span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Singularity bindings for containers with Slurm support.</span>
+
+<span class="s2">Note that this is done by simply setting SINGULARITY_BIND, making this approach</span>
+<span class="s2">incompatible with other bindings modules. Which is an issue when used with the </span>
+<span class="s2">LUMI AI Factory containers as those also need another environment variable to</span>
+<span class="s2">be set for proper Slurm support for the MPI implementation in those containers.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">homepage</span> <span class="o">=</span> <span class="s1">&#39;()&#39;</span>
+
+<span class="n">toolchain</span> <span class="o">=</span> <span class="n">SYSTEM</span>
+
+<span class="n">env_mod_extra_vars</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># Uncomment the next line for the LUMI AI Factory containers</span>
+    <span class="c1"># &#39;SLURM_MPI_TYPE&#39;: &#39;pmi2&#39;,</span>
+<span class="p">}</span>
+
+<span class="n">env_mod_extra_paths</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;SINGULARITY_BIND&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;paths&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="c1"># LUMI filesystems</span>
+            <span class="s1">&#39;/pfs&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;/scratch&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;/projappl&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;/project&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;/flash&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;/appl&#39;</span><span class="p">,</span>
+            <span class="c1"># Slurm configuration</span>
+            <span class="s1">&#39;/etc/slurm&#39;</span><span class="p">,</span>
+            <span class="c1"># Communication with system services</span>
+            <span class="s1">&#39;/var/spool/slurmd&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;/var/run/munge&#39;</span><span class="p">,</span>
+            <span class="c1"># Slurm libraries and plugins</span>
+            <span class="s1">&#39;/usr/lib64/slurm&#39;</span><span class="p">,</span>
+            <span class="c1"># Slurm commands</span>
+            <span class="s1">&#39;/usr/bin/sacct&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;/usr/bin/sbatch&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;/usr/bin/sinfo&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;/usr/bin/squeue&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;/usr/bin/srun&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;/usr/bin/sstat&#39;</span>             
+        <span class="p">],</span>
+        <span class="s1">&#39;delimiter&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;prepend&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s1">&#39;var_type&#39;</span><span class="p">:</span> <span class="s1">&#39;PATH&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">env_mod_category</span> <span class="o">=</span> <span class="s1">&#39;tools&#39;</span>
+</code></pre></div>
+<p>Here <code>SINGULARITY_BIND</code> is treated the same way as <code>PATH</code> and other similar
+variables to which you can add and remove entries.  But this would only help
+if all modules dealing with bindings would work that way. Each module could
+then add extra capabilities. So for now you can as well use the first variant.</p>
+</details>
+<h4 id="bonus-example-ffmpeg">Bonus example: FFmpeg<a class="headerlink" href="#bonus-example-ffmpeg" title="Permanent link">&para;</a></h4>
 <p>FFmpeg is a very popular tool for video conversion. Unfortunately, it is a very hard
 package to install on LUMI.
 E.g., installing the Ubuntu package does not work. It is a full-featured version that
@@ -3400,7 +3589,7 @@ will not work.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 20, 2026 18:01:38 UTC">March 20, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 23, 2026 15:25:13 UTC">March 23, 2026</span>
   </span>
 
      -->
