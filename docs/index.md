@@ -3,10 +3,10 @@
 Welcome to the future site of training materials of LUMI-BE, 
 the Belgian participation to LUMI.
 
--   [Continuously evolving version of the 1-day intro training materials](intro-evolving/index.md)
+-   [Continuously evolving version of the 2-day intro training materials](intro-evolving/index.md)
 
 <!--
--   [Latest 1-day intro training materials from lectures](intro-latest)
+-   [Latest 2-day intro training materials from lectures](intro-latest)
 -->
 
 <!--
