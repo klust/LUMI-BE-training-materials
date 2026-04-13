@@ -1434,7 +1434,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 6, 2025 10:37:40 UTC">October 6, 2025</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 13, 2026 10:58:31 UTC">April 13, 2026</span></p>
 <h1 id="lumi-o-object-storage">LUMI-O object storage<a class="headerlink" href="#lumi-o-object-storage" title="Permanent link">&para;</a></h1>
 <h2 id="why-do-i-kneed-to-know-this">Why do I kneed to know this?<a class="headerlink" href="#why-do-i-kneed-to-know-this" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -1687,6 +1687,17 @@ you risk creating problems with the metadata server as you will be dealing with 
 <p>There is no "best" here: both are different technologies, developed with a specific purpose in mind,
 and which one you should use is hence dictated by the technology that you want to use to store your
 data. </p>
+<details class="note">
+<summary>S3 files</summary>
+<p>AWS recently (April 2026) launched the <a href="https://aws.amazon.com/blogs/aws/launching-s3-files-making-s3-buckets-accessible-as-file-systems/">"S3 Files" service</a>
+which can make objects available as files in a filesystem. This is done through clever 
+caching systems, etc., as access to an object still has to be through a few atomic
+operations. Though in principle the <code>rclone</code> tool does support fuse-mounting buckets
+also and make them appear as a regular filesystem, 
+we would not recommend trying this out on LUMI. The support that <code>rclone</code> offers
+for having a file view is not nearly as sophisticated as what S3 files offers
+and not all regular filesystem operations are fully supported.</p>
+</details>
 <h2 id="accessing-lumi-o-general-principles">Accessing LUMI-O: General principles<a class="headerlink" href="#accessing-lumi-o-general-principles" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Accessing LUMI-O" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-10-ObjectStorage/LUMIOAccessing.png" /></p>
@@ -1808,9 +1819,11 @@ various tools:</p>
 </figure></p>
 <p>This screen shows us the snippet for the rclone configuration file (on Linux it is
 <code>~/.config/rclone/rclone.conf</code>). Notice that it creates two so-called endpoints. In the slide
-this is <code>lumi-465001102-private</code> and <code>lumi-465001102-public</code>, for storing buckets and objects which are private
+this is <code>lumi-465002175-private</code> and <code>lumi-465002175-public</code>, for storing buckets and objects which are private
 or public (i.e., also web-accessible).
 We'll come back to what this means later, when we discuss access rights.</p>
+<p>Note that you should never show your access key ID and secret to someone else. Revoke the key
+immediately is something like this happens!</p>
 </div>
 <h3 id="credential-management-and-access-through-open-ondemand">Credential management and access through Open OnDemand<a class="headerlink" href="#credential-management-and-access-through-open-ondemand" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
@@ -2250,7 +2263,8 @@ deleted when project A ends. If the data on LUMI-O is in the space of project A,
 will be deleted after the 90-day grace period after the end of the project, even if project B is
 still a valid project. On LUMI-O, data is not deleted while a project is valid, is made read-only
 after the end of a project for a 90-day grace period, and is then queued for deletion, so
-just as for the Lustre filesystems, you need to move out the data in time.</p>
+just as for the Lustre filesystems, you need to move out the data in time.(And in fact, currently
+it is also not made read-only.)</p>
 <h2 id="further-lumi-o-documentation">Further LUMI-O documentation<a class="headerlink" href="#further-lumi-o-documentation" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://docs.lumi-supercomputer.eu/storage/lumio/">Documentation for the LUMI-O object storage service</a></li>
@@ -2347,7 +2361,7 @@ just as for the Lustre filesystems, you need to move out the data in time.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 6, 2025 10:37:40 UTC">October 6, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 13, 2026 10:58:31 UTC">April 13, 2026</span>
   </span>
 
      -->
