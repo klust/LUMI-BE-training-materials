@@ -94,7 +94,7 @@ starting with 465 for a project obtained via LUMI-BE).
             ```
             # s3cmd configuration template for project 
             # Generated for UUUUUUUU
-            # Valid until 2024-12-07T11:39:17+02:00
+            # Valid until 2026-04-29T01:00:02+03:00
             # DO NOT SHARE!
 
             # Default location is ${HOME}/.s3cfg
@@ -184,17 +184,18 @@ starting with 465 for a project obtained via LUMI-BE).
             while in `~/.s3cfg` and `~/.s3cfg-lumi-46YXXXXXX`, you'll see something similar to
 
             ```
+            [lumi-46YXXXXXX]
             use_https            = True
-            secret_key           = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            access_key           = XXXXXXXXXXXXXXXXXXXX
             host_base            = https://lumidata.eu
-            project_id           = 46YXXXXXX
             chunk_size           = 15
             human_readable_sizes = True
-            enable_multipart     = True
             signature_v2         = True
             signurl_use_https    = True
-            access_key           = XXXXXXXXXXXXXXXXXXXX
+            secret_key           = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             host_bucket          = https://lumidata.eu
+            project_id           = 46YXXXXXX
+            enable_multipart     = True
             ```
 
     ??? Remark "Using Open OnDemand instead"
@@ -226,8 +227,8 @@ starting with 465 for a project obtained via LUMI-BE).
         -   With `s3cmd`: `s3cmd ls` will show you the buckets. It will return something like
 
             ```
-            2025-02-11 17:23  s3://training.private
-            2025-02-11 17:23  s3://training.public
+            2026-04-13 15:07  s3://training.private
+            2026-04-13 15:07  s3://training.public
             ```
 
             There may be more lines if some course participants have already created additional buckets.
@@ -237,8 +238,8 @@ starting with 465 for a project obtained via LUMI-BE).
 
             ```
                                 DIR  s3://training.private/HTML/
-            2025-02-11 17:23    59   s3://training.private/private-in-private.txt
-            2025-02-11 17:23    58   s3://training.private/public-in-private.txt
+            2026-04-13 15:07    59   s3://training.private/private-in-private.txt
+            2026-04-13 15:07    58   s3://training.private/public-in-private.txt
             ```
 
             This is not the complete object list as it shows a pseudo-folder view. The first line starts with `DIR` which 
@@ -251,7 +252,7 @@ starting with 465 for a project obtained via LUMI-BE).
             where the slash at the end is actually important to see
 
             ```
-            2025-02-11 17:23   235   s3://training.private/HTML/private.html
+            2026-04-13 15:07   235   s3://training.private/HTML/private.html
             ```
 
             Now if we use instead
@@ -263,9 +264,9 @@ starting with 465 for a project obtained via LUMI-BE).
             we do get all objects in the bucket:
 
             ```
-            2025-02-11 17:23   235   s3://training.private/HTML/private.html
-            2025-02-11 17:23    59   s3://training.private/private-in-private.txt
-            2025-02-11 17:23    58   s3://training.private/public-in-private.txt
+            2026-04-13 15:07   235   s3://training.private/HTML/private.html
+            2026-04-13 15:07    59   s3://training.private/private-in-private.txt
+            2026-04-13 15:07    58   s3://training.private/public-in-private.txt
             ```
 
         -   With `rclone`: Now we need to specify the endpoint as `rclone` supports multiple projects in a 
@@ -318,7 +319,7 @@ starting with 465 for a project obtained via LUMI-BE).
 
         ```
         ACL:       *anon*: READ
-        ACL:       LUST Training / 2024-12-10-11 Supercomputing with LUMI - Online: FULL_CONTROL
+        ACL:       LUST Training / 2026-04-22-23 Moving your HPC workloads to LUMI: FULL_CONTROL
         ```
 
         The last line will always be present, with the name of the project and then `FULL_CONTROL`
@@ -338,7 +339,7 @@ starting with 465 for a project obtained via LUMI-BE).
 
         ```
         ACL:       *anon*: READ
-        ACL:       LUST Training / 2024-12-10-11 Supercomputing with LUMI - Online: FULL_CONTROL
+        ACL:       LUST Training / 2026-04-22-23 Moving your HPC workloads to LUMI: FULL_CONTROL
         ```
 
         which shows that this object is actually public. So a private bucket can contain a public object,
@@ -408,6 +409,9 @@ starting with 465 for a project obtained via LUMI-BE).
             [https://lumidata.eu/46YXXXXXX:training.private/private-in-private.txt](https://lumidata.eu/46YXXXXXX:training.private/private-in-private.txt)
             work.
 
+        Note that `s3cmd info` show a URL for public objects, but the URL is not completely correct as the
+        project number is missing.
+
 
     ??? Remark "Check this remark only after the solution."
         So if we can access public objects in both public and private buckets, what is then the difference between both?
@@ -426,7 +430,7 @@ starting with 465 for a project obtained via LUMI-BE).
 
 9.  Create a web link (presigned URL) to share the private object `HTML/private.html` in the `training.private` bucket. Next
     open a private/incognito browser window and check that the link indeed works (we use a private browser window / incognito mode to
-    be sure that it doesn't pick up any credentials anywhere just to be sure).
+    be sure that it doesn't pick up any credentials anywhere).
 
     ??? Solution "Click here to see the solution."
 
@@ -439,12 +443,11 @@ starting with 465 for a project obtained via LUMI-BE).
         will produce output that will look like this:
 
         ```
-        2024/12/04 21:43:29 NOTICE: S3 bucket training.private path HTML: Public Link: Reducing expiry to 1w as off is greater than the max time allowed
-        https://lumidata.eu/training.private/HTML/private.html?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=KEII85V27JOJTCGM6XQQ%2F20241204%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241204T194329Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=35a3bc04d997d50471ecd1a6637cd063f9dfb2a40e173f758030d6ced48926bf
+        2026/04/14 16:48:40 NOTICE: S3 bucket training.private path HTML: Public Link: Reducing expiry to 1w as off is greater than the max time allowed
+        https://lumidata.eu/training.private/HTML/private.html?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=9FE5TLGYC84APIDWBKH1%2F20260414%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260414T134840Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=f5fa170b982103db0fd6dde323de35ed8cc5a3db64781a3f96208013104af69b
         ```
 
-        Note that the validity is automatically restricted to 7 days (604800 seconds) which is a limit imposed by LUMI, but the link would actually fail
-        sligthly earlier as the key expires if the lifetime of the key used to create the link, is not extended.
+        Note that the validity is automatically restricted to 7 days (604800 seconds) which is a limit imposed by LUMI, but the link could actually fail sooner if the key would expire earlier or be revoked.
 
         One can also set a shorter link lifetime, e.g.,
 
@@ -484,10 +487,10 @@ starting with 465 for a project obtained via LUMI-BE).
             returns something along the lines of
 
             ```
-            2025-02-12 14:05   231   s3://462000265:intro-training.public/HTML/public.html
-            2025-02-12 14:05   343   s3://462000265:intro-training.public/HTML/shared.html
-            2025-02-12 14:05    58   s3://462000265:intro-training.public/private-in-public.txt
-            2025-02-12 14:05    57   s3://462000265:intro-training.public/public-in-public.txt
+            2026-04-13 15:07   231   s3://462000265:intro-training.public/HTML/public.html
+            2026-04-13 15:07   343   s3://462000265:intro-training.public/HTML/shared.html
+            2026-04-13 15:07    58   s3://462000265:intro-training.public/private-in-public.txt
+            2026-04-13 15:07    57   s3://462000265:intro-training.public/public-in-public.txt
             ```
 
             while
@@ -506,7 +509,7 @@ starting with 465 for a project obtained via LUMI-BE).
             This should not surprise you, as you are not a member of the `462000265` project and are not using
             access credentials for that project in this exercise, but for `46YXXXXXX` training project.
 
-            Note that in the first command we did list an object whose name suggests that it is a private object.
+            Note that in the first command we did list an object whose name suggests that it is a public object.
 
         -   With `rclone`: 
 
@@ -555,7 +558,7 @@ starting with 465 for a project obtained via LUMI-BE).
 
         ```
         File size: 57
-        Last mod:  Sat, 07 Dec 2024 17:31:04 GMT
+        Last mod:  Mon, 13 Apr 2026 15:07:19 GMT
         MIME type: text/plain
         Storage:   STANDARD
         MD5 sum:   db24072368ff20ad202395aa7dd66487

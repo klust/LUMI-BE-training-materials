@@ -50,7 +50,7 @@
 	??? Solution "Click to see the solution."
 		
 		Save the script contents into the file  `job.sh` (you can use the `nano` console text editor for instance). 
-		Remember to use valid project account name (or omit the line if you are using the `exercises/small` module).
+		Remember to use a valid project account name (or omit the line if you are using the `exercises/small` module).
 		
 		Submit the job script using the `sbatch` command:
 		
@@ -129,25 +129,25 @@ on LUMI (but remember that this will be more of you than you may expect)!
 		As an example we will built with the system default programming environment, `PrgEnv-cray` in `CrayEnv`. 
 		Just to be sure we'll load even the programming environment module explicitly.
 
-		The build will fail if the `rocm/6.0.3` module is not loaded when using `PrgEnv-cray`. Whereas the instructions suggest to simply use the `rocm` 
+		The build will fail if the `rocm/6.3.4` module is not loaded when using `PrgEnv-cray`. Whereas the instructions suggest to simply use the `rocm` 
 		module, we're specifying a version as at the time of the course, there 
 		was a newer but not fully supported `rocm` module on the system.
 		
 		```
 		module load CrayEnv
 		module load PrgEnv-cray
-		module load rocm/6.0.3
+		module load rocm/6.3.4
 		```
 
-		Alternatively, you can build in the `LUMI/24.03` stack using the EasyBuild toolchain instead
+		Alternatively, you can build in the `LUMI/25.03` stack using the EasyBuild toolchain instead
 		of `PrgEnv-cray`:
 
 		```
-		module load LUMI/24.03 partition/G cpeCray
+		module load LUMI/25.03 partition/G cpeCray
 		```
 
 		In this case, you do not need to load the ROCm module as it is loaded automatically by
-		`cpeCray/24.03` when working in `partition/G`.
+		`cpeCray/25.03` when working in `partition/G`.
 				
 		To build the code, use
 
@@ -159,6 +159,10 @@ on LUMI (but remember that this will be more of you than you may expect)!
 		and doesn't know LUMI.
 		
 		(As an exercise you can try to fix the `Makefile` and enable it for LUMI :))
+
+		In this case we are lucky as the Makefile is already made for the Cray programming environment
+		and we don't need to set the name of the C++ compiler. It is already done correctly in the 
+		first line of the Makefile.
 		
 		Finally you can just execute `./hello_jobstep` binary program to see how it behaves:
 		
