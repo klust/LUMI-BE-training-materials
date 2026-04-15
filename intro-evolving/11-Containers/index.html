@@ -1244,10 +1244,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#bonus-example-bindings" class="md-nav__link">
+  <a href="#bonus-example-bind-mounts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Bonus example: Bindings
+        Bonus example: Bind mounts
       
     </span>
   </a>
@@ -1277,10 +1277,21 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bonus-example-python-from-scratch-with-a-python-package-from-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bonus example: Python from scratch with a Python package from GitHub
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#relevant-documentation-for-this-section" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Relevant documentation for this section:
+        Relevant documentation for this section
       
     </span>
   </a>
@@ -1809,10 +1820,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#bonus-example-bindings" class="md-nav__link">
+  <a href="#bonus-example-bind-mounts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Bonus example: Bindings
+        Bonus example: Bind mounts
       
     </span>
   </a>
@@ -1842,10 +1853,21 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#bonus-example-python-from-scratch-with-a-python-package-from-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bonus example: Python from scratch with a Python package from GitHub
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#relevant-documentation-for-this-section" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Relevant documentation for this section:
+        Relevant documentation for this section
       
     </span>
   </a>
@@ -1890,7 +1912,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 23, 2026 15:25:13 UTC">March 23, 2026</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 15, 2026 10:27:08 UTC">April 15, 2026</span></p>
 <h1 id="containers-on-lumi-c-and-lumi-g">Containers on LUMI-C and LUMI-G<a class="headerlink" href="#containers-on-lumi-c-and-lumi-g" title="Permanent link">&para;</a></h1>
 <h2 id="what-are-we-talking-about-in-this-chapter">What are we talking about in this chapter?<a class="headerlink" href="#what-are-we-talking-about-in-this-chapter" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -2814,12 +2836,12 @@ optional sections. A non-exhaustive list is:</p>
     This can be an existing container already available as a SIF file on the LUMI filesystem,
     but it is also possible to, e.g., pull a container from <a href="https://hub.docker.com/">Docker Hub</a>
     and start from there. E.g., to start from the Ubuntu 24.04 container on docker, you'd use</p>
-<div class="highlight"><pre><span></span><code>Bootstrap: docker
-From: ubuntu:24.04
+<div class="highlight"><pre><span></span><code><span class="k">Bootstrap</span>:<span class="w"> </span>docker
+<span class="k">From</span>:<span class="w"> </span>ubuntu:<span class="m">24.04</span>
 </code></pre></div>
 <p>and to start from a file available on a LUMI filesystem, you'd use</p>
-<div class="highlight"><pre><span></span><code>Bootstrap: localimage
-From: &lt;PATH_TO_AND_NAME_FROM_THE_SIF_FILE&gt;
+<div class="highlight"><pre><span></span><code><span class="k">Bootstrap</span>:<span class="w"> </span>localimage
+<span class="k">From</span>:<span class="w"> </span>&lt;PATH_TO_AND_NAME_FROM_THE_SIF_FILE&gt;
 </code></pre></div>
 </li>
 <li>
@@ -2896,14 +2918,14 @@ the virtual environment from the AI container. As the environment variable
 <code>hsn0,hsn1,hsn2,hsn3</code> or in short <code>hsn</code>, we will set that environment variable in
 the container instead so that we don't need to specify it anymore elsewhere.
 We'll also demonstrate how a definition file can be parameterised:</p>
-<div class="highlight"><pre><span></span><code>Bootstrap: localimage
-From: {{ sif }}
+<div class="highlight"><pre><span></span><code><span class="k">Bootstrap</span>:<span class="w"> </span>localimage
+<span class="k">From</span>:<span class="w"> </span>{{<span class="w"> </span>sif<span class="w"> </span>}}
 
-%environment
-    export NCCL_SOCKET_IFNAME=&#39;hsn0,hsn1,hsn2,hsn3&#39;
+<span class="gh">%environment</span>
+<span class="w">    </span><span class="nb">export</span><span class="w"> </span><span class="nv">NCCL_SOCKET_IFNAME</span><span class="o">=</span><span class="s1">&#39;hsn0,hsn1,hsn2,hsn3&#39;</span>
 
-%post
-    pip install mace-torch
+<span class="gh">%post</span>
+<span class="w">    </span>pip<span class="w"> </span>install<span class="w"> </span>mace-torch
 </code></pre></div>
 <p>Store this script in <code>mace.def</code>.</p>
 <p>There are three interesting elements in this example:</p>
@@ -3004,12 +3026,12 @@ install a better editor, <code>vim</code>, in the container.</p>
 As this is just for demonstration purposes, we will not build on top of the full
 container to save some time, but of course, the full container is also
 on Docker Hub.</p>
-<div class="highlight"><pre><span></span><code>Bootstrap: docker
-From: docker.io/lumiaifactory/lumi-multitorch:mpich-u24r64f21m43t29-20260225_144743
+<div class="highlight"><pre><span></span><code><span class="k">Bootstrap</span>:<span class="w"> </span>docker
+<span class="k">From</span>:<span class="w"> </span>docker.io/lumiaifactory/lumi-multitorch:mpich-u24r64f21m43t29-20260225_144743
 
-%post
-    apt update
-    apt install -y vim
+<span class="gh">%post</span>
+<span class="w">    </span>apt<span class="w"> </span>update
+<span class="w">    </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>vim
 </code></pre></div>
 <p>Copy this piece of code to <code>userexts.def</code>.</p>
 <p>In the header, the <code>Bootstrap:</code> line now instructs to use docker as a source and specify the image
@@ -3051,8 +3073,8 @@ but they do no harm.</p>
 <figure style="border: 1px solid #000">
 <p><img alt="Unprivileged PRoot builds: Bonus examples" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersExtendPRootBonus.png" /></p>
 </figure>
-<h4 id="bonus-example-bindings">Bonus example: Bindings<a class="headerlink" href="#bonus-example-bindings" title="Permanent link">&para;</a></h4>
-<p>To illustrate that bindings work differently during the <code>%post</code> phase then when running
+<h4 id="bonus-example-bind-mounts">Bonus example: Bind mounts<a class="headerlink" href="#bonus-example-bind-mounts" title="Permanent link">&para;</a></h4>
+<p>To illustrate that bind mounts work differently during the <code>%post</code> phase then when running
 a container, consider the following example based on a very simple Ubuntu container.</p>
 <p>First, we pull the container from docker to create a base singularity image:</p>
 <div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>pull<span class="w"> </span>docker://ubuntu:24.04
@@ -3093,22 +3115,22 @@ FATAL:   While performing build: while running engine: exit status 255
 </code></pre></div>
 <p>even though we could run the container from which we start the build without issue.</p>
 <p>Now try the following definition file:</p>
-<div class="highlight"><pre><span></span><code>Bootstrap: localimage
-From: ubuntu_24.04.sif
+<div class="highlight"><pre><span></span><code><span class="k">Bootstrap</span>:<span class="w"> </span>localimage
+<span class="k">From</span>:<span class="w"> </span>ubuntu_24<span class="m">.04</span>.sif
 
-%files
+<span class="gh">%files</span>
 
-    EMPTY_DIR /var/spool/slurmd
-    EMPTY_DIR /pfs
-    EMPTY_DIR /scratch
-    EMPTY_DIR /projappl
-    EMPTY_DIR /project
-    EMPTY_DIR /flash
-    EMPTY_DIR /appl
+<span class="w">    </span>EMPTY_DIR<span class="w"> </span>/var/spool/slurmd
+<span class="w">    </span>EMPTY_DIR<span class="w"> </span>/pfs
+<span class="w">    </span>EMPTY_DIR<span class="w"> </span>/scratch
+<span class="w">    </span>EMPTY_DIR<span class="w"> </span>/projappl
+<span class="w">    </span>EMPTY_DIR<span class="w"> </span>/project
+<span class="w">    </span>EMPTY_DIR<span class="w"> </span>/flash
+<span class="w">    </span>EMPTY_DIR<span class="w"> </span>/appl
 
-%post
+<span class="gh">%post</span>
 
-    echo &quot;If you see this file, everything was OK...&quot; &gt;/build_results.echo
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;If you see this file, everything was OK...&quot;</span><span class="w"> </span>&gt;/build_results.echo
 </code></pre></div>
 <p>and store this in the file <code>bindings-good.def</code>. In the <code>%files</code> section we copy an empty directory
 from the system that can then serve as a mount point for the directories that we will bind mount
@@ -3176,34 +3198,34 @@ and forget to bind mount the correct Slurm configuration file.</p>
 <h4 id="bonus-example-support-for-slurm-commands-in-ubuntu">Bonus example: Support for Slurm commands in Ubuntu<a class="headerlink" href="#bonus-example-support-for-slurm-commands-in-ubuntu" title="Permanent link">&para;</a></h4>
 <p>To add support for Slurm commands in a container based on Ubuntu, the following 
 elements are certainly needed in the definition file:</p>
-<div class="highlight"><pre><span></span><code>Bootstrap: docker
-From: ubuntu:24.04
+<div class="highlight"><pre><span></span><code><span class="k">Bootstrap</span>:<span class="w"> </span>docker
+<span class="k">From</span>:<span class="w"> </span>ubuntu:<span class="m">24.04</span>
 
-%files
-    /etc/passwd
-    /etc/group
+<span class="gh">%files</span>
+<span class="w">    </span>/etc/passwd
+<span class="w">    </span>/etc/group
 
-%post
-    # First we install tools that we will need later on
-    apt update
-    # Split over multiple commands for readability
-    apt install -y lz4 libmunge2 libnghttp2-14 curl 
-    apt install -y libldap-common libjson-c5
-    apt install -y lua5.3 liblua5.3-0 lua-posix
-    # Symbolic links that exist in SUSE 15 SP6 to libraries
-    # that we copied to run the Slurm clients
-    cd /usr/lib/x86_64-linux-gnu
-    ln -s liblua5.3.so.0.0.0 liblua5.3.so.5
-    # OPTIONAL PART BELOW:
-    # In case you want to clean up go reduce image size:
-    apt-get clean
-    /bin/rm -rf /var/lib/apt/lists/*
-    /bin/rm -f /usr/lib/x86_64-linux-gnu/liblua5.1* 
-    /bin/rm -f /usr/lib/x86_64-linux-gnu/liblua5.2* 
-    /bin/rm -f /usr/lib/x86_64-linux-gnu/liblua5.4*
-    /bin/rm -rf /usr/lib/x86_64-linux-gnu/lua/5.1 
-    /bin/rm -rf /usr/lib/x86_64-linux-gnu/lua/5.2 
-    /bin/rm -rf /usr/lib/x86_64-linux-gnu/lua/5.4
+<span class="gh">%post</span>
+<span class="w">    </span><span class="c1"># First we install tools that we will need later on</span>
+<span class="w">    </span>apt<span class="w"> </span>update
+<span class="w">    </span><span class="c1"># Split over multiple commands for readability</span>
+<span class="w">    </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>lz4<span class="w"> </span>libmunge2<span class="w"> </span>libnghttp2-14<span class="w"> </span>curl<span class="w"> </span>
+<span class="w">    </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>libldap-common<span class="w"> </span>libjson-c5
+<span class="w">    </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>lua5.3<span class="w"> </span>liblua5.3-0<span class="w"> </span>lua-posix
+<span class="w">    </span><span class="c1"># Symbolic links that exist in SUSE 15 SP6 to libraries</span>
+<span class="w">    </span><span class="c1"># that we copied to run the Slurm clients</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span>/usr/lib/x86_64-linux-gnu
+<span class="w">    </span>ln<span class="w"> </span>-s<span class="w"> </span>liblua5.3.so.0.0.0<span class="w"> </span>liblua5.3.so.5
+<span class="w">    </span><span class="c1"># OPTIONAL PART BELOW:</span>
+<span class="w">    </span><span class="c1"># In case you want to clean up go reduce image size:</span>
+<span class="w">    </span>apt-get<span class="w"> </span>clean
+<span class="w">    </span>/bin/rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/apt/lists/*
+<span class="w">    </span>/bin/rm<span class="w"> </span>-f<span class="w"> </span>/usr/lib/x86_64-linux-gnu/liblua5.1*<span class="w"> </span>
+<span class="w">    </span>/bin/rm<span class="w"> </span>-f<span class="w"> </span>/usr/lib/x86_64-linux-gnu/liblua5.2*<span class="w"> </span>
+<span class="w">    </span>/bin/rm<span class="w"> </span>-f<span class="w"> </span>/usr/lib/x86_64-linux-gnu/liblua5.4*
+<span class="w">    </span>/bin/rm<span class="w"> </span>-rf<span class="w"> </span>/usr/lib/x86_64-linux-gnu/lua/5.1<span class="w"> </span>
+<span class="w">    </span>/bin/rm<span class="w"> </span>-rf<span class="w"> </span>/usr/lib/x86_64-linux-gnu/lua/5.2<span class="w"> </span>
+<span class="w">    </span>/bin/rm<span class="w"> </span>-rf<span class="w"> </span>/usr/lib/x86_64-linux-gnu/lua/5.4
 </code></pre></div>
 <p>In the <code>%files</code> section, we add the <code>/etc/passwd</code> and <code>/etc/groups</code> file from LUMI to
 the container. This is not ideal. Ideally we would create a merge of those files in
@@ -3379,34 +3401,34 @@ The downside is that they don't follow specific FFmpeg versions, but simply buil
 whatever is in the main branch of the GitHub repository at that time, so you don't
 know if you have an officially released version or some intermediate one that may be
 less tested.</p>
-<div class="highlight"><pre><span></span><code>Bootstrap: docker
-From: ubuntu:24.04
+<div class="highlight"><pre><span></span><code><span class="k">Bootstrap</span>:<span class="w"> </span>docker
+<span class="k">From</span>:<span class="w"> </span>ubuntu:<span class="m">24.04</span>
 
-%post
-    # First we install tools that we will need later on
-    apt update
-    apt install -y wget xz-utils
+<span class="gh">%post</span>
+<span class="w">    </span><span class="c1"># First we install tools that we will need later on</span>
+<span class="w">    </span>apt<span class="w"> </span>update
+<span class="w">    </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>wget<span class="w"> </span>xz-utils
 
-    # Prepare a work directory to download and uncompress the library
-    mkdir -p /tmp-ffmpeg &amp;&amp; cd /tmp-ffmpeg
-    wget https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz
-    tar -xf ffmpeg-master-latest-linux64-gpl.tar.xz
+<span class="w">    </span><span class="c1"># Prepare a work directory to download and uncompress the library</span>
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/tmp-ffmpeg<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/tmp-ffmpeg
+<span class="w">    </span>wget<span class="w"> </span>https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz
+<span class="w">    </span>tar<span class="w"> </span>-xf<span class="w"> </span>ffmpeg-master-latest-linux64-gpl.tar.xz
 
-    ls
+<span class="w">    </span>ls
 
-    # Copy the relevant binaries to their expected location
-    cp ffmpeg-master-latest-linux64-gpl/bin/* /usr/bin
+<span class="w">    </span><span class="c1"># Copy the relevant binaries to their expected location</span>
+<span class="w">    </span>cp<span class="w"> </span>ffmpeg-master-latest-linux64-gpl/bin/*<span class="w"> </span>/usr/bin
 
-    mkdir -p /usr/share/man/man1
-    cp ffmpeg-master-latest-linux64-gpl/man/man1/* /usr/share/man/man1
-    mkdir -p /usr/share/man/man3
-    cp ffmpeg-master-latest-linux64-gpl/man/man3/* /usr/share/man/man3
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/usr/share/man/man1
+<span class="w">    </span>cp<span class="w"> </span>ffmpeg-master-latest-linux64-gpl/man/man1/*<span class="w"> </span>/usr/share/man/man1
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/usr/share/man/man3
+<span class="w">    </span>cp<span class="w"> </span>ffmpeg-master-latest-linux64-gpl/man/man3/*<span class="w"> </span>/usr/share/man/man3
 
-    mkdir -p /usr/share/ffmpeg
-    cp ffmpeg-master-latest-linux64-gpl/presets/* /usr/share/ffmpeg
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/usr/share/ffmpeg
+<span class="w">    </span>cp<span class="w"> </span>ffmpeg-master-latest-linux64-gpl/presets/*<span class="w"> </span>/usr/share/ffmpeg
 
-    # Clean up a bit
-    cd / &amp;&amp; rm -rf /tmp-ffmpeg
+<span class="w">    </span><span class="c1"># Clean up a bit</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span>/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/tmp-ffmpeg
 </code></pre></div>
 <p>Save this script as <code>ffmpeg.def</code>.
 In this example, we use a lightweight Ubuntu container from Docker Hub as builds 
@@ -3467,7 +3489,202 @@ From: ubuntu:24.04
     cd / &amp;&amp; rm -rf /tmp-ffmpeg
 </code></pre></div>
 </details>
-<h4 id="relevant-documentation-for-this-section">Relevant documentation for this section:<a class="headerlink" href="#relevant-documentation-for-this-section" title="Permanent link">&para;</a></h4>
+<h4 id="bonus-example-python-from-scratch-with-a-python-package-from-github">Bonus example: Python from scratch with a Python package from GitHub<a class="headerlink" href="#bonus-example-python-from-scratch-with-a-python-package-from-github" title="Permanent link">&para;</a></h4>
+<p>In this example, we install a Python package that does not need <code>mpi4py</code> or ROCm&trade;. 
+Starting from <a href="https://docs.lumi-supercomputer.eu/laif/software/ai-environment/">one of the containers made by the LUMI AI Factory</a>
+is overkill in this case. Instead, in this example we started from a barebones
+Ubuntu container and install the system Python (which was Python 12 for Ubuntu 24.04 -
+we prefer to use a long-term service release) ourselves. The process we used for that
+is derived from the process that the LUMI AI Factory also uses when building its containers,
+but they use a different build tool that does not run on LUMI. The example that we give
+here can be processed on LUMI with singularity and does not need another container build
+tool run on your local workstation or other server.</p>
+<p>Ubuntu does not like that we add Python packages to the system installation. Instead,
+we create a virtual environment in <code>/opt</code> where we will install the packages. We also 
+make sure that when the container is initialised, the virtual environment is also activated,
+so that the user doesn't need to care about this.</p>
+<p><strong>If you add packages to the container in a follow-up build process, it might still be necessary 
+to activate the virtual environment as initialisation during the build process works differently
+than when running a container.</strong></p>
+<p>As the virtual environment has just been created, we need to activate it in our build script here too.</p>
+<p>We also show how <code>/tmp</code> can be used when installing software in the container. In this case, we clone
+the git repository of the Python package in <code>/tmp</code> rather than in a directory in the container as we 
+do not want to keep that data around anyway and as writing in <code>/tmp</code> is much faster than writing in 
+the emulated root filesystem when building a container. Then we install the Python package from there
+using <code>pip install</code>. The package that we install here is a typical research code that is not on
+PyPi, <a href="https://github.com/Crivella/AITW_microstructures">AITW_microstructures</a>.</p>
+<p>The same idea can also be used when compiling software packages: Do the build process in a subdirectory of
+<code>/tmp</code> and then use the <code>make install</code> step to install the package where it belongs in the container.
+This will speed up the process of container building.</p>
+<p>We also add a runscript that will start Python, passing all additional arguments to <code>singularity run</code>
+to the <code>python3</code> command.</p>
+<p>The container definition file is:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">Bootstrap</span>:<span class="w"> </span>docker
+<span class="k">From</span>:<span class="w"> </span>ubuntu:<span class="m">24.04</span>
+
+<span class="gh">%labels</span>
+<span class="w">    </span>Description<span class="w"> </span><span class="s2">&quot;Ubuntu 24.04 with Python 3.12&quot;</span>
+
+<span class="gh">%post</span>
+<span class="w">    </span><span class="c1"># Update base system</span>
+<span class="w">    </span>apt-get<span class="w"> </span>update
+
+<span class="w">    </span>apt-get<span class="w"> </span>-y<span class="w"> </span>--no-install-recommends<span class="w"> </span>install<span class="w"> </span>man<span class="w"> </span>locales
+<span class="w">    </span>locale-gen<span class="w"> </span>en_US.UTF-8<span class="w"> </span>fi_FI.UTF-8<span class="w"> </span>pl_PL.UTF-8
+
+<span class="w">    </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>--no-install-recommends<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>python3.12<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>python3.12-venv<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>python3.12-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>python3-pip<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>build-essential<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>ca-certificates<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>file<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>git<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>less<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>nano<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>vim<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>unzip<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>wget<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>curl
+
+<span class="w">    </span><span class="c1"># Ensure python3 points to python3.12</span>
+<span class="w">    </span>update-alternatives<span class="w"> </span>--install<span class="w"> </span>/usr/bin/python3<span class="w"> </span>python3<span class="w"> </span>/usr/bin/python3.12<span class="w"> </span><span class="m">1</span>
+
+<span class="w">    </span><span class="c1"># Clean up</span>
+<span class="w">    </span>apt-get<span class="w"> </span>clean
+<span class="w">    </span>rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/apt/lists/*
+
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="c1"># Finished the Ubuntu installation, now we go on with Python packages.</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="c1"># Ubuntu does not want you to overwrite system packages, so we have to use a venv.</span>
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span>python3.12<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>/opt/venv
+<span class="w">    </span>.<span class="w"> </span>/opt/venv/bin/activate
+
+<span class="w">    </span>python3.12<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
+
+<span class="w">    </span><span class="c1">#</span>
+<span class="w">    </span><span class="c1"># Now the code from the GitHub repository</span>
+<span class="w">    </span><span class="c1">#</span>
+
+<span class="w">    </span><span class="nv">curdir</span><span class="o">=</span><span class="nv">$PWD</span>
+<span class="w">    </span><span class="nv">tmpdir</span><span class="o">=</span><span class="k">$(</span>mktemp<span class="w"> </span>-d<span class="k">)</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$tmpdir</span><span class="w"> </span><span class="p">;</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Crivella/AITW_microstructures<span class="w"> </span><span class="p">;</span><span class="w">  </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$curdir</span>
+<span class="w">    </span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">$tmpdir</span>/AITW_microstructures
+<span class="w">    </span>/bin/rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$tmpdir</span>
+
+<span class="gh">%environment</span>
+<span class="w">    </span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/usr/local/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">source</span><span class="w"> </span>/opt/venv/bin/activate
+
+<span class="gh">%runscript</span>
+<span class="w">    </span><span class="nb">exec</span><span class="w"> </span>python3<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+</code></pre></div></td></tr></table></div>
+<p>In the first part of the <code>%post</code> section, lines 8 till 35, we install a number of Ubuntu packages and
+also show how additional locales can be added should you require special language support. 
+At the end, we clean up some files that are useless in a container (basically information that
+Ubuntu would use to install or update packages which we cannot do as the container file is
+read-only anyway).</p>
+<p>On line 42 and 43, we create the virtual environment and activate it. In lines 51 to 55,
+we create a unique subdirectory in <code>/tmp</code>, clone the git repository, then install the Python
+package from the sources in that cloned directory, and remove the temporary directory
+again.</p>
+<p>We use the <code>%environment</code> section, which is usually used to set environment variables that should
+be set at initialisation, to run the <code>activate</code> script for our virtual environment. 
+The <code>export PATH</code> command on line 58 currently makes no sense, as <code>/usr/local/bin</code> is empty, but 
+is put there to show how you would normally set an environment variable. Also, if you would compile
+software yourself and want to add it to the container, <code>/usr/local</code> is a good choice for the 
+installation directory as that one would not cause conflicts with Ubuntu package management.</p>
+<p>The <code>%runscript</code> section shows the commands that go into our very simple runscript.</p>
+<details class="advanced">
+<summary>What does this look like in the container?</summary>
+<p>The commands that we used in the <code>%environment</code> section have landed in the 
+<code>/.singularity.d/env/90-environment.sh</code> file. These scripts are really sourced
+by the script that does the container intialisation, as you can see from the various
+scripts in <code>/.singularity.d/actions</code>. 
+These scripts use the <code>/bin/sh</code> shell which in the container is the <code>dash</code> shell,
+a minimal but fast POSIX-compliant shell and is what Ubuntu uses by default.
+So you cannot use a number of bash-specific syntax constructions in the <code>%environment</code>
+section (and other sections such as <code>%runscript</code>).</p>
+<p>The runscript that is generated is the file <code>/.singularity.d/runscript</code> in the container.
+Note that it again uses the shell <code>/bin/sh</code>.</p>
+</details>
+<p>If you'd need a container with ROCm&trade; support or support for <code>mpi4py</code>, it would be better
+to start from the containers from the LUMI AI Factory. The <code>mpi4py</code> package that you download
+from PyPi does not properly support the LUMI interconnect, so it needs to be compiled from sources,
+but that also requires an MPI library with good performance in the container. Another option is
+to start from containers with components of the programming environment in there that the 
+LUMI User Support Team also supports, or bind mount a suitable version of Cray MPICH in the container.
+You can then build on top of Cray Python which already has a proper <code>mpi4py</code> or compile an 
+<code>mpi4py</code> yourself on top of Cray MPICH.
+These options would require to use a container OS compatible with the programming environment,
+i.e., at the time of writing (April 2026), OpenSUSE 15 SP6. In fact, one of the reasons to 
+experiment now already with Ubuntu is that there is no OpenSUSE equivalent to SUSE Enterprise
+Linux 15 SP7 which will likely be needed for future versions of the Cray PE.</p>
+<h4 id="relevant-documentation-for-this-section">Relevant documentation for this section<a class="headerlink" href="#relevant-documentation-for-this-section" title="Permanent link">&para;</a></h4>
 <ul>
 <li>
 <p><a href="https://docs.sylabs.io/guides/4.1/user-guide/build_a_container.html#unprivilged-proot-builds">"Unprivileged PRoot builds" in the SingularityCE 4.1 manual</a></p>
@@ -3589,7 +3806,7 @@ will not work.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 23, 2026 15:25:13 UTC">March 23, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 15, 2026 10:27:08 UTC">April 15, 2026</span>
   </span>
 
      -->
