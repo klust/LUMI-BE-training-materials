@@ -1642,7 +1642,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 11, 2026 11:13:54 UTC">March 11, 2026</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 15, 2026 16:57:16 UTC">April 15, 2026</span></p>
 <h1 id="hpe-cray-programming-environment">HPE Cray Programming Environment<a class="headerlink" href="#hpe-cray-programming-environment" title="Permanent link">&para;</a></h1>
 <p>In this session we discuss some of the basics of the operating system and
 programming environment on LUMI. Whether you like it or not, every user
@@ -1923,7 +1923,8 @@ Fortran frontend (also known as classic flang) and misses OpenMP offload support
 With ROCm&trade; 7.0, AMD is switching to the new Fortran frontend, but at the 
 moment of writing, we cannot offer that yet on LUMI as there are still issues to
 get RCCL running reliably on the current network stack and as there is no compatible
-MPI library yet. The latter is expected sometime in Q2 2026.</p>
+MPI library yet. The latter is expected sometime in Q2 2026 and will initially be 
+offered in containers.</p>
 <p>The ROCm&trade; stack also has its own command line interface debugging tool, 
 <a href="https://rocm.docs.amd.com/projects/ROCgdb/en/latest/">rocgdb</a>. It builds on
 the GNU debugger gdb and can be used directly by users, but is also used internally
@@ -1969,7 +1970,8 @@ LUST in collaboration with HPE and AMD.</p>
 <p>The ROCm&trade; Compute and Systems profilers are missing in the <code>rocm/6.3.4</code> module
 which is the basis for the software stack based on the Cray Programming Environment
 25.03, but there is an alternative module in the stack based on the CPE 25.09
-that is more full-featured. See also <a href="../05-SoftwareStacks/">later sections in this course that 
+that is more full-featured and an alternative LUSE-developed module, <code>rocm/6.3.4-extra</code>, 
+for use with 25.03. See also <a href="../05-SoftwareStacks/">later sections in this course that 
 discuss the software stacks</a>.</p>
 </div>
 <h3 id="cpu-tools">CPU tools<a class="headerlink" href="#cpu-tools" title="Permanent link">&para;</a></h3>
@@ -2151,7 +2153,7 @@ for multi-NIC CPU nodes in Cray systems) so setting <code>MPICH_OFI_NIC_POLICY</
 or alternatively
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_SMP_SINGLE_COPY_MODE</span><span class="o">=</span>NONE
 </code></pre></div>
-Both options entail a serious loss of performance. The underlying problem is that the way in which Slurm does GPU
+Both options entail a serious loss of performance. The underlying problem is that the default way in which Slurm does GPU
 binding using control groups makes other GPUS from other tasks in the node invisible to a task.</p>
 <p>More information about Cray MPICH and the many environment variables to fine-tune performance can
 be found in the manual page</p>
@@ -2224,9 +2226,9 @@ the Cray Compiling Environment (module <code>cce</code>), GNU Compiler Collectio
 or <code>gcc</code> depending on the version of the Cray Programming Environment), 
 the AMD Optimizing Compiler for CPUs (module <code>aocc</code>) and the ROCm LLVM-based compilers
 (module <code>amd</code>) are available. On the visualisation nodes, the NVIDIA HPC compiler is currently
-also installed (module <code>nvhpc</code>). On other HPE Cray systems, you may also find the Intel
-compilers.
-The target architectures for CPU and GPU are also selected through modules, so it is better
+also installed (module <code>nvidia</code>), but may not be fully functional and was never tested. 
+On other HPE Cray systems, you may also find the Intel compilers.</p>
+<p>The target architectures for CPU and GPU are also selected through modules, so it is better
 to not use compiler options such as <code>-march=native</code>. This makes cross compiling also easier.</p>
 <p>The wrappers will also automatically link in certain libraries, and make the include files available,
 depending on which other modules are loaded. In some cases it tries to do so cleverly, like selecting an MPI,
@@ -2255,7 +2257,8 @@ simply pass those to those compilers.</p>
 <p>The version numbers of the HPE Cray PE are of the form <code>yy.dd</code>, e.g., <code>25.03</code> for the version
 released in March 2025. There are several releases each year, but not all
 of them are offered on LUMI as installing them may require downtime and as changes in
-the system every few months are not appreciated by all users. </p>
+the system every few months are not appreciated by all users. Some additional versions
+may be offered through containers though.</p>
 <p>There is always a default version assigned by the sysadmins when installing the programming
 environment. It is possible to change the default version for loading further modules
 by loading one of the versions of the <code>cpe</code> module. E.g., assuming the 25.09 version would be
@@ -2335,7 +2338,7 @@ activate:</p>
 <td>PrgEnv-gnu</td>
 <td>GNU Compiler Collection</td>
 <td><code>gcc-native</code><br/><code>gcc</code><sup>(*)</sup></td>
-<td><code>gcc-14</code>, <code>g++-14</code>, <code>gfortran-14</code><br/><code>gcc</code>, <code>g++</code>, <code>gfortran</code></td>
+<td>(<code>gcc-14</code>, <code>g++-14</code>, <code>gfortran-14</code>)<br/><code>gcc</code>, <code>g++</code>, <code>gfortran</code></td>
 </tr>
 <tr>
 <td>PrgEnv-aocc</td>
@@ -2637,7 +2640,7 @@ by the following table:</p>
 <tr>
 <td>PrgEnv-gnu</td>
 <td><code>gcc-native</code><br/><code>gcc</code><sup>(*)</sup></td>
-<td><code>gcc-14</code>, <code>g++-14</code>, <code>gfortran-14</code><br/><code>gcc</code>, <code>g++</code>, <code>gfortran</code></td>
+<td>()<code>gcc-14</code>, <code>g++-14</code>, <code>gfortran-14</code>)<br/><code>gcc</code>, <code>g++</code>, <code>gfortran</code></td>
 </tr>
 <tr>
 <td>AMD Optimizing Compilers<br>(CPU only)</td>
@@ -2656,14 +2659,14 @@ disappear from LUMI. They contain a set of GCC compilers packaged by HPE Cray, w
 <code>gcc-native</code> modules provide GCC compilers packages by SUSE. The latter are always available
 with their long names that includes the major version, e.g. <code>gcc-14</code>, even without loading the
 module, but since the January 2026 system update, they are now also available with their
-versionless names after loading the corresponding <code>gcc-native</code> module.</p>
+unversioned names after loading the corresponding <code>gcc-native</code> module.</p>
 <p>Recent versions of the <code>cray-mpich</code> module now also provide the traditional MPI compiler wrappers
 such as <code>mpicc</code>, <code>mpicxx</code> or <code>mpifort</code>. Note that you will still need to ensure that the network
 target module <code>craype-network-ofi</code> is loaded to be able to load the <code>cray-mpich</code> module, which is
 needed to get access to the regular MPI compiler wrappers.</p>
 <p>Before the January 2026 system update, there was
 an issue when using these wrappers with the compilers from the <code>gcc-native</code> modules, as those wrappers
-simply called the versionless command names, which could be fixed by setting . 
+simply call the unversioned command names, which could be fixed by setting . 
 <code>MPICH_CC</code>, <code>MPICH_CXX</code> and <code>MPICH_FC</code> to point to the right compilers, but that is no 
 longer needed after the January 2026 system update.</p>
 <p>The <code>cray-mpich</code> module also defines the environment variable <code>MPICH_DIR</code> that points to the
@@ -2751,7 +2754,7 @@ libraries.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 11, 2026 11:13:54 UTC">March 11, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 15, 2026 16:57:16 UTC">April 15, 2026</span>
   </span>
 
      -->
