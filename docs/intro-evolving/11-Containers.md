@@ -1498,7 +1498,7 @@ do outside the container.
 
 Now consider the near trivial definition file
 
-```
+``` singularity
 Bootstrap: localimage
 From: ubuntu_24.04.sif
 
