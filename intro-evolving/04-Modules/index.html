@@ -1532,7 +1532,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 13, 2026 17:07:59 UTC">March 13, 2026</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 16, 2026 10:51:46 UTC">April 16, 2026</span></p>
 <h1 id="environment-modules-on-lumi">Environment modules on LUMI<a class="headerlink" href="#environment-modules-on-lumi" title="Permanent link">&para;</a></h1>
 <div class="admonition audience">
 <p class="admonition-title">Intended audience</p>
@@ -1935,41 +1935,9 @@ powers of <code>module spider</code> and try</p>
 <figure style="border: 1px solid #000">
 <p><img alt="module spider CMake" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCMake1.png" /></p>
 </figure>
-<p>the output above shows us that there are actually 4 other versions of CMake on the system, but their
+<p>the output above shows us that there are actually 5 versions of CMake on the system, but their
 version is followed by <code>(E)</code> which says that they are extensions of other modules.</p>
-<p>Most users would have gotten the same output from</p>
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>cmake
-</code></pre></div>
-<figure style="border: 1px solid #000">
-<p><img alt="module spider cmake" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCMake2.png" /></p>
-</figure>
-<p>However, if you've recently used one of the <code>spack</code> modules and the Lmod cache was last created with one of those
-modules loaded, </p>
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>CMake
-</code></pre></div>
-<p>may show you something like</p>
-<figure style="border: 1px solid #000">
-<p><img alt="module spider CMake with Spack" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCMake3.png" /></p>
-</figure>
-<p>This shows a number of alternative modules also called <code>cmake</code>. These are modules that were installed on the system using Spack, a tool for HPC software management that
-we provide as our secondary tool for users familiar with that tool. More about it also in the presentation on
-<a href="../05-SoftwareStacks/">software stack</a>.</p>
-<p>With a <code>spack</code> module loaded, </p>
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>cmake
-</code></pre></div>
-<p>would give you something similar to </p>
-<figure style="border: 1px solid #000">
-<p><img alt="module spider cmake with Spack" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCMake4.png" /></p>
-</figure>
-<figure style="border: 1px solid #000">
-<p><img alt="module spider cmake with Spack" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleSpiderCMake5.png" /></p>
-</figure>
-<p>and we no longer see the CMake versions provided as extensions (and our main CMake instances),
-but as modules take priority over extensions, Lmod is happy to just show us the module
-named <code>cmake</code> which is immediately recognisable as a spack-installed module from the seemingly
-random string of characters at the end.</p>
-<p>So there is no module called <code>CMake</code> on the system (well, there may be one for Spack users but then
-with lowercase name).
+<p>So there is no module called <code>CMake</code> on the system.
 But Lmod already tells us
 how to find out which module actually provides the CMake tools. So let's try</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>module<span class="w"> </span>spider<span class="w"> </span>CMake/4.2.3
@@ -1993,6 +1961,13 @@ that was needed to build some libraries to build fully featured tools in <code>b
 <div class="highlight"><pre><span></span><code>$ module spider buildtools/25.09
 </code></pre></div>
 <p>to get even more information about the buildtools module, including any help included in the module.</p>
+<div class="admonition note">
+<p class="admonition-title">Some users may have seen different output</p>
+<p>Not only is the output we have shown here, just the output at the moment of time that the screenshots
+were taken (and LUMI is in continuous evolution), but if you have recently loaded modules from other
+softwarestacks on LUMI, modules from those software stacks may also show up if the cache was rebuilt
+while those modules were loaded.</p>
+</div>
 <h2 id="alternative-search-the-module-keyword-command">Alternative search: the module keyword command<a class="headerlink" href="#alternative-search-the-module-keyword-command" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="module keyword" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-04-Modules/ModuleKeyword.png" /></p>
@@ -2212,7 +2187,7 @@ system cache and only a user cache. That cache can be found in <code>$HOME/.cach
 (and in older versions of LMOD in <code>$HOME/.lmod.d/.cache</code>). </p>
 <p>That cache is also refreshed automatically every 24 hours. You'll notice when this happens as,
 e.g., the <code>module spider</code> and <code>module available</code> commands will be slow during the rebuild.
-you may need to clean the cache after installing new software as on LUMI Lmod does not
+You may need to clean the cache after installing new software as on LUMI Lmod does not
 always detect changes to the installed software,</p>
 <p>Sometimes you may have to clear the cache also if you get very strange answers from 
 <code>module spider</code>. It looks like the non-standard way in which the HPE Cray Programming
@@ -2377,7 +2352,7 @@ so links may break over time.</strong></p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 13, 2026 17:07:59 UTC">March 13, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 16, 2026 10:51:46 UTC">April 16, 2026</span>
   </span>
 
      -->
