@@ -1120,6 +1120,56 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#pre-build-containers-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-build containers: AI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-build containers: AI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lumi-ai-factory-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LUMI AI Factory containers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#former-lust-provided-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Former LUST-provided containers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#former-csc-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Former CSC containers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1696,6 +1746,56 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#pre-build-containers-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-build containers: AI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-build containers: AI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lumi-ai-factory-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LUMI AI Factory containers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#former-lust-provided-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Former LUST-provided containers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#former-csc-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Former CSC containers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1912,7 +2012,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 15, 2026 10:33:56 UTC">April 15, 2026</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 16, 2026 16:54:29 UTC">April 16, 2026</span></p>
 <h1 id="containers-on-lumi-c-and-lumi-g">Containers on LUMI-C and LUMI-G<a class="headerlink" href="#containers-on-lumi-c-and-lumi-g" title="Permanent link">&para;</a></h1>
 <h2 id="what-are-we-talking-about-in-this-chapter">What are we talking about in this chapter?<a class="headerlink" href="#what-are-we-talking-about-in-this-chapter" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -2551,6 +2651,68 @@ Or they may require a different version of the network drivers.</p>
 </div>
 <!-- -->
 
+<h3 id="pre-build-containers-ai">Pre-build containers: AI<a class="headerlink" href="#pre-build-containers-ai" title="Permanent link">&para;</a></h3>
+<figure style="border: 1px solid #000">
+<p><img alt="Environment enhancements (5)" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersEnvironmentEnhancement_5.png" /></p>
+</figure>
+<h4 id="lumi-ai-factory-containers">LUMI AI Factory containers<a class="headerlink" href="#lumi-ai-factory-containers" title="Permanent link">&para;</a></h4>
+<p>The LUMI AI Factory currently focuses on containers built around PyTorch, though containers 
+with Tensorflow or JAX will follow at a later date. </p>
+<p>Their containers are completely independent of the Cray PE and hence can in principle also run on
+other systems sufficiently compatible with LUMI. Their containers are built in a hierarchy of
+images:</p>
+<ul>
+<li><code>lumi-multitorch-rocm-*</code>: Base container based on Ubuntu with ROCm</li>
+<li><code>lumi-multitorch-libfabric-*</code>: Adding libfabric on top of the previous one</li>
+<li><code>lumi-multitorch-mpich-*</code>: Adding the MPICH MPI library with GPU support on top of the previous one</li>
+<li><code>lumi-multitorch-torch-*</code>: Adding PyTprch on top of the previous one</li>
+<li><code>lumi-multitorch-full-*</code>: Adding a selection of additional AI and ML libraries on top of the previous one</li>
+</ul>
+<p>They can be found on LUMI in <code>/appl/local/laifs/containers</code>.
+Unlike earlier containers offered on LUMI, they do not come with wrapper scripts, but there is a module that 
+takes care of the necessary bindings so that you can use all your filespaces and that also sets an environment
+variable that is needed to let Slurm work together with the MPI library in the container. The module has been
+mentioned before in these notes and can be loaded with:</p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>Local-LAIF<span class="w"> </span>lumi-aif-singularity-bindings
+</code></pre></div>
+<p>or</p>
+<div class="highlight"><pre><span></span><code>module use /appl/local/laifs/modules
+module load lumi-aif-singularity-bindings
+</code></pre></div>
+<h4 id="former-lust-provided-containers">Former LUST-provided containers<a class="headerlink" href="#former-lust-provided-containers" title="Permanent link">&para;</a></h4>
+<p>Some of the containers previously provided by LUST in collaboration with AMD, should also still function until the
+system update to full ROCm&trade; 7 support and can be found in <code>/appl/local/containers/sif-images</code>.</p>
+<p>For these containers, there are also EasyConfigs available that install a module providing all bindings and also
+some wrapper scripts that can make life easier. We refer to the LUMI Software Library pages for:</p>
+<ul>
+<li>
+<p><a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/p/PyTorch/">PyTorch</a></p>
+</li>
+<li>
+<p><a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/t/TensorFlow/">TensorFlow</a></p>
+</li>
+<li>
+<p><a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/j/jax/">JAX</a></p>
+</li>
+</ul>
+<p>No further development is going on for these containers and they are offered as-is. In case of issues, the user
+will be asked to try with the LUMI AI Factory containers instead.</p>
+<h4 id="former-csc-containers">Former CSC containers<a class="headerlink" href="#former-csc-containers" title="Permanent link">&para;</a></h4>
+<p>CSC also offered some containers for AI in their local software stack with wrapper scripts, though in a 
+slightly different approach as the containers offered by LUST. </p>
+<ul>
+<li>
+<p><a href="https://docs.csc.fi/apps/pytorch/#lumi">PyTorch</a></p>
+</li>
+<li>
+<p><a href="https://docs.csc.fi/apps/tensorflow/#lumi">TensorFlow</a></p>
+</li>
+<li>
+<p><a href="https://docs.csc.fi/apps/jax/">JAX</a></p>
+</li>
+</ul>
+<p>Just as the LUST-provided containers, these containers are offered as-is and are unsupported. No issues about
+those containers will be solved.</p>
 <h2 id="extending-containers">Extending containers<a class="headerlink" href="#extending-containers" title="Permanent link">&para;</a></h2>
 <h3 id="extend-python-containers-with-a-virtual-environment">Extend Python containers with a virtual environment<a class="headerlink" href="#extend-python-containers-with-a-virtual-environment" title="Permanent link">&para;</a></h3>
 <figure style="border: 1px solid #000">
@@ -3806,7 +3968,7 @@ will not work.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 15, 2026 10:33:56 UTC">April 15, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 16, 2026 16:54:29 UTC">April 16, 2026</span>
   </span>
 
      -->
