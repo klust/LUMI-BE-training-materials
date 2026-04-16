@@ -1062,6 +1062,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#documentation-links-for-software-stacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation links for software stacks
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1722,6 +1733,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#documentation-links-for-software-stacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation links for software stacks
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1744,7 +1766,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 16, 2026 10:47:59 UTC">March 16, 2026</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 16, 2026 15:21:06 UTC">April 16, 2026</span></p>
 <h1 id="lumi-software-stacks">LUMI Software Stacks<a class="headerlink" href="#lumi-software-stacks" title="Permanent link">&para;</a></h1>
 <p>In this section we discuss</p>
 <ul>
@@ -1801,7 +1823,7 @@ conventional and mature system as an x86 cluster with NVIDIA GPUs and Mellanox I
 <li>
 <p>The central support team of LUMI is also <strong>relatively small compared to the nature of LUMI</strong> with its
     many different partitions and storage services and the expected number of projects and users. 
-    Support from users coming in via the national channels will rely a lot on efforts from <strong>local organisations</strong>
+    Support for users coming in via the national channels will rely a lot on efforts from <strong>local organisations</strong>
     also. <strong>So we must set up a system so that they can support their users without breaking things on
     LUMI, and to work with restricted rights.</strong> And in fact, LUMI User Support team members also have very limited additional
     rights on the machine compared to regular users or support people from the local organisations.
@@ -1876,8 +1898,7 @@ those packages.</p>
 <p><img alt="Policies" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/SoftwareStacksPolicies.png" /></p>
 </figure>
 <p>As any site, LUMI also has a number of policies about software installation, and these policies
-are further developed as the LUMI team gains experience in what they can do with the amount of people 
-in LUST and what they cannot do.</p>
+take into account what the LUMI team can do with the amount of people in the team and what they cannot do.</p>
 <p>LUMI uses a <strong>bring-your-own-license model except for a selection of tools that are useful to a larger
 community</strong>. </p>
 <ul>
@@ -2073,24 +2094,26 @@ and a list of
     not mean that you are also eligible for an account on one of these machines.</p>
 </li>
 <li>
-<p>Sometime in 2026 the <a href="https://www.eessi.io/">EESSI stack</a> should also appear on LUMI
-    in the framework of the European Federation Platform (EFP), though it will not be offered in
+<p>In April 2026, the <a href="https://www.eessi.io/">EESSI stack</a> also appeared on LUMI
+    in the framework of the <a href="https://docs.my-eurohpc.eu/">European Federation Platform (EFP)</a>, 
+    though it is not be offered in
     the traditional way as the CernVM-FS filesystem on which it is based is not a good match
     with the way LUMI operates and tries to offer a scalable environment with reduced OS jitter.
-    Instead, users will have to indicate that their job needs EESSI and then a copy which
-    is synchronised every now and then with the central repository, will be mounted on the node,
-    and there will be a container to access EESSI on the login nodes.</p>
-<p>As currently AMD support is still missing, any initial offering will likely only be 
-for the CPU nodes. Moreover, it is not clear yet if proper MPI support will be available
-right from the beginning as there are issues on LUMI also with their choice of MPI implementation
-(Open MPI).</p>
+    Instead, users have to indicate that their job needs EESSI and then a copy which
+    is synchronised every now and then with the central repository, is mounted on the node.
+    On the login nodes, a basic container has to be used to access EESSI.</p>
+<p>As currently AMD support is still missing, any initial offering is only 
+for the CPU nodes. Moreover, at launch multi-node MPI performance was not completely according
+to expectations and low compared to Cray MPICH. This is partly due to their choice of MPI
+implementation (Open MPI) which is not a very good match with the LUMI hardware and difficult
+to tune properly.</p>
 <p>It is also possible to install software on top of EESSI, using some of the common
 EasyBuild toolchains (currently only foss but there is work going on on an LLVM-based
 toolchain), and many regular EasyConfigs should work (though early testing by LUST has
 already shown issues).</p>
-<p>Support for the EESSI software stack will not be offered by the LUMI User Support Team
-but by the helpdesk of the European Federation Platform service, and in that sense it is
-no different from other local software stacks.</p>
+<p>Support for the EESSI software stack is not offered by the LUMI User Support Team
+but by the <a href="https://docs.my-eurohpc.eu/support/">helpdesk of the European Federation Platform service</a>, 
+and in that sense it is no different from other local software stacks.</p>
 </li>
 </ul>
 <h3 id="3-ways-to-access-the-cray-programming-environment-on-lumi">3 ways to access the Cray Programming environment on LUMI.<a class="headerlink" href="#3-ways-to-access-the-cray-programming-environment-on-lumi" title="Permanent link">&para;</a></h3>
@@ -2268,13 +2291,15 @@ EasyBuild and configure it for installation in a way that is compatible with the
 LUMI stack.
 EasyBuild will then use existing modules for dependencies if those are already on the system
 or in your personal or project stack.</p>
-<p>Note however that the <strong>built-in easyconfig files that come with EasyBuild do not work on LUMI</strong> at
-the moment.</p>
+<p>Note however that the <strong>built-in easyconfig files that come with EasyBuild do not work in the LUMI stack.</strong></p>
 <ul>
 <li>
 <p>For the GNU toolchain there would be problems with MPI. EasyBuild uses Open MPI and that
     needs to be configured differently to work well on LUMI, and there are also still issues with
     getting it to collaborate with the resource manager as it is installed on LUMI.</p>
+<p>EESSI comes with an Open MPI built differently and specifically for LUMI, so it should be 
+possible to install many packages for the foss toolchain and its subtoolchains on top of 
+an EESSI installation as <a href="https://docs.my-eurohpc.eu/software-catalog/adding-software/">discussed in the EFP docs</a>.</p>
 </li>
 <li>
 <p>The Intel-based toolchains have their problems also. At the moment, the Intel compilers with the
@@ -2383,7 +2408,7 @@ Environment and one compiled with the GNU compiler collection would both use a p
 library, as these would have the same name and hence the last loaded one would be used
 by both executables (LUMI doesn't use rpath or runpath linking in EasyBuild for those familiar
 with that technique).</p>
-<p>However, as LUMI does not use hierarchy in the Lmod implementation of the software stack
+<p>However, as LUMI does not use a hierarchy in the Lmod implementation of the software stack
 at the toolchain level, the module system will not protect you from these mistakes. 
 When the LUST set up the software stack, most people in the support team considered it too misleading
 and difficult to ask users to first select the toolchain they want to use and then see the 
@@ -2489,8 +2514,7 @@ the proper value before loading the <code>LUMI</code> module.</strong></p>
 <figure style="border: 1px solid #000">
 <p><img alt="Installing: Install the software" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/EasyBuildInstallingStep3.png" /></p>
 </figure>
-<p>Let's look at GROMACS as an example. I will not try to do this completely live though as the 
-installation takes 15 or 20 minutes.</p>
+<p>Let's look at GROMACS as an example.</p>
 <p>First we need to figure out for which versions of GROMACS there is already support on LUMI.
 An easy way to do that is to simply check the <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/">LUMI Software Library</a>.
 This web site lists all software that we manage via EasyBuild and make available either pre-installed on
@@ -2518,6 +2542,7 @@ section:</p>
 </figure></p>
 <p>The information provided by both variants of the search command is the same, but <code>-S</code> presents the information in a more
 compact form.</p>
+<p>Note that this output may depend on the user, if you have a UserRepo set up, as was the case in these slides.</p>
 </div>
 <p>Now let's take the variant <code>GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU.eb</code>. 
 This is GROMACS 2024.3 with the PLUMED 2.9.4 plugin, built with the GNU compilers
@@ -2744,6 +2769,48 @@ The site also contains a LUST-specific tutorial oriented towards Cray systems.</
 that can be found on 
 <a href="https://lumi-supercomputer.github.io/easybuild-tutorial/">lumi-supercomputer.github.io/easybuild-tutorial</a>. LUMI is also considering organising an EasyBuild training
 for users in the fall of 2026.</p>
+<h3 id="documentation-links-for-software-stacks">Documentation links for software stacks<a class="headerlink" href="#documentation-links-for-software-stacks" title="Permanent link">&para;</a></h3>
+<figure style="border: 1px solid #000">
+<p><img alt="Software stacks on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-05-SoftwareStacks/DocsLocalStacks.png" /></p>
+</figure>
+<ul>
+<li>
+<p>The LUST-maintained main software stack on LUMI is documented in the
+    <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/">LUMI Software Library</a>.
+    Support is offered through the <a href="https://lumi-supercomputer.eu/user-support/need-help/">LUST helpdesk</a>.</p>
+<p>Module: <code>LUMI</code>.</p>
+</li>
+<li>
+<p><a href="https://docs.csc.fi/apps/by_availability/#lumi">CSC local software stack documentation</a>.
+    Support is requested through the <a href="https://lumi-supercomputer.eu/user-support/need-help/">LUST helpdesk</a>
+    who will forward the request to the people at CSC responsible for the package.</p>
+<p>Module: <code>Local-CSC</code></p>
+</li>
+<li>
+<p><a href="https://docs.lumi-supercomputer.eu/laif/software/ai-environment/">LUMI AI Factory containers documentation</a>.
+    Support is requested through the <a href="https://lumi-supercomputer.eu/user-support/need-help/">LUST helpdesk</a>
+    who will forward the request to the AI factory.</p>
+<p>Module: <code>Local-LAIF</code></p>
+</li>
+<li>
+<p><a href="https://docs.csc.fi/computing/quantum-computing/running-quantum-jobs/">Software for the Helmi (VTT Q5) and VTT Q50 quantum computers</a>.
+    Support is requested through the <a href="https://docs.csc.fi/support/contact/">CSC service desk</a>,
+    clearly stating that you are contacting them for an issue with the quantum computers.</p>
+</li>
+<li>
+<p><a href="https://www.eessi.io/docs/">EESSI</a> is provided as part of the
+    <a href="https://my-eurohpc.eu">EuroHPC Federation Platform (EFP)</a> and documented in the
+    <a href="https://docs.my-eurohpc.eu/">EFP documentation</a> with
+    <a href="https://docs.my-eurohpc.eu/">specific instructions for running on LUMI</a>.</p>
+<p>Support is only offered through <a href="https://docs.my-eurohpc.eu/support/">the EFP helpdesk</a>.
+LUST cannot forward these requests.</p>
+<p>The EESSI software stack is currently not offered through modules. Access is also different on 
+the login nodes and on the compute nodes. For the expert: EESSI on LUMI is currently not offered
+through CernVM-FS but through SquashFS files that are synchronised with the main EESSI repository
+daily. On the login nodes, you can use EESSI through a container while on the compute nodes it
+is fuse-mounted when a job requests it.</p>
+</li>
+</ul>
 <!--
   Copyright (c) 2016-2025 Martin Donath <martin.donath@squidfunk.com>
 
@@ -2811,7 +2878,7 @@ for users in the fall of 2026.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 16, 2026 10:47:59 UTC">March 16, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 16, 2026 15:21:06 UTC">April 16, 2026</span>
   </span>
 
      -->
