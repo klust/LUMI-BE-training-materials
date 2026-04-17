@@ -1027,6 +1027,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#lumi-aif-singularity-bindings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lumi-aif-singularity-bindings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#singularity-ai-bindings" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1653,6 +1664,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#lumi-aif-singularity-bindings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lumi-aif-singularity-bindings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#singularity-ai-bindings" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2012,7 +2034,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 16, 2026 16:54:29 UTC">April 16, 2026</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 17, 2026 13:27:10 UTC">April 17, 2026</span></p>
 <h1 id="containers-on-lumi-c-and-lumi-g">Containers on LUMI-C and LUMI-G<a class="headerlink" href="#containers-on-lumi-c-and-lumi-g" title="Permanent link">&para;</a></h1>
 <h2 id="what-are-we-talking-about-in-this-chapter">What are we talking about in this chapter?<a class="headerlink" href="#what-are-we-talking-about-in-this-chapter" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -2078,12 +2100,14 @@ and reproduce results that fall within expected error margins for the computatio
 reproducing a lab experiment where, e.g., each measurement instrument introduces errors.
 The only thing that containers do reproduce very well, is your software stack. But not without problems:</p>
 <p>Containers are certainly <strong>not performance portable</strong> unless they have been specifically designed to run optimally on a range of hardware
-and your hardware falls into that range. E.g., without proper support for the
-interconnect it may still run but in a much slower mode. But one should also realise that speed gains in the x86
+and your hardware falls into that range. E.g., one should also realise that speed gains in the x86
 family over the years come to a large extent from adding new instructions to the CPU set, and that two processors
 with the same instructions set extensions may still benefit from different optimisations by the compilers. 
 Not using the proper instruction set extensions can have a lot of influence. At my local site we've seen GROMACS 
-doubling its speed by choosing proper options, and the difference can even be bigger.</p>
+doubling its speed by choosing proper options, and the difference can even be bigger.
+The same holds for GPUs: newer generations may add new instructions that speed up things.
+Sometimes, this is dealt with by just-in-time compiling, but this is not the case in all applications
+as just-in-time compiling also greatly increases the startup time of applications.</p>
 <p>Many HPC sites try to build software as much as possible from sources to exploit the available hardware as much as 
 possible. You may not care much about 10% or 20% performance difference on your PC, but 20% on a 160 million EURO
 investment represents 32 million EURO and a lot of science can be done for that money...</p>
@@ -2094,7 +2118,7 @@ The same is true if an MPI implementation expects a particular kernel extension 
 performance of shared memory communication and that extension is not present (or the other way
 around, the container cannot exploit such an extension on LUMI). This is not so strange:
 Many supercomputers use the <code>knem</code> extension while LUMI uses <code>xpmem</code> instead.</p>
-<p>Some container promoters say that all you need to do to get good performance is to run a standard container on an optimised OS kernel. This is nonsense. Scientific software typically spends around
+<p>Some container promoters say that all you need to do to get good performance, is to run a standard container on an optimised OS kernel. This is nonsense. Scientific software typically spends around
 99% of its time in user mode. So even if you can optimise that 1% that it spends in the kernel
 away, you've still shaved only one minute of a 100 minute job. </p>
 <p>But even <strong>basic portability is a myth</strong>, even if you wouldn't care much about performance (which is already a bad
@@ -2111,14 +2135,15 @@ This is particularly true for GPU software: If your userland libraries in the co
 too new or too old for the GPU driver, they may simply fail to run. 
 And containers may also want to talk to certain services on the supercomputer. 
 One important one is communicating with the resource manager, which some MPI libraries need.
-Versions that do not sufficiently or features that the host does not offer but the container
-expects, may also cause crashes.</p>
+Versions of libraries that do not sufficiently correspond to those of the services on the host,
+or features that the host does not offer but the container expects, may also cause crashes.</p>
 <h2 id="but-what-can-they-then-do-on-lumi">But what can they then do on LUMI?<a class="headerlink" href="#but-what-can-they-then-do-on-lumi" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="But what can they then do on LUMI?" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersCanDoOnLUMI.png" /></p>
 </figure>
 <p>Containers are in the first place a <strong>software management instrument</strong> to create a contained software 
-installation: Files not spread over the system, better control of dependencies, and more:</p>
+installation: Files not spread over the system, better control of dependencies, and when used to run 
+services, an additional level of security:</p>
 <ul>
 <li>
 <p>A very important reason to use containers on LUMI is <strong>reducing the pressure on the file system</strong> by software
@@ -2264,7 +2289,7 @@ be supported for security reasons. You have to keep in mind that an HPC machine 
 with little to no isolation between users, unlike a cloud solution where containers can be locked up
 in a micro virtual machine and filesystems are completely virtualised also or work with different security
 models from traditional parallel filesystems or other popular networked filesystems from the PC and 
-workstation world..
+workstation world.
 Enabling features that are known to have had several serious security vulnerabilities in the recent past, or that
 themselves are unsecure by design and could allow users to do more on the system than a regular user should
 be able to do, will never be supported.</p>
@@ -2334,6 +2359,8 @@ Executing</p>
 running a container means. You can check if it is present and what it does with <code>singularity inspect</code>: </p>
 <div class="highlight"><pre><span></span><code>singularity inspect --runscript container.sif
 </code></pre></div>
+<p>or you can just open a shell in the container and check if <code>/.singularity.d/runscript</code> exists and
+what it does.</p>
 <details class="demo" open="open">
 <summary>Demo singularity run</summary>
 <p><figure markdown style="border: 1px solid #000">
@@ -2366,7 +2393,7 @@ E.g.,</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_BIND</span><span class="o">=</span><span class="s1">&#39;/pfs,/scratch,/projappl,/project,/flash&#39;</span>
 </code></pre></div>
 <p>will ensure that you have access to the scratch, project and flash directories of your project, and</p>
-<p><div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_BIND</span><span class="o">=</span><span class="s1">&#39;/pfs,/scratch,/projappl,/project,/flash,appl&#39;</span>
+<p><div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_BIND</span><span class="o">=</span><span class="s1">&#39;/pfs,/scratch,/projappl,/project,/flash,/appl&#39;</span>
 </code></pre></div>
 will also add <code>/appl</code> though you should not expect that you can run the LUMI software stack in
 your container.</p>
@@ -2375,14 +2402,21 @@ MPI implementation that can talk to the Slurm resource manager.</p>
 <p>For some containers that are provided by the LUMI User Support Team, modules are also available that 
 set <code>SINGULARITY_BINDPATH</code> so that all necessary system libraries are available in the container and
 users can access all their files using the same paths as outside the container.</p>
+<details class="note">
+<summary><code>SINGULARITY_BIND</code> or <code>SINGULARITY_BINDPATH</code>?</summary>
+<p>Both work. <code>SINGULARITY_BINDPATH</code> is the original name for the variable in the early versions
+of singularity. <code>SINGULARITY_BIND</code> is the newer and more intuitive one, as its name refers to
+the <code>--bind</code> command line option.</p>
+<p>If both are present, both are used to define the bind mounts.</p>
+</details>
 <h2 id="running-containers-on-lumi">Running containers on LUMI<a class="headerlink" href="#running-containers-on-lumi" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="/running containers on LUMI" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-11-Containers/ContainersRunning.png" /></p>
 </figure>
 <p>Just as for other jobs, you need to use Slurm to run containers on the compute nodes.</p>
-<p>For MPI containers one should use <code>srun</code> to run the <code>singularity exec</code> command, e.g,,</p>
+<p>For MPI containers one should use <code>srun</code> to run the <code>singularity exec</code> command, e.g.,</p>
 <div class="highlight"><pre><span></span><code>srun singularity exec --bind ${BIND_ARGS} \
-${CONTAINER_PATH} mp_mpi_binary ${APP_PARAMS}
+    ${CONTAINER_PATH} mp_mpi_binary ${APP_PARAMS}
 </code></pre></div>
 <p>(and replace the environment variables above with the proper bind arguments for <code>--bind</code>, container file and
 parameters for the command that you want to run in the container).</p>
@@ -2390,7 +2424,8 @@ parameters for the command that you want to run in the container).</p>
 should either be compiled with an MPI library that can talk to the libfabric and libcxi from the system,
 or be compiled with an MPI library that has those libraries in the container already, or
 should be compatible with Cray MPICH, i.e., use the
-MPICH ABI (currently Cray MPICH is based on MPICH 3.4) so that you can tell the container to use
+MPICH ABI (Cray MPICH 8.1 is based on MPICH 3.4, different 9.x versions on various 4.y versions) 
+so that you can tell the container to use
 Cray MPICH (from outside the container) rather than the MPICH variant installed in the container, so that
 it can offer optimal performance on the LUMI Slingshot 11 interconnect.</p>
 <p>Open MPI containers are currently not well supported on LUMI and we do not recommend using them.
@@ -2404,7 +2439,7 @@ Open MPI has a slight preference for the UCX communication library over the OFI 
 until version 5 full GPU support required UCX. Moreover, binaries using Open MPI often use the so-called
 rpath linking process so that it becomes a lot harder to inject an Open MPI library that is installed
 elsewhere. The good news though is that the Open MPI developers of course also want Open MPI
-to work on biggest systems in the USA, and all three currently operating or planned exascale systems
+to work on biggest systems in the USA, and all three currently operating USA exascale systems
 use the Slingshot 11 interconnect, so work is going on for better support for OFI in general and 
 Cray Slingshot in particular and for full GPU support.</p>
 <h2 id="enhancements-to-the-environment">Enhancements to the environment<a class="headerlink" href="#enhancements-to-the-environment" title="Permanent link">&para;</a></h2>
@@ -2441,6 +2476,19 @@ set in the container and not adds to it. Also, sometimes, <code>libc</code> need
 from the system while in other cases the one in the container has to be used, depending
 on which on is the newest. There is no "one solution fits all" for such a module which is
 also why it is not installed in the system.</p>
+<h4 id="lumi-aif-singularity-bindings"><code>lumi-aif-singularity-bindings</code><a class="headerlink" href="#lumi-aif-singularity-bindings" title="Permanent link">&para;</a></h4>
+<p>This is the bindings module for all current containers offered by the LUMI AI Factory.
+It provides access to all your filespaces and also adds a directory needed for Slurm support.
+It also adds an environment variable that is needed to let the MPI library in some of those
+containers work properly with Slurm (an environment variable that influences the behaviour
+of <code>srun</code>).</p>
+<p>To load the module, use</p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>Local-LAIF<span class="w"> </span>lumi-aif-singularity-bindings
+</code></pre></div>
+<p>or</p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>use<span class="w"> </span>/appl/local/laifs/modules
+module<span class="w"> </span>load<span class="w"> </span>lumi-aif-singularity-bindings
+</code></pre></div>
 <h4 id="singularity-ai-bindings"><code>singularity-AI-bindings</code><a class="headerlink" href="#singularity-ai-bindings" title="Permanent link">&para;</a></h4>
 <p>A third module helping with bindings, is the 
 <a href="https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/s/singularity-AI-bindings/"><strong><code>singularity-AI-bindings</code></strong></a> module.
@@ -2626,7 +2674,7 @@ have to create an ssh tunnel to access the server. Try</p>
 <p>For most users, the Open OnDemand web interface and tools offered in that interface will
 be a better alternative.</p>
 <h4 id="ccpe">CCPE<a class="headerlink" href="#ccpe" title="Permanent link">&para;</a></h4>
-<p>LUST is currently also working with HPE to provide a containerised Cray Programming Environments
+<p>Together with HPE LUST also maintains containerised versions of the Cray Programming Environment
 to be able to test newer versions of the Cray PE than are offered on LUMI, or to keep using
 older ones that have been removed from the system.</p>
 <p>As working in a container requires a very good understanding of the differences between the
@@ -2643,6 +2691,7 @@ driver on the software, running GPU software may fail. Some containers may also 
 a different version of the OS and though they contain the necessary userland libraries, these
 may expect a different version of the kernel or libraries that are injected from the system.
 Or they may require a different version of the network drivers.</p>
+<p><strong>Note that these containers contain licensed software and should only be used on LUMI!</strong></p>
 <!-- Belgium -->
 <div class="admonition note">
 <p class="admonition-title">User coffee break seminar on the CCPE containers</p>
@@ -2850,7 +2899,7 @@ installed in a virtual environment located in <code>/opt/venv</code>. That envir
 activated when you open a shell in the container or use <code>singularity exec</code> instead of
 <code>singularity run</code>. We are now building a second virtual environment on top of that one
 that also uses its packages. Even though many people don't recommend nesting virtual environments,
-it just works if you are careful. Don't try to take the new virtual environment that we've build
+it just works if you are careful. Don't try to take the new virtual environment that we've built
 here to a different base container with different package versions though, as that may result in
 version conflicts. It is definitely safer to rebuild the virtual environment if you switch
 to a newer version of the PyTorch container.</p>
@@ -2895,7 +2944,8 @@ mirrored <code>/tmp/$USER/user-software</code> on a filesystem outside the conta
 Outside the container, in our example, this was <code>/tmp/$USER/user-software</code>. We switch to the parent
 of that directory and use <code>makesquashfs</code> to generate the SquashFS file:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/tmp/<span class="nv">$USER</span>
-mksquashfs<span class="w"> </span>user-software<span class="w"> </span>&lt;SOME_DIR&gt;/user-software-mace.sqsh<span class="w"> </span>-processors<span class="w"> </span><span class="m">1</span><span class="w"> </span>-all-root<span class="w"> </span>-action<span class="w"> </span><span class="s2">&quot;chmod(a+rX) @true&quot;</span>
+mksquashfs<span class="w"> </span>user-software<span class="w"> </span>&lt;SOME_DIR&gt;/user-software-mace.sqsh<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-processors<span class="w"> </span><span class="m">1</span><span class="w"> </span>-all-root<span class="w"> </span>-action<span class="w"> </span><span class="s2">&quot;chmod(a+rX) @true&quot;</span>
 </code></pre></div>
 <p>You are free to chose the filename extension, but here we use <code>sqsh</code> which is one of the more popular
 ones. The <code>-processors 1</code> tells <code>makesquashfs</code> to use only a single processor as we want to keep 
@@ -3034,6 +3084,8 @@ optional sections. A non-exhaustive list is:</p>
 that is in <code>/singularity.d/env</code>. The scripts in that directory are executed in "alphabetical"
 order but not in a full bash shell, and it is possible to inject other scripts also via
 the <code>%files</code> or <code>%post</code> sections.</p>
+<p>Note that these scripts typically don't run in the context of a full featured bash shell, but
+in a restricted shell. Which shell that is, may depend on the OS in the container.</p>
 </li>
 <li>
 <p>The <code>%post</code> section is the section where you can put all commands that should be executed
@@ -3056,6 +3108,7 @@ will not provide these mount points already, but there are two workarounds:</p>
     to copy those to where they are needed for the bindings.</p>
 </li>
 </ul>
+<p>This will be demonstrated in <a href="#bonus-example-bind-mounts">one of the bonus examples further on</a>.</p>
 </li>
 <li>
 <p>The <code>%runscript</code> section defines the runscript that will be used by the container. It is written to
@@ -3154,7 +3207,7 @@ are the name for the new container and the definition file that should be used.<
 <p>It is also rather likely that you will run out-of-memory on the login nodes so we will
 build on a compute node instead. Even though this is GPU software, it is not necessary to
 use a GPU node, so for the demo we use the <code>standard</code> partition.
-(Or you can set the environment variable <code>SINGULARITY_TMPDIR</code> to point to a location
+(Alternatively, to avoid using a job, you can set the environment variable <code>SINGULARITY_TMPDIR</code> to point to a location
 with more space than <code>/tmp</code>, but that would then be on Lustre which would come
 with serious performance consequences.)</p>
 <div class="highlight"><pre><span></span><code>srun<span class="w"> </span>-pstandard<span class="w"> </span>-N1<span class="w"> </span>-t2:00:00<span class="w"> </span>-A<span class="w"> </span>project_465000095<span class="w"> </span>--pty<span class="w"> </span><span class="se">\</span>
@@ -3265,7 +3318,7 @@ do outside the container.</p>
 
 <span class="gh">%post</span>
 
-<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;If you see fine /build_results.echo in the container, everything was OK...&quot;</span><span class="w"> </span>&gt;/build_results.echo
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;If you see the file /build_results.echo in the container, everything was OK...&quot;</span><span class="w"> </span>&gt;/build_results.echo
 </code></pre></div>
 <p>and store this in the file <code>bindings-fail.def</code>. </p>
 <p>Now try to build with this definition file:</p>
@@ -3355,7 +3408,9 @@ file <code>/etc/slurm/slurm.conf</code> in the container. </p>
 <p>Please don't leave that file in the container as (a) we want the container to
 produce a warning when run on another system and (b) some sysadmins may be very 
 unhappy if users try to run Slurm commands from that container on another system
-and forget to bind mount the correct Slurm configuration file.</p>
+and forget to bind mount the correct Slurm configuration file.
+And if you forget to then bind mount the real file and that file changes on LUMI,
+LUMI sysadmins may also be very unhappy...</p>
 </details>
 <h4 id="bonus-example-support-for-slurm-commands-in-ubuntu">Bonus example: Support for Slurm commands in Ubuntu<a class="headerlink" href="#bonus-example-support-for-slurm-commands-in-ubuntu" title="Permanent link">&para;</a></h4>
 <p>To add support for Slurm commands in a container based on Ubuntu, the following 
@@ -3550,14 +3605,13 @@ then add extra capabilities. So for now you can as well use the first variant.</
 </details>
 <h4 id="bonus-example-ffmpeg">Bonus example: FFmpeg<a class="headerlink" href="#bonus-example-ffmpeg" title="Permanent link">&para;</a></h4>
 <p>FFmpeg is a very popular tool for video conversion. Unfortunately, it is a very hard
-package to install on LUMI.
+package to install in a container on LUMI.
 E.g., installing the Ubuntu package does not work. It is a full-featured version that
 requires dependencies that are not compatible with the LUMI environment and in fact even
 installing in the container will fail.
 Our solution for this example is to download a precompiled statically linked version
-that works on most Linux variants. Unfortunately, the site we use here seems to have
-stopped compiling the newest versions.</p>
-<p>We'll downlaod from <a href="https://github.com/BtbN/FFmpeg-Builds">a GitHub site periodically generates builds</a>
+that works on most Linux variants.</p>
+<p>We'll download from <a href="https://github.com/BtbN/FFmpeg-Builds">a GitHub site periodically generates builds</a>
 from the <a href="https://github.com/ffmpeg/ffmpeg">FFmpeg master branch</a>.
 The downside is that they don't follow specific FFmpeg versions, but simply build
 whatever is in the main branch of the GitHub repository at that time, so you don't
@@ -3678,7 +3732,7 @@ PyPi, <a href="https://github.com/Crivella/AITW_microstructures">AITW_microstruc
 <p>The same idea can also be used when compiling software packages: Do the build process in a subdirectory of
 <code>/tmp</code> and then use the <code>make install</code> step to install the package where it belongs in the container.
 This will speed up the process of container building.</p>
-<p>We also add a runscript that will start Python, passing all additional arguments to <code>singularity run</code>
+<p>We also add a runscript that will start Python, passing all additional arguments of <code>singularity run</code>
 to the <code>python3</code> command.</p>
 <p>The container definition file is:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -3835,7 +3889,7 @@ section (and other sections such as <code>%runscript</code>).</p>
 Note that it again uses the shell <code>/bin/sh</code>.</p>
 </details>
 <p>If you'd need a container with ROCm&trade; support or support for <code>mpi4py</code>, it would be better
-to start from the containers from the LUMI AI Factory. The <code>mpi4py</code> package that you download
+to start from the containers from the LUMI AI Factory. The <code>mpi4py</code> wheel that you download
 from PyPi does not properly support the LUMI interconnect, so it needs to be compiled from sources,
 but that also requires an MPI library with good performance in the container. Another option is
 to start from containers with components of the programming environment in there that the 
@@ -3900,7 +3954,8 @@ RCCL plugin to fully use the Slingshot 11 interconnect.</p>
 </ol>
 <p>The support for building containers on LUMI is currently limited due to security
 concerns. Any build process that requires elevated privileges, fakeroot or user namespaces
-will not work.</p>
+will not work. Yet, with the singularity unprivileged PRoot build process, there is still
+a lot that we can do.</p>
 <!--
   Copyright (c) 2016-2025 Martin Donath <martin.donath@squidfunk.com>
 
@@ -3968,7 +4023,7 @@ will not work.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 16, 2026 16:54:29 UTC">April 16, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 17, 2026 13:27:10 UTC">April 17, 2026</span>
   </span>
 
      -->
