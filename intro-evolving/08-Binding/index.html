@@ -1532,7 +1532,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 9, 2026 14:12:11 UTC">April 9, 2026</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 29, 2026 09:34:50 UTC">April 29, 2026</span></p>
 <h1 id="process-and-thread-distribution-and-binding">Process and Thread Distribution and Binding<a class="headerlink" href="#process-and-thread-distribution-and-binding" title="Permanent link">&para;</a></h1>
 <h2 id="what-are-we-talking-about-in-this-session">What are we talking about in this session?<a class="headerlink" href="#what-are-we-talking-about-in-this-session" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -1620,8 +1620,14 @@ per-node per-job basis.</p>
     and on LUMI is different for the Cray compiler compared to the GNU and AMD compilers.</p>
 </li>
 <li>
-<p>Finally, the ROCm&trade; runtime also can limit the use of GPUs by a process to a subset of the ones that Slurm allocated 
+<p>The ROCm&trade; runtime also can limit the use of GPUs by a process to a subset of the ones that Slurm allocated 
     to the task through the use of the <code>ROCR_VISIBLE_DEVICES</code> environment variable.</p>
+</li>
+<li>
+<p>Binding can also be done by calling APIs inside the program: HIP, libnuma, etc., all provide binding
+    APIs to the application, but that is very application-specific and cannot be covered in this presentation.</p>
+<p>An example of such an application is <code>torchrun</code>, where you need to set bindings in your Python script itself
+as <a href="https://github.com/Lumi-supercomputer/LUMI-AI-Guide/blob/main/5-multi-gpu-and-node/README.md#cpu-gpu-binding">discussed in the LUMI AI Guide</a>.</p>
 </li>
 </ul>
 <p>Binding almost only makes sense on job-exclusive nodes as only then you have full control over all available 
@@ -6766,7 +6772,7 @@ website for the names of the files.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 9, 2026 14:12:11 UTC">April 9, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 29, 2026 09:34:50 UTC">April 29, 2026</span>
   </span>
 
      -->

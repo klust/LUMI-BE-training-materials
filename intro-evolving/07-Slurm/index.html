@@ -1184,6 +1184,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#multi-prog-an-alternative-for-heterogeneous-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-prog: An alternative for heterogeneous jobs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#simultaneous-job-steps" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1920,6 +1931,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#multi-prog-an-alternative-for-heterogeneous-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-prog: An alternative for heterogeneous jobs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#simultaneous-job-steps" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2008,7 +2030,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 10, 2026 16:03:29 UTC">April 10, 2026</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 29, 2026 09:34:33 UTC">April 29, 2026</span></p>
 <h1 id="slurm-on-lumi">Slurm on LUMI<a class="headerlink" href="#slurm-on-lumi" title="Permanent link">&para;</a></h1>
 <!-- BELGIUM -->
 <div class="admonition audience">
@@ -4484,6 +4506,36 @@ JobID           JobName  Partition    Account  AllocCPUS      State ExitCode
 <p>We now get a single job ID but the job step for each of the <code>srun</code> commands is split 
 in two separate job steps, a <code>+0</code> and a <code>+1</code>. </p>
 </details>
+<h2 id="multi-prog-an-alternative-for-heterogeneous-jobs">Multi-prog: An alternative for heterogeneous jobs<a class="headerlink" href="#multi-prog-an-alternative-for-heterogeneous-jobs" title="Permanent link">&para;</a></h2>
+<figure style="border: 1px solid #000">
+<p><img alt="Slide Slurm multi-prog" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Slurm/Multiprog.png" /></p>
+</figure>
+<p>Heterogeneous jobs are a nice way to start multiple binaries that have to share one <code>MPI_COMM_WORLD</code>,
+but they are not without issues, especially on a very busy system as LUMI, as each component is treated
+as a separate job and multiple jobs need to be scheduled together. This often causes long delays, not only
+for the heterogeneous job to start, but also reduced efficiency of Slurm for other users.</p>
+<p>In many cases, starting a job step with <code>--multi-prog</code> is a better alternative. With <code>--multi-prog</code> you 
+have to specify a job configuration file that lists which tasks will run which executable (and of course
+you can also specify arguments for that executable). Such a configuration file looks like:</p>
+<div class="highlight"><pre><span></span><code># config file example
+0-3   ./a.out --myargs
+4,6   ./b.out
+5     ./c.out
+</code></pre></div>
+<p>If this would be stored in the file <code>mpmd.conf</code> and started with</p>
+<div class="highlight"><pre><span></span><code>srun -n7 --multi-prog mpmd.comnf
+</code></pre></div>
+<p>then tasks 0 till 3 would run the executable <code>./a.out --mypargs</code>, tasks 4 and 6 would run <code>./b.out</code>
+and task 5 would run <code>./c.out</code>.</p>
+<p>More information is available in the 
+<a href="https://slurm.schedmd.com/archive/slurm-24.05.8/srun.html#SECTION_MULTIPLE-PROGRAM-CONFIGURATION">"MULTIPLE PROGRAM CONFIGURATION" section of the <code>srun</code> manual page</a>.</p>
+<p>As this runs in a single job, it avoid the scheduling issues that heterogeneous jobs often experience
+on LUMI, but the job can not use multiple partitions. Yet it is highly recommended if you can fit
+all work in a single node type (e.g., running the I/O server on some unused cores of a GPU node for 
+a GPU code that uses separate I/O server processes).</p>
+<p>Specifying configurations for the components such as number of threads and binding can be a little
+tricky though as not all tasks may need the same number of cores. And it is often easier to get 
+exclusive nodes and do some of the bindings manually outside of Slurm.</p>
 <h2 id="simultaneous-job-steps">Simultaneous job steps<a class="headerlink" href="#simultaneous-job-steps" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
 <p><img alt="Slide Simultaneous job steps" loading="lazy" src="https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-07-Slurm/SimultaneousJobSteps.png" /></p>
@@ -4848,7 +4900,7 @@ in the <a href="https://slurm.schedmd.com/archive/slurm-24.05.8/sreport.html"><c
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 10, 2026 16:03:29 UTC">April 10, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 29, 2026 09:34:33 UTC">April 29, 2026</span>
   </span>
 
      -->
