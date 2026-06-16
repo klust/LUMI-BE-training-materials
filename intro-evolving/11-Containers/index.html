@@ -2034,7 +2034,7 @@
 
 
 
-<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 17, 2026 13:27:10 UTC">April 17, 2026</span></p>
+<p>Last update of this page: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="June 16, 2026 12:13:01 UTC">June 16, 2026</span></p>
 <h1 id="containers-on-lumi-c-and-lumi-g">Containers on LUMI-C and LUMI-G<a class="headerlink" href="#containers-on-lumi-c-and-lumi-g" title="Permanent link">&para;</a></h1>
 <h2 id="what-are-we-talking-about-in-this-chapter">What are we talking about in this chapter?<a class="headerlink" href="#what-are-we-talking-about-in-this-chapter" title="Permanent link">&para;</a></h2>
 <figure style="border: 1px solid #000">
@@ -3300,7 +3300,8 @@ a container, consider the following example based on a very simple Ubuntu contai
 <p>This module will set <code>SINGULARITY_BIND</code> to tell singularity to bind mount
 <code>/var/spool/slurmd</code> which is a directory that is needed by MPI libraries to
 communicate with Slurm, and a number of directories to provide all Lustre filesystems
-on LUMI. The module is very generic and can be used with other containers also
+on LUMI, and some other directories some of the containers need. 
+The module is very generic and can be used with other containers also
 if these are the effects that you want.</p>
 <p>Now check the container:</p>
 <div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>shell<span class="w"> </span>ubuntu_24.04.sif
@@ -3342,6 +3343,7 @@ FATAL:   While performing build: while running engine: exit status 255
 <span class="w">    </span>EMPTY_DIR<span class="w"> </span>/project
 <span class="w">    </span>EMPTY_DIR<span class="w"> </span>/flash
 <span class="w">    </span>EMPTY_DIR<span class="w"> </span>/appl
+<span class="w">    </span>EMPTY_DIR<span class="w"> </span>/boot
 
 <span class="gh">%post</span>
 
@@ -3362,7 +3364,7 @@ empty files: Create an empty file in the directory from which you want to run th
 </code></pre></div>
 <p>and use lines in <code>%files</code> similar to</p>
 <div class="highlight"><pre><span></span><code>%files
-    EMPTY_FILE /etc/slurm/slurm.conmf
+    EMPTY_FILE /etc/slurm/slurm.conf
 </code></pre></div>
 <p>Let us check if the container still works as expected:</p>
 <div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>shell<span class="w"> </span>bindings.sif
@@ -3383,8 +3385,8 @@ ls<span class="w"> </span>-l<span class="w"> </span>/var/spool/slurmd
 <div class="highlight"><pre><span></span><code>ls<span class="w"> </span>-l<span class="w"> </span>/
 ls<span class="w"> </span>-l<span class="w"> </span>/var/spool
 </code></pre></div>
-<p>and notice that <code>/var/spool/slurmd</code>, <code>/pfs</code>, <code>/scratch</code>, <code>/projappl</code>, <code>/project</code>, <code>/flash</code> and
-<code>/appl</code> all exist, but most will be owned by root and be unreadable. If you were running the
+<p>and notice that <code>/var/spool/slurmd</code>, <code>/pfs</code>, <code>/scratch</code>, <code>/projappl</code>, <code>/project</code>, <code>/flash</code>,
+<code>/appl</code> and <code>/boot</code> all exist, but most will be owned by root and be unreadable. If you were running the
 container from a subdirectory of one of those, you may be the owner of that directory.</p>
 <p>The other solution of course is to do a two-step build. First build a container
 without using any bindings, and create the bind mounts in the <code>%post</code> step
@@ -4023,7 +4025,7 @@ a lot that we can do.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 17, 2026 13:27:10 UTC">April 17, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="June 16, 2026 12:13:01 UTC">June 16, 2026</span>
   </span>
 
      -->
