@@ -191,7 +191,11 @@ directory.)
 ## Project management
 
 <figure markdown style="border: 1px solid #000">
-  ![Slide Project Management](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/ProjectManagement.png){ loading=lazy }
+  ![Slide Project Management 1](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/ProjectManagement1.png){ loading=lazy }
+</figure>
+
+<figure markdown style="border: 1px solid #000">
+  ![Slide Project Management 2](https://465000095.lumidata.eu/training-materials-web/intro-evolving/img/LUMI-BE-Intro-evolving-03-Access/ProjectManagement2.png){ loading=lazy }
 </figure>
 
 A large system like LUMI with many entities giving independent access to the system to users 
@@ -220,6 +224,24 @@ you create another user in MyAccessID that is unknown to Puhuri and get all kind
 error messages.
 
 The URL to the Puhuri portal is: [puhuri-portal.neic.no](https://puhuri-portal.neic.no/).
+
+A second import access channel to LUMI for Belgian users is via EuroHPC projects.
+EuroHPC projects are currently managed through two different portals.
+Many new projects (after 15 April 2026) are created in the new 
+[EuroHPC Federation Platform (EFP)](https://my-eurohpc.eu) which also has its
+[separate documentation](https://docs.my-eurohpc.eu/). The EFP is a very ambitious
+project (many say overly ambitious) to unify access to all EuroHPC supercomputers and
+also provide a common software stack and some workflow services. However, it was far
+from ready at the start and overkill for many projects.
+So some new EuroHPC projects are still created in the original EuroHPC LUMI portal
+[my.lumi-supercomputer.eu](https://my.lumi-supercomputer.eu/), and this is also were
+all older EuroHPC projects are managed. Both portals also rely on MyAccessID, so all
+the same remarks about this service still holds. But for projects managed through the
+EFP some additional identify verification steps are needed when the projects is created
+which is explained in the [AAI section of the EFP documentation](https://docs.my-eurohpc.eu/aai/aai/)
+as such identification has always been a strict requirement in some countries with EuroHPC
+supercomputers.
+
 <!-- END BELGIUM -->
 
 <!-- GENERAL More general text
@@ -249,6 +271,10 @@ Web links
 -   The `lumi-workspaces` command is provided through the [`lumi-tools` module](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/l/lumi-tools/#lumi-workspaces)
     which is loaded by default. The command will usually give the output you need when used
     without any argument.
+
+-   [EuroHPC federation platform documentation](https://docs.my-eurohpc.eu)
+
+-   ["Get Started" on LUMI documentation](https://docs.lumi-supercomputer.eu/firststeps/)
 
 
 ## File spaces
@@ -541,6 +567,17 @@ the [my.csc.fi](https://my.csc.fi/) portal to manage their keys. It recently bec
 your account in My CSC to MyAccessID so that you do not get a second account on LUMI ones you join a 
 Puhuri-managed project, and in this case your keys are still managed through the My CSC service.
 END GENERAL -->
+
+There is also one login node for certificate-based ssh for users of the EuroHPC Federation Platform (EFP).
+The complicated process to log on via that node is explained in the 
+["AAI/Secure Shell" section of the EFP documentation](https://docs.my-eurohpc.eu/aai/ssh/).
+The problem with this approach is that it is only documented for the 
+[OpenSSH client](https://www.openssh.org/) and not all ssh clients may support this way of
+accessing systems (recent versions of [puTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html),
+a popular client on Windows, should support this though).
+OpenSSH is available on almost any desktop system: It is the standard command line ssh client
+in Linux and Mac OS, and is also provided in the Windows PowerShell environment (though in 
+some Windows versions it is an optional component and not installed by default).
 
 LUMI also provides a web interface via Open OnDemand. The URL is
 [`https://www.lumi.csc.fi/`](https://www.lumi.csc.fi/). It also offers a number
