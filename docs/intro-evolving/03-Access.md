@@ -28,9 +28,9 @@ EuroHPC currently funds
     [Alice Recoque](https://eurohpc-ju.europa.eu/new-call-procure-european-exascale-supercomputer-alice-recoque-2024-09-09_en), 
     hosted by the [Jules Verne consortium](https://eurohpc-ju.europa.eu/jules-verne-consortium-will-host-new-eurohpc-exascale-supercomputer-france-2023-06-20_en) (in France) is under procurement.
 
-4.  Another 2 mid-range systems are currently under procurement or under construction:
-    [Daedalus](https://eurohpc-ju.europa.eu/daedalus-call-acquire-new-european-world-class-supercomputer-greece-2024-06-25_en) (in Greece) and
-    [Arrhenius](https://eurohpc-ju.europa.eu/sweden-will-host-new-eurohpc-supercomputer-2023-06-19_en) (in Sweden).
+4.  Another 2 mid-range systems are about to become available:
+    [Daedalus](https://www.eurohpc-ju.europa.eu/supercomputers/our-supercomputers_en#daedalus) (in Greece) and
+    [Arrhenius](https://www.naiss.se/resource/arrhenius/) (in Sweden).
 
 5.  Various upgrades are planned to the current systems and there is also a programme for
     "AI-optimised" supercomputers, whatever that may mean, as these will be very large systems 
@@ -241,7 +241,6 @@ EFP some additional identify verification steps are needed when the projects is 
 which is explained in the [AAI section of the EFP documentation](https://docs.my-eurohpc.eu/aai/aai/)
 as such identification has always been a strict requirement in some countries with EuroHPC
 supercomputers.
-
 <!-- END BELGIUM -->
 
 <!-- GENERAL More general text
