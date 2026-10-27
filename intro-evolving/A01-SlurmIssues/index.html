@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1169,23 +1169,23 @@ than 1 is used for <code>--cpus-per-task</code>.</p>
 
 module load LUMI/22.12 partition/G lumi-CPEtools/1.1-cpeCray-22.12
 
-echo &quot;Requested resources as reported through SLURM_ variables:&quot;
-echo &quot;- SLURM_NTASKS: $SLURM_NTASKS&quot;
-echo &quot;- SLURM_CPUS_PER_TASK: $SLURM_CPUS_PER_TASK&quot;
-echo &quot;- SLURM_GPUS_PER_TASK: $SLURM_GPUS_PER_TASK&quot;
-echo &quot;Distribution based on SLURM_ variables:&quot;
-echo &quot;- SLURM_JOB_NUM_NODES: $SLURM_JOB_NUM_NODES&quot;
-echo &quot;- SLURM_JOB_NODELIST: $SLURM_JOB_NODELIST&quot;
-echo &quot;- SLURM_TASKS_PER_NODE: $SLURM_TASKS_PER_NODE&quot;
-echo &quot;- SLURM_JOB_CPUS_PER_NODE: $SLURM_JOB_CPUS_PER_NODE&quot;
+echo "Requested resources as reported through SLURM_ variables:"
+echo "- SLURM_NTASKS: $SLURM_NTASKS"
+echo "- SLURM_CPUS_PER_TASK: $SLURM_CPUS_PER_TASK"
+echo "- SLURM_GPUS_PER_TASK: $SLURM_GPUS_PER_TASK"
+echo "Distribution based on SLURM_ variables:"
+echo "- SLURM_JOB_NUM_NODES: $SLURM_JOB_NUM_NODES"
+echo "- SLURM_JOB_NODELIST: $SLURM_JOB_NODELIST"
+echo "- SLURM_TASKS_PER_NODE: $SLURM_TASKS_PER_NODE"
+echo "- SLURM_JOB_CPUS_PER_NODE: $SLURM_JOB_CPUS_PER_NODE"
 echo
-echo &quot;Control: All SLURM_ and SRUN_ variables:&quot;
+echo "Control: All SLURM_ and SRUN_ variables:"
 env | egrep ^SLURM_
 env | egrep ^SRUN_
 echo
-echo -e &quot;Control: Job script\n\n======================================================&quot;
+echo -e "Control: Job script\n\n======================================================"
 cat $0
-echo -e &quot;======================================================\n&quot;
+echo -e "======================================================\n"
 
 set -x
 srun -n $SLURM_NTASKS -c $SLURM_CPUS_PER_TASK --gpus-per-task=$SLURM_GPUS_PER_TASK gpu_check -l
@@ -1338,7 +1338,7 @@ the GPU is also shared by multiple tasks.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "navigation.indexes", "header.autohide", "toc.follow", "content.code.annotate", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
